@@ -18,7 +18,7 @@ What counts as substantial is judged per document by its current authors, in con
 
 ## Proposing a new problem
 
-If you have an open problem that fits the collection — small enough to start, close enough to safety to matter — open an issue describing it. If it fits, we will work it into shape together.
+If you have an open problem that fits the collection — small enough to start, close enough to AI safety to matter — open an issue describing it. If it fits, we will work it into shape together.
 
 ## Writing math in Markdown
 

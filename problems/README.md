@@ -1,3 +1,3 @@
 # Research problems
 
-Short expositions of single open problems: what each asks, why it matters for AI safety, where to start. See the [repository README](../README.md) for how problems fit into the larger life cycle.
+Short expositions of single open problems. Each opens with its AI safety motivation, then states the problem as precise mathematics — or reaches toward precision; a problem need not know its final statement yet. Problems here get incorporated into [research agendas](../agendas/).
