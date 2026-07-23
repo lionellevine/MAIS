@@ -1,6 +1,6 @@
 # Math for AI Safety
 
-**Lionel Levine** (Cornell University) — levine@math.cornell.edu
+**Lionel Levine** (Cornell University) — lionel.levine@cornell.edu
 
 What can a mathematician contribute to AI safety? This repository is my working answer: open problems, research agendas, and papers in progress, written for mathematicians — no machine learning background assumed — and public from draft stage onward.
 
