@@ -1,8 +1,6 @@
 # Math for AI Safety
 
-[**Lionel Levine**](https://lionellevine.github.io/) (Cornell University)
-
-This is the home of [*Math for AI Safety: An Invitation for Mathematicians*](papers/P1/MAIS-P1.pdf).
+This is the home of [*Math for AI Safety: An Invitation for Mathematicians*](papers/P1/MAIS-P1.pdf) by [Lionel Levine](https://lionellevine.github.io/) (Cornell University).
 
 ## What's here?
 
@@ -14,11 +12,9 @@ Beyond the [invitation paper](papers/P1/MAIS-P1.pdf), this repo hosts three kind
 | [**Agendas**](agendas/) | A cluster of related open problems and partial progress on resolving them |
 | [**Papers**](papers/) | A paper in progress |
 
-The anticipated path is **problem → agenda → paper → publication**. Not every problem will travel the whole path, and one agenda may develop several related problems. The name does not change along the way: a problem enters with a permanent **MAIS-On** identifier; an agenda that grows around it and a paper that grows from the work receive their own **MAIS-An** and **MAIS-Pn** identifiers.
+The anticipated path is **problem → agenda → paper → publication**. Not every problem must travel the whole path: a standalone problem may grow into an agenda, an agenda may spin off a paper, and a paper may pose a problem that deserves an agenda of its own. The present collection has both shapes: the eight headline problems of the invitation paper, [MAIS-O1–O8](open-problems/README.md#mais-o1), expand into the agendas [MAIS-A1–A8](agendas/), while [MAIS-O9](open-problems/MAIS-O9.md), on Conway's Life, is a standalone problem.
 
 The [open-problem index](open-problems/README.md) is the full registry, and the [agenda guide](agendas/README.md#where-to-start) offers a first foothold in each research direction.
-
-The first eight agendas were written and reviewed with AI systems under Lionel Levine's direction. Their [audit record](agendas/audit/2026-07/) states what was checked, what was repaired, and what the review does not guarantee.
 
 ## Contributing
 
