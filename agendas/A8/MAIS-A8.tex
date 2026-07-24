@@ -42,7 +42,7 @@ July 16, 2026 \(\cdot\) Status: draft}
 In the coin-collecting environment of Langosco et al.~\cite{langosco2022}, reduced to one dimension, two policies fit the training data perfectly: ``move right'' (the proxy) and ``go to the coin'' (the intended goal), which agree whenever the coin sits at the right end. Train a two-layer network by gradient descent to imitate optimal play, randomizing the coin's position in an $\varepsilon$-fraction of training episodes. Determine the probability, over the random initialization, that the trained network follows the proxy on a probe state where the two policies disagree, as a function of $\varepsilon$, the width, and the input encoding. For linear policies the answer is a theorem---the encoding, not the initialization, decides---and the standard infinite-width limits follow it; for networks of finite width it is open at every $\varepsilon$, including $\varepsilon=0$, already at width two.
 \end{quote}
 
-\noindent Provenance and audit record: \url{https://github.com/lionellevine/MAIS/blob/main/agendas/MAIS-A8/PROVENANCE.md}.
+\noindent Landing page, with provenance and audit record: \url{https://github.com/lionellevine/MAIS/tree/main/agendas/A8}.
 
 \section{The problem in brief}\label{sec:brief}
 

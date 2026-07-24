@@ -54,7 +54,7 @@ July 13, 2026 \(\cdot\) Status: draft}
 Watanabe's theorem is Bayesian; gradient descent is not. (What bridging the two would mean for safety is discussed in~\cite{lehalleur2025}.) Build the bridge first in the deep-linear staircase above, where both sides are explicit. Each plateau sits at a saddle where only the $k$ largest modes have been learned, and there the definition itself is part of the problem: the local learning coefficient is defined at a local \emph{minimum}, as the volume exponent of the set of nearby parameters fitting almost as well, but a saddle has descent directions, so that volume does not shrink to zero. Formulate the right local invariant at the $k$th saddle (one candidate, the \emph{two-sided} exponent: the volume of nearby parameters whose loss lies within $\varepsilon$ of the saddle's, above or below, shrinks like $\varepsilon^{\lambda}$), compute it for the deep-linear network, and prove or refute the monotone picture that gives this problem its name: as gradient flow descends the staircase of losses, the invariant that controls generalization climbs an opposing staircase. As a first check, the estimator of Lau et al.~\cite{lau2023} runs at any parameter, saddle or not; run it along a simulated staircase and see.
 \end{quote}
 
-\noindent Provenance and audit record: \url{https://github.com/lionellevine/MAIS/blob/main/agendas/MAIS-A7/PROVENANCE.md}.
+\noindent Landing page, with provenance and audit record: \url{https://github.com/lionellevine/MAIS/tree/main/agendas/A7}.
 
 \section{The problem in brief}\label{sec:brief}
 
