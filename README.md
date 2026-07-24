@@ -16,7 +16,7 @@ Beyond the [invitation paper](papers/MAIS-P1/MAIS-P1.pdf), this repo hosts three
 
 The intended life cycle is **1 → 2 → 3 → publication**: open problems get incorporated into agendas, and a maturing agenda spins off papers.
 
-Each document carries a unique permanent identifier — **MAIS-On** for open problems, **MAIS-An** for agendas, **MAIS-Pn** for papers — so a reference like [MAIS-O1](open/MAIS-O1.md) or [MAIS-A4](agendas/MAIS-A4.pdf) stays valid even if the title changes. The [index of open problems](open/INDEX.md) lists every problem posed in the repository.
+Each document carries a unique permanent identifier — **MAIS-On** for open problems, **MAIS-An** for agendas, **MAIS-Pn** for papers — so a reference like [MAIS-O1](open/MAIS-O1.md) or [MAIS-A4](agendas/MAIS-A4/MAIS-A4.pdf) stays valid even if the title changes. The [index of open problems](open/INDEX.md) lists every problem posed in the repository.
 
 ## Contributing
 
