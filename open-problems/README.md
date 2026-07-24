@@ -2,12 +2,9 @@
 
 Short expositions of single open problems. Each page opens with its AI safety motivation, gives enough context to understand the statement, then states the problem as precise mathematics — with a link into the [research agenda](../agendas/) that carries its full context.
 
-Every open problem receives a permanent MAIS-On identifier when it enters the collection. The identifier belongs to the problem, not to the document containing it: it remains the same if the problem is expanded into an agenda, quoted in a paper, or resolved. When an agenda gives the canonical formalization of a survey problem, it reuses that problem's identifier; a genuinely narrower first case, stronger conjecture, or different deliverable receives its own identifier so that it can be cited and resolved separately. MAIS-O1–O8 are the headline problems of the invitation paper [MAIS-P1](../papers/P1/MAIS-P1.pdf), each expanded by the corresponding agenda MAIS-A1–A8; MAIS-O9, on Conway's Life, is the first standalone exposition; the remaining problems are posed inside the agendas.
+The first eight are the headline problems of the [invitation paper](../papers/P1/MAIS-P1.pdf), each expanded by an agenda; the rest are sharper questions posed inside those agendas, together with the standalone [Conway's Life problem](MAIS-O9.md). Everything below is open as of July 2026; when a problem is resolved, its row will say so. Progress reports and corrections: [open an issue](https://github.com/lionellevine/MAIS/issues/new/choose).
 
-> **Pre-launch identifier reset (July 2026).** A preliminary registry treated the survey headlines and their agenda formulations as separate entries. Before launch, the registry was rebuilt around mathematical identity: MAIS-O1–O8 now follow the eight headline problems into MAIS-A1–A8, MAIS-O9 names the standalone Conway problem, and the remaining distinct problems are numbered below. The current ledger is authoritative.
-
-Every problem below is stated as open as of July 2026. When one is resolved, its row will say so. Progress reports and corrections: [open an issue](https://github.com/lionellevine/MAIS/issues/new/choose).
-★ is an estimated difficulty — ★ a starter (a computation, tabulation, or fully specified first case), ★★ a research project of paper scope, ★★★ likely to need a new idea. A few problems ask for a computation or measurement rather than a proof; those are marked *empirical*. Tags and ratings are editorial; dispute them in an issue.
+★ estimates difficulty: ★ a starter you could begin today, ★★ a research project of paper scope, ★★★ likely to need a new idea. *Empirical* marks the few problems whose deliverable is a computation or measurement rather than a proof. Tags and ratings are editorial.
 
 | # | Problem | Safety | Mathematics | ★ |
 |---|---------|--------|-------------|---|

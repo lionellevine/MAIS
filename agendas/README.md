@@ -1,8 +1,8 @@
 # Research agendas
 
-Research directions: a motivating question, some real mathematics, and a cluster of related open problems. An agenda grows around one or more problems from the [open-problem registry](../open-problems/README.md); as the work matures, it may spin off a [paper](../papers/). The problem keeps its MAIS-On identifier throughout.
+Research directions: a motivating question, some real mathematics, and a cluster of related open problems. An agenda grows around one or more problems from the [open-problem collection](../open-problems/); as the work matures, it may spin off a [paper](../papers/).
 
-Agendas are numbered MAIS-A1, MAIS-A2, … in order of arrival; numbers are permanent. Each agenda below expands one starred problem of the survey [*Math for AI Safety: An Invitation for Mathematicians*](../papers/P1/MAIS-P1.pdf) and begins by reproducing its statement. Those survey problems are MAIS-O1–O8. The matching agenda numbers record the relationship in this first collection; a future MAIS-A9 need not expand MAIS-O9.
+Each agenda below expands one starred problem of the survey [*Math for AI Safety: An Invitation for Mathematicians*](../papers/P1/MAIS-P1.pdf) and begins by reproducing its statement.
 
 | # | Expands | Mathematical home | Agenda | Source | PDF | Status |
 |---|---------|-------------------|--------|--------|-----|--------|
@@ -14,8 +14,6 @@ Agendas are numbered MAIS-A1, MAIS-A2, … in order of arrival; numbers are perm
 | MAIS-A6 | [MAIS-O6](../open-problems/MAIS-O6.md) | Singular learning and algebraic geometry | Does geometric simplicity force a legible mechanism? | [TeX](A6/MAIS-A6.tex) | [PDF](A6/MAIS-A6.pdf) | Draft · July 12, 2026 |
 | MAIS-A7 | [MAIS-O7](../open-problems/MAIS-O7.md) | Stochastic dynamics and singular geometry | Effective loss and learning dynamics | [TeX](A7/MAIS-A7.tex) | [PDF](A7/MAIS-A7.pdf) | Draft · July 13, 2026 |
 | MAIS-A8 | [MAIS-O8](../open-problems/MAIS-O8.md) | Optimization and learning theory | A predictive theory of out-of-distribution generalization | [TeX](A8/MAIS-A8.tex) | [PDF](A8/MAIS-A8.pdf) | Draft · July 16, 2026 |
-
-The survey statement is authoritative: when it changes, its permanent MAIS-On identifier, moniker, and full verbatim statement must be propagated to the corresponding agenda. The agenda's canonical formalization of that headline reuses the same identifier; narrower subproblems and different deliverables receive their own. The [index of open problems](../open-problems/README.md) is the authoritative identity map.
 
 ## What each agenda contains
 

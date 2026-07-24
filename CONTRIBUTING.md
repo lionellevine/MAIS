@@ -32,7 +32,7 @@ If your problem is incorporated into an agenda, you are invited to join the agen
 
 ## Proposing a new problem
 
-If you have an open problem that fits the collection — a precisely stated math problem motivated by AI safety — describe it in an issue or by email. If it fits, we'll add it to [`open-problems/`](open-problems/) with you as an author.
+If you have an open problem that fits the collection — a precisely stated math problem motivated by AI safety — describe it in an issue or by email. If it fits, we'll add it to [`open-problems/`](open-problems/) with you as an author. An accepted problem receives a permanent MAIS-O identifier, which names the problem itself and never changes as it moves into agendas and papers.
 
 ## Writing math in Markdown
 
