@@ -1,0 +1,58 @@
+name: Claim a starter project
+description: Discuss one of the first footholds in a research agenda before investing serious work.
+title: "[MAIS-A? / target] Starter: "
+labels:
+  - help wanted
+  - question
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Rough ideas are welcome. This thread makes the proposed scope public, helps prevent duplicated effort, and puts the credit question on the table before the work begins.
+
+  - type: input
+    id: document
+    attributes:
+      label: Agenda and target
+      description: Give permanent identifiers when assigned (for example, MAIS-A3 / MAIS-O41); otherwise give the agenda and section.
+      placeholder: MAIS-A? / MAIS-O? or section
+    validations:
+      required: true
+
+  - type: textarea
+    id: target
+    attributes:
+      label: Result or deliverable
+      description: What precise theorem, computation, counterexample, or dataset do you hope to produce?
+    validations:
+      required: true
+
+  - type: textarea
+    id: approach
+    attributes:
+      label: First approach
+      description: A sketch is enough. Include relevant calculations, code, or literature if you have them.
+    validations:
+      required: true
+
+  - type: textarea
+    id: coordination
+    attributes:
+      label: Coordination and credit
+      description: Who is working on this, and under what name should contributions be credited?
+
+  - type: checkboxes
+    id: public
+    attributes:
+      label: Public record
+      options:
+        - label: I understand that this issue and its attachments are public.
+          required: true
+
+  - type: checkboxes
+    id: contributing
+    attributes:
+      label: Contribution guide
+      options:
+        - label: I have read CONTRIBUTING.md and am opening this thread before investing serious work.
+          required: true

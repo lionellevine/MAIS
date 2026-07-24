@@ -8,7 +8,7 @@ The documents in this repo aim to follow these guidelines, and contributions (se
 
 1. **Have something to say.** One piece, one subject; a section with no point gets cut, not polished.
 2. **Write for one reader**: a friendly colleague, curious but slightly skeptical, smart but not in this field. Keep them in view in every sentence.
-   - For `open/` in this repo, the one reader is an ILIAD attendee: mathematically fluent and alignment-literate. Skip the safety catechism; spell out the mathematics.
+   - For `open-problems/` in this repo, the one reader is an ILIAD attendee: mathematically fluent and alignment-literate. Skip the safety catechism; spell out the mathematics.
 3. **Open with a question or an image**: sections open with a conceptual question or evocative image, one paragraph of context, then the precise setup. Avoid "In this paper we prove X" — let the result emerge from the motivation.
 4. **Examples are the heart.** Build each section around a crucial example or counterexample; big general theories are afterthoughts based on small but profound insights.
 5. **Show the phenomenon before the theorem**: raw data, a table, a picture. Zoom out until the regularity is unmistakable, and let the reader conjecture before you state.

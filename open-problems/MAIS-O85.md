@@ -1,0 +1,15 @@
+# Which feature maps make the max-margin classifier misgeneralize?
+
+*Open problem MAIS-O85 · posed in [MAIS-A8](../agendas/A8/MAIS-A8.pdf) as [Problem 5.9](../agendas/A8/MAIS-A8.tex#L387) · Status: open.*
+
+*Safety: generalization — goal misgeneralization · proxy goals · simplicity bias. Mathematics: convex geometry · optimization. Difficulty: ★★ project.*
+
+On the coin line at zero training diversity, the encoding decides: linear gradient descent on the features $(1,p,c)$ provably learns "move right," while on $(1,c-p)$ it provably learns to approach the coin. One-hot features and every monomial encoding $\psi_k(p,c)=(p^ic^j)_{i+j\le k}$ side with the proxy. What property of a feature map is responsible?
+
+The setup, from the agenda: an agent at $p$ and a coin at $c$ on $\{0,\dots,L\}$; at diversity $\varepsilon=0$ the training states are $(p,L)$ for $0\le p\le L-1$, all labeled $+1$ (step right), so "move right" and "go to the coin" fit equally well. By the max-margin theorem of Soudry et al., gradient descent on the logistic loss over features $\psi(p,c)$ converges in direction to the maximum-margin separator, so the selected extrapolation is read off from one number: the sign of the max-margin score at the probe state $s^{*}=(\lceil L/2\rceil,0)$, where the coin lies at the left end and the two policies disagree. Positive means the proxy; negative means the goal. An encoding is **separable** if some linear functional is positive on all its training features.
+
+**Problem ([MAIS-A8, Problem 5.9](../agendas/A8/MAIS-A8.tex#L387)).** Give a structural criterion on a feature map $\psi:\{0,\dots,L\}^2\to\mathbb R^D$ deciding whether the maximum-margin direction at $\varepsilon=0$ is positive or negative at the probe. Restrict to separable encodings. If the maximum-margin direction vanishes at the probe, classify the result as undetermined at leading order and pass to the residual of [MAIS-O89](MAIS-O89.md).
+
+The known cases are data for the criterion. For monomial encodings the agenda gives a three-line Karush–Kuhn–Tucker argument: every training feature $\psi_k(p,L)$ has positive inner product with the probe feature, so the proxy wins for all $k$ and $L$. The relative encoding $(1,c-p)$ hard-wires the comparison the task turns on, and the goal wins. A criterion separating these — some geometric condition on how $\psi$ couples training states to unseen ones — would say in advance which representations of state misgeneralize, before any training is run. For the worked examples and the KKT certificates, see [MAIS-A8](../agendas/A8/MAIS-A8.pdf).
+
+*Related: [MAIS-O89](MAIS-O89.md) (the residual this problem defers to at a vanishing probe score) · [MAIS-O8](MAIS-O8.md) (the network version of the same selection question) · [MAIS-O82](MAIS-O82.md) (the width-$\infty$ proxy-selection conjecture).*

@@ -24,7 +24,7 @@ Progress on an open problem, a new result, a counterexample, a new section or wo
 
 ## Coauthorship
 
-A substantial contribution to a document earns an invitation to join that document's author list. This applies at every rung of the ladder: helping an open problem grow into an agenda, or an agenda spin off a paper, is the kind of contribution that makes a coauthor.
+A substantial contribution to a document earns an invitation to join that document's author list. The route does not matter: expanding an open problem into an agenda, developing an agenda, or helping an agenda spin off a paper can all be the kind of contribution that makes a coauthor.
 
 What counts as substantial is judged per document by its current authors, in conversation with the contributor, and settled before the contribution is merged. When in doubt, ask, in an issue or by email; erring on the side of asking costs nothing.
 
@@ -32,7 +32,7 @@ If your problem is incorporated into an agenda, you are invited to join the agen
 
 ## Proposing a new problem
 
-If you have an open problem that fits the collection — a precisely stated math problem motivated by AI safety — describe it in an issue or by email. If it fits, we'll add it to [`open/`](open/) with you as an author.
+If you have an open problem that fits the collection — a precisely stated math problem motivated by AI safety — describe it in an issue or by email. If it fits, we'll add it to [`open-problems/`](open-problems/) with you as an author.
 
 ## Writing math in Markdown
 

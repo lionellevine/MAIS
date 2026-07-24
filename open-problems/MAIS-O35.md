@@ -1,0 +1,15 @@
+# Finite-sample recovery of two-variable causal models
+
+*Open problem MAIS-O35 · posed in [MAIS-A2](../agendas/A2/MAIS-A2.pdf) as [Problem 5.3](../agendas/A2/MAIS-A2.tex#L381) · Status: open.*
+
+*Safety: interpretability — world-model extraction · eliciting latent knowledge · black-box evaluation. Mathematics: statistics · probability. Difficulty: ★ starter.*
+
+Radon's inversion formula became tomography when it acquired error bars and dose budgets. For world-model extraction — reading a causal model out of an agent's near-optimal behavior — the inversion step is a theorem of Richens and Everitt, and the two-variable environment is a scanner small enough to build first: how many sampled actions determine whether $X$ causes $Y$ or $Y$ causes $X$, and to how many digits?
+
+The **two-variable family** $\mathcal{M}_2(\lambda)$ (the agenda's Definition 5.1): chance variables $X,Y$; the agent observes nothing and is paid a known utility $u(d,x,y)$ whose gap is bounded away from zero, takes both signs, and is sensitive to each variable; the model is either $X\to Y$ (parameters $a=P(X{=}1)$, $b_x=P(Y{=}1\mid X{=}x)$) or $Y\to X$, with all parameters in $[\lambda,1-\lambda]$ and edge strength at least $\lambda$. A query names a rational mixture $\sigma$ of the sixteen intervention profiles; the adversary has pre-committed a regret-$\delta$ policy for each task, and the answer is one action sampled from it. Two quantities from the companion problem: $r_M(\delta)$, the radius of the set of models sharing a regret-$\delta$ policy family with $M$ (the ambiguity no budget removes), and the switching surfaces, the mixtures at which an optimal agent is indifferent. $H$ denotes binary entropy.
+
+**Problem ([MAIS-A2, Problem 5.3](../agendas/A2/MAIS-A2.tex#L381)).** For $\mathcal{M}_2(\lambda)$ restricted to a compact locus on which $r_M(\delta)\le L\delta$ for all sufficiently small $\delta$, prove matching upper and lower bounds for the sampled-action budget $N(\varepsilon,\delta)$ needed to output the graph and all three parameters within $\varepsilon$. Begin at $\delta=0$, where only queries exactly on a switching surface can randomize, and then determine the crossover at positive regret between sampling error and the radius $\sup_M r_M(\delta)$. Finally add independent response corruption at level $\zeta$ and determine whether its sharp cost is the capacity factor $1/(1-H(\zeta))$.
+
+The agenda pairs this with a fully specified computational project: sample a thousand models from $\mathcal{M}_2(0.1)$, run the bisection extractor against optimal, adversarially $\delta$-optimal, and Boltzmann agents at budgets $2^4$ through $2^{14}$, with corruption at $\zeta\in\{0,0.05,0.2\}$, and fit the error exponents — the empirical shape of the curves this problem asks to prove, and the problem family's first data. For the family, the query models, and the project specification, see [MAIS-A2](../agendas/A2/MAIS-A2.pdf).
+
+*Related: [MAIS-O34](MAIS-O34.md) (the exact identified set this problem samples toward) · [MAIS-O2](MAIS-O2.md) (the general problem this grounds) · [MAIS-O29](MAIS-O29.md) (Boltzmann agents in general).*

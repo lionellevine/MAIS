@@ -1,0 +1,21 @@
+# Is leap complexity determined by singularity data?
+
+*Open problem MAIS-O80 · posed in [MAIS-A7](../agendas/A7/MAIS-A7.pdf) as [Problem 3.14](../agendas/A7/MAIS-A7.tex#L481) · Status: open.*
+
+*Safety: generalization — training dynamics · singular learning theory · developmental interpretability. Mathematics: algebraic geometry · combinatorics. Difficulty: ★★★ hard.*
+
+Two bookkeepings claim to govern stagewise learning, and they live on different objects. For a target $f\colon \{-1,1\}^d \to \mathbb{R}$, expand in the Fourier–Walsh basis $f = \sum_{S \subseteq [d]} \hat f(S) \chi_S$ with $\chi_S(x) = \prod_{i \in S} x_i$, let $\mathcal{S}(f) = \{ S : \hat f(S) \neq 0 \}$ be the support, and define the **leap**
+
+$$\operatorname{Leap}(f) = \min_{\text{orderings } S_1, \dots, S_k \text{ of } \mathcal{S}(f)} \; \max_{i} \; \bigl| S_i \setminus (S_1 \cup \dots \cup S_{i-1}) \bigr| ,$$
+
+the largest number of fresh coordinates any stage of a best build-up must acquire at once. Abbe, Boix-Adserà, and Misiakiewicz ([arXiv:2302.11055](https://arxiv.org/abs/2302.11055)) conjecture that online SGD (one fresh sample per step) learns such targets saddle-to-saddle in $\tilde\Theta\bigl( d^{\max(\operatorname{Leap}(f),\, 2)} \bigr)$ steps ($\Theta$ up to logarithmic factors), and prove a version for isotropic Gaussian data and two-layer networks; on the Boolean cube the timescale is conjectural. So a combinatorial invariant of the *target* sets the timescale, while singular learning theory assigns geometric invariants — the two-sided local pair $(\lambda(w), m(w))$, the exponents of $\mathrm{vol}\{ |L - L(w)| < \varepsilon \} \asymp \varepsilon^{\lambda} (\log \tfrac1\varepsilon)^{m-1}$ near $w$ — to the *critical points*. The problem is whether the two bookkeepings agree.
+
+**Problem ([MAIS-A7, Problem 3.14](../agendas/A7/MAIS-A7.tex#L481)).** Fix once and for all a nonpolynomial real-analytic activation $\sigma$. An **admissible instance** consists of a dimension $d$, a target $f\colon \{-1,1\}^d \to \mathbb{R}$, and a width $N$ for which $f_w(x) = \sum_{i \le N} a_i\, \sigma(\langle w_i, x \rangle)$ represents $f$ exactly, together with the following small-initialization data. Gradient flow on the population square loss $\tfrac12 \mathbb{E}_x |f_w(x) - f(x)|^2$ starts from i.i.d. Gaussian parameters of standard deviation $\alpha$. There is a specified deterministic time rescaling $t \mapsto T_\alpha(t)$ for which $w_\alpha(T_\alpha(\,\cdot\,))$ converges in distribution, locally in the Skorokhod topology, to a process $Z$ supported on paths visiting a specified finite ordered chain of compact critical sets $\mathcal{C} = (C_0, \dots, C_J)$. Here "visiting" means that each limiting path has stopping times $0 = \theta_0 < \theta_1 < \dots < \theta_{J+1} = \infty$ with $Z_t \in C_j$ for $\theta_j \le t < \theta_{j+1}$, and its only jumps are from $C_j$ to $C_{j+1}$. Require the local two-sided pair $(\lambda(w), m(w))$ and the multiset of nonzero negative Hessian eigenvalues (with algebraic multiplicity and with zero modes omitted) to be constant on each $C_j$. The **singularity data list** of the instance is the ordered list
+
+$$\mathcal{D} = \bigl( (\lambda_j, m_j),\ \operatorname{Spec}_{<0} \nabla^2 L|_{C_j} \bigr)_{j=0}^{J} .$$
+
+Compute $\mathcal{D}$ for a nontrivial class of admissible instances, and decide whether leap is a function of this list: must any two admissible instances with identical $\mathcal{D}$ have equal $\operatorname{Leap}(f)$? A pair with matching lists and different leaps refutes functionhood and would sharpen the agenda's two-clocks obstruction (Section 6.2); a proof of functionhood would be the first genuinely nonlinear entry in the dictionary.
+
+Either outcome informs the same question: whether the geometric invariants attached to a training trajectory's critical sets carry enough information to predict its stage structure, or whether the target's combinatorics is genuinely extra data. For the surrounding program and the linear calibration case, see [MAIS-A7](../agendas/A7/MAIS-A7.pdf).
+
+*Related: [MAIS-O7](MAIS-O7.md) (the solvable linear dictionary this would extend beyond linearity) · [MAIS-O77](MAIS-O77.md) (computing singularity data along a saddle chain in the linear case) · [MAIS-O81](MAIS-O81.md) (whether a saddle's free-energy invariant is even well defined).*

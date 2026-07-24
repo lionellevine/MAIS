@@ -1,0 +1,18 @@
+# Does penalizing interference make features recoverable by dictionary learning?
+
+*Open problem MAIS-O45 · posed in [MAIS-A4](../agendas/A4/MAIS-A4.pdf) as [Problem 5.5](../agendas/A4/MAIS-A4.tex#L394) · Status: open.*
+
+*Safety: interpretability — training for interpretability · sparse autoencoders · superposition · mechanistic interpretability. Mathematics: statistics · optimization · probability. Difficulty: ★★ project.*
+
+Coherence is a property of the weights; the post-hoc interpreter never sees the weights. She sees only activations, and runs a dictionary-learning estimator on them. Does training with an interference penalty actually help her?
+
+The setting is the ReLU toy model: $x\in\mathbb{R}^m$ has independent coordinates, each zero with probability $S$ and otherwise uniform on $[0,1]$; the network $f_{W,b}(x)=\mathrm{ReLU}(W^{\top}Wx+b)$, $W\in\mathbb{R}^{n\times m}$ with $n<m$, has task loss $L=\mathbb{E}\,\|x-f_{W,b}(x)\|_2^2$, and $R(W)=\sum_{i\neq j}\langle W_i,W_j\rangle^2$ is the interference penalty. The interpreter is handed the activations $h=Wx$ and fits a dictionary $D\in\mathbb{R}^{n\times d}$, columns constrained to $\|D_j\|_2\le1$, minimizing the sparse-coding objective $J_{W,S,\alpha}(D)=\mathbb{E}_x \min_{a\in\mathbb{R}^d_{\ge0}} \bigl(\|Wx-Da\|_2^2+\alpha\|a\|_1\bigr)$ — a sparse autoencoder with the learned encoder replaced by exact minimization. Say $D$ **$\varepsilon$-recovers** $W$ if some injective map $\pi$ sends each nonzero column $i$ of $W$ to a nonzero column of $D$ with $\langle\widehat W_i,\widehat D_{\pi(i)}\rangle\ge1-\varepsilon$ (hats normalize columns to unit length), and write $\mathrm{REC}_S(W;d,\alpha,\varepsilon)=1$ if every global minimizer of $J_{W,S,\alpha}$ $\varepsilon$-recovers $W$.
+
+**Problem ([MAIS-A4, Problem 5.5](../agendas/A4/MAIS-A4.tex#L394)).**
+
+1. (*Antipodal warm-up.*) Let $(m,n)=(4,2)$ and let $W^*$ be the antipodal configuration, with columns $e_1,-e_1,e_2,-e_2$. Determine, for each $S\in(0,1)$, the set of triples $(d,\alpha,\varepsilon)$, with $d\ge4$, $\alpha>0$, and $\varepsilon\in(0,\tfrac12)$, for which $\mathrm{REC}_S(W^*;d,\alpha,\varepsilon)=1$.
+2. (*Transfer.*) Exhibit $(m,n,S,\lambda)$ and $(d,\alpha,\varepsilon)$ with $\varepsilon<\tfrac12$ such that both $\operatorname{argmin}(L+\lambda R)$ and $\operatorname{argmin}L$ are nonempty, every $(W_\lambda,b_\lambda)\in\operatorname{argmin}(L+\lambda R)$ satisfies $\mathrm{REC}_S(W_\lambda;d,\alpha,\varepsilon)=1$, and some $(W_0,b_0)\in\operatorname{argmin} L$ satisfies $\mathrm{REC}_S(W_0;d,\alpha,\varepsilon)=0$. Or prove no such tuple exists.
+
+Part (1) asks, in the lowest dimension where the question makes sense, whether the standard estimator at its global optimum splits each axis into two signed atoms: the activation distribution is just $(x_1-x_2,\,x_3-x_4)$ with sparse uniform coordinates, all the probability explicit. Even this is unproved; the closest theory (Cui et al.) works in a different asymptotic regime and finds recovery generically fails without reweighting. Part (2) asks for a genuine transfer theorem — regularized training provably recoverable, unregularized training provably not — and would require an identifiability theorem for the $\ell^1$ estimator on a structured dictionary along the way. Definitions and the surrounding program are in [MAIS-A4](../agendas/A4/MAIS-A4.pdf).
+
+*Related: [MAIS-O46](MAIS-O46.md) (does coherence even rank recoverability?) · [MAIS-O3](MAIS-O3.md) (identifiability of the $\ell^1$ dictionary estimator itself) · [MAIS-O44](MAIS-O44.md) (the coherence-level version of transfer) · [MAIS-O43](MAIS-O43.md) (measure the recovery–merging phase diagram numerically).*

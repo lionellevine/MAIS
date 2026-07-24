@@ -2,27 +2,29 @@
 
 [**Lionel Levine**](https://lionellevine.github.io/) (Cornell University)
 
-This is the home of [*Math for AI Safety: An Invitation for Mathematicians*](papers/MAIS-P1/MAIS-P1.pdf).
+This is the home of [*Math for AI Safety: An Invitation for Mathematicians*](papers/P1/MAIS-P1.pdf).
 
 ## What's here?
 
-Beyond the [invitation paper](papers/MAIS-P1/MAIS-P1.pdf), this repo hosts three kinds of pre-publication research:
+Beyond the [invitation paper](papers/P1/MAIS-P1.pdf), this repo hosts three kinds of pre-publication research:
 
-| | Kind | What it is |
-|---|------|------------|
-| 1 | **Open Problems** — [`open/`](open/) | A short exposition of a single open problem |
-| 2 | **Agendas** — [`agendas/`](agendas/) | A cluster of related open problems and partial progress on resolving them |
-| 3 | **Papers** — [`papers/`](papers/) | A paper in progress |
+| Kind | What it is |
+|------|------------|
+| **Open Problems** — [`open-problems/`](open-problems/) | A short exposition of a single open problem |
+| **Agendas** — [`agendas/`](agendas/) | A cluster of related open problems and partial progress on resolving them |
+| **Papers** — [`papers/`](papers/) | A paper in progress |
 
-The intended life cycle is **1 → 2 → 3 → publication**: open problems get incorporated into agendas, and a maturing agenda spins off papers.
+The anticipated path is **problem → agenda → paper → publication**. Not every problem will travel the whole path, and one agenda may develop several related problems. The name does not change along the way: a problem enters with a permanent **MAIS-On** identifier; an agenda that grows around it and a paper that grows from the work receive their own **MAIS-An** and **MAIS-Pn** identifiers.
 
-Each document carries a unique permanent identifier — **MAIS-On** for open problems, **MAIS-An** for agendas, **MAIS-Pn** for papers — so a reference like [MAIS-O1](open/MAIS-O1.md) or [MAIS-A4](agendas/MAIS-A4/MAIS-A4.pdf) stays valid even if the title changes. The [index of open problems](open/INDEX.md) lists every problem posed in the repository.
+The first eight problems, [**MAIS-O1–O8**](open-problems/README.md#mais-o1), are stated in the invitation paper and expanded by [MAIS-A1–A8](agendas/). Here MAIS-A1 expands MAIS-O1, and so on through MAIS-A8 and MAIS-O8. This relationship is recorded explicitly; matching numbers do not imply a general rule. [MAIS-O9](open-problems/MAIS-O9.md), on Conway's Life, is the first standalone exposition. The [open-problem index](open-problems/README.md) is the full registry, and the [agenda guide](agendas/README.md#where-to-start) offers a first foothold in each research direction.
+
+The first eight agendas were written and reviewed with AI systems under Lionel Levine's direction. Their [audit record](audit/2026-07/) states what was checked, what was repaired, and what the review does not guarantee.
 
 ## Contributing
 
 Contributions of every size are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md).
 
-The best first move is to [open an issue](https://github.com/lionellevine/MAIS/issues/new) — a public thread that anyone can answer. Substantial contributions earn coauthorship of the document they touch.
+The best first move is to [open an issue](https://github.com/lionellevine/MAIS/issues/new/choose) — a public thread that anyone can answer. A substantial contribution earns an invitation to join the author list, subject to the judgment of the document's current authors.
 
 ## License
 
