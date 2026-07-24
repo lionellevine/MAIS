@@ -12,7 +12,9 @@ Beyond the [invitation paper](papers/P1/MAIS-P1.pdf), this repo hosts three kind
 | [**Agendas**](agendas/) | A cluster of related open problems and partial progress on resolving them |
 | [**Papers**](papers/) | A paper in progress |
 
-The anticipated path is **problem → agenda → paper → publication**. Not every problem must travel the whole path: a standalone problem may grow into an agenda, an agenda may spin off a paper, and a paper may pose a problem that deserves an agenda of its own. The present collection has both shapes: the eight headline problems of the invitation paper, [MAIS-O1–O8](open-problems/README.md#mais-o1), expand into the agendas [MAIS-A1–A8](agendas/), while [MAIS-O9](open-problems/MAIS-O9.md), on Conway's Life, is a standalone problem.
+The intended life cycle is **open problem → agenda → paper → publication**: open problems get incorporated into agendas, and a maturing agenda spins off papers.
+
+Each document carries a unique permanent identifier — **MAIS-On** for open problems, **MAIS-An** for agendas, **MAIS-Pn** for papers — so a reference like [MAIS-O1](open-problems/MAIS-O1.md) or [MAIS-A4](agendas/A4/MAIS-A4.pdf) stays valid even if the title changes.
 
 The [open-problem index](open-problems/README.md) is the full registry, and the [agenda guide](agendas/README.md#where-to-start) offers a first foothold in each research direction.
 
