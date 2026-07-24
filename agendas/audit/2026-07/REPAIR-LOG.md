@@ -13,7 +13,7 @@ This is the publication log for MAIS-A1–A8. It summarizes changes made in resp
 - Replaced the unrestricted parametric bounded Löb statement by a conditional theorem with the internal comparison certificates used by its proof. The agenda records the obstruction to mere external growth.
 - Reposed the effective-threshold, Löb-window, bounded-reflection, and internal bounded-Löb questions in certified classes; corrected the abbreviation cost and the bounded-outer-box claim.
 - Corrected the Payor attribution and narrowed the mechanization, robustness, and state-of-the-art claims.
-- The audit's standalone refutation-and-repair note on the source theorem, verified and repaired in the same round, is released as [MAIS-P2](../../../papers/P2/MAIS-P2.pdf).
+- The audit's standalone refutation-and-repair note on the source theorem, verified in the same round, is released in its author's original form as [MAIS-P2](../../../papers/P2/); its accepted repairs are incorporated in the agenda.
 
 ## MAIS-A2: Behavioral tomography of world-models
 
