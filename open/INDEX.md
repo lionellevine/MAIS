@@ -10,7 +10,7 @@ Every item below is stated as open as of July 2026. When one is resolved, its ro
 |---|---------|
 | MAIS-O1 | [Steering Conway's Life from a small seed](MAIS-O1.md) |
 
-## In MAIS-A1 · Quantitative bounded Löb — [PDF](../agendas/MAIS-A1.pdf)
+## In MAIS-A1 · Quantitative bounded Löb — [PDF](../agendas/MAIS-A1/MAIS-A1.pdf)
 
 | # | Item | Title |
 |---|------|-------|
@@ -29,7 +29,7 @@ Every item below is stated as open as of July 2026. When one is resolved, its ro
 | MAIS-O14 | Problem 8.1 | Robustness |
 | MAIS-O15 | Question 8.2 | Toward bounded Solovay |
 
-## In MAIS-A2 · Behavioral tomography of world-models — [PDF](../agendas/MAIS-A2.pdf)
+## In MAIS-A2 · Behavioral tomography of world-models — [PDF](../agendas/MAIS-A2/MAIS-A2.pdf)
 
 | # | Item | Title |
 |---|------|-------|
@@ -48,7 +48,7 @@ Every item below is stated as open as of July 2026. When one is resolved, its ro
 | MAIS-O28 | Problem 5.2 | Starter: the identified set, exactly |
 | MAIS-O29 | Problem 5.3 | Starter: finite-sample recovery |
 
-## In MAIS-A3 · The geometry and identifiability of superposition — [PDF](../agendas/MAIS-A3.pdf)
+## In MAIS-A3 · The geometry and identifiability of superposition — [PDF](../agendas/MAIS-A3/MAIS-A3.pdf)
 
 | # | Item | Title |
 |---|------|-------|
@@ -62,7 +62,7 @@ Every item below is stated as open as of July 2026. When one is resolved, its ro
 | MAIS-O37 | Problem 5.2 | Starter: the one-active-feature pentagon |
 | MAIS-O38 | Problem 5.3 | Starter: measure the phase diagram before proving it |
 
-## In MAIS-A4 · Training for interpretability — [PDF](../agendas/MAIS-A4.pdf)
+## In MAIS-A4 · Training for interpretability — [PDF](../agendas/MAIS-A4/MAIS-A4.pdf)
 
 | # | Item | Title |
 |---|------|-------|
@@ -75,7 +75,7 @@ Every item below is stated as open as of July 2026. When one is resolved, its ro
 | MAIS-O45 | Problem 5.9 | The wiring frontier |
 | MAIS-O46 | Question 5.10 | What does gradient flow select? |
 
-## In MAIS-A5 · Which irreducible representations does training select? — [PDF](../agendas/MAIS-A5.pdf)
+## In MAIS-A5 · Which irreducible representations does training select? — [PDF](../agendas/MAIS-A5/MAIS-A5.pdf)
 
 | # | Item | Title |
 |---|------|-------|
@@ -91,7 +91,7 @@ Every item below is stated as open as of July 2026. When one is resolved, its ro
 | MAIS-O56 | Problem 6.2 | One rectifier neuron |
 | MAIS-O57 | Problem 6.3 | A pilot measurement of the law |
 
-## In MAIS-A6 · Does geometric simplicity force a legible mechanism? — [PDF](../agendas/MAIS-A6.pdf)
+## In MAIS-A6 · Does geometric simplicity force a legible mechanism? — [PDF](../agendas/MAIS-A6/MAIS-A6.pdf)
 
 | # | Item | Title |
 |---|------|-------|
@@ -107,7 +107,7 @@ Every item below is stated as open as of July 2026. When one is resolved, its ro
 | MAIS-O67 | Problem 6.3 | Local coefficients on the template |
 | MAIS-O68 | Question 9.2 | Continuous-input ReLU learning |
 
-## In MAIS-A7 · Effective loss and learning dynamics — [PDF](../agendas/MAIS-A7.pdf)
+## In MAIS-A7 · Effective loss and learning dynamics — [PDF](../agendas/MAIS-A7/MAIS-A7.pdf)
 
 | # | Item | Title |
 |---|------|-------|
@@ -123,7 +123,7 @@ Every item below is stated as open as of July 2026. When one is resolved, its ro
 | MAIS-O78 | Problem 3.14 | *Is the leap determined by the singularity data?* |
 | MAIS-O79 | Problem 6.1 | *A saddle-window free energy* |
 
-## In MAIS-A8 · A predictive theory of out-of-distribution generalization — [PDF](../agendas/MAIS-A8.pdf)
+## In MAIS-A8 · A predictive theory of out-of-distribution generalization — [PDF](../agendas/MAIS-A8/MAIS-A8.pdf)
 
 | # | Item | Title |
 |---|------|-------|

@@ -1,0 +1,5 @@
+# Provenance of MAIS-A2
+
+This agenda is an experiment in AI-written mathematics. It was written by **Claude Fable 5** (Anthropic) under Lionel Levine's direction: he chose the problem, set the standard — self-contained, every statement precise, every problem stated as open genuinely believed open — and reviewed the results. The draft then went through an adversarial review by an independent reviewing agent, with every reported issue either fixed or rejected with a recorded dissent, and was independently audited by **GPT 5.6 Sol** (OpenAI), which checked the proofs of the small results proved along the way, the precision of each problem statement, and — with literature search — whether each problem stated as open is in fact open. The audit's findings were resolved in a documented repair round; results the audit itself contributed are credited in the file's audit notes.
+
+No human has verified every line of this file, and the byline is meant to say so plainly. If you find an error, or believe a problem stated here as open has been resolved, please [open an issue](https://github.com/lionellevine/MAIS/issues/new); corrections are credited.
