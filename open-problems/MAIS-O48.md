@@ -1,6 +1,6 @@
 # Loss frontier for neuron-feature alignment under a bottleneck
 
-*Open problem MAIS-O48 · posed in [MAIS-A4](../agendas/A4/MAIS-A4.pdf) as [Problem 5.8](../agendas/A4/MAIS-A4.tex#L437) · Status: open.*
+*Open problem MAIS-O48 · posed in [MAIS-A4](../agendas/A4/) as [Problem 5.8](../agendas/A4/MAIS-A4.tex#L437) · Status: open.*
 
 *Safety: interpretability — training for interpretability · monosemanticity. Mathematics: optimization · probability. Difficulty: ★★ project.*
 
@@ -17,6 +17,6 @@ so that $P'_{m,k,S}(0)=(m-k)\ v(S)$.
 1. Determine $\delta^\ast (m,k,S)=\inf\lbrace \delta\in[0,1] : P'_{m,k,S}(\delta)<P'_{m,k,S}(0)\rbrace $, with the convention $\delta^\ast =1$ when the set is empty. Is $\delta^\ast =0$ for all $S$ close to $1$ (any polysemanticity budget helps), or is there a threshold?
 2. Jermyn et al. observe monosemantic and polysemantic local minima in a related architecture with randomly projected inputs and a linear unbiased output layer. For the architecture above, exhibit $(m,k,S)$ and two local minima of $L'_{m,k,S}$ with $M=1$ and $M\le\tfrac12$ respectively, whose losses differ by less than $v(S)/10$.
 
-In words: $P'(\delta)$ is the best loss achievable when every neuron must put at least a $1-\delta$ fraction of its squared input weight on one feature, and $\delta^\ast $ is the impurity threshold at which relaxing purity first beats the fully aligned optimum. Part (2) asks for nearby monosemantic and polysemantic local minima in this specific architecture, the situation in which training dynamics, not loss values, decide legibility. The plentiful-regime propositions and the bottleneck computation are in [MAIS-A4](../agendas/A4/MAIS-A4.pdf).
+In words: $P'(\delta)$ is the best loss achievable when every neuron must put at least a $1-\delta$ fraction of its squared input weight on one feature, and $\delta^\ast $ is the impurity threshold at which relaxing purity first beats the fully aligned optimum. Part (2) asks for nearby monosemantic and polysemantic local minima in this specific architecture, the situation in which training dynamics, not loss values, decide legibility. The plentiful-regime propositions and the bottleneck computation are in [MAIS-A4](../agendas/A4/).
 
 *Related: [MAIS-O4](MAIS-O4.md) (the analogous frontier with coherence in place of alignment) · [MAIS-O50](MAIS-O50.md) (part 3 asks what gradient flow selects for $M$) · [MAIS-O49](MAIS-O49.md) (wiring sparsity, a sibling legibility constraint) · [MAIS-O60](MAIS-O60.md) (single-neuron alignment in a different model organism).*

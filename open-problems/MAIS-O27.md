@@ -1,6 +1,6 @@
 # How agent regret limits causal model identifiability
 
-*Open problem MAIS-O27 · posed in [MAIS-A2](../agendas/A2/MAIS-A2.pdf) as [Problem 4.6](../agendas/A2/MAIS-A2.tex#L299) · Status: open.*
+*Open problem MAIS-O27 · posed in [MAIS-A2](../agendas/A2/) as [Problem 4.6](../agendas/A2/MAIS-A2.tex#L299) · Status: open.*
 
 *Safety: interpretability — world-model extraction · eliciting latent knowledge · black-box evaluation · bounded rationality. Mathematics: statistics · probability. Difficulty: ★★★ hard.*
 
@@ -10,6 +10,6 @@ The setting is a binary causal influence diagram: a skeleton $\mathsf{s}=(\mathb
 
 **Problem ([MAIS-A2, Problem 4.6](../agendas/A2/MAIS-A2.tex#L299)).** Determine the asymptotics of $\varphi(\delta;\mathsf{s},\lambda)$ as $\delta\to0$: (a) decide whether $\varphi(0^+)=0$ (this refines the agenda's Question 4.1); (b) assuming it is zero, determine $\lim_{\delta\to0}\varphi(\delta)/\delta$ as an explicit function of $(\mathsf{s},\lambda)$, together with the matching statement that some pair of models at distance $c\delta$ is $\delta$-indistinguishable; (c) determine the graph threshold: defining the *strength* of an edge of $M$ as the maximum, over pairs of parent configurations differing only in the tail variable, of the induced table difference (the quantity (M4) bounds below), decide for which pairs $(s,\delta)$ every $M\in\mathcal{M}(\mathsf{s},\lambda)$ carrying an edge of strength at least $s$ has that edge present in every model of $I_\delta(M)$ — and exhibit, for the complementary pairs, an $M$ and an $M'\in I_\delta(M)$ omitting the edge.
 
-Part (c) makes precise which parts of the graph are identifiable: at regret $\delta$, strong edges survive and weak edges blur into the error floor, and the problem asks for the exact exchange rate between edge strength and regret. The Richens–Everitt theorem gives the upper half, linear in $\delta$; no lower-bound construction appears in the literature. For the margin conditions and the identified-set formalism, see [MAIS-A2](../agendas/A2/MAIS-A2.pdf).
+Part (c) makes precise which parts of the graph are identifiable: at regret $\delta$, strong edges survive and weak edges blur into the error floor, and the problem asks for the exact exchange rate between edge strength and regret. The Richens–Everitt theorem gives the upper half, linear in $\delta$; no lower-bound construction appears in the literature. For the margin conditions and the identified-set formalism, see [MAIS-A2](../agendas/A2/).
 
 *Related: [MAIS-O23](MAIS-O23.md) (the $\delta=0$ question part (a) refines) · [MAIS-O28](MAIS-O28.md) (regret bounded on average instead of everywhere) · [MAIS-O2](MAIS-O2.md) (the finite-sample problem this floor bounds) · [MAIS-O34](MAIS-O34.md) (the radius computed exactly on two variables).*

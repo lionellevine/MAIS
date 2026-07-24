@@ -1,6 +1,6 @@
 # A bounded Payor lemma and its cooperation threshold
 
-*Open problem MAIS-O20 · posed in [MAIS-A1](../agendas/A1/MAIS-A1.pdf) as [Problem 5.4](../agendas/A1/MAIS-A1.tex#L485) · Status: open.*
+*Open problem MAIS-O20 · posed in [MAIS-A1](../agendas/A1/) as [Problem 5.4](../agendas/A1/MAIS-A1.tex#L485) · Status: open.*
 
 *Safety: cooperative AI, agent foundations — Löbian cooperation · open-source game theory · program equilibrium · proof-based agents · bounded rationality. Mathematics: logic. Difficulty: ★★ project.*
 
@@ -14,6 +14,6 @@ $$S \vdash \forall k\ \Bigl(\Box_{g(k)}\bigl(\Box_{f(k)}\ p(k) \to p(k)\bigr) \t
 
 with explicit $\hat{k}$. In particular, test whether the certificates $b\lambda \leq_S^{\ast } g$ and $f + b\lambda \leq_S^{\ast } g$ for every standard $b$ suffice. Then prove that two copies of $\mathrm{PB}_k$ cooperate above an explicit threshold $\hat{k}^{\ast }_{\mathrm{P}}$, and compare it with $\hat{k}^{\ast }$ in a common system and encoding.
 
-The proof should use only bounded necessitation, quantifier distribution, and implication distribution; the four-line unbounded proof is the map. A short, self-contained note tabulating the comparison against the bounded Löb route — which hypothesis shapes, which budget windows, which thresholds — would be a complete first paper. For the unbounded lemma and the conventions, see [MAIS-A1](../agendas/A1/MAIS-A1.pdf).
+The proof should use only bounded necessitation, quantifier distribution, and implication distribution; the four-line unbounded proof is the map. A short, self-contained note tabulating the comparison against the bounded Löb route — which hypothesis shapes, which budget windows, which thresholds — would be a complete first paper. For the unbounded lemma and the conventions, see [MAIS-A1](../agendas/A1/).
 
 *Related: [MAIS-O16](MAIS-O16.md) (the FairBot threshold to beat) · [MAIS-O15](MAIS-O15.md) (explicit thresholds on the Löb route) · [MAIS-O12](MAIS-O12.md) (the system constants Payor's proof avoids).*

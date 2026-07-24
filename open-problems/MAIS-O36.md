@@ -1,6 +1,6 @@
 # Global ℓ¹ dictionary recovery under independent supports
 
-*Open problem MAIS-O36 · posed in [MAIS-A3](../agendas/A3/MAIS-A3.pdf) as [Conjecture 4.4](../agendas/A3/MAIS-A3.tex#L237) · Status: open.*
+*Open problem MAIS-O36 · posed in [MAIS-A3](../agendas/A3/) as [Conjecture 4.4](../agendas/A3/MAIS-A3.tex#L237) · Status: open.*
 
 *Safety: interpretability — sparse autoencoders · mechanistic interpretability · superposition. Mathematics: probability · optimization · statistics. Difficulty: ★★★ hard.*
 
@@ -16,6 +16,6 @@ then for every $\lambda\in(0,c)$, every global minimizer of $F_\lambda$ over $U_
 
 In words: if the expected number of active features per sample, $pm$ (plus $\log m$), is small compared to $\sqrt{n/\log m}$, and the coherence is small compared to $1/(pm+\log m)$, then every global minimizer places an atom within angle $\arccos(1-C\lambda)$ of each true feature. For a uniformly random $\Phi$ the coherence is $O(\sqrt{(\log m)/n})$ with high probability, so both conditions reduce to the density bound alone. The overcompleteness hypothesis $m>n$ is necessary: the agenda's Remark 4.6 gives a two-feature orthonormal counterexample in which slanted atoms beat the true dictionary at every small penalty.
 
-For the full model, the local-minimum literature, and a globally identifiable volume-regularized alternative, see [MAIS-A3](../agendas/A3/MAIS-A3.pdf).
+For the full model, the local-minimum literature, and a globally identifiable volume-regularized alternative, see [MAIS-A3](../agendas/A3/).
 
 *Related: [MAIS-O3](MAIS-O3.md) (the headline problem: correlated supports) · [MAIS-O41](MAIS-O41.md) (the exact two-feature phase diagram, a starter) · [MAIS-O39](MAIS-O39.md) (does the same conclusion hold for the amortized encoder?) · [MAIS-O43](MAIS-O43.md) (measure the thresholds numerically).*

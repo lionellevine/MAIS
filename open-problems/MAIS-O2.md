@@ -1,6 +1,6 @@
 # Behavioral tomography of world-models
 
-*Open problem MAIS-O2 · headline problem 2 of the survey [MAIS-P1](../papers/P1/MAIS-P1.pdf) · canonically formalized in [MAIS-A2](../agendas/A2/MAIS-A2.pdf) as [Problem 4.5](../agendas/A2/MAIS-A2.tex#L289) · Status: open.*
+*Open problem MAIS-O2 · headline problem 2 of the survey [MAIS-P1](../papers/P1/) · canonically formalized in [MAIS-A2](../agendas/A2/) as [Problem 4.5](../agendas/A2/MAIS-A2.tex#L289) · Status: open.*
 
 *Safety: interpretability — world-model extraction · eliciting latent knowledge · black-box evaluation. Mathematics: statistics · probability · complexity theory. Difficulty: ★★ project.*
 
@@ -10,6 +10,6 @@ The setting is a finite causal influence diagram with binary variables and known
 
 **Problem ([MAIS-A2, Problem 4.5](../agendas/A2/MAIS-A2.tex#L289)).** In the setting of the agenda's Problem 4.3 (a compact semialgebraic class of models on which exact behavior determines the model with Lipschitz modulus), replace the policy-probability oracle by sampled actions and allow $\delta\ge0$. Determine the minimax budget $N(\varepsilon,\delta)$ for recovering the graph and tables to error at most $\varepsilon$, or prove that the target lies below the identified-set radius $\varphi(\delta;\mathsf{s},\lambda)$ and is therefore impossible. Separate three contributions: locating the switching surfaces of the optimal policy family, estimating the probabilities of genuinely stochastic policies, and the irreducible ambiguity caused by regret. Then add independent response corruption at a known level $\zeta<\tfrac12$ and determine its cost.
 
-At $\delta=0$ optimal policies are deterministic away from switching surfaces, so sampled actions are noiseless bits and the one-dimensional core is binary search; positive regret smears behavior into a band the analyst must estimate rather than locate. The problem thus interpolates between bisection and Bernoulli regression, with Rényi–Ulam lie-tolerant search and noisy binary search supplying the endpoints; the coupled causal reconstruction is the open part. For the margin conditions, the behavioral transform being inverted, and the query formalism, see [MAIS-A2](../agendas/A2/MAIS-A2.pdf).
+At $\delta=0$ optimal policies are deterministic away from switching surfaces, so sampled actions are noiseless bits and the one-dimensional core is binary search; positive regret smears behavior into a band the analyst must estimate rather than locate. The problem thus interpolates between bisection and Bernoulli regression, with Rényi–Ulam lie-tolerant search and noisy binary search supplying the endpoints; the coupled causal reconstruction is the open part. For the margin conditions, the behavioral transform being inverted, and the query formalism, see [MAIS-A2](../agendas/A2/).
 
 *Related: [MAIS-O25](MAIS-O25.md) (the exact-oracle version this builds on) · [MAIS-O27](MAIS-O27.md) (the regret floor $\varphi$) · [MAIS-O26](MAIS-O26.md) (conjectured rate for the exact oracle) · [MAIS-O35](MAIS-O35.md) (the two-variable starter case).*

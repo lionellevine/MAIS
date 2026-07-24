@@ -1,6 +1,6 @@
 # Tolerable corruption fraction for goal-based model extraction
 
-*Open problem MAIS-O33 · posed in [MAIS-A2](../agendas/A2/MAIS-A2.pdf) as [Problem 4.12](../agendas/A2/MAIS-A2.tex#L356) · Status: open.*
+*Open problem MAIS-O33 · posed in [MAIS-A2](../agendas/A2/) as [Problem 4.12](../agendas/A2/MAIS-A2.tex#L356) · Status: open.*
 
 *Safety: interpretability — world-model extraction · eliciting latent knowledge · black-box evaluation. Mathematics: complexity theory · combinatorics · probability. Difficulty: ★★★ hard.*
 
@@ -15,6 +15,6 @@ $$\max_{s,a,s'}\ \bigl|\widehat P_{ss'}(a)-P_{ss'}(a)\bigr|\ \le\  \frac{2}{\sqr
 
 Determine $\eta^\ast :=\sup\lbrace \eta:\eta\text{ is uniformly tolerable}\rbrace $. Is $\eta^\ast >0$? The restriction $(n-1)(1-\delta)>4$ removes the regime in which the target error is at least $1$ and the zero-query estimator is already valid.
 
-The problem has teeth: $|\boldsymbol{\Psi}_n|$ is astronomically larger than any polynomial budget, so a fraction-$\eta$ corruption can cover *every* query of a known deterministic analyst. Randomization is forced, and a positive answer requires exhibiting exponentially many interchangeable certificate query sets — a random-self-reducibility property of the goal space. A variant of equal interest measures the corruption budget against the sequential goals only. For the goal formalism, see [MAIS-A2](../agendas/A2/MAIS-A2.pdf).
+The problem has teeth: $|\boldsymbol{\Psi}_n|$ is astronomically larger than any polynomial budget, so a fraction-$\eta$ corruption can cover *every* query of a known deterministic analyst. Randomization is forced, and a positive answer requires exhibiting exponentially many interchangeable certificate query sets — a random-self-reducibility property of the goal space. A variant of equal interest measures the corruption budget against the sequential goals only. For the goal formalism, see [MAIS-A2](../agendas/A2/).
 
 *Related: [MAIS-O32](MAIS-O32.md) (the uncorrupted resolution limit in the same setting) · [MAIS-O2](MAIS-O2.md) (independent response corruption in the interventional setting) · [MAIS-O35](MAIS-O35.md) (corruption at the two-variable scale).*

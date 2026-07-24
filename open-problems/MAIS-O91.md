@@ -1,6 +1,6 @@
 # Numerical atlas of misgeneralization across widths and diversity
 
-*Open problem MAIS-O91 · posed in [MAIS-A8](../agendas/A8/MAIS-A8.pdf) as [Problem 7.4](../agendas/A8/MAIS-A8.tex#L478) · Status: open.*
+*Open problem MAIS-O91 · posed in [MAIS-A8](../agendas/A8/) as [Problem 7.4](../agendas/A8/MAIS-A8.tex#L478) · Status: open.*
 
 *Safety: generalization — goal misgeneralization · proxy goals · training dynamics · simplicity bias. Mathematics: computational · probability. Difficulty: ★ starter · empirical.*
 
@@ -14,6 +14,6 @@ $$q_\varepsilon(k;m,\sigma,L,\eta)\quad\text{and}\quad q^{\mathrm{RL}}_\varepsil
 
 over a grid of $(\varepsilon,m,\sigma,\eta)$ at $L\in\lbrace 4,8,16\rbrace $, together with the Gaussian conditional probability $Q(L)$ of the Bayesian-sampler question. Publish the atlas either way.
 
-The atlas would show where the conjectured proxy selection holds, where the crossover to the intended goal happens as $\varepsilon$ grows, whether cloning and reinforcement learning part ways at small $\varepsilon$, and whether the Gaussian posterior tracks training — data against which every conjecture in the agenda can be checked before anyone proves it. For the exact conventions (the deterministic backpropagation rule, the probe, the training distributions), see [MAIS-A8](../agendas/A8/MAIS-A8.pdf).
+The atlas would show where the conjectured proxy selection holds, where the crossover to the intended goal happens as $\varepsilon$ grows, whether cloning and reinforcement learning part ways at small $\varepsilon$, and whether the Gaussian posterior tracks training — data against which every conjecture in the agenda can be checked before anyone proves it. For the exact conventions (the deterministic backpropagation rule, the probe, the training distributions), see [MAIS-A8](../agendas/A8/).
 
 *Related: [MAIS-O8](MAIS-O8.md) (the selection map this atlas estimates) · [MAIS-O88](MAIS-O88.md) (the reinforcement-learning curve it would plot) · [MAIS-O86](MAIS-O86.md) (the Bayesian-sampler comparison supplying $Q(L)$).*

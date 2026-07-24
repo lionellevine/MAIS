@@ -1,6 +1,6 @@
 # Wide networks select the proxy policy with probability one
 
-*Open problem MAIS-O82 · posed in [MAIS-A8](../agendas/A8/MAIS-A8.pdf) as [Conjecture 5.2](../agendas/A8/MAIS-A8.tex#L280) · Status: open.*
+*Open problem MAIS-O82 · posed in [MAIS-A8](../agendas/A8/) as [Conjecture 5.2](../agendas/A8/MAIS-A8.tex#L280) · Status: open.*
 
 *Safety: generalization — goal misgeneralization · proxy goals · simplicity bias. Mathematics: probability · optimization. Difficulty: ★★★ hard.*
 
@@ -12,6 +12,6 @@ The agenda builds a one-dimensional coin world with the degeneracy built in: sta
 
 $$\lim_{m\to\infty}\ \liminf_{k\to\infty}\ q_0(k;m,\sigma,L,\eta)\ =\ 1.$$
 
-In words: at zero training diversity, an infinitely wide two-layer network provably walks away from the coin. Kernel-regime and mean-field analogues are proved in the agenda under their own normalizations, so the conjecture asks for the missing finite-parameterization case. For the environment's exact definition and the solved linear chapter, see [MAIS-A8](../agendas/A8/MAIS-A8.pdf).
+In words: at zero training diversity, an infinitely wide two-layer network provably walks away from the coin. Kernel-regime and mean-field analogues are proved in the agenda under their own normalizations, so the conjecture asks for the missing finite-parameterization case. For the environment's exact definition and the solved linear chapter, see [MAIS-A8](../agendas/A8/).
 
 *Related: [MAIS-O8](MAIS-O8.md) (the selection map this conjecture would begin to compute) · [MAIS-O84](MAIS-O84.md) (how fast rare corrective examples overturn the proxy) · [MAIS-O87](MAIS-O87.md) (exploration starvation).*

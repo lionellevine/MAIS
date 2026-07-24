@@ -1,6 +1,6 @@
 # Training for interpretability
 
-*Open problem MAIS-O4 · headline problem 4 of the survey [MAIS-P1](../papers/P1/MAIS-P1.pdf) · canonically formalized in [MAIS-A4](../agendas/A4/MAIS-A4.pdf) as [Problem 5.1](../agendas/A4/MAIS-A4.tex#L322) · Status: open.*
+*Open problem MAIS-O4 · headline problem 4 of the survey [MAIS-P1](../papers/P1/) · canonically formalized in [MAIS-A4](../agendas/A4/) as [Problem 5.1](../agendas/A4/MAIS-A4.tex#L322) · Status: open.*
 
 *Safety: interpretability — training for interpretability · superposition. Mathematics: optimization · convex geometry · probability. Difficulty: ★★★ hard.*
 
@@ -16,6 +16,6 @@ $$P_{m,n,S}(c) \ =\  \inf\bigl\lbrace \ L_{m,n,S}(W,b)\ :\ \mu(W)\le c\ \bigr\rb
 2. Prove or disprove: for each fixed $(m,n,S)$ there are finitely many points $0=c_0<c_1<\cdots<c_r=1$ such that on each interval $(c_{i-1},c_i)$ the function $c\mapsto P_{m,n,S}(c)$ agrees with a function real-analytic on a neighborhood of $[c_{i-1},c_i]$. ($P_{m,n,S}$ is nonincreasing in $c$, so one-sided limits exist everywhere; whether it is continuous is part of the question.)
 3. Determine $c^\ast (m,n,S)=\inf\lbrace c: P_{m,n,S}(c)=P_{m,n,S}(1)\rbrace $, the smallest coherence budget at which interpretability (in this surrogate) becomes free.
 
-In words: how small can the task loss be among weight matrices whose worst-case interference is at most $c$ — the exact price of each increment of legibility. Empirically the optimizer jumps between regular-polytope configurations (antipodal pairs, triangles, pentagons) as sparsity varies, which suggests the frontier is piecewise smooth with kinks at changes of optimal geometry; part (2) asks for that picture as a theorem. The survey's stated first case — whether penalizing the *average* interference lowers the *worst-case* coherence of the minimizer — is [MAIS-O44](MAIS-O44.md). For the proved anchors, a subadditivity argument giving a thermodynamic limit of the frontier, and the surrounding program, see [MAIS-A4](../agendas/A4/MAIS-A4.pdf).
+In words: how small can the task loss be among weight matrices whose worst-case interference is at most $c$ — the exact price of each increment of legibility. Empirically the optimizer jumps between regular-polytope configurations (antipodal pairs, triangles, pentagons) as sparsity varies, which suggests the frontier is piecewise smooth with kinks at changes of optimal geometry; part (2) asks for that picture as a theorem. The survey's stated first case — whether penalizing the *average* interference lowers the *worst-case* coherence of the minimizer — is [MAIS-O44](MAIS-O44.md). For the proved anchors, a subadditivity argument giving a thermodynamic limit of the frontier, and the surrounding program, see [MAIS-A4](../agendas/A4/).
 
 *Related: [MAIS-O44](MAIS-O44.md) (the survey's first case: average vs. worst-case interference) · [MAIS-O51](MAIS-O51.md) (the same frontier in the smallest model, a starter) · [MAIS-O47](MAIS-O47.md) (uniqueness of the $(5,2)$ minimizer, needed for part 1) · [MAIS-O49](MAIS-O49.md) (the analogous frontier for weight sparsity).*

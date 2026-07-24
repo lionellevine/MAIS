@@ -1,6 +1,6 @@
 # Polynomial overhead for Löb's theorem
 
-*Open problem MAIS-O10 · posed in [MAIS-A1](../agendas/A1/MAIS-A1.pdf) as [Conjecture 3.5](../agendas/A1/MAIS-A1.tex#L294) · Status: open.*
+*Open problem MAIS-O10 · posed in [MAIS-A1](../agendas/A1/) as [Conjecture 3.5](../agendas/A1/MAIS-A1.tex#L294) · Status: open.*
 
 *Safety: cooperative AI, agent foundations — Löbian cooperation · proof-based agents · bounded rationality. Mathematics: logic · complexity theory. Difficulty: ★★ project.*
 
@@ -14,6 +14,6 @@ $$F_{\mathsf{PA}_{\mathrm{bin}}}(k,n) \ \le\  C\ (k+n)^{c} \quad \text{for all }
 
 In the strong form: $F_{\mathsf{PA}_{\mathrm{bin}}}(k,n) \le C\ (k + n^{c})$, i.e. the premise length enters linearly. The strong form would follow from the ledger together with a linear expansion function ($\mathcal{E}_{\mathsf{PA}_{\mathrm{bin}}}(m) = O(m)$) and polynomial $d_S$.
 
-A concrete route in: carry out the ledger for $\mathsf{PA}_{\mathrm{bin}}$ with explicit constants, using the length-tracked derivability conditions in Pudlák's Handbook chapter, and read off explicit $C, c$. No published proof carries this out for any concrete system. For the ledger and the surrounding formalism, see [MAIS-A1](../agendas/A1/MAIS-A1.pdf).
+A concrete route in: carry out the ledger for $\mathsf{PA}_{\mathrm{bin}}$ with explicit constants, using the length-tracked derivability conditions in Pudlák's Handbook chapter, and read off explicit $C, c$. No published proof carries this out for any concrete system. For the ledger and the surrounding formalism, see [MAIS-A1](../agendas/A1/).
 
 *Related: [MAIS-O1](MAIS-O1.md) (the overhead function this conjecture answers) · [MAIS-O12](MAIS-O12.md) (the constants $\mathcal{E}_S$ and $d_S$ the strong form needs) · [MAIS-O11](MAIS-O11.md) (the lower-bound counterpart).*

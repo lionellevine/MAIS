@@ -1,6 +1,6 @@
 # Finite-sample recovery of two-variable causal models
 
-*Open problem MAIS-O35 · posed in [MAIS-A2](../agendas/A2/MAIS-A2.pdf) as [Problem 5.3](../agendas/A2/MAIS-A2.tex#L381) · Status: open.*
+*Open problem MAIS-O35 · posed in [MAIS-A2](../agendas/A2/) as [Problem 5.3](../agendas/A2/MAIS-A2.tex#L381) · Status: open.*
 
 *Safety: interpretability — world-model extraction · eliciting latent knowledge · black-box evaluation. Mathematics: statistics · probability. Difficulty: ★ starter.*
 
@@ -10,6 +10,6 @@ The **two-variable family** $\mathcal{M}_2(\lambda)$ (the agenda's Definition 5.
 
 **Problem ([MAIS-A2, Problem 5.3](../agendas/A2/MAIS-A2.tex#L381)).** For $\mathcal{M}_2(\lambda)$ restricted to a compact locus on which $r_M(\delta)\le L\delta$ for all sufficiently small $\delta$, prove matching upper and lower bounds for the sampled-action budget $N(\varepsilon,\delta)$ needed to output the graph and all three parameters within $\varepsilon$. Begin at $\delta=0$, where only queries exactly on a switching surface can randomize, and then determine the crossover at positive regret between sampling error and the radius $\sup_M r_M(\delta)$. Finally add independent response corruption at level $\zeta$ and determine whether its sharp cost is the capacity factor $1/(1-H(\zeta))$.
 
-The agenda pairs this with a fully specified computational project: sample a thousand models from $\mathcal{M}_2(0.1)$, run the bisection extractor against optimal, adversarially $\delta$-optimal, and Boltzmann agents at budgets $2^4$ through $2^{14}$, with corruption at $\zeta\in\lbrace 0,0.05,0.2\rbrace $, and fit the error exponents — the empirical shape of the curves this problem asks to prove, and the problem family's first data. For the family, the query models, and the project specification, see [MAIS-A2](../agendas/A2/MAIS-A2.pdf).
+The agenda pairs this with a fully specified computational project: sample a thousand models from $\mathcal{M}_2(0.1)$, run the bisection extractor against optimal, adversarially $\delta$-optimal, and Boltzmann agents at budgets $2^4$ through $2^{14}$, with corruption at $\zeta\in\lbrace 0,0.05,0.2\rbrace $, and fit the error exponents — the empirical shape of the curves this problem asks to prove, and the problem family's first data. For the family, the query models, and the project specification, see [MAIS-A2](../agendas/A2/).
 
 *Related: [MAIS-O34](MAIS-O34.md) (the exact identified set this problem samples toward) · [MAIS-O2](MAIS-O2.md) (the general problem this grounds) · [MAIS-O29](MAIS-O29.md) (Boltzmann agents in general).*

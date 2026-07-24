@@ -1,6 +1,6 @@
 # Does geometric simplicity force a legible mechanism?
 
-*Open problem MAIS-O6 · headline problem 6 of the survey [MAIS-P1](../papers/P1/MAIS-P1.pdf) · canonically formalized in [MAIS-A6](../agendas/A6/MAIS-A6.pdf) as [Conjecture 4.9](../agendas/A6/MAIS-A6.tex#L352) · Status: open.*
+*Open problem MAIS-O6 · headline problem 6 of the survey [MAIS-P1](../papers/P1/) · canonically formalized in [MAIS-A6](../agendas/A6/) as [Conjecture 4.9](../agendas/A6/MAIS-A6.tex#L352) · Status: open.*
 
 *Safety: interpretability, generalization — singular learning theory · mechanistic interpretability · developmental interpretability · grokking · simplicity bias. Mathematics: algebraic geometry · harmonic analysis. Difficulty: ★★★ hard.*
 
@@ -12,6 +12,6 @@ Fourier inversion on $\mathbb{Z}/p\mathbb{Z}$ produces an exact fit $w^F$ at wid
 
 **Conjecture ([MAIS-A6, Conjecture 4.9](../agendas/A6/MAIS-A6.tex#L352)).** For every odd $p \ge 3$ and $H \ge 2p-1$: every $w \in W_0(p,H)$ with $\Vert w\Vert  \le R_p$ and $\lambda(w) = \lambda_{\min}(p,H;R_p)$ has all of its active units single-frequency.
 
-In words: within the fixed ball, every maximally degenerate exact fit is built from single-frequency neurons, apart from neurons contributing nothing. A proof would show that geometric simplicity selects an algorithm readable from the weights; a counterexample would split the two notions of simplicity. The structure has been forced once already, under a different selection principle: every maximum-margin solution of this task has single-frequency units (Morwani et al.). The first non-vacuous case is $p = 5$, $H = 9$ (for $p=3$ the condition is vacuous since $\mathcal F_0 + \mathcal F_1 = \mathbb{R}^3$): classify its most singular fits by symmetry, or find a non-Fourier one by computer algebra. Construction of $w^F$, symmetries, and known bounds are in [MAIS-A6](../agendas/A6/MAIS-A6.pdf).
+In words: within the fixed ball, every maximally degenerate exact fit is built from single-frequency neurons, apart from neurons contributing nothing. A proof would show that geometric simplicity selects an algorithm readable from the weights; a counterexample would split the two notions of simplicity. The structure has been forced once already, under a different selection principle: every maximum-margin solution of this task has single-frequency units (Morwani et al.). The first non-vacuous case is $p = 5$, $H = 9$ (for $p=3$ the condition is vacuous since $\mathcal F_0 + \mathcal F_1 = \mathbb{R}^3$): classify its most singular fits by symmetry, or find a non-Fourier one by computer algebra. Construction of $w^F$, symmetries, and known bounds are in [MAIS-A6](../agendas/A6/).
 
 *Related: [MAIS-O63](MAIS-O63.md) (compute $\lambda$ at the Fourier fits — the quantitative companion) · [MAIS-O62](MAIS-O62.md) (the minimal width at which exact fits exist) · [MAIS-O64](MAIS-O64.md) (how $\lambda_{\min}$ grows with width) · [MAIS-O65](MAIS-O65.md) (the same question under cross-entropy loss).*

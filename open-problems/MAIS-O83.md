@@ -1,6 +1,6 @@
 # Does some finite-width network favor the intended goal?
 
-*Open problem MAIS-O83 · posed in [MAIS-A8](../agendas/A8/MAIS-A8.pdf) as [Question 5.5](../agendas/A8/MAIS-A8.tex#L335) · Status: open.*
+*Open problem MAIS-O83 · posed in [MAIS-A8](../agendas/A8/) as [Question 5.5](../agendas/A8/MAIS-A8.tex#L335) · Status: open.*
 
 *Safety: generalization — goal misgeneralization · proxy goals · simplicity bias. Mathematics: probability · optimization. Difficulty: ★★★ hard.*
 
@@ -14,6 +14,6 @@ $$\limsup_{k\to\infty}\ \mathbb P_{\theta_0}\bigl(f_{\theta_k}(x_{\mathrm a}(s^{
 
 — a member of the standard family at which the trained network walks strictly toward the displaced coin with probability better than one half?
 
-In words: is there any choice of width, initialization scale, and step size at which training selects the intended goal more often than not, the probability being over the random initialization alone? The agenda conjectures the opposite as the width grows: the misgeneralization probability tends to one. A single verified coin-lover, even at $L=4$ and width two, would show finite-width selection genuinely departs from both infinite-width limits. For those limits and the environment's exact definition, see [MAIS-A8](../agendas/A8/MAIS-A8.pdf).
+In words: is there any choice of width, initialization scale, and step size at which training selects the intended goal more often than not, the probability being over the random initialization alone? The agenda conjectures the opposite as the width grows: the misgeneralization probability tends to one. A single verified coin-lover, even at $L=4$ and width two, would show finite-width selection genuinely departs from both infinite-width limits. For those limits and the environment's exact definition, see [MAIS-A8](../agendas/A8/).
 
 *Related: [MAIS-O82](MAIS-O82.md) (the opposing conjecture: wide networks select the proxy) · [MAIS-O8](MAIS-O8.md) (the full selection map this question probes) · [MAIS-O90](MAIS-O90.md) (whether finite-width training inherits the kernel flow's selection).*

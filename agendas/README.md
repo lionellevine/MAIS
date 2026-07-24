@@ -2,7 +2,7 @@
 
 Agendas are clusters of related [open problems](../open-problems/). An agenda can also include progress toward resolving its problems. If enough progress is made, an agenda can spin off one or more [papers](../papers/).
 
-Each agenda has a unique permanent identifier of the form MAIS-An where n is a natural number. The seed agendas A1–A8 each expand on one open problem from the survey [*Math for AI Safety: An Invitation for Mathematicians*](../papers/P1/MAIS-P1.pdf). I expect to add more agendas.
+The seed agendas A1–A8 each expand on one open problem from the survey [*Math for AI Safety: An Invitation for Mathematicians*](../papers/P1/). I expect to add more agendas.
 
 Got your own agenda? [Open an issue](https://github.com/lionellevine/MAIS/issues/new/choose) to propose including it here!
 
@@ -55,7 +55,3 @@ The agendas define their machine-learning terms; the background column names the
 ## Provenance
 
 Each agenda records its own provenance in a `PROVENANCE.md` beside its source, since different agendas may come to be in different ways. The first eight agendas were written and reviewed by AI systems under Lionel Levine's direction — written by **Claude Fable 5** (Anthropic), adversarially reviewed, and independently audited by **GPT 5.6 Sol** (OpenAI); the [audit record](audit/2026-07/) states what was checked and what was repaired. No human has verified every line, and the bylines are meant to say so plainly.
-
-## Rebuilding
-
-To rebuild an agenda, run `latexmk -pdf -interaction=nonstopmode -halt-on-error MAIS-A1.tex` from its folder. Only each `.tex` source and its matching `.pdf` are committed; LaTeX auxiliary files are ignored.

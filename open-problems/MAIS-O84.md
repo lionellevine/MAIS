@@ -1,6 +1,6 @@
 # The crossover time and its asymptotics
 
-*Open problem MAIS-O84 · posed in [MAIS-A8](../agendas/A8/MAIS-A8.pdf) as [Problem 5.7](../agendas/A8/MAIS-A8.tex#L351) and [Problem 7.2](../agendas/A8/MAIS-A8.tex#L465) · Status: open.*
+*Open problem MAIS-O84 · posed in [MAIS-A8](../agendas/A8/) as [Problem 5.7](../agendas/A8/MAIS-A8.tex#L351) and [Problem 7.2](../agendas/A8/MAIS-A8.tex#L465) · Status: open.*
 
 *Safety: generalization — goal misgeneralization · proxy goals · training dynamics. Mathematics: dynamical systems · optimization · probability. Difficulty: ★★★ hard.*
 
@@ -18,6 +18,6 @@ Here the two-layer iteration is gradient descent with step $\eta$ for a width-$m
 
 **Problem ([MAIS-A8, Problem 7.2](../agendas/A8/MAIS-A8.tex#L465)).** Prove $k^{\ast }(\varepsilon)=\varepsilon^{-1+o(1)}$, or refute it, in the setting of the problem above. The tools are those of Soudry et al. plus a two-phase analysis; no network is involved.
 
-The crossover time is the theory's answer to the 2%: Langosco et al.'s agents were trained for a fixed compute budget, so the empirical misgeneralization frequency should be read at a fixed iteration budget, and the curve it traces is the distribution of $k^{\ast }$. For the max-margin computations this problem builds on, see [MAIS-A8](../agendas/A8/MAIS-A8.pdf).
+The crossover time is the theory's answer to the 2%: Langosco et al.'s agents were trained for a fixed compute budget, so the empirical misgeneralization frequency should be read at a fixed iteration budget, and the curve it traces is the distribution of $k^{\ast }$. For the max-margin computations this problem builds on, see [MAIS-A8](../agendas/A8/).
 
 *Related: [MAIS-O8](MAIS-O8.md) (the selection map whose finite-time structure this is) · [MAIS-O89](MAIS-O89.md) (the other linear-model residual question) · [MAIS-O88](MAIS-O88.md) (the reinforcement-learning diversity curve).*

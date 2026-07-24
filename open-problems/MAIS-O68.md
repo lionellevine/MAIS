@@ -1,6 +1,6 @@
 # Learning coefficients of linear attention
 
-*Open problem MAIS-O68 · posed in [MAIS-A6](../agendas/A6/MAIS-A6.pdf) as [Problem 5.5](../agendas/A6/MAIS-A6.tex#L451) · Status: open.*
+*Open problem MAIS-O68 · posed in [MAIS-A6](../agendas/A6/) as [Problem 5.5](../agendas/A6/MAIS-A6.tex#L451) · Status: open.*
 
 *Safety: interpretability, generalization — singular learning theory · developmental interpretability. Mathematics: algebraic geometry · statistics · computational. Difficulty: ★★ project.*
 
@@ -14,6 +14,6 @@ with Gaussian output model $y = \ell^{\mathrm{lin}}(x) + N(0, I_v)$ and inputs u
 
 **Problem ([MAIS-A6, Problem 5.5](../agendas/A6/MAIS-A6.tex#L451)).** For the linear-attention model with the zero truth $q = N(0, I_v)$, determine $\lambda(0)$ and $m(0)$ as functions of $(v, T, e)$. Then compute the generic pair for a teacher of embedding dimension $e_0 < e$, with Conjecture 5.3 restated for this degree-$10$ polynomial and the same padding map $\iota$.
 
-Conjecture 5.3 of the agenda ([MAIS-O66](MAIS-O66.md)) is the statement that a generic-teacher value exists: the local pair at $\iota(w^0)$ is constant off the zero set of some nonzero real-analytic function of the teacher. For the softmax model the corresponding zero-truth case is worked out in the agenda by reduction to reduced-rank regression; the polynomial setting here replaces that reduction with a direct singularity analysis. Tensor-decomposition bounds adjacent to this model exist (Yoshida–Watanabe) but do not supply the pairs. Setup and background are in [MAIS-A6](../agendas/A6/MAIS-A6.pdf).
+Conjecture 5.3 of the agenda ([MAIS-O66](MAIS-O66.md)) is the statement that a generic-teacher value exists: the local pair at $\iota(w^0)$ is constant off the zero set of some nonzero real-analytic function of the teacher. For the softmax model the corresponding zero-truth case is worked out in the agenda by reduction to reduced-rank regression; the polynomial setting here replaces that reduction with a direct singularity analysis. Tensor-decomposition bounds adjacent to this model exist (Yoshida–Watanabe) but do not supply the pairs. Setup and background are in [MAIS-A6](../agendas/A6/).
 
 *Related: [MAIS-O67](MAIS-O67.md) (the softmax version of the same teacher-student question) · [MAIS-O66](MAIS-O66.md) (generic constancy over teachers) · [MAIS-O70](MAIS-O70.md) (the reduced-rank template this model is modeled on).*

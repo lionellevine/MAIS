@@ -1,6 +1,6 @@
 # Tightness of the 1/n rate for depth-n goal agents
 
-*Open problem MAIS-O32 · posed in [MAIS-A2](../agendas/A2/MAIS-A2.pdf) as [Problem 4.11](../agendas/A2/MAIS-A2.tex#L350) · Status: open.*
+*Open problem MAIS-O32 · posed in [MAIS-A2](../agendas/A2/) as [Problem 4.11](../agendas/A2/MAIS-A2.tex#L350) · Status: open.*
 
 *Safety: interpretability — world-model extraction · eliciting latent knowledge · black-box evaluation. Mathematics: probability · combinatorics. Difficulty: ★★ project.*
 
@@ -14,6 +14,6 @@ the error no analyst can beat however many first actions it inspects. The extrac
 
 **Problem ([MAIS-A2, Problem 4.11](../agendas/A2/MAIS-A2.tex#L350)).** Determine the asymptotics of $\varepsilon^\ast (E,n,0)$ as $n\to\infty$ for fixed $E$: is $n\ \varepsilon^\ast (E,n,0)$ bounded away from $0$ and $\infty$ whenever some transition probability of $E$ lies strictly between $0$ and $1$? A positive answer to the lower half means constructing, for each $n$, a single depth-$n$ optimal goal-conditioned policy shared by two environments whose transition probabilities differ by $c/n$; a negative one would mean that the full lattice of composite goals pins the model more tightly than the binomial medians the known extractor reads.
 
-The certification framework of Lu, Wu, Lu, and Li proves a matching per-transition tightness result for its own small-$\delta$ bound; whether its construction gives $\liminf_n n\ \varepsilon^\ast (E,n,0)>0$ here is the first thing for a solver to check. For the goal formalism and the extraction theorem, see [MAIS-A2](../agendas/A2/MAIS-A2.pdf).
+The certification framework of Lu, Wu, Lu, and Li proves a matching per-transition tightness result for its own small-$\delta$ bound; whether its construction gives $\liminf_n n\ \varepsilon^\ast (E,n,0)>0$ here is the first thing for a solver to check. For the goal formalism and the extraction theorem, see [MAIS-A2](../agendas/A2/).
 
 *Related: [MAIS-O33](MAIS-O33.md) (corruption-robust extraction in the same setting) · [MAIS-O2](MAIS-O2.md) (the interventional counterpart) · [MAIS-O28](MAIS-O28.md) (average-case regret, where goal-based extraction has advanced first).*

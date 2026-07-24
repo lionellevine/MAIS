@@ -1,6 +1,6 @@
 # Eyring–Kramers prefactor for a singular well and Morse gate
 
-*Open problem MAIS-O74 · posed in [MAIS-A7](../agendas/A7/MAIS-A7.pdf) as [Conjecture 3.5](../agendas/A7/MAIS-A7.tex#L263) · Status: open.*
+*Open problem MAIS-O74 · posed in [MAIS-A7](../agendas/A7/) as [Conjecture 3.5](../agendas/A7/MAIS-A7.tex#L263) · Status: open.*
 
 *Safety: generalization — singular learning theory · training dynamics. Mathematics: probability · algebraic geometry. Difficulty: ★★ project.*
 
@@ -14,6 +14,6 @@ $$\mathbb{E}_x[\tau_B] = C\  \varepsilon^{\lambda_A - d/2} \bigl( \log \tfrac1\v
 
 where $C > 0$ is explicit in the leading coefficient of the volume asymptotics of $L$ at $K_A$ and the Hessian data of $L$ at $z^\ast$.
 
-The heuristic is a ratio: the well mass is $\varepsilon^{\lambda_A} (\log\tfrac1\varepsilon)^{m_A-1}$, the capacity through a Morse saddle is of order $\varepsilon^{d/2} e^{-h/\varepsilon}$ by Bovier–Eckhoff–Gayrard–Klein, and the mean time is mass over capacity. When $K_A$ is a nondegenerate minimum, $\lambda_A = d/2$ and $m_A = 1$, so no power of $\varepsilon$ survives and the formula reduces to classical Eyring–Kramers. In words: flatter wells are stickier, by the learning coefficient's deficit from $d/2$. A first target is the monomial well $\prod_i x_i^{2k_i}$, which falls outside every treated normal form yet already displays the full prefactor; the two halves of a proof (saddle capacity, well mass) exist in the literature, and the work is to run them together. See [MAIS-A7](../agendas/A7/MAIS-A7.pdf), Sections 3.2 and 4.
+The heuristic is a ratio: the well mass is $\varepsilon^{\lambda_A} (\log\tfrac1\varepsilon)^{m_A-1}$, the capacity through a Morse saddle is of order $\varepsilon^{d/2} e^{-h/\varepsilon}$ by Bovier–Eckhoff–Gayrard–Klein, and the mean time is mass over capacity. When $K_A$ is a nondegenerate minimum, $\lambda_A = d/2$ and $m_A = 1$, so no power of $\varepsilon$ survives and the formula reduces to classical Eyring–Kramers. In words: flatter wells are stickier, by the learning coefficient's deficit from $d/2$. A first target is the monomial well $\prod_i x_i^{2k_i}$, which falls outside every treated normal form yet already displays the full prefactor; the two halves of a proof (saddle capacity, well mass) exist in the literature, and the work is to run them together. See [MAIS-A7](../agendas/A7/), Sections 3.2 and 4.
 
 *Related: [MAIS-O73](MAIS-O73.md) (the general singular Eyring–Kramers problem this instantiates) · [MAIS-O75](MAIS-O75.md) (the barrier-free, purely entropic regime) · [MAIS-O7](MAIS-O7.md) (the staircase whose plateau times such laws would predict).*

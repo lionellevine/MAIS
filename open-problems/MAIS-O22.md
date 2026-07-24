@@ -1,6 +1,6 @@
 # A bounded analogue of Solovay's completeness theorem
 
-*Open problem MAIS-O22 · posed in [MAIS-A1](../agendas/A1/MAIS-A1.pdf) as [Question 8.2](../agendas/A1/MAIS-A1.tex#L557) · Status: open.*
+*Open problem MAIS-O22 · posed in [MAIS-A1](../agendas/A1/) as [Question 8.2](../agendas/A1/MAIS-A1.tex#L557) · Status: open.*
 
 *Safety: cooperative AI, agent foundations — Löbian cooperation · proof-based agents · bounded rationality. Mathematics: logic. Difficulty: ★★★ hard.*
 
@@ -10,6 +10,6 @@ Fix an efficient proof system $S$ under the agenda's conventions (default $\math
 
 **Question ([MAIS-A1, Question 8.2](../agendas/A1/MAIS-A1.tex#L557)).** Suppose $\mathsf{GL} \nvdash \varphi$. Is it true that for every budget schedule $c$ there is a realization $\rho$ such that $S \nvdash \forall k > \hat{k}\ \varphi^{\rho,c}(k)$ for every $\hat{k}$?
 
-The agenda flags rather than endorses this formulation. It hard-wires three debatable choices: budgets of the shape $k^{c_j}$ (rather than expansion-composed budgets, or budgets depending on the realization's length); a single shared parameter $k$ (Critch's robust-cooperation theorem already needs two, one per agent); and the weaker quantifier order "for every schedule, some realization fails," where a Solovay-style construction would aim for one realization defeating all schedules — if his self-referential construction survives length accounting. The nearest precedents are the witness-comparison logics of Guaspari–Solovay and the speedup modalities of de Jongh–Montagna, which admit Solovay-style completeness but compare proofs against each other, never against a fixed symbol budget. For those literatures and the formulation choices, see [MAIS-A1](../agendas/A1/MAIS-A1.pdf).
+The agenda flags rather than endorses this formulation. It hard-wires three debatable choices: budgets of the shape $k^{c_j}$ (rather than expansion-composed budgets, or budgets depending on the realization's length); a single shared parameter $k$ (Critch's robust-cooperation theorem already needs two, one per agent); and the weaker quantifier order "for every schedule, some realization fails," where a Solovay-style construction would aim for one realization defeating all schedules — if his self-referential construction survives length accounting. The nearest precedents are the witness-comparison logics of Guaspari–Solovay and the speedup modalities of de Jongh–Montagna, which admit Solovay-style completeness but compare proofs against each other, never against a fixed symbol budget. For those literatures and the formulation choices, see [MAIS-A1](../agendas/A1/).
 
 *Related: [MAIS-O19](MAIS-O19.md) (the soundness half) · [MAIS-O18](MAIS-O18.md) (the bounded Löb axiom both halves lean on) · [MAIS-O14](MAIS-O14.md) (budget-scale boundaries a completeness proof must respect).*

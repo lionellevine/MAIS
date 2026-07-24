@@ -1,6 +1,6 @@
 # Misgeneralization versus diversity for reinforcement learning
 
-*Open problem MAIS-O88 · posed in [MAIS-A8](../agendas/A8/MAIS-A8.pdf) as [Problem 6.3](../agendas/A8/MAIS-A8.tex#L447) · Status: open.*
+*Open problem MAIS-O88 · posed in [MAIS-A8](../agendas/A8/) as [Problem 6.3](../agendas/A8/MAIS-A8.tex#L447) · Status: open.*
 
 *Safety: generalization — goal misgeneralization · proxy goals · training dynamics. Mathematics: probability · dynamical systems. Difficulty: ★★★ hard.*
 
@@ -14,6 +14,6 @@ $$\varepsilon\ \longmapsto\ \mathbb P\bigl(\tau_\delta<\infty,\ \ f_{\theta_{\ta
 
 as a function of $(\varepsilon,m,\sigma,L,\delta,\eta)$, together with $\Pr(\tau_\delta<\infty)$, and compare their shapes with the empirical diversity curves of Langosco et al.
 
-In words: over the random initialization, what is the probability that training reaches return at least $1-\delta$ in finite time and the first policy to do so still walks away from the displaced coin? That function of $\varepsilon$ is the toy model's misgeneralization curve, and matching its shape to the experiments is the test of the theory. For the environment, the training rule, and the neighboring linear results, see [MAIS-A8](../agendas/A8/MAIS-A8.pdf).
+In words: over the random initialization, what is the probability that training reaches return at least $1-\delta$ in finite time and the first policy to do so still walks away from the displaced coin? That function of $\varepsilon$ is the toy model's misgeneralization curve, and matching its shape to the experiments is the test of the theory. For the environment, the training rule, and the neighboring linear results, see [MAIS-A8](../agendas/A8/).
 
 *Related: [MAIS-O87](MAIS-O87.md) (exploration starvation, the mechanism shaping this curve) · [MAIS-O91](MAIS-O91.md) (the simulation atlas that would plot it) · [MAIS-O8](MAIS-O8.md) (the behavior-cloning selection map).*

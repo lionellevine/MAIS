@@ -1,6 +1,6 @@
 # Quantitative bounded Löb
 
-*Open problem MAIS-O1 · headline problem 1 of the survey [MAIS-P1](../papers/P1/MAIS-P1.pdf) · canonically formalized in [MAIS-A1](../agendas/A1/MAIS-A1.pdf) as [Problem 3.4](../agendas/A1/MAIS-A1.tex#L275) · Status: open.*
+*Open problem MAIS-O1 · headline problem 1 of the survey [MAIS-P1](../papers/P1/) · canonically formalized in [MAIS-A1](../agendas/A1/) as [Problem 3.4](../agendas/A1/MAIS-A1.tex#L275) · Status: open.*
 
 *Safety: cooperative AI, agent foundations — Löbian cooperation · proof-based agents · bounded rationality. Mathematics: logic · complexity theory. Difficulty: ★★★ hard.*
 
@@ -14,6 +14,6 @@ In words: among all sentences of length at most $n$ whose reflection instance $\
 
 **Problem ([MAIS-A1, Problem 3.4](../agendas/A1/MAIS-A1.tex#L275)).** Determine the asymptotic growth of $F_{\mathsf{PA}_{\mathrm{bin}}}(k,n)$, up to constant factors in $k$ and $n$. (The growth is joint: for fixed $k$ only finitely many sentences $P$ satisfy $\ell_S(\Box P \to P) \le k$, and for fixed $n$ only finitely many satisfy $|P| \le n$, so $F_{\mathsf{PA}_{\mathrm{bin}}}$ is eventually constant in each argument separately; the agenda's Conjecture 3.5, [MAIS-O10](MAIS-O10.md), states the expected joint answer.) The same question may be asked for every efficient proof system.
 
-Auditing the standard proof of Löb's theorem gives a heuristic upper bound whose dominant term is one internalization of the assembled proof, priced by the system's expansion function; the nearest proved relatives are the Friedman–Pudlák bounds for the corner $P=\bot$, where the answer lies between two polynomials. For the audit, the proof-system conventions, and what is known, see [MAIS-A1](../agendas/A1/MAIS-A1.pdf). Auditing the source theorem itself produced a refutation of its unrestricted form, and a repair, published as [MAIS-P2](../papers/P2/MAIS-P2.pdf).
+Auditing the standard proof of Löb's theorem gives a heuristic upper bound whose dominant term is one internalization of the assembled proof, priced by the system's expansion function; the nearest proved relatives are the Friedman–Pudlák bounds for the corner $P=\bot$, where the answer lies between two polynomials. For the audit, the proof-system conventions, and what is known, see [MAIS-A1](../agendas/A1/). Auditing the source theorem itself produced a refutation of its unrestricted form, and a repair, published as [MAIS-P2](../papers/P2/).
 
 *Related: [MAIS-O10](MAIS-O10.md) (the conjectured polynomial answer) · [MAIS-O11](MAIS-O11.md) (the lower-bound half: any genuine speedup from Löb's rule) · [MAIS-O12](MAIS-O12.md) (the two system constants in the upper bound) · [MAIS-O16](MAIS-O16.md) (the cooperation threshold this overhead prices).*

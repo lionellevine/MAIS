@@ -1,6 +1,6 @@
 # Do margins imply behavioral identifiability of causal models?
 
-*Open problem MAIS-O23 · posed in [MAIS-A2](../agendas/A2/MAIS-A2.pdf) as [Question 4.1](../agendas/A2/MAIS-A2.tex#L259) · Status: open.*
+*Open problem MAIS-O23 · posed in [MAIS-A2](../agendas/A2/) as [Question 4.1](../agendas/A2/MAIS-A2.tex#L259) · Status: open.*
 
 *Safety: interpretability — world-model extraction · eliciting latent knowledge · black-box evaluation. Mathematics: algebraic geometry · probability. Difficulty: ★★★ hard.*
 
@@ -10,6 +10,6 @@ The setting is a finite causal influence diagram with binary variables: a **skel
 
 **Question ([MAIS-A2, Question 4.1](../agendas/A2/MAIS-A2.tex#L259)).** Fix a skeleton $\mathsf{s}$ and $\lambda\in(0,\tfrac12)$. If $M,M'\in\mathcal{M}(\mathsf{s},\lambda)$ satisfy $\boldsymbol\Delta_M=\boldsymbol\Delta_{M'}$, must $M=M'$? Equivalently (by the agenda's Proposition 3.2): can two distinct models in the margin class share a common family of optimal policies for every observation mask?
 
-The agenda deliberately offers no conjecture. A counterexample — two distinct models in a margin class with identical masked behavior everywhere — would be as valuable as a proof, since it would reveal a cancellation mechanism that any finite-sample theory must condition away. For the margin conditions in full and the equivalence of behavior with the transform, see [MAIS-A2](../agendas/A2/MAIS-A2.pdf).
+The agenda deliberately offers no conjecture. A counterexample — two distinct models in a margin class with identical masked behavior everywhere — would be as valuable as a proof, since it would reveal a cancellation mechanism that any finite-sample theory must condition away. For the margin conditions in full and the equivalence of behavior with the transform, see [MAIS-A2](../agendas/A2/).
 
 *Related: [MAIS-O24](MAIS-O24.md) (explicit polynomial margins that would settle it) · [MAIS-O27](MAIS-O27.md) (its quantitative refinement, the regret floor) · [MAIS-O34](MAIS-O34.md) (the two-variable case, solvable exactly).*

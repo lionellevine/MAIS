@@ -1,6 +1,6 @@
 # Learning coefficients on the matrix factorization fiber and saddles
 
-*Open problem MAIS-O77 · posed in [MAIS-A7](../agendas/A7/MAIS-A7.pdf) as [Problem 3.9](../agendas/A7/MAIS-A7.tex#L358) · Status: open.*
+*Open problem MAIS-O77 · posed in [MAIS-A7](../agendas/A7/) as [Problem 3.9](../agendas/A7/MAIS-A7.tex#L358) · Status: open.*
 
 *Safety: generalization — singular learning theory · developmental interpretability. Mathematics: algebraic geometry. Difficulty: ★★ project.*
 
@@ -17,6 +17,6 @@ At a local minimum this is the local learning coefficient of Lau et al. ([arXiv:
 - **(a)** Compute the local invariants $(\lambda(w), m(w))$ at every point $w \in F_\Phi$, and identify the minimal stratum. Determine whether the invariants depend only on the pair $(\mathrm{rank}\  A, \mathrm{rank}\  B)$. The minimal value is the Aoyagi–Watanabe theorem (the learning coefficient of reduced rank regression). There is partial progress: Lehalleur and Rimányi ([arXiv:2411.19920](https://arxiv.org/abs/2411.19920)) determine the components and codimensions of such fibers at any depth and compute the threshold of the zero-target fiber, and Lau et al. give closed-form local values at parameters of each product rank as ground truth for their estimator. These results do not determine the dependence on the two ranks separately, the edge cases, or any of part (b). Aoyagi's recursive blow-ups are the natural tool.
 - **(b)** Compute the two-sided invariants $(\lambda(w), m(w))$ at every point of each saddle set $C_k$, $0 \le k < r$.
 
-The table is what the rest of the agenda consumes: the SGD limit theorem ([MAIS-O76](MAIS-O76.md)) and the time–sample dictionary ([MAIS-O78](MAIS-O78.md)) both take it as input, and part (b) is the substance of the opposing-staircases conjecture, which asserts that $\lambda_k = \inf_{C_k} \lambda$ strictly increases along the saddle chain while the loss decreases. A weekend's preliminary: run the estimator of Lau et al. along a simulated staircase and check numerically before proving. See [MAIS-A7](../agendas/A7/MAIS-A7.pdf), Sections 2.4 and 3.5.
+The table is what the rest of the agenda consumes: the SGD limit theorem ([MAIS-O76](MAIS-O76.md)) and the time–sample dictionary ([MAIS-O78](MAIS-O78.md)) both take it as input, and part (b) is the substance of the opposing-staircases conjecture, which asserts that $\lambda_k = \inf_{C_k} \lambda$ strictly increases along the saddle chain while the loss decreases. A weekend's preliminary: run the estimator of Lau et al. along a simulated staircase and check numerically before proving. See [MAIS-A7](../agendas/A7/), Sections 2.4 and 3.5.
 
 *Related: [MAIS-O7](MAIS-O7.md) (opposing staircases, whose invariants this problem computes) · [MAIS-O70](MAIS-O70.md) (local learning coefficients of reduced-rank regression, the same object from the estimation side) · [MAIS-O76](MAIS-O76.md) (the SGD diffusion on this fiber) · [MAIS-O78](MAIS-O78.md) (the dictionary that consumes the table).*

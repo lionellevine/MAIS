@@ -1,6 +1,6 @@
 # Does the amortized encoder change the learned dictionary?
 
-*Open problem MAIS-O39 · posed in [MAIS-A3](../agendas/A3/MAIS-A3.pdf) as [Problem 4.9](../agendas/A3/MAIS-A3.tex#L297) · Status: open.*
+*Open problem MAIS-O39 · posed in [MAIS-A3](../agendas/A3/) as [Problem 4.9](../agendas/A3/MAIS-A3.tex#L297) · Status: open.*
 
 *Safety: interpretability — sparse autoencoders · mechanistic interpretability · superposition. Mathematics: optimization · statistics. Difficulty: ★★★ hard.*
 
@@ -15,6 +15,6 @@ The setting is a superposition model: data $y=\Phi x+\xi$ with $\Phi\in U_{n,m}$
 
 The compactness of $U_{n,M}$ makes $\mathcal A_G$ nonempty even when the unconstrained encoder parameters diverge; settling attainment of $G_\lambda$ remains part of the problem.
 
-Part 2 asks whether amortization can *create* a failure mode absent from exact coding: a merged atom the ideal estimator would never produce. Sun, Wang, and Hu document such dictionary distortions empirically across amortized architectures; the exact comparison of the population sets $\mathcal M_F$ and $\mathcal A_G$ is untouched. For the estimator definitions and the amortization literature, see [MAIS-A3](../agendas/A3/MAIS-A3.pdf).
+Part 2 asks whether amortization can *create* a failure mode absent from exact coding: a merged atom the ideal estimator would never produce. Sun, Wang, and Hu document such dictionary distortions empirically across amortized architectures; the exact comparison of the population sets $\mathcal M_F$ and $\mathcal A_G$ is untouched. For the estimator definitions and the amortization literature, see [MAIS-A3](../agendas/A3/).
 
 *Related: [MAIS-O36](MAIS-O36.md) (the exact-coding recovery conjecture that part 1 extends) · [MAIS-O3](MAIS-O3.md) (the headline identifiability problem) · [MAIS-O43](MAIS-O43.md) (numerics run on the amortized objective $G_\lambda$).*

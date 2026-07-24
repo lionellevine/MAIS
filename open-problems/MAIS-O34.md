@@ -1,6 +1,6 @@
 # Exact identified set for two-variable causal models
 
-*Open problem MAIS-O34 · posed in [MAIS-A2](../agendas/A2/MAIS-A2.pdf) as [Problem 5.2](../agendas/A2/MAIS-A2.tex#L375) · Status: open.*
+*Open problem MAIS-O34 · posed in [MAIS-A2](../agendas/A2/) as [Problem 5.2](../agendas/A2/MAIS-A2.tex#L375) · Status: open.*
 
 *Safety: interpretability — world-model extraction · eliciting latent knowledge · black-box evaluation. Mathematics: algebraic geometry · computational. Difficulty: ★ starter.*
 
@@ -10,6 +10,6 @@ The **two-variable family** $\mathcal{M}_2(\lambda)$: chance variables $\mathbf{
 
 **Problem ([MAIS-A2, Problem 5.2](../agendas/A2/MAIS-A2.tex#L375)).** For the family $\mathcal{M}_2(\lambda)$, write $r_M(\delta):=\sup_{M'\in I_\delta(M)}e(M;G',\theta')$ for the local radius of the identified set. (a) Determine, as an explicit semialgebraic condition on $(u,\theta)$, when the global fiber $\lbrace M':\Delta_{M'}=\Delta_M\rbrace $ is the singleton $\lbrace M\rbrace $; in particular decide whether margin $\lambda>0$ alone suffices. (b) On the locus where the inverse is locally Lipschitz and the graph is locally fixed, compute the first-order constant in $r_M(\delta)=c(u,\theta)\delta+o(\delta)$. On the complementary locus, classify the alternatives: a positive limiting radius, graph ambiguity, or a fractional-power modulus. Use this classification to determine the largest regret below which the edge direction is certain throughout the class.
 
-Part (a) is a concrete real-algebra problem: quantifier elimination will decide any single instance, and the problem asks for the human-readable answer. Part (b) is a small but genuine piece of the geometry that the general regret-floor problem asks for. The agenda sizes it for a first paper. For the general framework this family instantiates, see [MAIS-A2](../agendas/A2/MAIS-A2.pdf).
+Part (a) is a concrete real-algebra problem: quantifier elimination will decide any single instance, and the problem asks for the human-readable answer. Part (b) is a small but genuine piece of the geometry that the general regret-floor problem asks for. The agenda sizes it for a first paper. For the general framework this family instantiates, see [MAIS-A2](../agendas/A2/).
 
 *Related: [MAIS-O35](MAIS-O35.md) (the finite-sample companion on the same family) · [MAIS-O23](MAIS-O23.md) (the global identifiability question) · [MAIS-O27](MAIS-O27.md) (the regret floor in general).*

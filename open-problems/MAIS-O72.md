@@ -1,6 +1,6 @@
 # Finiteness and frontier condition for learning-coefficient strata
 
-*Open problem MAIS-O72 · posed in [MAIS-A7](../agendas/A7/MAIS-A7.pdf) as [Question 3.1](../agendas/A7/MAIS-A7.tex#L215) · Status: open.*
+*Open problem MAIS-O72 · posed in [MAIS-A7](../agendas/A7/) as [Question 3.1](../agendas/A7/MAIS-A7.tex#L215) · Status: open.*
 
 *Safety: generalization — singular learning theory · developmental interpretability. Mathematics: algebraic geometry. Difficulty: ★★★ hard.*
 
@@ -19,6 +19,6 @@ so a small $\lambda$ means near-level parameters are plentiful; at a local minim
 
 For the refinement by multiplicity, order pairs by declaring $(\lambda', m')$ deeper than $(\lambda, m)$ when $\lambda' < \lambda$, or when $\lambda' = \lambda$ and $m' > m$. Does the finite-image assertion and the corresponding locally closed subanalytic frontier condition hold for this ordered pair?
 
-Part of the frontier picture is now known: Lehalleur and Rimányi ([arXiv:2411.19920](https://arxiv.org/abs/2411.19920), Proposition 8.4(ii)) prove $\lambda$ is lower semicontinuous, so $\lbrace  w \in W_0 : \lambda(w) \le c \rbrace $ is closed in $W_0$. Finiteness of the image, subanalyticity of the pieces, and the multiplicity-refined version remain open. The real case has behavior absent from its complexification, including parity effects visible in the Aoyagi–Watanabe formula for reduced rank regression. For the surrounding program, see [MAIS-A7](../agendas/A7/MAIS-A7.pdf).
+Part of the frontier picture is now known: Lehalleur and Rimányi ([arXiv:2411.19920](https://arxiv.org/abs/2411.19920), Proposition 8.4(ii)) prove $\lambda$ is lower semicontinuous, so $\lbrace  w \in W_0 : \lambda(w) \le c \rbrace $ is closed in $W_0$. Finiteness of the image, subanalyticity of the pieces, and the multiplicity-refined version remain open. The real case has behavior absent from its complexification, including parity effects visible in the Aoyagi–Watanabe formula for reduced rank regression. For the surrounding program, see [MAIS-A7](../agendas/A7/).
 
 *Related: [MAIS-O7](MAIS-O7.md) (the headline conjecture whose staircase runs over these strata) · [MAIS-O77](MAIS-O77.md) (computing the stratification for a concrete fiber) · [MAIS-O73](MAIS-O73.md) (metastable timescales built from stratum data).*

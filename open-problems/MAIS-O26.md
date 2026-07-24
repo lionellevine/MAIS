@@ -1,6 +1,6 @@
 # Bisection attains optimal query complexity for causal model extraction
 
-*Open problem MAIS-O26 · posed in [MAIS-A2](../agendas/A2/MAIS-A2.pdf) as [Conjecture 4.4](../agendas/A2/MAIS-A2.tex#L283) · Status: open.*
+*Open problem MAIS-O26 · posed in [MAIS-A2](../agendas/A2/) as [Conjecture 4.4](../agendas/A2/MAIS-A2.tex#L283) · Status: open.*
 
 *Safety: interpretability — world-model extraction · eliciting latent knowledge · black-box evaluation. Mathematics: complexity theory · statistics. Difficulty: ★★ project.*
 
@@ -10,6 +10,6 @@ The setting is the agenda's query-complexity problem (its Problem 4.3, page [MAI
 
 **Conjecture ([MAIS-A2, Conjecture 4.4](../agendas/A2/MAIS-A2.tex#L283)).** For $\mathcal{N}=\mathcal{M}(\mathsf{s},\lambda,\mu)$ with $\mu$ fixed, $N(\varepsilon)=\Theta\bigl(K\log(1/\varepsilon)\bigr)$ as $\varepsilon\to0$, with the implied constants polynomial in $1/\lambda$, $1/\mu$, and $L$ and independent of $m$ otherwise: bisection along the one-parameter mixture segments of the agenda's Proposition 3.2 achieves the information-theoretic floor of its Remark 3.3 up to constants.
 
-The doubtful half is the upper bound: the known reconstruction solves for table entries recursively outward from the utility parents, and errors compound through quotients whose denominators are the margin quantities. The conjecture asserts the compounding is polynomial; a proof that it is necessarily exponential in the diagram's depth for some skeletons would refute the constant-degree form and be equally welcome. For the subclass, the transform, and the floor, see [MAIS-A2](../agendas/A2/MAIS-A2.pdf).
+The doubtful half is the upper bound: the known reconstruction solves for table entries recursively outward from the utility parents, and errors compound through quotients whose denominators are the margin quantities. The conjecture asserts the compounding is polynomial; a proof that it is necessarily exponential in the diagram's depth for some skeletons would refute the constant-degree form and be equally welcome. For the subclass, the transform, and the floor, see [MAIS-A2](../agendas/A2/).
 
 *Related: [MAIS-O25](MAIS-O25.md) (the problem this answers) · [MAIS-O24](MAIS-O24.md) (the polynomial margins assumed) · [MAIS-O2](MAIS-O2.md) (the sampled-action version) · [MAIS-O35](MAIS-O35.md) (test the conjecture on two variables).*

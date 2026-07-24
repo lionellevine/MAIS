@@ -1,6 +1,6 @@
 # What one intervenable variable reveals about a causal chain
 
-*Open problem MAIS-O31 · posed in [MAIS-A2](../agendas/A2/MAIS-A2.pdf) as [Question 4.10](../agendas/A2/MAIS-A2.tex#L331) · Status: open.*
+*Open problem MAIS-O31 · posed in [MAIS-A2](../agendas/A2/) as [Question 4.10](../agendas/A2/MAIS-A2.tex#L331) · Status: open.*
 
 *Safety: interpretability — world-model extraction · eliciting latent knowledge · black-box evaluation. Mathematics: probability. Difficulty: ★★ project.*
 
@@ -10,6 +10,6 @@ The framework: a model is the chain graph together with its conditional probabil
 
 **Question ([MAIS-A2, Question 4.10](../agendas/A2/MAIS-A2.tex#L331)).** Let $\mathbf{C}=\lbrace C_1,\dots,C_m\rbrace $ with graph the directed path $C_m\to C_{m-1}\to\dots\to C_1$, observation set $\mathbf{O}=\emptyset$, utility parents $\mathbf{Z}=\lbrace C_1\rbrace $, and $u$ with margin (M2)–(M3). For $W=\lbrace C_j\rbrace $, a single intervenable variable: which of the $2(m-1)+1$ table parameters are $\Sigma_W$-identifiable for almost every $\theta$ (comparison class: the models of $\mathcal{M}(\mathsf{s},\lambda)$ carrying this chain graph, so that all the parameters are defined)?
 
-The agenda records a heuristic, labeled as such: mixtures at $C_j$ should reveal the composite transfer map from $C_j$ to $C_1$ — a product of $2\times2$ stochastic matrices — and the observational marginal of $C_1$, but not the individual factors nor anything upstream of $C_j$. Neither half is proved, and the negative half needs a genuine indistinguishability construction: two chains, agreeing in transfer map and marginal, sharing every optimal policy. For the restricted-intervention formalism this instantiates, see [MAIS-A2](../agendas/A2/MAIS-A2.pdf).
+The agenda records a heuristic, labeled as such: mixtures at $C_j$ should reveal the composite transfer map from $C_j$ to $C_1$ — a product of $2\times2$ stochastic matrices — and the observational marginal of $C_1$, but not the individual factors nor anything upstream of $C_j$. Neither half is proved, and the negative half needs a genuine indistinguishability construction: two chains, agreeing in transfer map and marginal, sharing every optimal policy. For the restricted-intervention formalism this instantiates, see [MAIS-A2](../agendas/A2/).
 
 *Related: [MAIS-O30](MAIS-O30.md) (the general restricted-intervention problem) · [MAIS-O34](MAIS-O34.md) (another small exact case: two variables, all interventions) · [MAIS-O23](MAIS-O23.md) (identifiability with the full intervention set).*

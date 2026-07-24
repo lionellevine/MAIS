@@ -1,6 +1,6 @@
 # Free energy asymptotics for continuous-input ReLU networks
 
-*Open problem MAIS-O71 · posed in [MAIS-A6](../agendas/A6/MAIS-A6.pdf) as [Question 9.2](../agendas/A6/MAIS-A6.tex#L544) · Status: open.*
+*Open problem MAIS-O71 · posed in [MAIS-A6](../agendas/A6/) as [Question 9.2](../agendas/A6/MAIS-A6.tex#L544) · Status: open.*
 
 *Safety: interpretability, generalization — singular learning theory · developmental interpretability. Mathematics: algebraic geometry · probability · statistics. Difficulty: ★★★ hard.*
 
@@ -20,6 +20,6 @@ and
 
 $$F_n = n S_n + \lambda \log n - (m-1)\log\log n + O_p(1).$$
 
-Both displays are part of the claim: the volume asymptotics (which subanalytic integration theory of Lion–Rolin makes plausible) and, harder, that the same pair $(\lambda, m)$ controls the free energy once the ReLU breakpoints range over a continuum. The finite-input reduction, which this question is designed to outgrow, is agenda Remark 9.1; known free-energy upper bounds for deep ReLU networks (Nagayasu–Watanabe) do not give the expansion. Background on the analytic theory is in [MAIS-A6](../agendas/A6/MAIS-A6.pdf).
+Both displays are part of the claim: the volume asymptotics (which subanalytic integration theory of Lion–Rolin makes plausible) and, harder, that the same pair $(\lambda, m)$ controls the free energy once the ReLU breakpoints range over a continuum. The finite-input reduction, which this question is designed to outgrow, is agenda Remark 9.1; known free-energy upper bounds for deep ReLU networks (Nagayasu–Watanabe) do not give the expansion. Background on the analytic theory is in [MAIS-A6](../agendas/A6/).
 
 *Related: [MAIS-O72](MAIS-O72.md) (foundational structure of learning-coefficient strata) · [MAIS-O81](MAIS-O81.md) (whether a saddle has a well-defined free energy) · [MAIS-O63](MAIS-O63.md) (the analytic test case this question extends beyond).*

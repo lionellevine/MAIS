@@ -1,6 +1,6 @@
 # Generic constancy of learning coefficients over attention teachers
 
-*Open problem MAIS-O66 · posed in [MAIS-A6](../agendas/A6/MAIS-A6.pdf) as [Conjecture 5.3](../agendas/A6/MAIS-A6.tex#L437) · Status: open.*
+*Open problem MAIS-O66 · posed in [MAIS-A6](../agendas/A6/) as [Conjecture 5.3](../agendas/A6/MAIS-A6.tex#L437) · Status: open.*
 
 *Safety: interpretability, generalization — singular learning theory · developmental interpretability. Mathematics: algebraic geometry · statistics. Difficulty: ★★★ hard.*
 
@@ -10,6 +10,6 @@ The model: fix a vocabulary size $v \ge 2$, context length $T \ge 2$, and embedd
 
 **Conjecture ([MAIS-A6, Conjecture 5.3](../agendas/A6/MAIS-A6.tex#L437)).** For each $(v, T, e, e_0)$ with $1 \le e_0 < e$ there is a real-analytic function $h \colon \mathbb{R}^{d_0} \to \mathbb{R}$, not identically zero, such that $\bigl(\lambda(\iota(w^0)),\  m(\iota(w^0))\bigr)$ is constant on $\lbrace w^0 : h(w^0) \neq 0\rbrace $.
 
-In words: away from a proper analytic subset of teachers, the local pair takes a single value — the precondition for any closed-form theory of attention learning coefficients. The base case is worked out in the agenda: for the uniform truth, the attention weights drop out of the singularity calculation and the germ is reduced-rank regression at zero truth, with the Aoyagi–Watanabe formula giving the pair explicitly. The smallest open instance is $(v,T,e,e_0) = (2,2,2,1)$, a four-input model. The worked example and conventions are in [MAIS-A6](../agendas/A6/MAIS-A6.pdf).
+In words: away from a proper analytic subset of teachers, the local pair takes a single value — the precondition for any closed-form theory of attention learning coefficients. The base case is worked out in the agenda: for the uniform truth, the attention weights drop out of the singularity calculation and the germ is reduced-rank regression at zero truth, with the Aoyagi–Watanabe formula giving the pair explicitly. The smallest open instance is $(v,T,e,e_0) = (2,2,2,1)$, a four-input model. The worked example and conventions are in [MAIS-A6](../agendas/A6/).
 
 *Related: [MAIS-O67](MAIS-O67.md) (compute the generic value this conjecture posits) · [MAIS-O68](MAIS-O68.md) (the polynomial linear-attention variant) · [MAIS-O70](MAIS-O70.md) (the local strata of the reduced-rank template).*

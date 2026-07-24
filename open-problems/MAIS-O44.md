@@ -1,6 +1,6 @@
 # Does penalizing average interference lower worst-case coherence?
 
-*Open problem MAIS-O44 · posed in [MAIS-A4](../agendas/A4/MAIS-A4.pdf) as [Problem 5.4](../agendas/A4/MAIS-A4.tex#L373) · Status: open.*
+*Open problem MAIS-O44 · posed in [MAIS-A4](../agendas/A4/) as [Problem 5.4](../agendas/A4/MAIS-A4.tex#L373) · Status: open.*
 
 *Safety: interpretability — training for interpretability · superposition. Mathematics: optimization · harmonic analysis · probability. Difficulty: ★★ project.*
 
@@ -17,6 +17,6 @@ $$\sup\bigl\lbrace \mu(W) : (W,b)\in\operatorname{argmin}(L+\lambda R)\bigr\rbra
    or prove that no such quadruple exists.
 2. For $(m,n)=(5,2)$ and one explicit $S$ (say $S=0.999$), determine the map $\lambda \mapsto \lbrace \mu(W) : (W,b)\in\operatorname{argmin}(L+\lambda R)\rbrace $ on $\lambda\in(0,\infty)$.
 
-In words: is there any regime where penalizing the average strictly lowers the worst case for *every* minimizer, while still storing features usefully? The task-loss clause excludes the cheap large-$\lambda$ answer of lowering coherence by shrinking columns to zero, and the strict inequality is between the worst regularized minimizer and the best unregularized one, so scalarization cannot answer it. At $(5,2)$ and high sparsity the unregularized optimum is observed (not proved) to be the regular pentagon, with $\mu=\cos 36^\circ\approx0.809$; the question is whether the minimizer passes through low-$\mu$ geometries as $\lambda$ grows or jumps straight to feature-dropping. See [MAIS-A4](../agendas/A4/MAIS-A4.pdf) for the scalarization proposition and the frame-potential warning.
+In words: is there any regime where penalizing the average strictly lowers the worst case for *every* minimizer, while still storing features usefully? The task-loss clause excludes the cheap large-$\lambda$ answer of lowering coherence by shrinking columns to zero, and the strict inequality is between the worst regularized minimizer and the best unregularized one, so scalarization cannot answer it. At $(5,2)$ and high sparsity the unregularized optimum is observed (not proved) to be the regular pentagon, with $\mu=\cos 36^\circ\approx0.809$; the question is whether the minimizer passes through low-$\mu$ geometries as $\lambda$ grows or jumps straight to feature-dropping. See [MAIS-A4](../agendas/A4/) for the scalarization proposition and the frame-potential warning.
 
 *Related: [MAIS-O4](MAIS-O4.md) (the full coherence-constrained frontier this is a first case of) · [MAIS-O46](MAIS-O46.md) (whether low coherence even helps recovery) · [MAIS-O51](MAIS-O51.md) (the same penalty analyzed in the smallest model) · [MAIS-O50](MAIS-O50.md) (the gradient-flow version).*

@@ -1,6 +1,6 @@
 # When does the localized posterior estimate the local learning coefficient?
 
-*Open problem MAIS-O69 · posed in [MAIS-A6](../agendas/A6/MAIS-A6.pdf) as [Problem 6.1](../agendas/A6/MAIS-A6.tex#L470) · Status: open.*
+*Open problem MAIS-O69 · posed in [MAIS-A6](../agendas/A6/) as [Problem 6.1](../agendas/A6/MAIS-A6.tex#L470) · Status: open.*
 
 *Safety: interpretability, generalization — singular learning theory · developmental interpretability. Mathematics: statistics · probability. Difficulty: ★★ project.*
 
@@ -14,6 +14,6 @@ $$\mu(w) = (w_1 - 1)\ (w_1^2 + w_2^2)^2,$$
 
 and truth $y \sim N(0,1)$, so that $K(w) = \tfrac12 \mu(w)^2$ and $W_0 = \lbrace w_1 = 1\rbrace  \cup \lbrace (0,0)\rbrace $, with local coefficients $\lambda(w) = \tfrac12$ on the segment and $\lambda((0,0)) = \tfrac14$ at the isolated point. Let $w^\ast  = (1,0)$. Determine the sequences $\gamma_n \to \infty$ for which $\hat\lambda_n(w^\ast ; \gamma_n) \to \tfrac12$ in probability, and identify the limit at the transitional scaling.
 
-The two sides of the dichotomy are known. For fixed $\gamma$, Watanabe's WBIC theorem applies with the Gaussian factor as prior and forces $\hat\lambda_n \to \tfrac14$, the global coefficient: the estimator leaks to the more singular point at the origin. For a hard restriction to a small ball around $w^\ast $, WBIC gives $\hat\lambda_n \to \tfrac12$. The problem asks for the boundary between the two regimes — the growth rate of $\gamma_n$ at which Gaussian localization starts to localize — and the limit on the boundary itself. Definitions and both endpoint arguments are in [MAIS-A6](../agendas/A6/MAIS-A6.pdf).
+The two sides of the dichotomy are known. For fixed $\gamma$, Watanabe's WBIC theorem applies with the Gaussian factor as prior and forces $\hat\lambda_n \to \tfrac14$, the global coefficient: the estimator leaks to the more singular point at the origin. For a hard restriction to a small ball around $w^\ast $, WBIC gives $\hat\lambda_n \to \tfrac12$. The problem asks for the boundary between the two regimes — the growth rate of $\gamma_n$ at which Gaussian localization starts to localize — and the limit on the boundary itself. Definitions and both endpoint arguments are in [MAIS-A6](../agendas/A6/).
 
 *Related: [MAIS-O70](MAIS-O70.md) (ground-truth local pairs to calibrate the estimator against) · [MAIS-O61](MAIS-O61.md) (running the estimator on small trained networks) · [MAIS-O63](MAIS-O63.md) (the exact values the estimator would be checked against on modular addition).*

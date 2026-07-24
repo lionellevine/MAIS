@@ -1,6 +1,6 @@
 # Regular pentagon as global minimizer of a ReLU autoencoder
 
-*Open problem MAIS-O40 · posed in [MAIS-A3](../agendas/A3/MAIS-A3.pdf) as [Conjecture 4.10](../agendas/A3/MAIS-A3.tex#L317) · Status: open.*
+*Open problem MAIS-O40 · posed in [MAIS-A3](../agendas/A3/) as [Conjecture 4.10](../agendas/A3/MAIS-A3.tex#L317) · Status: open.*
 
 *Safety: interpretability — superposition · mechanistic interpretability. Mathematics: optimization · harmonic analysis. Difficulty: ★★★ hard.*
 
@@ -18,6 +18,6 @@ $$\langle w_{\tau(i)},w_{\tau(j)}\rangle\ =\ r^2\cos\bigl(2\pi(i-j)/5\bigr) \qqu
 
 Equivalently: up to an orthogonal transformation of $\mathbb{R}^2$ and relabeling, the columns form a regular pentagon.
 
-Every quantity is explicit: the loss is a semialgebraic integral in fifteen variables (ten entries of $W$, five of $b$), piecewise rational because of the moving ReLU breakpoints. Critical-point theory rules the pentagon in as a candidate — the regular $k$-gons are critical with the loss in closed form (Chen et al.), and under a capacity-saturation hypothesis critical configurations organize into tight frames (Ivanov et al.). What is missing is a symmetrization technique for ReLU energies that reaches *global* minimality. For the toy-model background and the frame-theory shadow, see [MAIS-A3](../agendas/A3/MAIS-A3.pdf).
+Every quantity is explicit: the loss is a semialgebraic integral in fifteen variables (ten entries of $W$, five of $b$), piecewise rational because of the moving ReLU breakpoints. Critical-point theory rules the pentagon in as a candidate — the regular $k$-gons are critical with the loss in closed form (Chen et al.), and under a capacity-saturation hypothesis critical configurations organize into tight frames (Ivanov et al.). What is missing is a symmetrization technique for ReLU energies that reaches *global* minimality. For the toy-model background and the frame-theory shadow, see [MAIS-A3](../agendas/A3/).
 
 *Related: [MAIS-O42](MAIS-O42.md) (the one-active-feature case, a starter) · [MAIS-O47](MAIS-O47.md) (uniqueness of minimizers of the same toy model up to symmetry) · [MAIS-O4](MAIS-O4.md) (the toy model's loss frontier under a coherence constraint).*

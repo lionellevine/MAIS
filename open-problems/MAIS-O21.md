@@ -1,6 +1,6 @@
 # Is the Löb overhead invariant under polynomial simulation?
 
-*Open problem MAIS-O21 · posed in [MAIS-A1](../agendas/A1/MAIS-A1.pdf) as [Problem 8.1](../agendas/A1/MAIS-A1.tex#L544) · Status: open.*
+*Open problem MAIS-O21 · posed in [MAIS-A1](../agendas/A1/) as [Problem 8.1](../agendas/A1/MAIS-A1.tex#L544) · Status: open.*
 
 *Safety: cooperative AI, agent foundations — Löbian cooperation · proof-based agents · bounded rationality. Mathematics: logic · complexity theory. Difficulty: ★★ project.*
 
@@ -14,6 +14,6 @@ $$F_S(k,n) \le p\bigl(F_{S'}(q(k), q(n)),\  k,\  n\bigr)$$
 
 for some polynomials $p, q$, and symmetrically. Or exhibit polynomially simulating systems for which no such alignment of the bounded boxes exists.
 
-Until this is settled, "determine the least Löb overhead" must be read per system, with $\mathsf{PA}_{\mathrm{bin}}$ as the declared default, and the sub-polynomial structure of $F$ — the logarithmic window, the constants in the FairBot threshold — is convention-laden by nature. For the definition of $F_S$ and the evidence that the dependence is real, see [MAIS-A1](../agendas/A1/MAIS-A1.pdf).
+Until this is settled, "determine the least Löb overhead" must be read per system, with $\mathsf{PA}_{\mathrm{bin}}$ as the declared default, and the sub-polynomial structure of $F$ — the logarithmic window, the constants in the FairBot threshold — is convention-laden by nature. For the definition of $F_S$ and the evidence that the dependence is real, see [MAIS-A1](../agendas/A1/).
 
 *Related: [MAIS-O1](MAIS-O1.md) (the overhead function itself) · [MAIS-O10](MAIS-O10.md) (polynomial overhead, which robustness would make system-independent) · [MAIS-O14](MAIS-O14.md) (sub-polynomial structure that cannot be robust).*

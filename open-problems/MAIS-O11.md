@@ -1,6 +1,6 @@
 # Does Löb's rule shorten proofs?
 
-*Open problem MAIS-O11 · posed in [MAIS-A1](../agendas/A1/MAIS-A1.pdf) as [Question 3.6](../agendas/A1/MAIS-A1.tex#L305) · Status: open.*
+*Open problem MAIS-O11 · posed in [MAIS-A1](../agendas/A1/) as [Question 3.6](../agendas/A1/MAIS-A1.tex#L305) · Status: open.*
 
 *Safety: cooperative AI, agent foundations — Löbian cooperation · proof-based agents · bounded rationality. Mathematics: logic · complexity theory. Difficulty: ★★★ hard.*
 
@@ -17,6 +17,6 @@ Work in an efficient proof system $S$ (a consistent, recursively axiomatized ext
    beating the trivial toll of the lemma above; that is, exhibit any genuine speedup from Löb's rule. (Here $S = \mathsf{PA}_{\mathrm{bin}}$, or any efficient system of your choice.)
 2. Decide Conjecture 3.5 ([MAIS-O10](MAIS-O10.md)): is $F_{\mathsf{PA}_{\mathrm{bin}}}(k,n)$ bounded by a fixed polynomial in $k+n$, or does it grow faster than every polynomial along some sequence $(k_i, n_i)$?
 
-Part 1 asks for a sequence of sentences whose direct proofs are longer, by a fixed factor plus the trivial toll, than the proofs of their reflection instances: the first witness that the detour pays at all. The nearest proved lower bounds are Friedman's and Pudlák's, for the one instance $P=\bot$ where the hypothesis is unprovable; for the speedup literature and why it falls short here, see [MAIS-A1](../agendas/A1/MAIS-A1.pdf).
+Part 1 asks for a sequence of sentences whose direct proofs are longer, by a fixed factor plus the trivial toll, than the proofs of their reflection instances: the first witness that the detour pays at all. The nearest proved lower bounds are Friedman's and Pudlák's, for the one instance $P=\bot$ where the hypothesis is unprovable; for the speedup literature and why it falls short here, see [MAIS-A1](../agendas/A1/).
 
 *Related: [MAIS-O1](MAIS-O1.md) (the overhead function) · [MAIS-O10](MAIS-O10.md) (the conjecture part 2 decides) · [MAIS-O21](MAIS-O21.md) (whether any answer transfers between proof systems).*

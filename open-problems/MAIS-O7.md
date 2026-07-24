@@ -1,6 +1,6 @@
 # Opposing staircases
 
-*Open problem MAIS-O7 · headline problem 7 of the survey [MAIS-P1](../papers/P1/MAIS-P1.pdf) · canonically formalized in [MAIS-A7](../agendas/A7/MAIS-A7.pdf) as [Conjecture 3.10](../agendas/A7/MAIS-A7.tex#L366) · Status: open.*
+*Open problem MAIS-O7 · headline problem 7 of the survey [MAIS-P1](../papers/P1/) · canonically formalized in [MAIS-A7](../agendas/A7/) as [Conjecture 3.10](../agendas/A7/MAIS-A7.tex#L366) · Status: open.*
 
 *Safety: generalization — developmental interpretability · singular learning theory · training dynamics. Mathematics: algebraic geometry. Difficulty: ★★ project.*
 
@@ -10,6 +10,6 @@ The setting: a deep linear network trained on a target of rank $r$, hidden width
 
 **Conjecture ([MAIS-A7, Conjecture 3.10](../agendas/A7/MAIS-A7.tex#L366)).** In this setting, $\lambda_0<\lambda_1<\dots<\lambda_r$ while $L_0>L_1>\dots>L_r$: along the saddle chain that gradient flow visits, the loss falls and the learning coefficient rises, step for step. ($C_k$ is noncompact, so attainment of the infimum is part of the claim.)
 
-In transformer experiments the estimated local learning coefficient climbs as the loss falls through most training stages — most, not all — and on the Bayesian side, exact free-energy asymptotics for the deep linear model give the nonnegative increments the conjecture demands. The deep linear network is the one model where both staircases are explicit, so it is where the correspondence should first be proved or refuted. For the two-sided definition and the time–sample dictionary the conjecture would calibrate, see [MAIS-A7](../agendas/A7/MAIS-A7.pdf).
+In transformer experiments the estimated local learning coefficient climbs as the loss falls through most training stages — most, not all — and on the Bayesian side, exact free-energy asymptotics for the deep linear model give the nonnegative increments the conjecture demands. The deep linear network is the one model where both staircases are explicit, so it is where the correspondence should first be proved or refuted. For the two-sided definition and the time–sample dictionary the conjecture would calibrate, see [MAIS-A7](../agendas/A7/).
 
 *Related: [MAIS-O77](MAIS-O77.md) (the λ-stratification it presupposes) · [MAIS-O78](MAIS-O78.md) (training time versus sample size) · [MAIS-O63](MAIS-O63.md) (learning coefficients of a real task).*

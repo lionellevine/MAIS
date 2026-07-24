@@ -1,6 +1,6 @@
 # Saddles as effective minima under coarse-graining
 
-*Open problem MAIS-O79 · posed in [MAIS-A7](../agendas/A7/MAIS-A7.pdf) as [Question 3.13](../agendas/A7/MAIS-A7.tex#L449) · Status: open.*
+*Open problem MAIS-O79 · posed in [MAIS-A7](../agendas/A7/) as [Question 3.13](../agendas/A7/MAIS-A7.tex#L449) · Status: open.*
 
 *Safety: generalization — developmental interpretability · singular learning theory · training dynamics. Mathematics: dynamical systems · algebraic geometry. Difficulty: ★★★ hard.*
 
@@ -22,6 +22,6 @@ $$\sup_{t \le T(u_0)} \mathrm{dist}\bigl( w_{\mathrm{eff}}(t),\  w(t) \bigr) \to
 
 That is the precise sense of shadowing asked for here.
 
-The first two clauses are concrete finite-dimensional questions about explicit integrals. The last clause is the actual bridge — annealing in $\varepsilon$ as a proxy for training time — and the agenda states it as a question rather than a conjecture because no principled derivation of the schedule $\varepsilon(t)$ is in sight; finding one, or proving none exists, is the point. The Bayesian counterpart of the resolution dial is developed by Chen and Murfet ([arXiv:2504.18048](https://arxiv.org/abs/2504.18048)). See [MAIS-A7](../agendas/A7/MAIS-A7.pdf), Section 3.6.
+The first two clauses are concrete finite-dimensional questions about explicit integrals. The last clause is the actual bridge — annealing in $\varepsilon$ as a proxy for training time — and the agenda states it as a question rather than a conjecture because no principled derivation of the schedule $\varepsilon(t)$ is in sight; finding one, or proving none exists, is the point. The Bayesian counterpart of the resolution dial is developed by Chen and Murfet ([arXiv:2504.18048](https://arxiv.org/abs/2504.18048)). See [MAIS-A7](../agendas/A7/), Section 3.6.
 
 *Related: [MAIS-O81](MAIS-O81.md) (the rim obstruction to assigning a saddle a free energy) · [MAIS-O78](MAIS-O78.md) (the time–sample dictionary for the same staircase) · [MAIS-O7](MAIS-O7.md) (the headline conjecture about this saddle chain).*

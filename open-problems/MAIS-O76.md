@@ -1,6 +1,6 @@
 # SGD limit diffusions on a singular set of minimizers
 
-*Open problem MAIS-O76 · posed in [MAIS-A7](../agendas/A7/MAIS-A7.pdf) as [Problem 3.8](../agendas/A7/MAIS-A7.tex#L317) · Status: open.*
+*Open problem MAIS-O76 · posed in [MAIS-A7](../agendas/A7/) as [Problem 3.8](../agendas/A7/MAIS-A7.tex#L317) · Status: open.*
 
 *Safety: generalization — training dynamics · singular learning theory · simplicity bias. Mathematics: probability · algebraic geometry. Difficulty: ★★★ hard.*
 
@@ -16,6 +16,6 @@ $$\Gamma = \lbrace  (A,B) \in F_\Phi : \mathrm{rank}\  A + \mathrm{rank}\  B = H
 - **(b)** Define the continuation selected by SGD: formulate a martingale problem (or Dirichlet form) on the stratified space $F_\Phi$ whose restriction to every smooth stratum is its Katzenberger diffusion, and prove that rescaled label-noise SGD converges to its unique solution across $\Sigma$. Is the selected process absorbed, reflected, or transmitted at each singular stratum?
 - **(c)** The general form: for real-analytic $L$ whose optimal set is smooth with constant Hessian rank off a codimension-one (in $W_0$) singular locus, construct the stopped diffusion on each smooth component, distinguish singular hitting from escape, and prove a rescaled-SGD limit theorem that selects a well-posed continuation across the singular locus.
 
-There is a sharper point beneath the technicalities. The label-noise drift is built from the Hessian trace, quadratic data, while the learning coefficient $\lambda$ sees all orders: the transversal profiles $x^4$ ($\lambda = \tfrac14$) and $x^2 y^2$ ($\lambda = \tfrac12$) both have identically vanishing Hessian at the origin, so the drift ties them while $\lambda$ strictly prefers the quartic. Deciding in an explicit example whether SGD follows the Hessian or the threshold determines whether the $\lambda$-stratification is the right stratification for SGD at all. See [MAIS-A7](../agendas/A7/MAIS-A7.pdf), Sections 3.4 and 6.2.
+There is a sharper point beneath the technicalities. The label-noise drift is built from the Hessian trace, quadratic data, while the learning coefficient $\lambda$ sees all orders: the transversal profiles $x^4$ ($\lambda = \tfrac14$) and $x^2 y^2$ ($\lambda = \tfrac12$) both have identically vanishing Hessian at the origin, so the drift ties them while $\lambda$ strictly prefers the quartic. Deciding in an explicit example whether SGD follows the Hessian or the threshold determines whether the $\lambda$-stratification is the right stratification for SGD at all. See [MAIS-A7](../agendas/A7/), Sections 3.4 and 6.2.
 
 *Related: [MAIS-O77](MAIS-O77.md) (the learning-coefficient table for the same fiber) · [MAIS-O75](MAIS-O75.md) (degenerate-noise selection in the smallest case) · [MAIS-O7](MAIS-O7.md) (the headline staircase this dynamics should descend).*

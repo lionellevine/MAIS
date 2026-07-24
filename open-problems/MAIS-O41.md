@@ -1,6 +1,6 @@
 # Two-feature phase diagram for ℓ¹ dictionary learning
 
-*Open problem MAIS-O41 · posed in [MAIS-A3](../agendas/A3/MAIS-A3.pdf) as [Problem 5.1](../agendas/A3/MAIS-A3.tex#L330) · Status: open.*
+*Open problem MAIS-O41 · posed in [MAIS-A3](../agendas/A3/) as [Problem 5.1](../agendas/A3/MAIS-A3.tex#L330) · Status: open.*
 
 *Safety: interpretability — sparse autoencoders · mechanistic interpretability · superposition. Mathematics: optimization · convex geometry. Difficulty: ★ starter.*
 
@@ -10,6 +10,6 @@ The estimator: over dictionaries $\Psi\in U_{n,2}$ ($n\times2$ matrices with uni
 
 **Problem ([MAIS-A3, Problem 5.1](../agendas/A3/MAIS-A3.tex#L330)).** In the setting of the two propositions above unified — support probabilities $a,b,c\ge0$ with $a+b+c=1$ (the case $b=0$ is Proposition 3.1; the case $a,b>0$ is Proposition 3.2), angle $\theta$, coefficients $\equiv1$, no noise, dictionary size $M=2$ — compute the global minimizers of the *penalized* objective $F_\lambda$ over $U_{n,2}$ exactly, as a function of $(a,b,c,\theta,\lambda)$. Output: the partition of the parameter space into recovery and merging regions in the sense of the agenda's Definition 4.2, with explicit $(\varepsilon,\delta)$, and the location of the boundary as $b$ — the probability that feature 2 fires alone — increases from 0 with the other parameters held fixed.
 
-Everything reduces to a family of two-dimensional convex programs glued along combinatorial boundaries (which atoms are active in each of the three events). The face $b=0$ is already done; the crossing into recovery as solo firing switches on is the smallest exact instance of the phase boundary the headline problem asks for in general. For the two propositions with proofs and the nearest prior analyses, see [MAIS-A3](../agendas/A3/MAIS-A3.pdf).
+Everything reduces to a family of two-dimensional convex programs glued along combinatorial boundaries (which atoms are active in each of the three events). The face $b=0$ is already done; the crossing into recovery as solo firing switches on is the smallest exact instance of the phase boundary the headline problem asks for in general. For the two propositions with proofs and the nearest prior analyses, see [MAIS-A3](../agendas/A3/).
 
 *Related: [MAIS-O3](MAIS-O3.md) (the headline problem this is the smallest case of) · [MAIS-O36](MAIS-O36.md) (recovery for many independent features) · [MAIS-O43](MAIS-O43.md) (the same diagram measured numerically) · [MAIS-O37](MAIS-O37.md) (two features smeared over caps).*

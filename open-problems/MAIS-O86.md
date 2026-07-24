@@ -1,6 +1,6 @@
 # Does gradient descent match the Gaussian process posterior?
 
-*Open problem MAIS-O86 · posed in [MAIS-A8](../agendas/A8/MAIS-A8.pdf) as [Question 5.10](../agendas/A8/MAIS-A8.tex#L391) · Status: open.*
+*Open problem MAIS-O86 · posed in [MAIS-A8](../agendas/A8/) as [Question 5.10](../agendas/A8/MAIS-A8.tex#L391) · Status: open.*
 
 *Safety: generalization — goal misgeneralization · proxy goals · simplicity bias · singular learning theory. Mathematics: probability · statistics. Difficulty: ★★★ hard.*
 
@@ -18,6 +18,6 @@ $$\lim_{m\to\infty}\liminf_{k\to\infty}q^{\mathrm{ntk}}_0(k;m,L,\eta)$$
 
 equals $Q(L)$, equals $1$, or equals neither.
 
-The agenda's Proposition 5.3 gives the kernel-flow answer: the infinite-width flow drives the probe logit to $+\infty$, suggesting the value $1$; the Gaussian posterior says strictly less than $1$. Whichever value the finite-width limit takes, one candidate theory is refuted on this marginal. For the kernel-flow proof and a caveat relating this comparison to singular learning theory, see [MAIS-A8](../agendas/A8/MAIS-A8.pdf).
+The agenda's Proposition 5.3 gives the kernel-flow answer: the infinite-width flow drives the probe logit to $+\infty$, suggesting the value $1$; the Gaussian posterior says strictly less than $1$. Whichever value the finite-width limit takes, one candidate theory is refuted on this marginal. For the kernel-flow proof and a caveat relating this comparison to singular learning theory, see [MAIS-A8](../agendas/A8/).
 
 *Related: [MAIS-O90](MAIS-O90.md) (the gradient-descent side of this comparison, isolated) · [MAIS-O50](MAIS-O50.md) (which minima gradient flow selects from random initialization, in a toy autoencoder) · [MAIS-O91](MAIS-O91.md) (computes $Q(L)$ and the training curves numerically).*

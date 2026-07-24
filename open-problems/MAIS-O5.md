@@ -1,6 +1,6 @@
 # Representation theory of learned circuits
 
-*Open problem MAIS-O5 · headline problem 5 of the survey [MAIS-P1](../papers/P1/MAIS-P1.pdf) · canonically formalized in [MAIS-A5](../agendas/A5/MAIS-A5.pdf) as [Problem 5.1](../agendas/A5/MAIS-A5.tex#L234) · Status: open.*
+*Open problem MAIS-O5 · headline problem 5 of the survey [MAIS-P1](../papers/P1/) · canonically formalized in [MAIS-A5](../agendas/A5/) as [Problem 5.1](../agendas/A5/MAIS-A5.tex#L234) · Status: open.*
 
 *Safety: interpretability — mechanistic interpretability · universality of circuits · training dynamics. Mathematics: dynamical systems · probability · representation theory. Difficulty: ★★★ hard.*
 
@@ -16,6 +16,6 @@ The observable is black-box. Write $\mathcal{R}(G)$ for the conjugation classes 
 - (b) Decide whether $\mu_\infty$ is a point mass.
 - (c) (*Existential*, overriding the fixed data above.) Compute $\mu_\infty$ for at least one nonabelian $G$, one activation, and one explicit parameter regime $(m, \lambda, \tau, \varepsilon)$.
 
-Parts (a) and (b) are posed for each fixed tuple separately. A point mass means deterministic selection; two explicitly charged sets with their probabilities would establish genuinely random selection. One constraint is proved: the selection law is invariant under the outer automorphism group of $G$, so for cyclic groups every frequency is key with equal probability. The nearest theorems live in idealized regimes — maximum margin in the $\ell_{2,3}$ norm, or a Taylor-surrogate projected flow — and do not predict this ensemble; the smallest case with genuine competition, $C_5$ at width two with the decay switched off, is already open. Definitions, known results, and starter cases are collected in [MAIS-A5](../agendas/A5/MAIS-A5.pdf).
+Parts (a) and (b) are posed for each fixed tuple separately. A point mass means deterministic selection; two explicitly charged sets with their probabilities would establish genuinely random selection. One constraint is proved: the selection law is invariant under the outer automorphism group of $G$, so for cyclic groups every frequency is key with equal probability. The nearest theorems live in idealized regimes — maximum margin in the $\ell_{2,3}$ norm, or a Taylor-surrogate projected flow — and do not predict this ensemble; the smallest case with genuine competition, $C_5$ at width two with the decay switched off, is already open. Definitions, known results, and starter cases are collected in [MAIS-A5](../agendas/A5/).
 
 *Related: [MAIS-O59](MAIS-O59.md) (the $C_5$ width-two foothold) · [MAIS-O57](MAIS-O57.md) (random selection for $S_5$ at width 128) · [MAIS-O53](MAIS-O53.md) (neuron-level multiplicities) · [MAIS-O61](MAIS-O61.md) (pilot measurement of the law).*

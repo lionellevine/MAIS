@@ -1,6 +1,6 @@
 # Two neurons learning mod-5 addition: which frequencies win?
 
-*Open problem MAIS-O59 · posed in [MAIS-A5](../agendas/A5/MAIS-A5.pdf) as [Problem 6.1](../agendas/A5/MAIS-A5.tex#L313) · Status: open.*
+*Open problem MAIS-O59 · posed in [MAIS-A5](../agendas/A5/) as [Problem 6.1](../agendas/A5/MAIS-A5.tex#L313) · Status: open.*
 
 *Safety: interpretability — mechanistic interpretability · training dynamics · universality of circuits · monosemanticity. Mathematics: dynamical systems · probability · harmonic analysis. Difficulty: ★★ project.*
 
@@ -10,6 +10,6 @@ The network has parameters $\theta = (u_i, v_i, w_i)_{i=1,2}$ with $u_i, v_i, w_
 
 **Problem ([MAIS-A5, Problem 6.1](../agendas/A5/MAIS-A5.tex#L313)).** Let $G = C_5$, $\sigma(x) = x^2$, $m = 2$, $\lambda = 0$, and $\tau = 1$. The parameter space is $\mathbb{R}^{30}$ and $\mathcal{R}(C_5)$ has two frequencies. Write the gradient field in a real Fourier basis. As a first finite calculation, classify its stationary directions for which each neuron is supported on one frequency, determine their transverse stability, and decide which of the four ordered frequency assignments can attract an open set. Then prove or refute that almost surely each neuron *aligns*: the limit of $\theta(t)/\Vert \theta(t)\Vert $ exists and its neuron $i$ is $(\delta, [\rho_{\zeta_i}])$-pure for every $\delta > 0$, for some frequency $\zeta_i$. Compute the probability that the two neurons choose the same frequency. (The proved symmetry of the selection law makes the two frequencies exchangeable, so this one probability determines the law of the pair on the alignment event.)
 
-The first step is a symmetry-reduced algebra problem; the second asks whether those local calculations control a random trajectory. Normalized directions are the right object because at zero decay the cross-entropy may have no finite minimizer. Existing theories miss this case: the small-initialization analyses start from controlled states rather than unit-scale Gaussians, and the asymptotic alignment theorem of He et al. concerns a Taylor-surrogate projected flow, not the exact loss. Full conventions are in [MAIS-A5](../agendas/A5/MAIS-A5.pdf).
+The first step is a symmetry-reduced algebra problem; the second asks whether those local calculations control a random trajectory. Normalized directions are the right object because at zero decay the cross-entropy may have no finite minimizer. Existing theories miss this case: the small-initialization analyses start from controlled states rather than unit-scale Gaussians, and the asymptotic alignment theorem of He et al. concerns a Taylor-surrogate projected flow, not the exact loss. Full conventions are in [MAIS-A5](../agendas/A5/).
 
 *Related: [MAIS-O5](MAIS-O5.md) (the headline problem this is the foothold of) · [MAIS-O60](MAIS-O60.md) (one rectifier neuron, the analogous reduction) · [MAIS-O61](MAIS-O61.md) (a pilot experiment estimating the same-frequency probability).*

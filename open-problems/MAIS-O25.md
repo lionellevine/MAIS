@@ -1,6 +1,6 @@
 # Query complexity of causal model extraction from optimal policies
 
-*Open problem MAIS-O25 · posed in [MAIS-A2](../agendas/A2/MAIS-A2.pdf) as [Problem 4.3](../agendas/A2/MAIS-A2.tex#L279) · Status: open.*
+*Open problem MAIS-O25 · posed in [MAIS-A2](../agendas/A2/) as [Problem 4.3](../agendas/A2/MAIS-A2.tex#L279) · Status: open.*
 
 *Safety: interpretability — world-model extraction · eliciting latent knowledge · black-box evaluation. Mathematics: complexity theory · statistics. Difficulty: ★★ project.*
 
@@ -10,6 +10,6 @@ The framework (a finite causal influence diagram with binary variables and known
 
 **Problem ([MAIS-A2, Problem 4.3](../agendas/A2/MAIS-A2.tex#L279)).** Let $\mathcal{N}\subseteq\mathcal{M}(\mathsf{s},\lambda)$ be a compact semialgebraic class satisfying conclusions (a)–(b) of the agenda's Problem 4.2 with modulus $\omega(\delta)=L\delta$. Assume also a richness condition: for some graph $G$ and $\rho>0$, its table-parameter projection contains a $K(G)$-dimensional box of side $\rho$. Determine, up to constants depending on $(m,K,\lambda,L,\rho)$, the minimal budget $N(\varepsilon)$ such that the minimax risk over $\mathcal{N}$ at budget $N(\varepsilon)$, with $\delta=0$ and the policy-probability oracle, is at most $\varepsilon$. In particular: decide whether $N(\varepsilon)\le \mathrm{poly}(K,1/\lambda,L,1/\rho)\log(1/\varepsilon)$, and whether adaptive queries outperform non-adaptive ones by more than a constant factor.
 
-The hypotheses from Problem 4.2 say the class is one on which behavior determines the model, with recovery Lipschitz in the regret. The upper-bound side looks like bookkeeping (bisect each of the $O(K)$ needed critical weights to precision $\varepsilon\cdot\mathrm{poly}(\lambda)$), but it is not: the known reconstruction solves for table entries recursively outward from $\mathbf{Z}$, and errors compound through quotients whose denominators are the quantities the margins bound. Whether the compounding is polynomial or exponential in the depth of the diagram is the real question, and a negative answer would be just as interesting. For the query formalism and the margin class, see [MAIS-A2](../agendas/A2/MAIS-A2.pdf).
+The hypotheses from Problem 4.2 say the class is one on which behavior determines the model, with recovery Lipschitz in the regret. The upper-bound side looks like bookkeeping (bisect each of the $O(K)$ needed critical weights to precision $\varepsilon\cdot\mathrm{poly}(\lambda)$), but it is not: the known reconstruction solves for table entries recursively outward from $\mathbf{Z}$, and errors compound through quotients whose denominators are the quantities the margins bound. Whether the compounding is polynomial or exponential in the depth of the diagram is the real question, and a negative answer would be just as interesting. For the query formalism and the margin class, see [MAIS-A2](../agendas/A2/).
 
 *Related: [MAIS-O26](MAIS-O26.md) (the conjectured answer) · [MAIS-O24](MAIS-O24.md) (supplies the hypotheses) · [MAIS-O2](MAIS-O2.md) (sampled actions replace the oracle).*

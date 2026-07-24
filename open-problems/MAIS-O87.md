@@ -1,6 +1,6 @@
 # Does policy gradient stay misgeneralized despite training diversity?
 
-*Open problem MAIS-O87 · posed in [MAIS-A8](../agendas/A8/MAIS-A8.pdf) as [Question 6.2](../agendas/A8/MAIS-A8.tex#L443) · Status: open.*
+*Open problem MAIS-O87 · posed in [MAIS-A8](../agendas/A8/) as [Question 6.2](../agendas/A8/MAIS-A8.tex#L443) · Status: open.*
 
 *Safety: generalization — goal misgeneralization · proxy goals · training dynamics. Mathematics: dynamical systems · probability. Difficulty: ★★ project.*
 
@@ -10,6 +10,6 @@ On the agenda's coin line, an agent at position $p$ seeks a coin at position $c$
 
 **Question ([MAIS-A8, Question 6.2](../agendas/A8/MAIS-A8.tex#L443)).** Fix $L\ge4$ and $\sigma>0$. Are there $\bar\varepsilon>0$ and $\delta>0$ such that for every real $\varepsilon\in(0,\bar\varepsilon]$ the linear policy-gradient flow satisfies $\limsup_{t\to\infty}q^{\mathrm{RL}}_\varepsilon(t;\sigma,L)\ge\delta$? Behavior cloning has no such $\bar\varepsilon$: there, the misgeneralization probability tends to zero for every rational $\varepsilon>0$.
 
-In cloning, the corrective signal at diversity $\varepsilon$ has size of order $\varepsilon$; in reinforcement learning it is $\varepsilon$ times a policy-dependent exploration factor, and the question asks whether that starvation leaves a positive fraction of initializations misgeneralized for all time, uniformly in small $\varepsilon$. At $\varepsilon=0$ the agenda proves the proxy wins from every initialization; this question is the first strictly positive diversity level. For the flow's definition and the exploration-starvation heuristic made precise, see [MAIS-A8](../agendas/A8/MAIS-A8.pdf).
+In cloning, the corrective signal at diversity $\varepsilon$ has size of order $\varepsilon$; in reinforcement learning it is $\varepsilon$ times a policy-dependent exploration factor, and the question asks whether that starvation leaves a positive fraction of initializations misgeneralized for all time, uniformly in small $\varepsilon$. At $\varepsilon=0$ the agenda proves the proxy wins from every initialization; this question is the first strictly positive diversity level. For the flow's definition and the exploration-starvation heuristic made precise, see [MAIS-A8](../agendas/A8/).
 
 *Related: [MAIS-O88](MAIS-O88.md) (the trained-to-criterion misgeneralization curve) · [MAIS-O84](MAIS-O84.md) (the cloning crossover this contrasts with) · [MAIS-O8](MAIS-O8.md) (the headline selection problem).*

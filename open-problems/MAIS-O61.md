@@ -1,6 +1,6 @@
 # Pilot measurement of representation selection in small trained networks
 
-*Open problem MAIS-O61 · posed in [MAIS-A5](../agendas/A5/MAIS-A5.pdf) as [Problem 6.3](../agendas/A5/MAIS-A5.tex#L323) · Status: open.*
+*Open problem MAIS-O61 · posed in [MAIS-A5](../agendas/A5/) as [Problem 6.3](../agendas/A5/MAIS-A5.tex#L323) · Status: open.*
 
 *Safety: interpretability — mechanistic interpretability · training dynamics · universality of circuits · black-box evaluation. Mathematics: computational · statistics. Difficulty: ★ starter · empirical.*
 
@@ -10,6 +10,6 @@ The network is one hidden layer of $m$ neurons on a finite group $G$: logits $f_
 
 **Problem ([MAIS-A5, Problem 6.3](../agendas/A5/MAIS-A5.tex#L323)).** For $G \in \lbrace C_5, S_3\rbrace $, train the architecture above with both activations $\sigma \in \lbrace x^2, \mathrm{ReLU}\rbrace $, widths $m \in \lbrace 2, 8\rbrace $, initialization scale $\tau = |G|^{-1/2}$, and $\lambda \in \lbrace 0, 10^{-4}, 10^{-2}\rbrace $. Use the full multiplication table and full-batch Adam on $L_\lambda$ (learning rate $10^{-3}$, $\beta_1 = .9$, $\beta_2 = .999$, numerical stabilizer $10^{-8}$), with the convention $\mathrm{ReLU}'(0) = 0$. Run at most $2 \cdot 10^4$ updates from 100 fixed seeds per configuration. Declare convergence when both the relative loss change and the relative parameter change stay below $10^{-7}$ for 500 consecutive updates; otherwise label the run nonconvergent. Record $K_{.005}$, $N_{.05}$, and the finite-width multiplicities $\nu_{[\rho],.05}$. Publish the configuration files, seeds, final checkpoints, and nonconvergence counts, with 95% confidence intervals for the observed key-set probabilities.
 
-The two readouts are deliberately local: estimate the same-frequency probability in the $C_5$, width-2 foothold, and measure how the key-set law changes when width or decay is varied. The $S_3$ runs test whether the same pipeline survives its first nonabelian group. These are finite-width estimates, not the conjectural large-width constants; a larger scaling study should wait until this pilot is reproducible. Full definitions of the observables are in [MAIS-A5](../agendas/A5/MAIS-A5.pdf).
+The two readouts are deliberately local: estimate the same-frequency probability in the $C_5$, width-2 foothold, and measure how the key-set law changes when width or decay is varied. The $S_3$ runs test whether the same pipeline survives its first nonabelian group. These are finite-width estimates, not the conjectural large-width constants; a larger scaling study should wait until this pilot is reproducible. Full definitions of the observables are in [MAIS-A5](../agendas/A5/).
 
 *Related: [MAIS-O59](MAIS-O59.md) (the same-frequency probability this estimates) · [MAIS-O55](MAIS-O55.md) (the $S_3$ selection law this samples) · [MAIS-O53](MAIS-O53.md) (the large-width constants a scaling study would target).*

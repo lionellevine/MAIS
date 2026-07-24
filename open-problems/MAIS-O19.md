@@ -1,6 +1,6 @@
 # Soundness of Gödel–Löb logic under polynomial budgets
 
-*Open problem MAIS-O19 · posed in [MAIS-A1](../agendas/A1/MAIS-A1.pdf) as [Conjecture 5.3](../agendas/A1/MAIS-A1.tex#L462) · Status: open.*
+*Open problem MAIS-O19 · posed in [MAIS-A1](../agendas/A1/) as [Conjecture 5.3](../agendas/A1/MAIS-A1.tex#L462) · Status: open.*
 
 *Safety: cooperative AI, agent foundations — Löbian cooperation · proof-based agents · bounded rationality. Mathematics: logic. Difficulty: ★★★ hard.*
 
@@ -12,6 +12,6 @@ Fix an efficient proof system $S$ satisfying the agenda's conventions (default $
 
 $$S \vdash \forall k > \hat{k}\ \  \varphi^{\rho,c}(k).$$
 
-In words: every law of provability logic remains a law when every "provable" is replaced by "provable within $k^{c_j}$ symbols," for exponents chosen once per law, uniformly in the subject matter and for all sufficiently large $k$. The expected proof inducts on a $\mathsf{GL}$-derivation — distribution and the axiom $\Box A \to \Box\Box A$ are Critch's bookkeeping lemmas, modus ponens composes schedules after a polarity-respecting harmonization of budgets — and the Löb axiom case, [MAIS-O18](MAIS-O18.md), is the real content. For the conventions and the harmonization sketch, see [MAIS-A1](../agendas/A1/MAIS-A1.pdf).
+In words: every law of provability logic remains a law when every "provable" is replaced by "provable within $k^{c_j}$ symbols," for exponents chosen once per law, uniformly in the subject matter and for all sufficiently large $k$. The expected proof inducts on a $\mathsf{GL}$-derivation — distribution and the axiom $\Box A \to \Box\Box A$ are Critch's bookkeeping lemmas, modus ponens composes schedules after a polarity-respecting harmonization of budgets — and the Löb axiom case, [MAIS-O18](MAIS-O18.md), is the real content. For the conventions and the harmonization sketch, see [MAIS-A1](../agendas/A1/).
 
 *Related: [MAIS-O18](MAIS-O18.md) (the Löb axiom case) · [MAIS-O22](MAIS-O22.md) (the completeness converse) · [MAIS-O12](MAIS-O12.md) (the polynomial bounds on $\mathcal{E}$ and $d_S$ the hypothesis needs).*

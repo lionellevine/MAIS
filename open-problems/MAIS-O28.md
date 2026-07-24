@@ -1,6 +1,6 @@
 # Causal model identifiability under average-case regret
 
-*Open problem MAIS-O28 · posed in [MAIS-A2](../agendas/A2/MAIS-A2.pdf) as [Problem 4.7](../agendas/A2/MAIS-A2.tex#L305) · Status: open.*
+*Open problem MAIS-O28 · posed in [MAIS-A2](../agendas/A2/) as [Problem 4.7](../agendas/A2/MAIS-A2.tex#L305) · Status: open.*
 
 *Safety: interpretability — world-model extraction · eliciting latent knowledge · black-box evaluation · bounded rationality. Mathematics: probability · statistics. Difficulty: ★★ project.*
 
@@ -14,6 +14,6 @@ $$\nu\lbrace (\sigma,\mathbf{O}'):\mathrm{reg}_M^{\mathbf{O}'}(\pi_{\sigma,\math
 
 Define the identified set and radius $\varphi(\delta,\kappa;\mathsf{s},\lambda)$ as before with this admissibility. Determine $\varphi(\delta,\kappa)$ up to constants; in particular determine the threshold below which the exception mass still leaves the graph identified, and the rate at which $\varphi(0,\kappa)\to0$ as $\kappa\to0$.
 
-In words: the agent may have regret above $\delta$ on a set of tasks of $\nu$-measure up to $\kappa$, with no guarantee at all there, and the problem asks how the irreducible ambiguity depends jointly on $\delta$ and $\kappa$. The measure $\nu$ is declared rather than canonical; a solution for any explicit non-degenerate $\nu$ counts as a full success, and the dependence on $\nu$ is itself part of the geometry. In the goal-based (rather than interventional) setting, Nayebi has proved a recovery theorem from low average-case regret over an explicit goal family; the interventional version posed here remains open. See [MAIS-A2](../agendas/A2/MAIS-A2.pdf) for the formalism.
+In words: the agent may have regret above $\delta$ on a set of tasks of $\nu$-measure up to $\kappa$, with no guarantee at all there, and the problem asks how the irreducible ambiguity depends jointly on $\delta$ and $\kappa$. The measure $\nu$ is declared rather than canonical; a solution for any explicit non-degenerate $\nu$ counts as a full success, and the dependence on $\nu$ is itself part of the geometry. In the goal-based (rather than interventional) setting, Nayebi has proved a recovery theorem from low average-case regret over an explicit goal family; the interventional version posed here remains open. See [MAIS-A2](../agendas/A2/) for the formalism.
 
 *Related: [MAIS-O27](MAIS-O27.md) (the worst-case regret floor) · [MAIS-O29](MAIS-O29.md) (a different model of imperfection: Boltzmann noise) · [MAIS-O2](MAIS-O2.md) (the sampled-action headline problem).*

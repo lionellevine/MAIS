@@ -1,6 +1,6 @@
 # Eyring–Kramers law for singular wells
 
-*Open problem MAIS-O73 · posed in [MAIS-A7](../agendas/A7/MAIS-A7.pdf) as [Problem 3.4](../agendas/A7/MAIS-A7.tex#L247) · Status: open.*
+*Open problem MAIS-O73 · posed in [MAIS-A7](../agendas/A7/) as [Problem 3.4](../agendas/A7/MAIS-A7.tex#L247) · Status: open.*
 
 *Safety: generalization — singular learning theory · training dynamics · developmental interpretability. Mathematics: probability · algebraic geometry. Difficulty: ★★★ hard.*
 
@@ -18,6 +18,6 @@ $$\mathbb{E}_x[\tau_B] = C\ \varepsilon^{\alpha} \bigl( \log \tfrac1\varepsilon 
 
 uniformly for $x$ in compact subsets of the interior of $\mathcal{B}_A \cap \lbrace  L < h \rbrace $. Determine the rational exponent $\alpha$, the integer $q$, and the constant $C > 0$ from a finite resolution of the germ along $K_A$ (its exponents and leading volume coefficients) and the corresponding leading local capacity data at the minimizing gate. The exponential term is already supplied by Freidlin–Wentzell theory; the problem is the stated polynomial–logarithmic prefactor.
 
-When the gate is a single Morse saddle, the agenda conjectures $\alpha = \lambda_A - d/2$ and $q = m_A - 1$ ([MAIS-O74](MAIS-O74.md)): flatter wells are stickier, by precisely the learning coefficient's deficit from $d/2$. What is known stops short: Berglund–Gentz treat specific degenerate normal forms, Assal–Bony–Michel settle Morse–Bott wells, and Delande treats isolated wells and gates of diagonal monomial type; none covers an arbitrary analytic singular well with exponents given by its resolution data. For a degenerate positive-dimensional gate, even the conjectural prefactor needs spectral data that no volume invariant sees. Full setting and references in [MAIS-A7](../agendas/A7/MAIS-A7.pdf).
+When the gate is a single Morse saddle, the agenda conjectures $\alpha = \lambda_A - d/2$ and $q = m_A - 1$ ([MAIS-O74](MAIS-O74.md)): flatter wells are stickier, by precisely the learning coefficient's deficit from $d/2$. What is known stops short: Berglund–Gentz treat specific degenerate normal forms, Assal–Bony–Michel settle Morse–Bott wells, and Delande treats isolated wells and gates of diagonal monomial type; none covers an arbitrary analytic singular well with exponents given by its resolution data. For a degenerate positive-dimensional gate, even the conjectural prefactor needs spectral data that no volume invariant sees. Full setting and references in [MAIS-A7](../agendas/A7/).
 
 *Related: [MAIS-O74](MAIS-O74.md) (the conjectured prefactor when the gate is Morse) · [MAIS-O75](MAIS-O75.md) (selection with no barrier at all) · [MAIS-O72](MAIS-O72.md) (whether the stratum data feeding the prefactor is finite and subanalytic).*

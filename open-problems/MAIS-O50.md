@@ -1,6 +1,6 @@
 # Which minima does gradient flow select from random initialization?
 
-*Open problem MAIS-O50 · posed in [MAIS-A4](../agendas/A4/MAIS-A4.pdf) as [Question 5.10](../agendas/A4/MAIS-A4.tex#L482) · Status: open.*
+*Open problem MAIS-O50 · posed in [MAIS-A4](../agendas/A4/) as [Question 5.10](../agendas/A4/MAIS-A4.tex#L482) · Status: open.*
 
 *Safety: interpretability, generalization — training dynamics · training for interpretability · monosemanticity · superposition · simplicity bias. Mathematics: dynamical systems · probability · optimization. Difficulty: ★★★ hard.*
 
@@ -20,6 +20,6 @@ Both model organisms come from the agenda. The **ReLU toy model** has data $x\in
 2. Set $\mu(W_\infty)=+\infty$ when $\theta_\infty=\dagger$. For fixed $(m,n,S,\sigma)$ and $c\in[0,1]$, is $\lambda\mapsto \Pr[\mu(W_\infty)\le c]$ nondecreasing?
 3. Fix instead $(m,k,S,\sigma)$ with $k\ge m$ and run the selected Clarke trajectory for $L'$ on $\theta=(W,\beta,V,c)$, initialized with $W_{ij},V_{ij}\sim N(0,\sigma^2)$ independently and both bias vectors zero. Determine the law of $M(\theta_\infty)$ on $[1/m,1]\cup\lbrace \dagger\rbrace $, interpreting $M(\theta_\infty)=\dagger$ on nonconvergent trajectories.
 
-Part (1) asks, in the smallest model, for the probability that training drops the weak feature, dedicates the dimension to it, or stores the pair antipodally, as a function of the importance, sparsity, penalty, and initialization scale. Part (2) asks whether more regularization monotonically raises the chance of landing at coherence at most $c$. Part (3) is the implicit-bias question for interpretability in miniature: when the task cannot tell legible from scrambled, what distribution over monosemanticity does training induce? The case $m=k=2$ is already open. Conventions and the blindness proposition are in [MAIS-A4](../agendas/A4/MAIS-A4.pdf).
+Part (1) asks, in the smallest model, for the probability that training drops the weak feature, dedicates the dimension to it, or stores the pair antipodally, as a function of the importance, sparsity, penalty, and initialization scale. Part (2) asks whether more regularization monotonically raises the chance of landing at coherence at most $c$. Part (3) is the implicit-bias question for interpretability in miniature: when the task cannot tell legible from scrambled, what distribution over monosemanticity does training induce? The case $m=k=2$ is already open. Conventions and the blindness proposition are in [MAIS-A4](../agendas/A4/).
 
 *Related: [MAIS-O51](MAIS-O51.md) (the exact-minimizer phase diagram of the same $(2,1)$ model) · [MAIS-O8](MAIS-O8.md) (gradient descent selecting between two perfect policies) · [MAIS-O48](MAIS-O48.md) (the statics of the monosemanticity index $M$) · [MAIS-O59](MAIS-O59.md) (frequency selection dynamics in a two-neuron network).*

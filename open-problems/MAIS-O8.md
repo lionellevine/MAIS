@@ -1,6 +1,6 @@
 # A predictive theory of out-of-distribution generalization
 
-*Open problem MAIS-O8 · headline problem 8 of the survey [MAIS-P1](../papers/P1/MAIS-P1.pdf) · canonically formalized in [MAIS-A8](../agendas/A8/MAIS-A8.pdf) as [Problem 5.1](../agendas/A8/MAIS-A8.tex#L267) · Status: open.*
+*Open problem MAIS-O8 · headline problem 8 of the survey [MAIS-P1](../papers/P1/) · canonically formalized in [MAIS-A8](../agendas/A8/) as [Problem 5.1](../agendas/A8/MAIS-A8.tex#L267) · Status: open.*
 
 *Safety: generalization — goal misgeneralization · proxy goals · simplicity bias · training dynamics. Mathematics: probability · optimization · dynamical systems. Difficulty: ★★★ hard.*
 
@@ -14,6 +14,6 @@ $$\bar q_\varepsilon(m,\sigma,L,\eta)=\lim_{k\to\infty}q_\varepsilon(k;m,\sigma,
 
 exists and, if it does, compute it. At finite width the probe sign may change more than once; the first case is $\varepsilon=0$, $m=2$.
 
-For linear policies the answer is a theorem: the maximum-margin implicit bias of Soudry et al. proves the proxy wins at $\varepsilon=0$, the goal wins for every $\varepsilon>0$, and the verdict flips when the encoding $(1,p,c)$ is replaced by $(1,c-p)$ — the encoding, not the initialization, decides. The kernel and mean-field infinite-width limits also select the proxy at $\varepsilon=0$. At finite width the problem is open at every $\varepsilon$, including $\varepsilon=0$ at width two; the agenda's Problem 5.6 restates the $\varepsilon>0$ slice of this problem at the level of networks. For the solved linear chapter and the infinite-width propositions, see [MAIS-A8](../agendas/A8/MAIS-A8.pdf).
+For linear policies the answer is a theorem: the maximum-margin implicit bias of Soudry et al. proves the proxy wins at $\varepsilon=0$, the goal wins for every $\varepsilon>0$, and the verdict flips when the encoding $(1,p,c)$ is replaced by $(1,c-p)$ — the encoding, not the initialization, decides. The kernel and mean-field infinite-width limits also select the proxy at $\varepsilon=0$. At finite width the problem is open at every $\varepsilon$, including $\varepsilon=0$ at width two; the agenda's Problem 5.6 restates the $\varepsilon>0$ slice of this problem at the level of networks. For the solved linear chapter and the infinite-width propositions, see [MAIS-A8](../agendas/A8/).
 
 *Related: [MAIS-O82](MAIS-O82.md) (the conjectured answer as width grows at $\varepsilon=0$) · [MAIS-O83](MAIS-O83.md) (does any finite width favor the intended goal?) · [MAIS-O84](MAIS-O84.md) (the finite-time crossover behind "2% diversity suffices") · [MAIS-O91](MAIS-O91.md) (the numerical atlas of this selection map).*

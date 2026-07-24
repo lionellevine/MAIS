@@ -1,6 +1,6 @@
 # How many Fourier frequencies do modular-addition networks use?
 
-*Open problem MAIS-O52 · posed in [MAIS-A5](../agendas/A5/MAIS-A5.pdf) as [Problem 5.2](../agendas/A5/MAIS-A5.tex#L251) · Status: open.*
+*Open problem MAIS-O52 · posed in [MAIS-A5](../agendas/A5/) as [Problem 5.2](../agendas/A5/MAIS-A5.tex#L251) · Status: open.*
 
 *Safety: interpretability — mechanistic interpretability · universality of circuits · training dynamics. Mathematics: probability · dynamical systems · harmonic analysis. Difficulty: ★★★ hard.*
 
@@ -14,6 +14,6 @@ $$\limsup_{p \to \infty} \  \limsup_{t \to \infty} \  \frac{\mathbb{E}\  N_\delt
 
 is it zero (*sparse* regime, as observed experimentally) or positive (*dense* regime, as in the $\ell_{2,3}$ maximum-margin model and quadratic experiments of Morwani et al.)? In the sparse case, determine the growth rate of $\limsup_t \mathbb{E} N_\delta$ in $p$. (Posed per measurable selection of Clarke trajectories; whether the answer depends on the selection is part of the problem.)
 
-The empirical record is too thin even to conjecture the growth rate: essentially $N_{0.05} \approx 5$ at $p = 113$ for one transformer, and 3–15 key frequencies across the networks of Chughtai et al. A coset-based heuristic of McCracken et al. suggests order $\log p$ features for deeper networks; whether shallow trained networks track any such rate is open. For the ensemble conventions and the surrounding results, see [MAIS-A5](../agendas/A5/MAIS-A5.pdf).
+The empirical record is too thin even to conjecture the growth rate: essentially $N_{0.05} \approx 5$ at $p = 113$ for one transformer, and 3–15 key frequencies across the networks of Chughtai et al. A coset-based heuristic of McCracken et al. suggests order $\log p$ features for deeper networks; whether shallow trained networks track any such rate is open. For the ensemble conventions and the surrounding results, see [MAIS-A5](../agendas/A5/).
 
 *Related: [MAIS-O5](MAIS-O5.md) (the full selection law this counts) · [MAIS-O58](MAIS-O58.md) (which $k$-sets of frequencies, not how many) · [MAIS-O61](MAIS-O61.md) (measure the counts at small $p$).*

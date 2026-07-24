@@ -1,6 +1,6 @@
 # Exact cost of weight sparsity in the ReLU toy model
 
-*Open problem MAIS-O49 · posed in [MAIS-A4](../agendas/A4/MAIS-A4.pdf) as [Problem 5.9](../agendas/A4/MAIS-A4.tex#L459) · Status: open.*
+*Open problem MAIS-O49 · posed in [MAIS-A4](../agendas/A4/) as [Problem 5.9](../agendas/A4/MAIS-A4.tex#L459) · Status: open.*
 
 *Safety: interpretability — training for interpretability · mechanistic interpretability · superposition. Mathematics: optimization · probability · combinatorics. Difficulty: ★★ project.*
 
@@ -18,6 +18,6 @@ $$Q^{\mathrm{rec}}(k_0)=\inf\lbrace L(W,b):\Vert W_i\Vert _0\le k_0\ \text{for a
 
 compared pointwise as the wiring budget $k_0$ and coherence budget $c$ vary.
 
-In words: among networks whose every feature is wired to one neuron, is the best strategy always either "orthogonal storage plus dropping" or "antipodal pairs plus dropping," with the switch at sparsity $3/7$? The final comparison asks which legibility currency — sparse wiring or low coherence — buys recoverable features more cheaply. The calibration proofs and the recovery predicate are in [MAIS-A4](../agendas/A4/MAIS-A4.pdf).
+In words: among networks whose every feature is wired to one neuron, is the best strategy always either "orthogonal storage plus dropping" or "antipodal pairs plus dropping," with the switch at sparsity $3/7$? The final comparison asks which legibility currency — sparse wiring or low coherence — buys recoverable features more cheaply. The calibration proofs and the recovery predicate are in [MAIS-A4](../agendas/A4/).
 
 *Related: [MAIS-O4](MAIS-O4.md) (the coherence-constrained frontier, the other currency) · [MAIS-O48](MAIS-O48.md) (alignment constraints in the privileged-basis model) · [MAIS-O45](MAIS-O45.md) (the recovery predicate applied to trained dictionaries).*

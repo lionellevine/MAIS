@@ -1,6 +1,6 @@
 # Neuron purity and representation selection for S₃ networks
 
-*Open problem MAIS-O55 · posed in [MAIS-A5](../agendas/A5/MAIS-A5.pdf) as [Problem 5.5](../agendas/A5/MAIS-A5.tex#L280) · Status: open.*
+*Open problem MAIS-O55 · posed in [MAIS-A5](../agendas/A5/) as [Problem 5.5](../agendas/A5/MAIS-A5.tex#L280) · Status: open.*
 
 *Safety: interpretability — mechanistic interpretability · training dynamics · universality of circuits · monosemanticity. Mathematics: dynamical systems · representation theory · probability. Difficulty: ★★★ hard.*
 
@@ -13,6 +13,6 @@ The network is one hidden layer of $m$ neurons: logits $f_\theta(a,b)(c) = \sum_
 - (a) (*Purity.*) For $\sigma = \mathrm{ReLU}$: prove or refute that almost surely every neuron ends pure or silent. Precisely: each neuron $i$ either is eventually *inactive* — $u_i(a) + v_i(b) < 0$ for all $(a,b)$, so that it contributes to no logit — or there is a class $[\rho] \in \lbrace \mathrm{sgn}, \mathrm{std}\rbrace $ such that, for every $\delta \in (0,\tfrac12)$, neuron $i$ is $(\delta,[\rho])$-pure for all large $t$.
 - (b) (*Selection.*) For each $\sigma \in \lbrace x^2, \mathrm{ReLU}\rbrace $: prove that the limiting selection law $\mu_\infty$ exists, and determine it as a measure on the four subsets of $\lbrace \mathrm{sgn}, \mathrm{std}\rbrace $. In particular, decide whether $\mu_\infty(\lbrace S : \mathrm{std} \in S\rbrace ) = 1$ and whether $\mu_\infty(\lbrace S : \mathrm{sgn} \in S\rbrace ) < 1$.
 
-Neither hypothesis in (a) can be dropped: with positive probability a neuron is inactive at initialization, and then its gradient is pure weight decay, so it shrinks radially and stays inactive, and impure, forever; and at $\delta \ge \tfrac12$ one neuron can be pure for both classes at once. For maximum margin in the $\ell_{2,3}$ norm, Morwani et al. prove every nonzero neuron pure with both representations present — a different regularizer, so a motivation rather than a prediction here. For the exact-loss, rectifier, and weight-decay regimes nothing is proved; see [MAIS-A5](../agendas/A5/MAIS-A5.pdf).
+Neither hypothesis in (a) can be dropped: with positive probability a neuron is inactive at initialization, and then its gradient is pure weight decay, so it shrinks radially and stays inactive, and impure, forever; and at $\delta \ge \tfrac12$ one neuron can be pure for both classes at once. For maximum margin in the $\ell_{2,3}$ norm, Morwani et al. prove every nonzero neuron pure with both representations present — a different regularizer, so a motivation rather than a prediction here. For the exact-loss, rectifier, and weight-decay regimes nothing is proved; see [MAIS-A5](../agendas/A5/).
 
 *Related: [MAIS-O56](MAIS-O56.md) (the vanishing-decay limit of this selection law) · [MAIS-O53](MAIS-O53.md) (multiplicities at large width) · [MAIS-O61](MAIS-O61.md) (measure the $S_3$ law numerically) · [MAIS-O5](MAIS-O5.md) (the headline problem).*

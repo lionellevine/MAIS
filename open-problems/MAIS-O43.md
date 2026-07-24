@@ -1,6 +1,6 @@
 # Measure the sparse-autoencoder recovery–merging phase diagram
 
-*Open problem MAIS-O43 · posed in [MAIS-A3](../agendas/A3/MAIS-A3.pdf) as [Problem 5.3](../agendas/A3/MAIS-A3.tex#L342) · Status: open.*
+*Open problem MAIS-O43 · posed in [MAIS-A3](../agendas/A3/) as [Problem 5.3](../agendas/A3/MAIS-A3.tex#L342) · Status: open.*
 
 *Safety: interpretability — sparse autoencoders · mechanistic interpretability · superposition. Mathematics: computational · statistics. Difficulty: ★ starter · empirical.*
 
@@ -14,6 +14,6 @@ $$\lambda\in\lbrace 10^{-4},\ 3\cdot10^{-4},\ 10^{-3},\ 3\cdot10^{-3},\ 10^{-2}\
 
 fit the centered objective $G_\lambda$ by full-batch Adam (learning rate $10^{-3}$, $\beta_1=.9$, $\beta_2=.999$, numerical stabilizer $10^{-8}$) on $2^{18}$ fixed training samples for $2\cdot10^5$ updates, from $20$ independent parameter initializations. Use $2^{16}$ fresh samples for evaluation; report recovery (agenda Definition 4.1) at $\varepsilon=.05$, merges at $(\varepsilon,\delta)=(.05,.1)$, and splits at $\delta=.05$. Publish the random seeds, samples, checkpoints, and bootstrap $95\%$ confidence intervals for each fraction.
 
-The payoff is a measured surface: recovery, merge, and split fractions as functions of the nesting fraction $\gamma$, the penalty $\lambda$, and the dictionary size $M$ — turning "sparse autoencoders sometimes absorb features" into thresholds that the recovery conjecture and the two-feature phase diagram must reproduce. For the model, the definitions, and the propositions the thresholds calibrate, see [MAIS-A3](../agendas/A3/MAIS-A3.pdf).
+The payoff is a measured surface: recovery, merge, and split fractions as functions of the nesting fraction $\gamma$, the penalty $\lambda$, and the dictionary size $M$ — turning "sparse autoencoders sometimes absorb features" into thresholds that the recovery conjecture and the two-feature phase diagram must reproduce. For the model, the definitions, and the propositions the thresholds calibrate, see [MAIS-A3](../agendas/A3/).
 
 *Related: [MAIS-O41](MAIS-O41.md) (the exact two-feature diagram this measures at scale) · [MAIS-O36](MAIS-O36.md) (the recovery conjecture the thresholds inform) · [MAIS-O39](MAIS-O39.md) (whether the amortized objective used here shifts the answer).*

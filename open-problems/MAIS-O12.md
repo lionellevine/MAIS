@@ -1,6 +1,6 @@
 # Expansion and diagonalization costs in Peano arithmetic
 
-*Open problem MAIS-O12 · posed in [MAIS-A1](../agendas/A1/MAIS-A1.pdf) as [Problem 3.7](../agendas/A1/MAIS-A1.tex#L322) · Status: open.*
+*Open problem MAIS-O12 · posed in [MAIS-A1](../agendas/A1/) as [Problem 3.7](../agendas/A1/MAIS-A1.tex#L322) · Status: open.*
 
 *Safety: cooperative AI, agent foundations — Löbian cooperation · proof-based agents · bounded rationality. Mathematics: logic · complexity theory. Difficulty: ★★ project.*
 
@@ -10,6 +10,6 @@ Work in $\mathsf{PA}_{\mathrm{bin}}$: Peano arithmetic in a Hilbert calculus wit
 
 **Problem ([MAIS-A1, Problem 3.7](../agendas/A1/MAIS-A1.tex#L322)).** For $S = \mathsf{PA}_{\mathrm{bin}}$: determine $\mathcal{E}_S$ and $d_S$ up to constant factors. In particular, decide whether $\mathcal{E}_S(m) = O(m)$, as Critch's engineering estimate suggests, or whether internalization has an inherent superlinear cost; and determine the least degree of $d_S$ for the standard diagonal construction and for any construction.
 
-The techniques should be in reach: Pudlák's Handbook chapter proves the derivability conditions with length tracking, and the same calculation would produce the certified bound on $\mathcal{E}$ that the bounded FairBot theorem assumes. For the definitions in full and the ledger these constants dominate, see [MAIS-A1](../agendas/A1/MAIS-A1.pdf).
+The techniques should be in reach: Pudlák's Handbook chapter proves the derivability conditions with length tracking, and the same calculation would produce the certified bound on $\mathcal{E}$ that the bounded FairBot theorem assumes. For the definitions in full and the ledger these constants dominate, see [MAIS-A1](../agendas/A1/).
 
 *Related: [MAIS-O10](MAIS-O10.md) (polynomial overhead follows from linear $\mathcal{E}_S$ and polynomial $d_S$) · [MAIS-O16](MAIS-O16.md) (the cooperation threshold whose finiteness needs the certified $\mathcal{E}$ bound) · [MAIS-O20](MAIS-O20.md) (a route that avoids $d_S$ entirely).*

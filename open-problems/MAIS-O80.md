@@ -1,6 +1,6 @@
 # Is leap complexity determined by singularity data?
 
-*Open problem MAIS-O80 · posed in [MAIS-A7](../agendas/A7/MAIS-A7.pdf) as [Problem 3.14](../agendas/A7/MAIS-A7.tex#L481) · Status: open.*
+*Open problem MAIS-O80 · posed in [MAIS-A7](../agendas/A7/) as [Problem 3.14](../agendas/A7/MAIS-A7.tex#L481) · Status: open.*
 
 *Safety: generalization — training dynamics · singular learning theory · developmental interpretability. Mathematics: algebraic geometry · combinatorics. Difficulty: ★★★ hard.*
 
@@ -16,6 +16,6 @@ $$\mathcal{D} = \bigl( (\lambda_j, m_j),\ \operatorname{Spec}_{<0} \nabla^2 L|_{
 
 Compute $\mathcal{D}$ for a nontrivial class of admissible instances, and decide whether leap is a function of this list: must any two admissible instances with identical $\mathcal{D}$ have equal $\operatorname{Leap}(f)$? A pair with matching lists and different leaps refutes functionhood and would sharpen the agenda's two-clocks obstruction (Section 6.2); a proof of functionhood would be the first genuinely nonlinear entry in the dictionary.
 
-Either outcome informs the same question: whether the geometric invariants attached to a training trajectory's critical sets carry enough information to predict its stage structure, or whether the target's combinatorics is genuinely extra data. For the surrounding program and the linear calibration case, see [MAIS-A7](../agendas/A7/MAIS-A7.pdf).
+Either outcome informs the same question: whether the geometric invariants attached to a training trajectory's critical sets carry enough information to predict its stage structure, or whether the target's combinatorics is genuinely extra data. For the surrounding program and the linear calibration case, see [MAIS-A7](../agendas/A7/).
 
 *Related: [MAIS-O7](MAIS-O7.md) (the solvable linear dictionary this would extend beyond linearity) · [MAIS-O77](MAIS-O77.md) (computing singularity data along a saddle chain in the linear case) · [MAIS-O81](MAIS-O81.md) (whether a saddle's free-energy invariant is even well defined).*

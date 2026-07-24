@@ -1,6 +1,6 @@
 # Vanishing weight decay selects both S₃ representations
 
-*Open problem MAIS-O56 · posed in [MAIS-A5](../agendas/A5/MAIS-A5.pdf) as [Conjecture 5.6](../agendas/A5/MAIS-A5.tex#L288) · Status: open.*
+*Open problem MAIS-O56 · posed in [MAIS-A5](../agendas/A5/) as [Conjecture 5.6](../agendas/A5/MAIS-A5.tex#L288) · Status: open.*
 
 *Safety: interpretability — mechanistic interpretability · training dynamics · universality of circuits. Mathematics: dynamical systems · representation theory · optimization. Difficulty: ★★★ hard.*
 
@@ -10,6 +10,6 @@ The ensemble $\mathcal{T}(S_3, x^2, m, \lambda, \tau)$ is a one-hidden-layer net
 
 **Conjecture ([MAIS-A5, Conjecture 5.6](../agendas/A5/MAIS-A5.tex#L288)).** Fix a nonexceptional threshold $\varepsilon > 0$. In $\mathcal{T}(S_3, x^2, m, \lambda, \tau)$ with $m \ge 100$, in the double limit $t \to \infty$ then $\lambda \to 0$: the selection law converges to the point mass at $\lbrace \mathrm{sgn}, \mathrm{std}\rbrace $.
 
-The motivation is a theorem one norm away. Morwani et al. characterize the networks maximizing the classification margin normalized by the $\ell_{2,3}$ norm $(\sum_i \Vert \omega_i\Vert _2^3)^{1/3}$ (with $\omega_i$ the concatenated weights of neuron $i$): for $S_3$, every nonzero neuron is pure and both nontrivial representations are present. But the ensemble here uses Euclidean squared decay, and weak-regularization limits are known to respect the regularizer's own norm, so the theorem motivates the conjecture without predicting it. A proof would require a dynamical analysis of the Euclidean norm in this double limit; see [MAIS-A5](../agendas/A5/MAIS-A5.pdf) for what is known.
+The motivation is a theorem one norm away. Morwani et al. characterize the networks maximizing the classification margin normalized by the $\ell_{2,3}$ norm $(\sum_i \Vert \omega_i\Vert _2^3)^{1/3}$ (with $\omega_i$ the concatenated weights of neuron $i$): for $S_3$, every nonzero neuron is pure and both nontrivial representations are present. But the ensemble here uses Euclidean squared decay, and weak-regularization limits are known to respect the regularizer's own norm, so the theorem motivates the conjecture without predicting it. A proof would require a dynamical analysis of the Euclidean norm in this double limit; see [MAIS-A5](../agendas/A5/) for what is known.
 
 *Related: [MAIS-O55](MAIS-O55.md) (the same selection law at fixed $\lambda$) · [MAIS-O5](MAIS-O5.md) (the headline selection law) · [MAIS-O54](MAIS-O54.md) (how neurons split between the two representations).*

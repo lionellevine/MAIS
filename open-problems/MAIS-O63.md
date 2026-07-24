@@ -1,6 +1,6 @@
 # Learning coefficients of modular addition
 
-*Open problem MAIS-O63 · posed in [MAIS-A6](../agendas/A6/MAIS-A6.pdf) as [Problem 4.5](../agendas/A6/MAIS-A6.tex#L294) · Status: open.*
+*Open problem MAIS-O63 · posed in [MAIS-A6](../agendas/A6/) as [Problem 4.5](../agendas/A6/MAIS-A6.tex#L294) · Status: open.*
 
 *Safety: interpretability, generalization — singular learning theory · developmental interpretability · grokking. Mathematics: algebraic geometry · statistics. Difficulty: ★★★ hard.*
 
@@ -13,6 +13,6 @@ Modular addition is the test case. For odd $p$ and width $H$, the network $f_w(a
 - (a) Determine $\lambda(w^F_H)$ and $m(w^F_H)$.
 - (b) For each $R\ge R_p$, determine $\lambda_{\min}(p,H;R)=\min\lbrace \lambda(w): w\in W_0(p,H),\ \lVert w\rVert\le R\rbrace $, the set of local multiplicities among the minimizers, and whether the answer depends on $R$.
 
-A closed form in $(p,H)$ is the goal; upper and lower bounds that pin down the growth in either variable would already be progress. Part (b) is the safety-relevant quantity: the points attaining $\lambda_{\min}$ are where the posterior settles, so a formula for the minimizers is a prediction of which implementation of modular addition Bayesian learning prefers. For the definition of the local coefficient and what is known near the non-degenerate regime, see [MAIS-A6](../agendas/A6/MAIS-A6.pdf).
+A closed form in $(p,H)$ is the goal; upper and lower bounds that pin down the growth in either variable would already be progress. Part (b) is the safety-relevant quantity: the points attaining $\lambda_{\min}$ are where the posterior settles, so a formula for the minimizers is a prediction of which implementation of modular addition Bayesian learning prefers. For the definition of the local coefficient and what is known near the non-degenerate regime, see [MAIS-A6](../agendas/A6/).
 
 *Related: [MAIS-O6](MAIS-O6.md) (is the Fourier mechanism forced by singular geometry?) · [MAIS-O62](MAIS-O62.md) (the minimal width for an exact fit) · [MAIS-O70](MAIS-O70.md) (local coefficients on the template).*

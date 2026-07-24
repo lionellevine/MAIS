@@ -1,6 +1,6 @@
 # Which feature maps make the max-margin classifier misgeneralize?
 
-*Open problem MAIS-O85 · posed in [MAIS-A8](../agendas/A8/MAIS-A8.pdf) as [Problem 5.9](../agendas/A8/MAIS-A8.tex#L387) · Status: open.*
+*Open problem MAIS-O85 · posed in [MAIS-A8](../agendas/A8/) as [Problem 5.9](../agendas/A8/MAIS-A8.tex#L387) · Status: open.*
 
 *Safety: generalization — goal misgeneralization · proxy goals · simplicity bias. Mathematics: convex geometry · optimization. Difficulty: ★★ project.*
 
@@ -10,6 +10,6 @@ The setup, from the agenda: an agent at $p$ and a coin at $c$ on $\lbrace 0,\dot
 
 **Problem ([MAIS-A8, Problem 5.9](../agendas/A8/MAIS-A8.tex#L387)).** Give a structural criterion on a feature map $\psi:\lbrace 0,\dots,L\rbrace ^2\to\mathbb R^D$ deciding whether the maximum-margin direction at $\varepsilon=0$ is positive or negative at the probe. Restrict to separable encodings. If the maximum-margin direction vanishes at the probe, classify the result as undetermined at leading order and pass to the residual of [MAIS-O89](MAIS-O89.md).
 
-The known cases are data for the criterion. For monomial encodings the agenda gives a three-line Karush–Kuhn–Tucker argument: every training feature $\psi_k(p,L)$ has positive inner product with the probe feature, so the proxy wins for all $k$ and $L$. The relative encoding $(1,c-p)$ hard-wires the comparison the task turns on, and the goal wins. A criterion separating these — some geometric condition on how $\psi$ couples training states to unseen ones — would say in advance which representations of state misgeneralize, before any training is run. For the worked examples and the KKT certificates, see [MAIS-A8](../agendas/A8/MAIS-A8.pdf).
+The known cases are data for the criterion. For monomial encodings the agenda gives a three-line Karush–Kuhn–Tucker argument: every training feature $\psi_k(p,L)$ has positive inner product with the probe feature, so the proxy wins for all $k$ and $L$. The relative encoding $(1,c-p)$ hard-wires the comparison the task turns on, and the goal wins. A criterion separating these — some geometric condition on how $\psi$ couples training states to unseen ones — would say in advance which representations of state misgeneralize, before any training is run. For the worked examples and the KKT certificates, see [MAIS-A8](../agendas/A8/).
 
 *Related: [MAIS-O89](MAIS-O89.md) (the residual this problem defers to at a vanishing probe score) · [MAIS-O8](MAIS-O8.md) (the network version of the same selection question) · [MAIS-O82](MAIS-O82.md) (the width-$\infty$ proxy-selection conjecture).*

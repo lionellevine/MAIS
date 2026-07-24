@@ -1,6 +1,6 @@
 # Estimation rates and query design for Boltzmann agents
 
-*Open problem MAIS-O29 · posed in [MAIS-A2](../agendas/A2/MAIS-A2.pdf) as [Problem 4.8](../agendas/A2/MAIS-A2.tex#L315) · Status: open.*
+*Open problem MAIS-O29 · posed in [MAIS-A2](../agendas/A2/) as [Problem 4.8](../agendas/A2/MAIS-A2.tex#L315) · Status: open.*
 
 *Safety: interpretability — world-model extraction · eliciting latent knowledge · black-box evaluation · bounded rationality. Mathematics: statistics · optimization. Difficulty: ★★ project.*
 
@@ -14,6 +14,6 @@ where $E_M^{\mathbf{O}'}(d,w;\sigma):=\sum_z u(d,z)\ P_M(\mathbf{Z}=z\mid \mathb
 
 **Problem ([MAIS-A2, Problem 4.8](../agendas/A2/MAIS-A2.tex#L315)).** Under the Boltzmann channel with known $\beta$: (a) decide whether the map from models to Boltzmann behavior is injective on $\mathcal{M}(\mathsf{s},\lambda)$; (b) for each fixed finite $\beta$, determine the minimax risk at budget $N$ up to constants, including the deterioration as $\beta\to0$; then characterize the joint $(N,\beta)$ crossover from the smooth local rate (typically proportional to $1/(\beta\sqrt N)$) to the noiseless adaptive-search regime as $\beta\to\infty$; (c) solve the design problem: which distribution over queries $(\sigma,\mathbf{O}',w)$ maximizes the minimax rate?
 
-For fixed $\beta$, part (b) is smooth parametric estimation, and the econometrics of quantal response (from McKelvey–Palfrey onward) supplies the local analysis. Large $\beta$ creates no regret floor: the channel tends to the noiseless sign oracle, and information near a switching surface initially grows like $\beta^2$. The open content is the non-uniform crossover in (b) and the design problem (c), an optimization over mixtures, masks, and observations. For the query formalism and margin class, see [MAIS-A2](../agendas/A2/MAIS-A2.pdf).
+For fixed $\beta$, part (b) is smooth parametric estimation, and the econometrics of quantal response (from McKelvey–Palfrey onward) supplies the local analysis. Large $\beta$ creates no regret floor: the channel tends to the noiseless sign oracle, and information near a switching surface initially grows like $\beta^2$. The open content is the non-uniform crossover in (b) and the design problem (c), an optimization over mixtures, masks, and observations. For the query formalism and margin class, see [MAIS-A2](../agendas/A2/).
 
 *Related: [MAIS-O2](MAIS-O2.md) (sampled actions from a $\delta$-optimal adversary instead) · [MAIS-O28](MAIS-O28.md) (average-case regret, another realistic-agent model) · [MAIS-O35](MAIS-O35.md) (the two-variable starter, Boltzmann case included in its computational project).*

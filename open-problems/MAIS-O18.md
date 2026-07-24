@@ -1,6 +1,6 @@
 # Admissible budgets for a bounded Löb axiom
 
-*Open problem MAIS-O18 · posed in [MAIS-A1](../agendas/A1/MAIS-A1.pdf) as [Problem 5.1](../agendas/A1/MAIS-A1.tex#L447) · Status: open.*
+*Open problem MAIS-O18 · posed in [MAIS-A1](../agendas/A1/) as [Problem 5.1](../agendas/A1/MAIS-A1.tex#L447) · Status: open.*
 
 *Safety: cooperative AI, agent foundations — Löbian cooperation · proof-based agents · bounded rationality. Mathematics: logic. Difficulty: ★★★ hard.*
 
@@ -14,6 +14,6 @@ $$S \vdash \forall k > \hat{k}\ \Bigl(\Box_{b(k)}\bigl(\Box_{a(k)}\ p(k) \to p(k
 
 Restrict first to $\mathcal{B}$-terms satisfying $\lambda \leq_S^{\ast } b$, so the outer box is not a fixed finite search. Prove that some triple of polynomials works for $\mathsf{PA}_{\mathrm{bin}}$, and for given $(a, b)$ characterize the admissible $c$. (The admissible $c$ need not have a least element pointwise; for polynomial $c$, determine the least admissible degree.)
 
-In words: whenever the reflection instance at budget $a$ has a proof within budget $b$, the sentence itself must have a proof within budget $c$, and $S$ proves this uniformly for all large $k$. This is the statement the parametric bounded Löb theorem would become if its implication moved inside the box, and the heuristic reduction of bounded Gödel–Löb soundness makes it the case that carries the real content. For the conventions and that reduction, see [MAIS-A1](../agendas/A1/MAIS-A1.pdf).
+In words: whenever the reflection instance at budget $a$ has a proof within budget $b$, the sentence itself must have a proof within budget $c$, and $S$ proves this uniformly for all large $k$. This is the statement the parametric bounded Löb theorem would become if its implication moved inside the box, and the heuristic reduction of bounded Gödel–Löb soundness makes it the case that carries the real content. For the conventions and that reduction, see [MAIS-A1](../agendas/A1/).
 
 *Related: [MAIS-O19](MAIS-O19.md) (bounded GL soundness, whose Löb-axiom case this is) · [MAIS-O15](MAIS-O15.md) (the rule-form counterpart with explicit thresholds) · [MAIS-O13](MAIS-O13.md) (the budget comparisons the certificates need).*

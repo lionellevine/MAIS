@@ -1,6 +1,6 @@
 # Does a saddle have a well-defined free energy?
 
-*Open problem MAIS-O81 · posed in [MAIS-A7](../agendas/A7/MAIS-A7.pdf) as [Problem 6.1](../agendas/A7/MAIS-A7.tex#L544) · Status: open.*
+*Open problem MAIS-O81 · posed in [MAIS-A7](../agendas/A7/) as [Problem 6.1](../agendas/A7/MAIS-A7.tex#L544) · Status: open.*
 
 *Safety: generalization — singular learning theory · developmental interpretability. Mathematics: statistics · algebraic geometry. Difficulty: ★★★ hard.*
 
@@ -18,6 +18,6 @@ $$\sup_{n \in J_q} \frac{\bigl| F_{q,n}(U_k^{q,n}) - n \inf_{U_k^{q,n}} L_{q,n} 
 
 for every $0 \le k \le r$, or prove that no such pair $(\Lambda, \delta_{q,n})$ exists. In the latter case identify the schedule-dependent correction terms, such as the rim term above, that any true ladder must carry. The moving interval $J_q$ contains every crossover while tending to infinity, and the $o_p(\log n)$ precision prevents an unconstrained error from absorbing the discrepancy.
 
-Until this is settled, "stratified by learning coefficient" is fully meaningful on the optimal set itself, and only heuristically meaningful on the saddle chains above it, where the interesting dynamics happens — the sharpest obstruction the agenda has to report. See [MAIS-A7](../agendas/A7/MAIS-A7.pdf), Section 6.1.
+Until this is settled, "stratified by learning coefficient" is fully meaningful on the optimal set itself, and only heuristically meaningful on the saddle chains above it, where the interesting dynamics happens — the sharpest obstruction the agenda has to report. See [MAIS-A7](../agendas/A7/), Section 6.1.
 
 *Related: [MAIS-O78](MAIS-O78.md) (the time–sample dictionary whose part (a) presupposes this expansion) · [MAIS-O79](MAIS-O79.md) (the effective-loss window where the same rim term appears) · [MAIS-O77](MAIS-O77.md) (the two-sided invariants that a successful $\Lambda$ should reproduce).*

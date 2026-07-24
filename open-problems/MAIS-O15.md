@@ -1,6 +1,6 @@
 # Explicit thresholds in parametric bounded Löb
 
-*Open problem MAIS-O15 · posed in [MAIS-A1](../agendas/A1/MAIS-A1.pdf) as [Problem 4.6](../agendas/A1/MAIS-A1.tex#L381) · Status: open.*
+*Open problem MAIS-O15 · posed in [MAIS-A1](../agendas/A1/) as [Problem 4.6](../agendas/A1/MAIS-A1.tex#L381) · Status: open.*
 
 *Safety: cooperative AI, agent foundations — Löbian cooperation · proof-based agents · bounded rationality. Mathematics: logic · complexity theory. Difficulty: ★★ project.*
 
@@ -14,6 +14,6 @@ $$\hat{k} \ \le\  K\bigl(L, |p|, |f|_{\mathcal{B}}, C_S\bigr), \qquad \ell_S\big
 
 and determine how small $K$ and $\Lambda$ can be made. In particular, for $f(k) = k$ and a certified linear expansion bound, can both be polynomial in $L + |p|$?
 
-The first bound caps the threshold; the second caps the length of the proof that certifies everything beyond it. A polynomial answer for $f(k) = k$ would make the FairBot cooperation threshold effectively computable rather than merely finite. For the repaired theorem, internal regularity, and the certificate formalism, see [MAIS-A1](../agendas/A1/MAIS-A1.pdf); for the refutation and repair in full, [MAIS-P2](../papers/P2/MAIS-P2.pdf).
+The first bound caps the threshold; the second caps the length of the proof that certifies everything beyond it. A polynomial answer for $f(k) = k$ would make the FairBot cooperation threshold effectively computable rather than merely finite. For the repaired theorem, internal regularity, and the certificate formalism, see [MAIS-A1](../agendas/A1/); for the refutation and repair in full, [MAIS-P2](../papers/P2/).
 
 *Related: [MAIS-O13](MAIS-O13.md) (the assumed comparison conjecture) · [MAIS-O16](MAIS-O16.md) (the instance with a game attached) · [MAIS-O17](MAIS-O17.md) (thresholds uniform over agent families) · [MAIS-O12](MAIS-O12.md) (the expansion certificate itself).*

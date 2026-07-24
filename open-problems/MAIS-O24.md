@@ -1,6 +1,6 @@
 # Explicit polynomial margins replacing generic causal identifiability
 
-*Open problem MAIS-O24 · posed in [MAIS-A2](../agendas/A2/MAIS-A2.pdf) as [Problem 4.2](../agendas/A2/MAIS-A2.tex#L265) · Status: open.*
+*Open problem MAIS-O24 · posed in [MAIS-A2](../agendas/A2/) as [Problem 4.2](../agendas/A2/MAIS-A2.tex#L265) · Status: open.*
 
 *Safety: interpretability — world-model extraction · eliciting latent knowledge · black-box evaluation. Mathematics: algebraic geometry · probability · complexity theory. Difficulty: ★★ project.*
 
@@ -14,6 +14,6 @@ The objects: a skeleton $\mathsf{s}=(\mathbf{C},\mathbf{O},\mathbf{Z},u)$ fixes 
 2. quantitatively, $M'\in I_\delta(M)$ implies $e(M;M')\le (K/\lambda\mu)^{a}\ \delta$ for all $\delta$ below an explicit threshold;
 3. the excluded set is small: for each fixed graph $G$ and Lebesgue-almost-every $u$, $\mathrm{Leb}\bigl\lbrace \theta: |Q^G_j(\theta,u)|<\mu \text{ for some } j\bigr\rbrace \le S^{a}\mu^{b}$.
 
-In words: identical behavior forces identical models on the subclass, nearly optimal behavior pins the model to within a constant times the regret, and the models sacrificed to get this are few. The rest of the agenda's finite-sample theory is posed relative to a solution. Classical causal discovery made the same move once before: strong faithfulness replaces a measure-zero assumption by an explicit margin, and Uhler, Raskutti, Bühlmann, and Yu showed the excluded set can be surprisingly large — a caution aimed directly at part 3. For the margin conditions and the transform, see [MAIS-A2](../agendas/A2/MAIS-A2.pdf).
+In words: identical behavior forces identical models on the subclass, nearly optimal behavior pins the model to within a constant times the regret, and the models sacrificed to get this are few. The rest of the agenda's finite-sample theory is posed relative to a solution. Classical causal discovery made the same move once before: strong faithfulness replaces a measure-zero assumption by an explicit margin, and Uhler, Raskutti, Bühlmann, and Yu showed the excluded set can be surprisingly large — a caution aimed directly at part 3. For the margin conditions and the transform, see [MAIS-A2](../agendas/A2/).
 
 *Related: [MAIS-O23](MAIS-O23.md) (the qualitative question the list would settle) · [MAIS-O25](MAIS-O25.md) (query complexity built on this subclass) · [MAIS-O2](MAIS-O2.md) (the sampled-action headline problem).*
