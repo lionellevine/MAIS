@@ -10,12 +10,6 @@ The parametric bounded Löb theorem in [1] assumes a computable proof budget tha
 
 [1] Andrew Critch, *A parametric, resource-bounded generalization of Löb's theorem, and a robust cooperation criterion for open-source game theory*, The Journal of Symbolic Logic **84** (2019), no. 4, 1368–1381. [doi:10.1017/jsl.2017.42](https://doi.org/10.1017/jsl.2017.42). Preprint: [arXiv:1602.04184](https://arxiv.org/abs/1602.04184).
 
-## Versions
-
-- **Current** ([PDF](MAIS-P2.pdf) · [TeX](MAIS-P2.tex)) — the author's final text of 2026-07-16, which adds the *internally regular* condition and a simplified form of the repair.
-- [2026-07-15](archive/MAIS-P2-2026-07-15.pdf) — the author's first compile, before that addition.
-- [Repaired edition](archive/MAIS-P2-repaired.pdf) — incorporates the repairs accepted in the July 2026 audit round (incompressible padding in Proposition 3, explicit standing assumptions, retitled accordingly); the same repairs are incorporated in [MAIS-A1](../../agendas/A1/).
-
 ---
 
-The main text is published as its author wrote it; see [PROVENANCE.md](PROVENANCE.md).
+The note is published as its author wrote it; see [PROVENANCE.md](PROVENANCE.md).
