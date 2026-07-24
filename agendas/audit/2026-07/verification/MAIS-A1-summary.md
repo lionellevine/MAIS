@@ -10,3 +10,5 @@ The verification pass rechecked four destructive or potentially destructive find
 All four were **confirmed** against the hypotheses and conventions stated in that draft.
 
 A fuller working report is not released because it contains machine-local paths and unpublished coordination material. See the [pre-repair Sol report](../sol/MAIS-A1.md), [released-edition repair log](../REPAIR-LOG.md#mais-a1-quantitative-bounded-löb), and [gate summary](../GATE-SUMMARY.md).
+
+The same pass also verified, line by line, Sol's standalone refutation-and-repair note on the source theorem: the PBL refutation was confirmed, one repairable gap in its cooperation refutation was found and repaired (incompressible padding under abbreviation systems), and two implicit standing assumptions of its repaired theorem were made explicit. The repaired note is released as [MAIS-P2](../../../../papers/P2/MAIS-P2.pdf).

@@ -10,7 +10,7 @@ Beyond the [invitation paper](papers/P1/MAIS-P1.pdf), this repo hosts three kind
 |------|------------|
 | [**Open Problems**](open-problems/) | A short exposition of a single open problem |
 | [**Agendas**](agendas/) | A cluster of related open problems and partial progress on resolving them |
-| [**Papers**](papers/) | A paper in progress |
+| [**Papers**](papers/) | Papers in progress |
 
 The intended life cycle is **open problem → agenda → paper → publication**: open problems get incorporated into agendas, and a maturing agenda spins off papers.
 
