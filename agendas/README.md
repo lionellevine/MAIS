@@ -1,8 +1,10 @@
-# Research agendas
+# Math for AI Safety: research agendas
 
-Research directions: a motivating question, some real mathematics, and a cluster of related open problems. An agenda grows around one or more problems from the [open-problem collection](../open-problems/); as the work matures, it may spin off a [paper](../papers/).
+Agendas are clusters of related [open problems](../open-problems/). An agenda can also include progress toward resolving its problems. If enough progress is made, an agenda can spin off one or more [papers](../papers/).
 
-Each agenda below expands one starred problem of the survey [*Math for AI Safety: An Invitation for Mathematicians*](../papers/P1/MAIS-P1.pdf) and begins by reproducing its statement.
+Each agenda has a unique permanent identifier of the form MAIS-An where n is a natural number. The seed agendas A1–A8 each expand on one open problem from the survey [*Math for AI Safety: An Invitation for Mathematicians*](../papers/P1/MAIS-P1.pdf). I expect to add more agendas.
+
+Got your own agenda? [Open an issue](https://github.com/lionellevine/MAIS/issues/new/choose) to propose including it here!
 
 | # | Expands | Mathematical home | Agenda | Source | PDF | Status |
 |---|---------|-------------------|--------|--------|-----|--------|

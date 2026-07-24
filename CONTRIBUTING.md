@@ -1,18 +1,14 @@
 # Contributing
 
-Each document in this repository has its own author list and its own status, noted at the top of the file. Contributions of every size are welcome!
+Each document in this repository has its own author list and its own status, noted at the top of the file. Contributions of every size are welcome! Notice a typo? Have you solved one of the open problems, or do you have an idea for tackling one of them? Want your own open problem listed here? [Open an **issue**](https://github.com/lionellevine/MAIS/issues/new/choose) (a public comment thread attached to this repository) or email me: [lionel.levine@cornell.edu](mailto:lionel.levine@cornell.edu)
 
-## The short version
+## Proposing a new problem
 
-Open an **issue** — a public comment thread attached to this repository. A correction, a counterexample, a half-formed idea, a paragraph of Markdown or LaTeX: post it, and it can be read and answered by anyone here. If you would rather stay off GitHub, email works ([lionel.levine@cornell.edu](mailto:lionel.levine@cornell.edu)), but I process email slowly and in batches, so the public thread is the faster door. Either way, contributions that get used get credited.
-
-## GitHub for mathematicians
-
-GitHub organizes collaboration around two objects with opaque names. An **issue** is a public comment thread attached to the repository — the place to ask a question, report an error, float an idea, or announce that you are working on something.  A **pull request** is a proposed edit: a marked-up copy of one or more files, submitted for the authors to review and merge — the manuscript with margin notes. Both require only a free account, created in a minute at [github.com/signup](https://github.com/signup). To follow what happens here, press **Watch** at the top of the [repository page](https://github.com/lionellevine/MAIS) for notifications of new threads, or subscribe to the [feed of changes](https://github.com/lionellevine/MAIS/commits/main.atom).
+If you have an open problem that fits the collection — a precisely stated math problem motivated by AI safety — describe it in an issue or by email. If it fits, we'll add it to [`open-problems/`](open-problems/) with you as an author. An accepted problem receives a permanent unique MAIS-O identifier, which names the problem itself and never changes as it moves into agendas and papers.
 
 ## Rough ideas are welcome!
 
-The [Polymath projects](https://polymathprojects.org/) ran on a rule worth keeping: share rough ideas instead of waiting to polish them. The same rule applies here. Contributions that become part of a document should eventually meet the house style in [STYLE.md](STYLE.md) — a style guide written with language models in mind: if you use LLMs in your writing process, provide them with STYLE.md so that they write in the house style.
+The [Polymath projects](https://polymathprojects.org/) ran on a rule worth keeping: share rough ideas instead of waiting to polish them. The same rule applies here. Contributions should aim for the house style in [STYLE.md](STYLE.md). If you use LLMs in your writing process, provide them with STYLE.md so that they write in the house style.
 
 ## Corrections and small improvements
 
@@ -24,15 +20,13 @@ Progress on an open problem, a new result, a counterexample, a new section or wo
 
 ## Coauthorship
 
-A substantial contribution to a document earns an invitation to join that document's author list. The route does not matter: expanding an open problem into an agenda, developing an agenda, or helping an agenda spin off a paper can all be the kind of contribution that makes a coauthor.
+A substantial contribution to a document earns an invitation to join that document's author list. Expanding an open problem into an agenda, developing an agenda, or helping an agenda spin off a paper can all be the kind of contribution that makes a coauthor.
 
-What counts as substantial is judged per document by its current authors, in conversation with the contributor, and settled before the contribution is merged. When in doubt, ask, in an issue or by email; erring on the side of asking costs nothing.
+What counts as substantial is judged per document by its current authors, in conversation with the contributor, and settled before the contribution is merged.
 
-If your problem is incorporated into an agenda, you are invited to join the agenda's author list.
+## GitHub for mathematicians
 
-## Proposing a new problem
-
-If you have an open problem that fits the collection — a precisely stated math problem motivated by AI safety — describe it in an issue or by email. If it fits, we'll add it to [`open-problems/`](open-problems/) with you as an author. An accepted problem receives a permanent MAIS-O identifier, which names the problem itself and never changes as it moves into agendas and papers.
+GitHub organizes collaboration around two objects with opaque names. An **issue** is a public comment thread attached to the repository — the place to ask a question, report an error, float an idea, or announce that you are working on something.  A **pull request** is a proposed edit: a marked-up copy of one or more files, submitted for the authors to review and merge — the manuscript with margin notes. Both require only a free account, created in a minute at [github.com/signup](https://github.com/signup). To follow what happens here, press **Watch** at the top of the [repository page](https://github.com/lionellevine/MAIS) for notifications of new threads, or subscribe to the [feed of changes](https://github.com/lionellevine/MAIS/commits/main.atom).
 
 ## Writing math in Markdown
 
