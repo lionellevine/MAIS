@@ -1,0 +1,52 @@
+\section{Logic and game theory: when do AI agents cooperate?}
+\label{sec:logic}
+
+Two programs that can read each other's source code can be made to cooperate in a one-shot Prisoner's Dilemma---provably, and (under explicit assumptions about the proof system) unexploitably, without checking that they are copies of one another. Behind this surprise is L\"ob's theorem, a corner of mathematical logic rarely introduced through applications.
+
+\subsection{The game changes when the players can read each other}
+
+The Prisoner's Dilemma is the standard model of a cooperation failure: each player does better by defecting whatever the other does, yet mutual cooperation $(C,C)$ beats mutual defection $(D,D)$. In the usual one-shot game, defection is dominant. But that analysis assumes the players are \emph{opaque} to each other. When two agents are programs, each can be handed the other's source code before choosing its action. This is the setting of \emph{open-source game theory}, or \emph{program games}, studied since Howard~\cite{howard1988} and Tennenholtz~\cite{tennenholtz2004}.
+
+One idea already breaks the classical verdict. Let $\mathrm{CliqueBot}$ be the program ``cooperate if and only if the opponent's source code is byte-for-byte identical to mine.'' Two CliqueBots cooperate, and CliqueBot is never exploited (it never cooperates with an opponent that defects against it), so $(C,C)$ is reachable and stable. But CliqueBot is a poor citizen: it refuses to cooperate with an agent that is functionally identical yet formatted differently, or written in another language. We want cooperation that is \emph{robust}---keyed to what the opponent \emph{does}, not to the syntax of how it is written.
+
+\subsection{FairBot and the L\"obian argument}
+
+Consider instead $\mathrm{FairBot}$: \emph{cooperate if and only if you can prove (in Peano Arithmetic, say) that the opponent cooperates with you.} Two FairBots reason about each other's behavior, not each other's syntax. Naively this looks like an infinite regress---each waits to prove something about the other, who is waiting in turn---and almost every mathematician, asked to guess, predicts mutual defection. The guess is wrong.
+
+\begin{theorem*}[Bar\'asz, Christiano, Fallenstein, Herreshoff, LaVictoire, Yudkowsky~\cite{barasz2014}]
+FairBot cooperates with itself: $\mathrm{PA} \vdash [\,\mathrm{FairBot}(\mathrm{FairBot}) = C\,]$. Moreover FairBot is \emph{unexploitable}: assuming PA proves only true facts about the outputs of the programs in question, FairBot never cooperates with an opponent that defects against it.
+\end{theorem*}
+
+(Here $\mathrm{PA}\vdash\varphi$ means that the sentence $\varphi$ is provable in Peano Arithmetic.) The proof is a simple application of L\"ob's theorem, a strengthening of the self-reference behind G\"odel's second incompleteness theorem.\footnote{In the special case $\varphi=\bot$, L\"ob's theorem says that if PA proves its own consistency then PA proves a contradiction---G\"odel's second incompleteness theorem.} Write $\Box\varphi$ for the arithmetical sentence $\mathrm{Prov}_{\mathrm{PA}}(\ulcorner\varphi\urcorner)$, read as ``$\varphi$ is provable in PA.''
+
+\begin{theorem*}[L\"ob~\cite{lob1955}]
+For any sentence $\varphi$, if $\mathrm{PA} \vdash (\Box \varphi \to \varphi)$ then $\mathrm{PA} \vdash \varphi$.
+\end{theorem*}
+
+Let $\varphi$ be the sentence ``both FairBots cooperate.'' Each FairBot cooperates exactly when it finds a proof that the other does; so \emph{if it is provable that both cooperate, then both genuinely do}---that is, $\mathrm{PA} \vdash (\Box\varphi \to \varphi)$. L\"ob's theorem now delivers $\mathrm{PA} \vdash \varphi$ outright, and both cooperate!
+
+FairBot as stated searches proofs of unbounded length. Critch~\cite{critch2016} supplies a computable version, $\mathrm{FairBot}_k$, that searches only proofs of length at most $k$ (write $\Box_k\varphi$ for ``$\varphi$ has a proof of length $\le k$''), and shows that, for proof systems able to certify the cost of recognizing their own bounded proofs (a hypothesis the supplement to the open problem below examines closely), it still cooperates with itself once $k$ is large enough---turning the L\"obian argument into a terminating computation and making the question quantitative: how large must $k$ be?
+
+A third family of strategies, after the identity-based CliqueBot and the L\"obian FairBot, is \emph{simulation-based}: instead of searching for a proof that the opponent cooperates, run the opponent's code and do what it does, cooperating outright with some small probability so that mutual simulation terminates. Cooper, Oesterheld, and Conitzer~\cite{cooper2025} characterize the equilibria such strategies achieve; proponents argue that simulation is more robust, and less mind-bending, than the L\"obian approach.
+
+\subsection{Why a safety researcher cares---and worries}
+
+The FairBot theorem is a proof of concept: given enough mutual transparency, agents can cooperate where classical game theory predicts defection. Humans approximate this transparency only at great cost, in contracts, treaties, and audits, to make their commitments credible~\cite{schelling1960}. For programs, half of transparency is free: handing over source code costs nothing. Making sense of the code one receives is the expensive half; for agents built on \glsfirst{neural-network}{neural networks}, it is the interpretability problem of Section~\ref{sec:interp}. Still, AI agents are programs, and as they begin to transact with one another, the program game becomes a natural model of their dealings---with the cost of cooperation set by the cost of verification, the subject of the open problem below.
+
+The same transparency is also a hazard: mutually transparent agents can reach cooperative equilibria---including collusion \emph{against} their human principals---that humans can neither match nor detect. And the map from transparency regime to outcome is full of surprises: Critch, Dennis, and Russell~\cite{critch2022} exhibit natural institution designs whose large-resource behavior is the opposite of what one first expects. Nearly all of this design space is unexplored; the same paper collects open problems in it, including specific matchups whose outcomes are conjectured but unproved. The \emph{safe Pareto improvements} of Oesterheld and Conitzer~\cite{oesterheld2021}---commitments guaranteed to leave every principal at least as well off---pose more.
+
+Logical induction~\cite{garrabrant2016} is the probabilistic companion to this bounded-proof story. A \emph{logical inductor} assigns prices $\mathbb{P}_n(\varphi)$ to arithmetical sentences on day $n$, as if each sentence were a stock, while a slow deductive process reveals more theorems. The criterion is a bounded Dutch-book condition: no polynomial-time trader with bounded risk may make unbounded profit by buying and selling these sentence stocks. It answers, with a theorem, the question this survey began with: how should a reasoner with finite computation allocate probability mass over facts it has not yet proved?
+
+\subsection{Open problems}
+
+\begin{openproblem}[Quantitative bounded L\"ob]
+Fix a proof system $S$, a G\"odel coding, and the provability predicate $\Box^S$; write $S\vdash_{\le k}Q$ for an $S$-proof of $Q$ of at most $k$ symbols. Determine the least overhead $F_S$ for which
+\[
+   S\vdash_{\le k}(\Box^S P\to P)
+   \quad\text{implies}\quad
+   S\vdash_{\le F_S(k,|P|)} P,
+\]
+where $|P|$ is the length of the sentence $P$: given a $k$-symbol proof of the hypothesis of L\"ob's theorem, how many symbols can the shortest proof of its conclusion require? A polynomial upper bound for one standard system, with explicit constants, would turn the L\"obian argument from a possibility theorem into a budget. The first instance with a game attached: Critch's theorem~\cite{critch2016} gives a finite threshold $\hat k$ above which two copies of $\mathrm{FairBot}_k$ provably cooperate, assuming the proof system can certify the cost of noticing its own bounded proofs; verify that hypothesis, with constants, for a specific system and coding. A first computation, before any asymptotics: implement bounded proof search in a weak system for two explicitly supplied agents, and tabulate the smallest $k$ at which cooperation appears. Over a family of such agent pairs, does $\hat k$ grow polynomially in the agents' description length?
+\end{openproblem}
+
+% \noindent\emph{Entry points.} Provability logic (G\"odel--L\"ob, $\mathsf{GL}$) and modal fixed points; proof complexity (for the bounded theory); computational game theory and mechanism design; decision theory; logical uncertainty.

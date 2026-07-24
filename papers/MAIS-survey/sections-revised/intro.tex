@@ -1,0 +1,77 @@
+\section{Introduction}
+\label{sec:intro}
+
+\subsection{Three kinds of mathematician}
+
+I would like to distinguish three stances a mathematician can take toward the arrival of capable AI. The \emph{artisanal} mathematician does mathematics by and for humans: each theorem, definition, and proof is bespoke, valued for its beauty and for the understanding it produces. Until very recently, all mathematics was artisanal.\footnote{I chose the terms ``artisanal'' and ``industrial'' for their mixed connotations, reflecting real tradeoffs between these two stances. \emph{Artisanal} evokes uniqueness and skilled craft, along with a suggestion of being quaint or old-fashioned. \emph{Industrial} evokes modern efficiency and scale, along with a suggestion of inhumanness or lack of soul. These two terms draw a parallel between mathematics today and the trades that were disrupted by automation during the Industrial Revolution.}
+The \emph{industrial} mathematician embraces AI as a collaborator and an accelerant: AI systems take part in proof and discovery~\cite{spherepacking2026,openai2026unitdistance,alon2026remarks,sawin2026}, and the output is often a machine-checkable formal proof~\cite{mathlib2020}.
+The \emph{civic} mathematician turns our craft toward a third end: helping humanity steer and adapt to the disruptions caused by our own technologies. The civic stance differs from the traditional stance of an applied mathematician in its big-picture viewpoint: the civic mathematician recognizes that solving any particular engineering challenge may or may not benefit humanity, and seeks out the challenges with the potential for the most benefit.\footnote{I chose the term ``civic'' to emphasize that steering our technology is a team effort, arising from a sense of duty to community, including large-scale communities like humanity and the planet.}
+
+These three stances classify mathematicians by how they relate to AI; in contrast, Gowers (theory builders/ problem solvers~\cite{gowers2000}) and Dyson (birds / frogs~\cite{dyson2009}) classify mathematicians by how they relate to mathematics itself. 
+The stances are not exclusive: one can prove a theorem for its intrinsic beauty, and also formalize the proof, and also ask what it implies for AI safety. But the civic stance invites a new perspective on an old question: of all the theorems we might prove, which ones deserve the effort?  This survey is an invitation to try the civic stance.
+
+\subsection{What is our profession's purpose?}
+
+Thurston asked a version of this question in ``On proof and progress in mathematics,'' and answered that what mathematicians accomplish is to advance human understanding of mathematics~\cite{thurston1994}. That understanding does not stay within the profession. Mathematics is one of the ways society builds its future. Our students become AI engineers, our theorems become tools in their hands, and our definitions become the language they use to describe what they are building.
+
+%Technological progress emerges from choices made by human researchers and engineers. 
+Already we defer to systems we do not fully understand. Among the many risks from developing powerful AI systems, one of the most alarming is \glsfirst{gradual-disempowerment}{gradual disempowerment}~\cite{kulveit2025}. The mechanism has two parts. First, competitive pressure drives delegation to technology we do not understand: a trading bot outperforms a human trader, though even its creators cannot say what makes it profitable; and those who do not delegate are increasingly outcompeted by those who do. Second, what keeps large institutions approximately aligned to human interests is that, for now, those institutions are made of humans; when companies, nation states, and militaries are made mostly of AI agents, their goals and values may drift away from what humans value. The first part erodes our understanding of the world, and hence our power over it; it also sets the stage for the second.
+
+Preventing AI harms is in part a \emph{mathematical} problem, and the purpose of this survey is to recruit mathematicians to work on it. Only in part: what AI ought to do, and who decides, are questions of philosophy, ethics, economics, and politics. This survey keeps to the mathematical part of a much larger conversation.
+
+\subsection{Where mathematicians plug in}
+\label{sec:pipeline}
+
+At a high level, an AI system is produced in five stages, beginning with defining the desired behavior and ending with deploying the trained system, after which unanticipated failures feed back into refining the earlier stages (Figure~\ref{fig:pipeline}).
+
+To illustrate the five stages, consider the problem of building a tool for proving inequalities in a proof assistant:
+
+\begin{itemize} 
+  \item \emph{Define}: given hypotheses $H$ and a proposed inequality $I$, the system should either produce a formally checkable proof of $H\Rightarrow I$ or say ``unknown.'' 
+  \item \emph{Measure}: score the fraction of benchmark statements proved within a fixed time and proof-length budget. 
+  \item \emph{Train}: show the system many proof traces, say sums-of-squares certificates, AM--GM arguments, and induction templates. 
+  \item \emph{Test}: hold out new inequalities from specified families. 
+  \item \emph{Deploy}: let the tool  suggest lemmas inside a mathematician's formalization workflow. 
+\end{itemize}
+
+After deployment, the failures come back. It returns a valid proof, but of a statement weaker than intended: a gap in the \emph{definition} of the desired behavior. Its pass rate is high because the benchmark is full of short template problems, while the mathematician needs one nontrivial lemma: a gap in what we \emph{measured}. It is brittle on boundary cases such as equality and zero denominators, which were rare in the proof traces: a gap in what it was \emph{trained} on. And it passes the holdout set because the generator reused the same normal forms and substitutions: a gap in the \emph{test}. Each backward arrow is its own piece of mathematics: formal specification, scoring rules, distribution design, and adversarial test construction.
+
+The inequality example is deliberately mathematical, but the same basic pipeline applies across many areas, whether it is an image classifier for a medical application, a control system for a self-driving car, or a content recommendation system. Machine-learning research often concentrates on the \emph{training} and \emph{testing} stages, while engineers focus on \emph{deployment}. The earlier stages rely on mathematicians, philosophers, economists, and others to supply the \emph{defining} and \emph{measuring} inputs. %The harms of social media are in part due to the failure to define and measure the desired consequences of an AI system.
+
+\begin{figure}[ht]
+\centering
+\resizebox{0.96\textwidth}{!}{%
+\begin{tikzpicture}[
+  >=Stealth,
+  box/.style={draw, rounded corners=2pt, minimum height=12mm, text width=21mm, align=center, font=\small},
+  lab/.style={font=\scriptsize, align=center, fill=white, inner sep=1pt, text=black!65},
+  node distance=8mm and 5mm]
+  \node[box] (def)  {\textbf{define}\\[-1pt]\scriptsize formal target};
+  \node[box, right=of def]   (meas)  {\textbf{measure}\\[-1pt]\scriptsize proof score};
+  \node[box, right=of meas]  (train) {\textbf{train}\\[-1pt]\scriptsize proof traces};
+  \node[box, right=of train] (test)  {\textbf{test}\\[-1pt]\scriptsize held-out families};
+  \node[box, right=of test]  (dep)   {\textbf{deploy}\\[-1pt]\scriptsize suggest lemmas};
+  \draw[->, thick] (def)--(meas); \draw[->, thick] (meas)--(train);
+  \draw[->, thick] (train)--(test); \draw[->, thick] (test)--(dep);
+  \draw[->, dashed] (dep.south) to[out=-120,in=-60,looseness=1.05]
+    node[pos=.52, lab, below=2pt] {hidden\\assumption} (def.south);
+  \draw[->, dashed] (dep.south) to[out=-115,in=-65,looseness=.92]
+    node[pos=.52, lab, below=1pt] {wrong\\score} (meas.south);
+  \draw[->, dashed] (dep.south) to[out=-105,in=-75,looseness=.78]
+    node[pos=.6, lab, below=1pt] {missing\\cases} (train.south);
+  \draw[->, dashed] (dep.south) to[out=-95,in=-85,looseness=.58]
+    node[pos=.4, lab, below=1pt] {template\\leakage} (test.south);
+  \draw[decorate, decoration={brace, amplitude=5pt}, thick]
+    ($(def.north west)+(0,3mm)$) -- ($(meas.north east)+(0,3mm)$)
+    node[midway, above=4pt, font=\small\itshape] {mathematical choices enter here};
+\end{tikzpicture}
+}
+\caption{A schematic pipeline for producing an AI system, illustrated by a tool for proving inequalities. The forward arrows build the system; the dashed arrows represent deployment failures that inform improvements of each stage of the pipeline.}
+\label{fig:pipeline}
+\end{figure}
+
+% control/coexistence paragraph and its footnote commented out 2026-07-09 (pending a fuller argument for coexistence, perhaps as a separate piece). Companion comments: glossary row for corrigibility and bibitem harms2024 in conclusion.tex.
+% AI safety is sometimes posed as \emph{control}---retaining power over systems more capable than ourselves---which looks like a very hard problem. \emph{Coexistence}, a stable and mutually beneficial relationship with systems we do not fully control, is a larger target and thus an easier one to hit; much of the mathematics below is best read as aiming for coexistence rather than control.\footnote{This goal is contested. Many find it alarming to aim for any future where humans are not in control, and some cannot imagine coexistence without control; Harms~\cite{harms2024}, for example, argues for building AI systems whose overriding goal is \glsfirst{corrigibility}{corrigibility}, remaining correctable by their human principals. The case for coexistence deserves a fuller argument than I can make here.}
+
+This invitation is organized by mathematical field, so you can turn directly to yours. Each section states the safety stakes, narrates at least one theorem, and ends with at least one open problem (\ensuremath{\bigstar}). Each open problem has a detailed companion: a self-contained supplement that fixes every definition, states each question precisely, and records what is already settled, available at \url{https://lionellevine.github.io/MAIS/open-problems}. % \op includes a trailing \; for theorem headers; use the bare star in parentheses
+I keep machine-learning jargon to a minimum; a short glossary appears in Appendix~\ref{app:glossary}, and each glossary term is underlined at its first appearance.

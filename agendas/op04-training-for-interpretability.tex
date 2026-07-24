@@ -1,0 +1,619 @@
+\documentclass[11pt]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{xcolor}
+\usepackage[colorlinks=true, linkcolor=blue!55!black, citecolor=blue!55!black, urlcolor=blue!55!black]{hyperref}
+\newcommand{\arxiv}[1]{\href{https://arxiv.org/abs/#1}{\texttt{arXiv:#1}}}
+\emergencystretch=1.5em
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+
+\DeclareMathOperator{\relu}{ReLU}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+
+\title[Training for interpretability]{Training for interpretability:\\ three precise surrogates and one honest residue}
+\author{Claude Fable 5, audited by GPT 5.6 Sol}
+\date{}
+\hypersetup{
+  pdftitle={Training for interpretability},
+  pdfauthor={Claude Fable 5; audited by GPT 5.6 Sol},
+  pdfsubject={Research agenda supplement to Open Problem 4 of Math for AI Safety}
+}
+\begin{document}
+\begin{abstract}
+This is a standalone companion to the open problem \emph{Training for interpretability} in Lionel Levine's survey \emph{Math for AI Safety}. The problem fixes coherence as a precise proxy and asks for the exact interference--performance frontier, and whether penalizing average interference lowers the worst-case coherence of the minimizer. This agenda develops that question in the ReLU toy model of Elhage et al., then studies two stronger extensions: recoverability of the learned directions by an $\ell^1$ dictionary estimator, and alignment of hidden neurons with single features. Several elementary results mark the boundary of what is easy: scalarization automatically lowers the penalized quantity; exact orthogonality has the computable price $(m-n)v(S)$; when neurons are plentiful the task loss is blind to monosemanticity; and in that same regime a polynomial penalty buys perfect monosemanticity at zero cost. The genuine open problems therefore live where resources are scarce and where ``training'' means dynamics rather than exact minimization. A final section records what coherence alone does not capture.
+\end{abstract}
+\maketitle
+
+\begin{center}
+\small\emph{Research agenda A4 \(\cdot\) Claude Fable 5, audited by GPT 5.6 Sol\\
+July 12, 2026 \(\cdot\) Status: draft}
+\end{center}
+
+\noindent This is a supplement to Open Problem~4 of Lionel Levine's \emph{Math for AI Safety: An Invitation for Mathematicians}~\cite{mais}.
+
+\begin{quote}
+\textbf{Open Problem 4 (Training for interpretability).}
+Post-hoc interpretability asks whether a trained network's features can be recovered after the fact. A complementary problem is to train networks whose features are easier to recover in the first place. In the ReLU toy model of Elhage et al.~\cite{elhage2022} the features are known by construction, so the trade-off can be made exact. Determine the interference--performance frontier: for features appearing sparsely and independently, among weight matrices whose coherence (worst-case interference between stored features) is at most $\mu$, how small can the task loss be, as a function of $\mu$, the sparsity, the number of features, and the number of neurons? A first case: prove or refute that penalizing the \emph{average} interference during training lowers the \emph{worst-case} coherence of the minimizer, compared with training on the task loss alone.
+\end{quote}
+
+
+\section{The problem in brief}
+
+When an auditor examines a firm, she does not only ask to read the books; she asks that the books be \emph{kept legibly} in the first place. Mechanistic interpretability, the project of reverse-engineering trained neural networks, has mostly played the first role: the network is trained for performance alone, and the interpreter arrives afterward, deciphering whatever bookkeeping the training process happened to invent. The open problem treated here asks about the second role.
+
+
+
+The statement contains one word that no one currently knows how to define---``interpret''---and this file will not define it either. What it will do is separate the problem into a precise part and a residue. The precise part: fix a small model whose ground-truth features are known by construction, fix a measurable stand-in for interpretability (three candidates are developed below), and ask, as a theorem, whether a penalty added to the training objective improves the stand-in and at what cost to performance. Nearly everything in Sections~\ref{sec:background}--\ref{sec:start} is of this kind, and a referee could judge a claimed solution to any numbered problem without ever asking what a word means. The residue---why no stand-in \emph{is} interpretability, and what it would take to close that distance---is confronted directly in Section~\ref{sec:resist}.
+
+Everything is defined from scratch; no familiarity with the survey or with machine learning is assumed.
+
+\begin{remark}[Conventions]\label{rem:attain}
+Whenever a problem quantifies over an $\operatorname{argmin}$, nonemptiness is part of the assertion; approximate minimizers are used only when stated explicitly. For a locally Lipschitz ReLU objective, a training law means a fixed Borel-measurable choice of complete Clarke trajectory from each initial condition. A nonconvergent trajectory is assigned the cemetery state $\dagger$. The status of every numbered problem was checked against the literature as of July 2026.
+\end{remark}
+
+\section{Background: a model organism and its vocabulary}\label{sec:background}
+
+\subsection{Networks, training, regularizers}
+
+A \textbf{neural network} is a function built by composing affine maps with fixed coordinatewise nonlinearities; the stages of the composition are its \textbf{layers}. The only nonlinearity used in this file is the \textbf{rectifier} $\relu(t)=\max(t,0)$, applied to vectors coordinatewise. The matrices and vectors appearing in the affine maps are the network's \textbf{parameters} (or \textbf{weights}); a \textbf{neuron} is a coordinate of an intermediate vector, and the intermediate vector itself is called an \textbf{activation vector}, a point of the layer's \textbf{activation space}. \textbf{Training} a network on data distributed according to a probability measure means choosing parameters to make a specified \textbf{task loss}---an expected penalty for wrong outputs---small; in practice this is attempted by gradient descent, but most statements below concern exact minimizers, and the distinction will be flagged whenever it matters. A \textbf{regularizer} is a function $R\ge 0$ of the parameters added to the task loss with a coefficient $\lambda>0$, so that training minimizes $L+\lambda R$; it expresses a preference among parameter settings beyond what the task demands.
+
+\subsection{The toy model}
+
+All the precise problems below live in one arena, chosen because its ground-truth features exist by fiat.
+
+\begin{definition}[Sparse feature distribution]\label{def:data}
+Fix an integer $m\ge 1$ and $S\in[0,1)$. Let $\mathcal D_{m,S}$ be the law of the random vector $x\in\R^m$ whose coordinates are independent, with
+\[
+x_i = \begin{cases} 0 & \text{with probability } S,\\ \text{Uniform}[0,1] & \text{with probability } 1-S.\end{cases}
+\]
+\end{definition}
+
+Informally: there are $m$ \textbf{features}; feature $i$ is silent with probability $S$ (the \textbf{sparsity}) and otherwise fires with a random intensity. On a typical sample only about $(1-S)m$ features are active.
+
+\begin{definition}[The ReLU toy model \cite{elhage2022}]\label{def:toy}
+Fix integers $n<m$. The parameters are a matrix $W\in\R^{n\times m}$, with columns $W_1,\dots,W_m\in\R^n$, and a vector $b\in\R^m$. The network is
+\[
+f_{W,b}(x) \;=\; \relu\bigl(W^{\top}Wx+b\bigr)\in\R^m ,
+\]
+and the \textbf{task loss} is the mean squared reconstruction error
+\[
+L_{m,n,S}(W,b) \;=\; \E_{x\sim\mathcal D_{m,S}}\,\bigl\|x-f_{W,b}(x)\bigr\|_2^2 .
+\]
+\end{definition}
+
+Read it as a story in three steps. The network compresses the $m$ features into an $n$-dimensional activation space via $h=Wx$; column $W_i$ is the \emph{direction} in activation space where feature $i$ is stored. It then attempts to read every feature back out with the transposed map $W^{\top}h+b$, and rectifies. Since $n<m$ the compression is lossy, and the interesting question is what storage scheme optimal networks adopt. Elhage et al.~\cite{elhage2022} observed---empirically, with closed-form calculations for candidate phases in tiny cases---that as $S$ grows the optimizer moves from storing only $n$ features orthogonally to storing \emph{more than $n$} features along non-orthogonal directions, organized into regular polytopes (antipodal pairs, triangles, pentagons); they named the phenomenon \textbf{superposition}. Elhage et al.\ allow a weight $I_i$ multiplying the $i$th term of the loss (the \emph{importance} of feature $i$); I take all $I_i=1$ except where stated, and every definition extends verbatim.
+
+The collection of directions $(W_1,\dots,W_m)$ is this file's stand-in for ``the network's internal representation,'' and I will call it the \textbf{dictionary} and its columns \textbf{atoms}, borrowing the vocabulary of sparse approximation. Crucially, in this arena the true dictionary is known: it is $W$ itself, handed to us by the model's definition. Interpretability questions become questions about $W$.
+
+\subsection{Interference, coherence, and frames}
+
+\begin{definition}[Coherence and interference]\label{def:coherence}
+For $W\in\R^{n\times m}$ let $N(W)=\{i: W_i\neq 0\}$ and write $\widehat W_i = W_i/\|W_i\|_2$. Define the \textbf{coherence} and the \textbf{signed coherence}
+\[
+\mu(W) \;=\; \max_{i\neq j\in N(W)} \bigl|\langle \widehat W_i,\widehat W_j\rangle\bigr|,
+\qquad
+\mu_+(W) \;=\; \max_{i\neq j\in N(W)} \langle \widehat W_i,\widehat W_j\rangle ,
+\]
+with the convention $\mu(W)=\mu_+(W)=0$ when $|N(W)|\le 1$. Define the \textbf{interference}
+\[
+R(W) \;=\; \sum_{i\neq j} \langle W_i,W_j\rangle^2 ,
+\]
+the sum of squared off-diagonal entries of the Gram matrix $W^{\top}W$.
+\end{definition}
+
+Coherence is the worst-case angle defect between two stored directions: $\mu(W)=0$ means the atoms are pairwise orthogonal and each feature can be read out with no crosstalk, while $\mu(W)$ near $1$ means two features are stored nearly on top of one another. The interference $R$ is the average-case ($\ell^2$) counterpart of the worst-case ($\ell^\infty$) quantity $\mu$, and unlike $\mu$ it is a polynomial in $W$, hence available as a regularizer for gradient-based training. The distinction between the two is not cosmetic; Problem~\ref{prob:summax} lives entirely inside it.
+
+Two classical facts calibrate what values of $\mu$ are achievable. In the roomy regime, for fixed $\varepsilon\in(0,1)$ the space $\R^n$ contains $e^{\Omega(\varepsilon^2 n)}$ unit vectors with pairwise inner products at most $\varepsilon$ in absolute value (a consequence of the Johnson--Lindenstrauss lemma \cite{johnson1984}): almost-orthogonality is exponentially plentiful. In the cramped regime the Welch bound \cite{welch1974} (proved as part of Lemma~\ref{lem:packing} below) shows that $m$ unit vectors in $\R^n$ force $\mu^2 \ge (m-n)/(n(m-1))$. A fixed relative gap below $1/\sqrt n$ gives a linear bound: if $\mu^2\le(1-\eta)/n$ for $\eta>0$, then $m\le n/\eta$. The strict inequality $\mu<1/\sqrt n$ alone does not give a uniform linear bound. Finally, $R(W)+\sum_i \|W_i\|^4$ is the \emph{frame potential} of Benedetto and Fickus \cite{benedetto2003}, and its minimizers among unit-norm systems are exactly the \textbf{unit-norm tight frames}: the systems with $\sum_i W_iW_i^{\top}=(m/n)\,I_n$. Here is a first warning about the survey's problem. At fixed unit norms, penalizing $R$ pushes the dictionary toward a tight frame and no further; and \emph{every} system of $m>n$ unit vectors---tight frame or not---has coherence at least the Welch bound. So the smooth penalty cannot lower coherence to zero by adjusting angles; the only route it leaves to $\mu=0$ is the blunt one, shrinking columns to zero.
+
+\subsection{Reading the features back out: the recovery criterion}\label{sec:recovery}
+
+Post-hoc interpretability, in this arena, is handed the activation vectors $h=Wx$ (not $W$, not $x$) and must infer the atoms. The empirical tool is the \textbf{sparse autoencoder} (SAE) \cite{bricken2023,cunningham2023}: a one-layer network trained to reconstruct activations through a wide nonnegative \textbf{code} (the coefficient vector, $a$ below) with an $\ell^1$ penalty---a dictionary-learning estimator in the sparse-coding tradition that began with Olshausen and Field \cite{olshausen1996}. In empirical practice the code for each activation is computed by a learned affine-plus-$\relu$ map, the \emph{encoder}; I strip the encoder away and let the code be chosen by exact minimization. The resulting estimator is the one every problem below refers to; reinstating the encoder gives a separate variant of each problem, also worth solving.
+
+\begin{definition}[Sparse coding estimator]\label{def:sae}
+Fix $W\in\R^{n\times m}$, a dictionary size $d\ge 1$, and a penalty $\alpha>0$. For $D\in\R^{n\times d}$ with columns $D_1,\dots,D_d$ define
+\[
+J_{W,S,\alpha}(D) \;=\; \E_{x\sim\mathcal D_{m,S}} \;\min_{a\in\R^d_{\ge0}} \Bigl( \bigl\|Wx - Da\bigr\|_2^2 + \alpha\|a\|_1 \Bigr),
+\]
+and minimize $J_{W,S,\alpha}$ over the compact set $\{D : \|D_j\|_2\le 1 \text{ for all } j\}$. (The minimum over $D$ is attained: the domain is compact and $J$ is continuous, a routine verification.) The nonnegativity constraint on the code $a$ matches the fact that features fire with nonnegative intensity.
+\end{definition}
+
+\begin{definition}[$\varepsilon$-recovery]\label{def:rec}
+Let $\varepsilon\in(0,1)$. A matrix $D\in\R^{n\times d}$ \textbf{$\varepsilon$-recovers} $W$ if there is an injective map $\pi:N(W)\to\{1,\dots,d\}$ with $D_{\pi(i)}\neq 0$ and
+\[
+\bigl\langle \widehat W_i,\, \widehat D_{\pi(i)}\bigr\rangle \;\ge\; 1-\varepsilon \qquad\text{for every } i\in N(W).
+\]
+Write $\mathrm{REC}_S(W; d,\alpha,\varepsilon)=1$ if \emph{every} global minimizer of $J_{W,S,\alpha}$ over $\{\|D_j\|\le1\}$ $\varepsilon$-recovers $W$, and $0$ otherwise. (The subscript is a reminder that recovery depends on the sparsity $S$, through the estimator $J_{W,S,\alpha}$.)
+\end{definition}
+
+In words: the interpreter succeeds if each true feature direction appears, up to a small angle, among the learned atoms. This is deliberately the \emph{weakest} interesting notion---it does not demand that the codes be faithful, nor that spurious atoms be absent---so that a negative answer to a recovery question is as strong as possible; every problem below remains meaningful, and open, under the stronger notions. Note one subtlety the nonnegative code buys us: $W_i$ and $-W_i$ are \emph{different} atoms for this estimator, so a dictionary containing an antipodal pair (coherence $1$!) is not automatically ambiguous. The unsigned coherence $\mu$ may thus be the wrong surrogate for recoverability; Question~\ref{q:goodhart} makes that suspicion precise.
+
+\section{Three surrogates, and a triviality to avoid}\label{sec:surrogates}
+
+The survey fixes low coherence as its headline surrogate for legibility. Within the toy model, this agenda studies that surrogate and two stronger extensions:
+
+\begin{enumerate}
+\item[(S1)] \emph{Low coherence / low interference}: $\mu(W)$ or $R(W)$ small---features stored at healthy angles.
+\item[(S2)] \emph{Recoverability}: $\mathrm{REC}_S(W;d,\alpha,\varepsilon)=1$---a post-hoc interpreter armed with the standard estimator provably finds the features.
+\item[(S3)] \emph{Monosemanticity}: each hidden neuron reads a single feature, in architectures where the neuron basis is privileged (Section~\ref{sec:blind}).
+\end{enumerate}
+Problem~\ref{prob:orbit} adds a stability question: is the optimum unique up to the symmetries of the problem, so independent training runs agree? Section~\ref{sec:resist} explains why coherence, recoverability, and stability still do not amount to a complete definition of interpretation.
+
+Before posing problems, here is the trap to step around. It is tempting to read the comparison between regularized and task-only training as asking only for the following.
+
+\begin{proposition}[Scalarization; folklore]\label{prop:scalar}
+Let $\mathcal X$ be any set and $L,R:\mathcal X\to\R$ any functions. Let $\lambda>0$, let $\theta_0$ minimize $L$, and let $\theta_\lambda$ minimize $L+\lambda R$. Then $R(\theta_\lambda)\le R(\theta_0)$ and $L(\theta_\lambda)\ge L(\theta_0)$.
+\end{proposition}
+
+\begin{proof}
+$L(\theta_\lambda)\ge L(\theta_0)$ since $\theta_0$ minimizes $L$. Then $L(\theta_\lambda)+\lambda R(\theta_\lambda)\le L(\theta_0)+\lambda R(\theta_0)$ gives $\lambda R(\theta_\lambda)\le \lambda R(\theta_0)-(L(\theta_\lambda)-L(\theta_0))\le\lambda R(\theta_0)$.
+\end{proof}
+
+So ``the regularizer reduces the penalized quantity'' is not a theorem about neural networks; it is a two-line fact about real numbers, true for every $L$, every $R$, and every $\lambda$. The mathematical content of the survey's problem lies entirely in the distance between the penalty and the thing we care about: Does penalizing the \emph{average} interference $R$ control the \emph{worst-case} coherence $\mu$ (Problem~\ref{prob:summax})? Does lowering either one actually help the post-hoc interpreter, i.e.\ improve $\mathrm{REC}_S$ (Problem~\ref{prob:transfer})? What does the improvement cost in task loss (Problem~\ref{prob:frontier})? And does gradient descent, as opposed to exact minimization, deliver any of it (Question~\ref{q:dynamics})?
+
+\section{What can be proved today}\label{sec:proved}
+
+Two phenomena can be established now, with elementary proofs. They are worth having because they locate the open problems precisely: the first shows that interpretability constraints have a quantifiable price, so the survey's ``without destroying performance'' cannot be waved away; the second shows that in a resource-rich regime the whole problem trivializes, so any formulation with content must be resource-bounded.
+
+\subsection{The price of orthogonality}
+
+The most naive reading of ``interpretable representation'' is $\mu(W)=0$: every feature on its own orthogonal axis, zero crosstalk. What does that cost? Three lemmas, then the theorem.
+
+Throughout, set
+\[
+v(S) \;=\; \frac{(1-S)(1+3S)}{12},
+\]
+which will emerge as the loss a network must pay for each feature it declines to store. Note $v(0)=1/12$ (the variance of a Uniform$[0,1]$ feature that always fires) and $v(S)\to0$ as $S\to1$ (a feature that never fires costs nothing to ignore).
+
+\begin{lemma}[Dropped-feature floor]\label{lem:floor}
+Fix $m,n,S$ and $(W,b)$ with $W_i=0$. Then the $i$th summand of the loss satisfies
+$\E\bigl(x_i - f_{W,b}(x)_i\bigr)^2 \ge v(S)$, with equality iff $\relu(b_i)=(1-S)/2$.
+\end{lemma}
+
+\begin{proof}
+If $W_i=0$ then $f_{W,b}(x)_i=\relu(\langle W_i, Wx\rangle + b_i)=\relu(b_i)=:t$, a constant $\ge0$. With $U$ uniform on $[0,1]$,
+\[
+\E(x_i-t)^2 = S t^2 + (1-S)\E(U-t)^2 = t^2-(1-S)t+\tfrac{1-S}{3},
+\]
+minimized over $t\in\R$ at $t=(1-S)/2\ge0$ (so the constraint $t\ge0$ is inactive), with value $\tfrac{1-S}{3}-\tfrac{(1-S)^2}{4}=v(S)$.
+\end{proof}
+
+\begin{lemma}[Packing]\label{lem:packing}
+Let $W\in\R^{n\times m}$ and $m'=|N(W)|$.
+\begin{enumerate}
+\item If $\mu(W)=0$ then $m'\le n$.
+\item If $\mu(W)\le c$ with $nc^2<1$, then $m' \le n(1-c^2)/(1-nc^2)$.
+\item If $\mu_+(W)\le 0$ then $m'\le 2n$, and $2n$ is achieved (by $\pm e_1,\dots,\pm e_n$).
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) Orthogonal nonzero vectors in $\R^n$ number at most $n$.
+
+(2) It suffices to prove the Welch bound: $m'$ unit vectors $u_1,\dots,u_{m'}$ in $\R^n$ with $m'>n$ satisfy $\max_{i\ne j}\langle u_i,u_j\rangle^2 \ge \frac{m'-n}{n(m'-1)}$. The Gram matrix $G=(\langle u_i,u_j\rangle)$ is positive semidefinite of rank at most $n$ with trace $m'$, so by Cauchy--Schwarz on its at most $n$ nonzero eigenvalues, $\|G\|_F^2=\sum\lambda_k^2\ge (\sum\lambda_k)^2/n = m'^2/n$. Subtracting the $m'$ diagonal ones, the $m'(m'-1)$ off-diagonal entries have squared sum at least $m'(m'-n)/n$, so the largest squared entry is at least $\frac{m'-n}{n(m'-1)}$. Now if $\mu(W)\le c$ and $m'>n$, then $c^2\ge\frac{m'-n}{n(m'-1)}$, which rearranges (using $nc^2<1$) to $m'\le n(1-c^2)/(1-nc^2)$; and if $m'\le n$ the bound holds anyway since $n\le n(1-c^2)/(1-nc^2)$.
+
+(3) Induction on $n$. For $n=1$: among nonzero reals with pairwise nonpositive products, at most one is positive and one negative. For $n\ge2$, let $v_1,\dots,v_k$ be nonzero with pairwise nonpositive inner products, $k\ge2$; set $u=v_k/\|v_k\|$ and write $v_i=w_i+t_iu$ with $w_i\perp u$, so $t_i=\langle v_i,u\rangle\le0$ for $i<k$. At most one index $i<k$ has $w_i=0$: two such would give $\langle v_i,v_j\rangle=t_it_j>0$. The remaining at least $k-2$ vectors $w_i$ are nonzero and satisfy $\langle w_i,w_j\rangle\le \langle v_i,v_j\rangle - t_it_j\le0$, so by induction in $u^{\perp}\cong\R^{n-1}$, $k-2\le 2(n-1)$.
+\end{proof}
+
+\begin{theorem}[The price of orthogonality]\label{thm:price}
+Fix integers $m>n\ge 1$ and $S\in(0,1)$, and write $L=L_{m,n,S}$. Define
+\[
+P_\perp = \inf_{\mu(W)=0} L(W,b), \qquad
+P_- = \inf_{\mu_+(W)\le 0} L(W,b), \qquad
+P = \inf_{W,b} L(W,b).
+\]
+Then:
+\begin{enumerate}
+\item $P_\perp = (m-n)\,v(S)$ exactly.
+\item $P \;\le\; P_-$; and if $m\ge 2n$, then $P_- \;\le\; \dfrac{n(1-S)^2}{3}+(m-2n)\,v(S)$.
+\item Consequently, if $m\ge 2n$ and $S>3/7$, then
+\[
+P_\perp - P \;\ge\; P_\perp - P_- \;\ge\; \frac{n(1-S)(7S-3)}{12} \;>\;0 .
+\]
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) \emph{Lower bound.} If $\mu(W)=0$ then by Lemma~\ref{lem:packing}(1) at least $m-n$ columns vanish, and by Lemma~\ref{lem:floor} each contributes at least $v(S)$; the other summands are nonnegative. \emph{Upper bound.} Take $W_i=e_i$ for $i\le n$, $W_i=0$ for $i>n$; $b_i=0$ for $i\le n$ and $b_i = (1-S)/2$ for $i>n$. For $i\le n$: $(W^{\top}Wx)_i=x_i$, so $f_i=\relu(x_i)=x_i$ and the summand vanishes. For $i>n$ the summand is $v(S)$ by Lemma~\ref{lem:floor}.
+
+(2) The first inequality holds because $\{\mu_+\le0\}$ is a subset of all parameters. For the second, exhibit a feasible point: the \emph{antipodal configuration} $W_{2k-1}=e_k$, $W_{2k}=-e_k$ for $k\le n$, remaining columns zero; $b_i=0$ for $i\le 2n$, $b_i=(1-S)/2$ for $i>2n$. Distinct nonzero columns have inner product $0$ or $-1$, so $\mu_+\le0$: feasible. For a paired coordinate, say $i=2k-1$ with partner $j=2k$: $(W^{\top}Wx)_i = x_i-x_j$, so $f_i=\relu(x_i-x_j)$. If $x_j=0$ the error is $0$; if $x_j>0$ and $x_i=0$ the output is $\relu(-x_j)=0$, error $0$; if both fire, the error is $x_i-\relu(x_i-x_j)=\min(x_i,x_j)$. With $U,U'$ independent uniform on $[0,1]$, $\E\min(U,U')^2=\int_0^1 2t(1-t)^2\,dt=\tfrac16$, so the summand equals $(1-S)^2/6$. Summing over $2n$ paired coordinates and $m-2n$ dropped ones gives the bound.
+
+(3) Subtract: using (1) and (2),
+\begin{align*}
+P_\perp - P_- \ &\ge\ n\,v(S) - \frac{n(1-S)^2}{3} \\
+&=\ \frac{n(1-S)}{12}\bigl((1+3S) - 4(1-S)\bigr) \ =\ \frac{n(1-S)(7S-3)}{12},
+\end{align*}
+positive precisely when $S>3/7$; and $P\le P_-$ gives the same bound for $P_\perp-P$.
+\end{proof}
+
+Read part (3) slowly, because it is the file's central provable fact: \emph{forbidding all interference costs strictly more than forbidding only positive interference}, by an explicit per-dimension margin. The network can afford to store features in anti-correlated (antipodal) pairs almost for free---the rectifier filters the crosstalk---but it cannot afford full orthogonality. Any theorem answering the survey's problem must live with this asymmetry: ``interference'' is not one thing, and the sign structure matters.
+
+\begin{remark}[Sparsity begets superposition, in one comparison]\label{rem:threshold}
+Within the proof's class of strategies, each feature beyond the $n$ stored singly faces a marginal choice: join an occupied axis as an antipodal partner, degrading that pair to total cost $(1-S)^2/3$, or be dropped, at cost $v(S)=(1-S)(1+3S)/12$. Superposition wins precisely when $(1-S)^2/3 < v(S)$, that is, when $S>3/7$---the same threshold as the margin in Theorem~\ref{thm:price}(3), as it must be. The toy model's signature phenomenon---sparsity drives features into superposition---is thus, in this crude class, a one-line calculus fact with an explicit threshold.
+\end{remark}
+
+\begin{theorem}[General coherence caps]\label{thm:cap}
+Fix $m>n\ge1$, $S\in(0,1)$, and $0\le c<1/\sqrt n$, and set $m_*(c) = n(1-c^2)/(1-nc^2)$. Then
+\[
+\inf\{\,L(W,b) : \mu(W)\le c\,\} \;\ge\; \bigl(m-m_*(c)\bigr)\,v(S)
+\]
+whenever $m\ge m_*(c)$.
+\end{theorem}
+
+\begin{proof}
+Lemma~\ref{lem:packing}(2) bounds the nonzero columns by $m_*(c)$; Lemma~\ref{lem:floor} charges $v(S)$ per zero column.
+\end{proof}
+
+For instance $c=1/\sqrt{2n}$ gives $m_*=2n-1$: even allowing angles up to $\arccos(1/\sqrt{2n})$, the model can store fewer directions than the antipodal configuration stores, and pays accordingly. More generally, a fixed relative gap $c^2\le(1-\eta)/n$ permits only $O_\eta(n)$ nonzero directions.
+
+\begin{remark}[Weight sparsity is cheaper than orthogonality]\label{rem:wsparse}
+Call $W$ \emph{column-1-sparse} if every column has at most one nonzero entry, i.e.\ each feature is wired to a single neuron of the activation space. The antipodal configuration is column-1-sparse, so $Q := \inf\{L(W,b): W \text{ column-1-sparse}\}$ satisfies
+\[
+Q \;\le\; \frac{n(1-S)^2}{3}+(m-2n)\,v(S) \;\le\; P_\perp - \frac{n(1-S)(7S-3)}{12}
+\]
+for $S>3/7$, $m\ge 2n$. A column-1-sparse network is legible by wiring---each activation coordinate is an explicit signed combination of \emph{named} features---yet it strictly beats the orthogonality constraint on performance. This is a toy-scale echo of the empirical finding of Gao et al.~\cite{gao2025} that weight sparsity, imposed during training, buys interpretable circuits at a measured capability cost. Computing $Q$ exactly is Problem~\ref{prob:wsparse}.
+\end{remark}
+
+What Theorem~\ref{thm:price} does \emph{not} give is the unconstrained value $P$, i.e.\ the true optimum of the toy model. Despite the model's simplicity, $P$ is not known in closed form for general $(m,n,S)$. Cowsik, Dolev, and Infanger \cite{cowsik2024} optimize a permutation-symmetric large-$m$ ansatz and obtain near-optimal high-sparsity scaling; Elhage et al.~\cite{elhage2022} compute candidate phases in tiny cases. The frontier between $P$ and $P_\perp$---how much performance each increment of coherence buys---is Problem~\ref{prob:frontier}.
+
+\subsection{The task loss is blind to monosemanticity---and plentiful neurons make the cure trivial}\label{sec:blind}
+
+The toy model of Definition~\ref{def:toy} has no privileged coordinate system in its activation space: replacing $W$ by $QW$ for orthogonal $Q$ changes nothing ($W^\top W$ is invariant), so ``does neuron $j$ mean something?'' is not even well posed there. To formalize monosemanticity---surrogate (S3)---we need an architecture whose nonlinearity breaks the rotational symmetry, making the neuron basis privileged. The following choice is motivated by Jermyn, Schiefer, and Hubinger \cite{jermyn2022}, but is not their architecture: they first randomly project the sparse features and use a linear output layer with no output bias.
+
+\begin{definition}[Privileged-basis autoencoder; monosemanticity index]\label{def:priv}
+Fix integers $m,k\ge1$. The parameters are $\theta=(W,\beta,V,c)$ with $W\in\R^{k\times m}$, $\beta\in\R^k$, $V\in\R^{m\times k}$, $c\in\R^m$, and the network is
+\[
+g_\theta(x) \;=\; \relu\bigl(V\relu(Wx+\beta)+c\bigr),
+\quad
+L'_{m,k,S}(\theta) \;=\; \E_{x\sim\mathcal D_{m,S}}\|x-g_\theta(x)\|_2^2 .
+\]
+The $k$ coordinates of the hidden vector $\relu(Wx+\beta)$ are the \textbf{hidden neurons}; neuron $j$ has input weights $W_{j\cdot}$ (the $j$th row). For a nonzero row define its \textbf{alignment} $M_j(W) = \max_i W_{ji}^2 / \|W_{j\cdot}\|_2^2 \in [1/m, 1]$, and set $M(\theta)=\min\{M_j(W): W_{j\cdot}\neq0\}$ (and $M(\theta)=1$ if $W=0$). Call $\theta$ \textbf{$\delta$-monosemantic} if $M(\theta)\ge 1-\delta$; $0$-monosemantic means every active neuron reads a single feature.
+\end{definition}
+
+\begin{proposition}[Blindness]\label{prop:blind}
+Fix $m\ge2$, $S\in[0,1)$, and $k\ge m$. Then $\min_\theta L'_{m,k,S}(\theta)=0$, and the zero set of $L'$ contains both a $0$-monosemantic point and a point $\theta'$ with $M(\theta')=1/2$. If moreover a Hadamard matrix of order $m$ (a $\pm1$ matrix $H$ with $HH^{\top}=mI_m$) exists and $k\ge 2m$, it contains a point $\theta''$ with $M_j = 1/m$ for \emph{every} hidden neuron.
+\end{proposition}
+
+\begin{proof}
+Since $x\ge0$ almost surely, taking $W=\begin{psmallmatrix}I_m\\0\end{psmallmatrix}$, $V=(I_m\;0)$, $\beta=0$, $c=0$ gives $g_\theta(x)=\relu(\relu(x))=x$: zero loss, rows of $W$ one-sparse, $0$-monosemantic. For $\theta'$, replace the identity block by the invertible nonnegative shear $A=\begin{psmallmatrix}1&1\\0&1\end{psmallmatrix}\oplus I_{m-2}$ and $V$-block $A^{-1}$: since $Ax\ge0$ on $[0,1]^m$, $g_{\theta'}(x)=\relu(A^{-1}\relu(Ax))=\relu(A^{-1}Ax)=x$, zero loss, and the row $(1,1,0,\dots)$ has alignment $1/2$. For $\theta''$, let $H$ be Hadamard of order $m$ and $Q=H/\sqrt m$, orthogonal with all entries $\pm1/\sqrt m$. Take $W=\begin{psmallmatrix}Q\\-Q\end{psmallmatrix}$, $V=(Q^{\top}\;{-Q^{\top}})$, $\beta=0,c=0$: then $V\relu(Wx)=Q^\top\relu(Qx)-Q^\top\relu(-Qx)=Q^{\top}Qx=x$, zero loss, and every row has all entries of equal magnitude, $M_j=1/m$. If $k>2m$, fill the remaining $k-2m$ rows of $W$ with repeated rows of $\begin{psmallmatrix}Q\\-Q\end{psmallmatrix}$ and the corresponding columns of $V$ with zeros: the output is unchanged, and still every row of $W$ has all entries of magnitude $1/\sqrt m$.
+\end{proof}
+
+In words: when neurons are plentiful ($k\ge m$), the task cannot tell the perfectly legible network from a maximally scrambled one---both sit at loss exactly zero. Whatever selects between them must come from the training dynamics or from an added objective. That is the survey's problem in its sharpest form. And in this plentiful regime, the added-objective half has a trivial solution:
+
+\begin{proposition}[A free lunch, where neurons are plentiful]\label{prop:freelunch}
+Fix $m\ge1$, $S\in[0,1)$, $k\ge m$, and define the polynomial penalty
+\[
+R'(\theta) \;=\; \sum_{j=1}^{k}\ \sum_{1\le i<i'\le m} W_{ji}^2\,W_{ji'}^2 ,
+\]
+which vanishes iff every row of $W$ has at most one nonzero entry. Then for every $\lambda>0$, $\min_\theta\, (L'+\lambda R')=0$, the minimum is attained, and \emph{every} global minimizer has zero task loss and is $0$-monosemantic.
+\end{proposition}
+
+\begin{proof}
+Both terms are nonnegative, and the $0$-monosemantic zero-loss point of Proposition~\ref{prop:blind} makes both vanish. Conversely $L'+\lambda R'=0$ forces $L'=0$ and one-sparse rows, and a network with one-sparse rows has $M_j=1$ on every nonzero row.
+\end{proof}
+
+So in the overprovisioned regime the survey's request---perfect legibility, zero performance cost, via a one-line regularizer---is granted, and the grant teaches us where the real problem lives. Regularizing for interpretability is easy when resources are abundant; what a trained network lacks is abundance. The toy model has $n<m$ by fiat; real networks represent more features than they have neurons, which is why superposition exists. The formulations with content are therefore the \emph{bottlenecked} ones ($n<m$ in Definition~\ref{def:toy}, $k<m$ in Definition~\ref{def:priv}), where zero loss is impossible, every legibility constraint has a price (Theorem~\ref{thm:price}), and nothing trivializes. One more exactly computable point calibrates the bottleneck:
+
+\begin{proposition}[Perfectly monosemantic bottleneck]\label{prop:monobottleneck}
+For $k<m$ and $S\in(0,1)$: $\inf\{L'_{m,k,S}(\theta) : M(\theta)=1\} = (m-k)\,v(S)$.
+\end{proposition}
+
+\begin{proof}
+\emph{Upper bound:} read $k$ features with the identity construction of Proposition~\ref{prop:blind} restricted to features $1,\dots,k$, and output the constant $(1-S)/2$ on the rest (via $c$), paying $v(S)$ each by Lemma~\ref{lem:floor}. \emph{Lower bound:} if $M(\theta)=1$, each hidden neuron's input depends on a single feature, say neuron $j$ on feature $a_j$; for any coordinate $i\notin\{a_1,\dots,a_k\}$, the output $g_\theta(x)_i$ is a function of $(x_{a_j})_j$, hence independent of $x_i$, and for any random variable $Y$ independent of $x_i$, $\E(x_i-Y)^2 = \E_Y\bigl[\E_{x_i}(x_i-Y)^2\bigr] \ge \inf_{t\in\R}\E(x_i-t)^2 = v(S)$. There are at least $m-k$ such coordinates.
+\end{proof}
+
+\section{The open problems}\label{sec:problems}
+
+The objects $L=L_{m,n,S}$, $R$, $\mu$, $\mu_+$, $v(S)$, $J$, $\mathrm{REC}_S$, $L'$, and $M$ are as defined above. The thermodynamic limit below is now proved; the remaining items in this section are open.
+
+\subsection{The interference--performance frontier}
+
+\begin{problem}[Coherence-constrained frontier]\label{prob:frontier}
+For $m>n\ge2$, $S\in(0,1)$, $c\in[0,1]$, define
+\[
+P_{m,n,S}(c) \;=\; \inf\bigl\{\,L_{m,n,S}(W,b)\ :\ \mu(W)\le c\,\bigr\}.
+\]
+Theorems~\ref{thm:price} and~\ref{thm:cap} give $P_{m,n,S}(0)=(m-n)v(S)$ and a lower bound for $c<1/\sqrt n$.
+\begin{enumerate}
+\item Determine $P_{3,2,S}(c)$ and $P_{5,2,S}(c)$ for all $S\in(0,1)$ and $c\in[0,1]$.
+\item Prove or disprove: for each fixed $(m,n,S)$ there are finitely many points $0=c_0<c_1<\cdots<c_r=1$ such that on each interval $(c_{i-1},c_i)$ the function $c\mapsto P_{m,n,S}(c)$ agrees with a function real-analytic on a neighborhood of $[c_{i-1},c_i]$. ($P_{m,n,S}$ is nonincreasing in $c$, so one-sided limits exist everywhere; whether it is continuous is part of the question.)
+\item Determine $c^*(m,n,S)=\inf\{c: P_{m,n,S}(c)=P_{m,n,S}(1)\}$, the smallest coherence budget at which interpretability (in this surrogate) becomes free.
+\end{enumerate}
+\end{problem}
+
+This is the quantitative core of ``without destroying performance'': the whole curve, not one point, is the object of interest. The phase-diagram phenomenology of \cite{elhage2022}---jumps between polytope configurations as sparsity varies, \emph{first-order} in the sense that the optimal $W$ changes discontinuously---suggests the frontier is piecewise smooth with kinks, each kink a change of optimal geometry; part (2) asks for that picture as a theorem.
+
+\begin{remark}[Subadditivity]\label{rem:fekete}
+Block sums make the frontier subadditive: if $W^{(1)}$ and $W^{(2)}$ are feasible at coherence $c$ for the sizes $(m_1,n_1)$ and $(m_2,n_2)$ respectively, then the block sum $W^{(1)}\oplus W^{(2)}$ is feasible at coherence $c$ for $(m_1+m_2,\,n_1+n_2)$---cross-block columns are orthogonal---and the losses add because $\mathcal D_{m_1+m_2,S}$ is a product measure. Hence
+\[
+P_{m_1+m_2,\,n_1+n_2,\,S}(c)\;\le\; P_{m_1,n_1,S}(c)+P_{m_2,n_2,S}(c),
+\]
+and by Fekete's lemma the limit
+\[
+p\bigl(\tfrac{n_0}{m_0},S,c\bigr) \;=\; \lim_{k\to\infty} \frac{P_{km_0,\,kn_0,\,S}(c)}{km_0}
+\]
+exists for every rational ratio $\beta = n_0/m_0\in(0,1)$. From Theorem~\ref{thm:price}(1), $p(\beta,S,0)=(1-\beta)v(S)$. Mixing blocks of two different ratios gives more: for rational $\beta_1=n_1/m_1$, $\beta_2=n_2/m_2$, and rational $t\in(0,1)$, taking $k_1$ blocks of size $(m_1,n_1)$ and $k_2$ of size $(m_2,n_2)$ with $k_1m_1:k_2m_2=t:(1-t)$---each block first replaced by a large multiple of itself, so that its loss per feature approaches its own Fekete limit---yields $p(t\beta_1+(1-t)\beta_2,S,c)\le t\,p(\beta_1,S,c)+(1-t)\,p(\beta_2,S,c)$. Since $0\le p\le v(S)$, this convexity on rationals extends $p(\cdot,S,c)$ uniquely to a continuous convex function on $(0,1)$.
+\end{remark}
+
+\begin{proposition}[Thermodynamic frontier]\label{conj:limit}
+For fixed $S\in(0,1)$ and $c\in[0,1]$: $P_{m,n,S}(c)/m \to p(\beta,S,c)$ along every sequence with $m\to\infty$ and $n/m\to\beta\in(0,1)$.
+\end{proposition}
+
+\begin{proof}
+Write $\beta_j=n_j/m_j$. The Fekete limit on the ray through $(m_j,n_j)$ gives
+\[
+p(\beta_j,S,c)\le \frac{P_{m_j,n_j,S}(c)}{m_j},
+\]
+so continuity of $p$ yields the lower bound. For the upper bound, fix a rational $q=N/M<\beta$ and a block with $P_{M,N,S}(c)/M\le p(q,S,c)+\varepsilon$. Tile $k_j=\lfloor m_j/M\rfloor$ copies in orthogonal hidden-coordinate subspaces, leave the remaining $r_j<M$ features unstored, and leave unused hidden coordinates empty. For large $j$, $k_jN\le n_j$, and
+\[
+\frac{P_{m_j,n_j,S}(c)}{m_j}
+\le \frac{k_jP_{M,N,S}(c)+r_jv(S)}{m_j}
+\longrightarrow \frac{P_{M,N,S}(c)}M .
+\]
+Let $\varepsilon\downarrow0$ and then $q\uparrow\beta$.
+\end{proof}
+
+No value of $p(\beta,S,c)$ with $c\in(0,1)$ is known; determining one would be a further contribution.
+
+\subsection{The headline target: coherence}
+
+Proposition~\ref{prop:scalar} disposes of the trivial reading; here is the nontrivial one. The penalty available to gradient-based training is the smooth average $R$; the quantity the interpreter cares about is the max $\mu$; and the frame-potential fact of Section~\ref{sec:background} warns that $R$'s stationary structure (tight frames) does not obviously favor small $\mu$.
+
+\begin{problem}[Penalizing the sum to control the max]\label{prob:summax}
+Let $R$ be the interference of Definition~\ref{def:coherence}.
+\begin{enumerate}
+\item Exhibit a quadruple $(m,n,S,\lambda)$, where $m>n\ge2$, $S\in(0,1)$, and $\lambda>0$, for which the two sets of minimizers below are nonempty, every $(W,b)\in\operatorname{argmin}(L+\lambda R)$ has task loss below the orthogonality price of Theorem~\ref{thm:price}(1), i.e.\ $L(W,b)<(m-n)\,v(S)$, and
+\[
+\sup\bigl\{\mu(W) : (W,b)\in\operatorname{argmin}(L+\lambda R)\bigr\}
+\;<\;
+\inf\bigl\{\mu(W) : (W,b)\in\operatorname{argmin} L\bigr\} ,
+\]
+or prove that no such quadruple exists.
+\item For $(m,n)=(5,2)$ and one explicit $S$ (say $S=0.999$), determine the map
+$\lambda \mapsto \{\mu(W) : (W,b)\in\operatorname{argmin}(L+\lambda R)\}$ on $\lambda\in(0,\infty)$.
+\end{enumerate}
+\end{problem}
+
+Part (1) is the survey's ``lower coherence'' target stated so that Proposition~\ref{prop:scalar} cannot answer it. Even the endpoint limits require attainment and precompactness on the noncompact parameter space: epi-convergence alone does not supply convergent minimizers. The task-loss clause $L<(m-n)v(S)$ excludes the cheap large-penalty answer of lowering coherence by dropping features. The content is the intermediate regime: does the minimizer pass through low-$\mu$ geometries, or jump from a high-coherence polytope directly to feature-dropping? At $(5,2)$ and high sparsity the unregularized optimum is observed to be the regular pentagon \cite{elhage2022} (an empirical statement, not a theorem), whose coherence is $\cos 36^\circ\approx0.809$.
+
+\subsection{Beyond coherence: recovery transfer}
+
+The deeper question is whether any of this helps the interpreter. Coherence is a property of $W$; recovery is a property of the estimator applied to the activations $Wx$. The bridge is entirely unbuilt---even in this toy world.
+
+\begin{problem}[Recovery transfer: ``more identifiable atoms'']\label{prob:transfer}
+Let $\mathrm{REC}_S$ be the recovery predicate of Definition~\ref{def:rec}.
+\begin{enumerate}
+\item (\emph{Antipodal warm-up.}) Let $(m,n)=(4,2)$ and let $W^*$ be the antipodal configuration, with columns $e_1,-e_1,e_2,-e_2$. Determine, for each $S\in(0,1)$, the set of triples $(d,\alpha,\varepsilon)$, with $d\ge4$, $\alpha>0$, and $\varepsilon\in(0,\tfrac12)$, for which $\mathrm{REC}_S(W^*;d,\alpha,\varepsilon)=1$.
+\item (\emph{Transfer.}) Exhibit $(m,n,S,\lambda)$ and $(d,\alpha,\varepsilon)$ with $\varepsilon<\tfrac12$ such that both $\operatorname{argmin}(L+\lambda R)$ and $\operatorname{argmin}L$ are nonempty, every $(W_\lambda,b_\lambda)\in\operatorname{argmin}(L+\lambda R)$ satisfies $\mathrm{REC}_S(W_\lambda;d,\alpha,\varepsilon)=1$, and some $(W_0,b_0)\in\operatorname{argmin} L$ satisfies $\mathrm{REC}_S(W_0;d,\alpha,\varepsilon)=0$. Or prove no such tuple exists.
+\end{enumerate}
+\end{problem}
+
+Part (2) is a stronger recovery-level extension: a proof would have to establish, along the way, an identifiability theorem for the $\ell^1$ estimator on a structured dictionary---the subject of the sibling open problem ``The geometry and identifiability of superposition.'' Part (1) is small enough to attack alone: the activation distribution is just $(x_1-x_2,\,x_3-x_4)$ with sparse uniform coordinates, and the question is whether the standard estimator, at its \emph{global} optimum, splits each axis into two signed atoms. To my knowledge even this is unproved; the closest theory \cite{cui2025} computes closed-form SAE behavior in a different asymptotic regime and finds recovery generically fails without reweighting, which makes part (1) a genuine test rather than a formality.
+
+\begin{question}[Does coherence rank recoverability?]\label{q:goodhart}
+Do there exist parameters $n,m,d,\alpha,\varepsilon$, a sparsity $S\in(0,1)$, and dictionaries $W,W'\in\R^{n\times m}$, both with unit-norm columns, such that
+\[
+\begin{gathered}
+\mu(W)<\mu(W'),\\
+\mathrm{REC}_S(W;d,\alpha,\varepsilon)=0
+\quad\text{and}\quad
+\mathrm{REC}_S(W';d,\alpha,\varepsilon)=1\,?
+\end{gathered}
+\]
+(The unit-norm condition blocks a cheap answer by scale alone: shrinking $W$ until the optimal code is identically zero makes every $D$ a global minimizer of $J$, killing recovery while leaving the scale-invariant $\mu$ untouched. With norms matched, $\alpha$ strikes both dictionaries equally, and the answer must come from geometry.)
+\end{question}
+
+I expect the answer is yes---the antipodal configuration has $\mu=1$ yet its signed atoms are plausibly recoverable, while an incoherent dictionary with strongly correlated supports may fool the estimator---and a proof would be the toy world's version of Goodhart's law for interpretability metrics: optimize the proxy, lose the target. Section~\ref{sec:resist} returns to this.
+
+\subsection{Stability as identifiability of the optimum}
+
+A further question is stability: should training have a well-defined answer, so that two runs (or two auditors) find the same features? The toy model's symmetries make ``the same'' precise. Let $G = O(n)\times \Sigma_m$ act on parameters by $W\mapsto QW P^{-1}$, $b \mapsto Pb$ for $Q$ orthogonal and $P$ a coordinate permutation (permuting features and their biases together); $L$, $R$, $\mu$ are $G$-invariant, the first because $\mathcal D_{m,S}$ is exchangeable and $W^\top W$ is $Q$-invariant.
+
+\begin{problem}[Single-orbit training]\label{prob:orbit}
+Call the objective $L+\lambda R$ \textbf{identifiable at} $(m,n,S,\lambda)$ if its $\operatorname{argmin}$ is nonempty and consists of a single $G$-orbit.
+\begin{enumerate}
+\item Decide identifiability for $(m,n)=(5,2)$, $\lambda=0$, at high sparsity: prove there exists $S_0<1$ such that for all $S\in(S_0,1)$ the $\operatorname{argmin}$ is a single $G$-orbit---concretely, the regular pentagon with its optimal norms and biases---or prove that no such $S_0$ exists.
+\item Exhibit $(m,n,S,\lambda)$ with $\lambda>0$ such that $L+\lambda R$ is identifiable while $L$ is not, or prove that regularization by $R$ never creates identifiability where it was absent.
+\end{enumerate}
+\end{problem}
+
+Part (1) would be the first theorem certifying any of the polytope phases of \cite{elhage2022} as the true global optimum. Ivanov et al.~\cite{ivanov2026} classify the geometry conditional on capacity saturation; they do not prove that global minimizers saturate capacity or that the pentagon is optimal. Part (2) is the precise form of ``regularize for stability'': ties between inequivalent geometries are what make training runs disagree, and a penalty can break ties.
+
+\subsection{Monosemanticity under a bottleneck}
+
+Propositions~\ref{prop:blind}--\ref{prop:monobottleneck} settle the plentiful regime of the privileged-basis model and compute the fully-aligned bottleneck value $(m-k)v(S)$. The open territory is small $\delta>0$: can a \emph{slightly} polysemantic hidden layer beat the perfectly aligned one, and by how much?
+
+\begin{problem}[Monosemanticity frontier]\label{prob:mono}
+For $k<m$, $S\in(0,1)$, $\delta\in[0,1]$, define
+\[
+P'_{m,k,S}(\delta) \;=\; \inf\bigl\{\,L'_{m,k,S}(\theta)\ :\ M(\theta)\ge 1-\delta\,\bigr\},
+\]
+so that $P'_{m,k,S}(0)=(m-k)v(S)$ by Proposition~\ref{prop:monobottleneck}.
+\begin{enumerate}
+\item Determine
+\[
+\delta^*(m,k,S)=\inf\{\delta\in[0,1] : P'_{m,k,S}(\delta)<P'_{m,k,S}(0)\},
+\]
+with the convention $\delta^*=1$ when the set is empty. Is $\delta^*=0$ for all $S$ close to $1$ (any polysemanticity budget helps), or is there a threshold?
+\item Jermyn et al.~\cite{jermyn2022} observe monosemantic and polysemantic local minima in a related architecture with randomly projected inputs and a linear unbiased output layer. For the architecture of Definition~\ref{def:priv}, exhibit $(m,k,S)$ and two local minima of $L'_{m,k,S}$ with $M=1$ and $M\le\tfrac12$ respectively, whose losses differ by less than $v(S)/10$.
+\end{enumerate}
+\end{problem}
+
+Mencattini, Montagna, and Locatello \cite{mencattini2026} prove a rate--distortion--polysemanticity tradeoff for a post-hoc sparse autoencoder with a linear decoder and a co-occurrence-driven rate constraint. Their theorem is close in spirit, but it does not determine the bottleneck frontier $P'_{m,k,S}$ of the jointly trained ReLU-output network above.
+
+\subsection{Weight sparsity as a training-time constraint}
+
+Remark~\ref{rem:wsparse} showed column-1-sparse wiring beats orthogonality. The exact cost of wiring constraints is open, and is the toy-model shadow of the empirical capability--interpretability frontier of \cite{gao2025}.
+
+\begin{problem}[The wiring frontier]\label{prob:wsparse}
+For $m\ge 2n\ge2$ and $S\in(0,1)$, determine
+\[
+Q_{m,n,S} \;=\; \inf\bigl\{\,L_{m,n,S}(W,b)\ :\ \|W_i\|_0\le 1 \text{ for all } i\,\bigr\}
+\]
+exactly; here $\|v\|_0$ denotes the number of nonzero entries of $v$, so the constraint is column-$1$-sparsity in the sense of Remark~\ref{rem:wsparse}. (Conjecturally $Q_{m,n,S}=\min\bigl\{(m-n)\,v(S),\ \tfrac{n(1-S)^2}{3}+(m-2n)\,v(S)\bigr\}$, the orthogonal value winning for $S<3/7$ and the antipodal one for $S>3/7$, with equality at $S=3/7$; the content is to rule out three or more same-axis features aided by biases.) More generally, determine and compare the recovery-constrained frontiers $Q^{\mathrm{rec}}(k_0)$ and $P^{\mathrm{rec}}(c)$ defined below.
+\end{problem}
+
+For the final comparison, fix $k_0,c,d,\alpha,\varepsilon$ and define
+\[
+\begin{aligned}
+Q^{\mathrm{rec}}(k_0)&=\inf\{L(W,b):\|W_i\|_0\le k_0\ \forall i,\quad
+\mathrm{REC}_S(W;d,\alpha,\varepsilon)=1\},\\
+P^{\mathrm{rec}}(c)&=\inf\{L(W,b):\mu(W)\le c,\quad
+\mathrm{REC}_S(W;d,\alpha,\varepsilon)=1\}.
+\end{aligned}
+\]
+The comparison requested in Problem~\ref{prob:wsparse} is the pointwise comparison of these two functions as the wiring and coherence budgets vary.
+
+\subsection{Dynamics}
+
+Every problem so far quantifies over exact minimizers. Training does not; and Proposition~\ref{prop:blind} shows regimes where minimization alone cannot decide the property of interest, so the selection is made by the optimizer.
+
+\begin{question}[What does gradient flow select?]\label{q:dynamics}
+Fix $(m,n,S,\lambda,\sigma)$ and use the measurable Clarke-trajectory convention above for $L+\lambda R$, from $W_{ij}\sim N(0,\sigma^2)$ independently and $b=0$. Write $\theta_\infty=\dagger$ when the selected trajectory does not converge.
+\begin{enumerate}
+\item For $(m,n)=(2,1)$ with importance weights $(1,I)$, on convergent trajectories write the limiting row as $(w_1,w_2)$. Determine the probabilities of the four disjoint events
+\[
+\begin{array}{ll}
+D_2=\{w_2=0,\ w_1\ne0\}, & \text{drop feature 2},\\
+A_2=\{w_1=0,\ w_2\ne0\}, & \text{dedicate the dimension to feature 2},\\
+S_{\pm}=\{w_1w_2<0\}, & \text{store the pair antipodally},\\
+O=\text{the complement}, & \text{including }\theta_\infty=\dagger.
+\end{array}
+\]
+Compute them as functions of $(I,S,\lambda,\sigma)$.
+\item Set $\mu(W_\infty)=+\infty$ when $\theta_\infty=\dagger$. For fixed $(m,n,S,\sigma)$ and $c\in[0,1]$, is $\lambda\mapsto \Pr[\mu(W_\infty)\le c]$ nondecreasing?
+\item Fix instead $(m,k,S,\sigma)$ with $k\ge m$ and run the selected Clarke trajectory for $L'$ on $\theta=(W,\beta,V,c)$, initialized with $W_{ij},V_{ij}\sim N(0,\sigma^2)$ independently and both bias vectors zero. Determine the law of $M(\theta_\infty)$ on $[1/m,1]\cup\{\dagger\}$, interpreting $M(\theta_\infty)=\dagger$ on nonconvergent trajectories.
+\end{enumerate}
+\end{question}
+
+Part (3) states the \emph{implicit bias} question for interpretability in miniature: when the task does not decide legibility, does the dynamics? The case $m=k=2$ is already open.
+
+\section{A place to start}\label{sec:start}
+
+\begin{example}[The regularized phase diagram of the smallest model]\label{ex:21}
+Take $m=2$, $n=1$, importance weights $(1,I)$: the loss is
+\begin{align*}
+L(w_1,w_2,b) = \E\Bigl[&\bigl(x_1-\relu(w_1^2x_1+w_1w_2x_2+b_1)\bigr)^2\\
+&+ I\bigl(x_2-\relu(w_1w_2x_1+w_2^2x_2+b_2)\bigr)^2\Bigr]
+\end{align*}
+with $(w_1,w_2)\in\R^2$, and $R = 2w_1^2w_2^2$. Elhage et al.~\cite{elhage2022} treat $\lambda=0$: three phases (ignore the weak feature; dedicate the dimension to it; antipodal superposition $w_2=-w_1$), with closed-form losses and a first-order transition. \emph{The problem}: determine exactly the global-minimizer phase diagram of $L+\lambda R$ in the octant of parameters $(I,S,\lambda)$, including the critical surface $\lambda_c(I,S)$ above which the antipodal phase disappears. Everything reduces to one-dimensional integrals of piecewise polynomials; the work is a careful case analysis. This is the smallest-model analogue of the survey's frontier: not \emph{that} the penalty reduces interference (Proposition~\ref{prop:scalar} does that for free), but \emph{which phase} it selects, \emph{at what task cost}, with the constants.
+\end{example}
+
+\begin{example}[The $(3,2)$ frontier]
+For $m=3$, $n=2$, the natural candidate geometries are: drop one feature; one antipodal pair plus a dedicated axis; and three nonzero atoms forming a triangle. A coherence cap $\mu\le c$ with $c<1$ sorts these classes through absolute values: the antipodal pair has $|\cos\pi|=1$, hence $\mu=1$, so the second class is excluded outright, and its capped stand-in is an isosceles triangle whose most anticorrelated pair sits at cosine $-c$, pressed against the cap; the equilateral triangle (all cosines $-\tfrac12$) is feasible for $c\ge\tfrac12$, and by the Welch bound no triangle at all is feasible for $c<\tfrac12$. Compute the infimum of $L_{3,2,S}$ within each class as a function of $(S,c)$---closed forms exist, cf.\ the notebooks accompanying \cite{elhage2022}---and so obtain an explicit upper envelope for $P_{3,2,S}(c)$. The research content is the matching lower bound: prove no fifth geometry beats the envelope. Even partial results (lower bounds via Lemma~\ref{lem:packing} plus convexity in the Gram matrix) would be the first rigorous frontier computation in this literature.
+\end{example}
+
+\begin{example}[Antipodal recovery, numerically then rigorously]
+This is Problem~\ref{prob:transfer}(1) in coordinates. The activation distribution is $(Y_1,Y_2)$ with $Y_k = x_{2k-1}-x_{2k}$ independent, each a difference of two sparse uniforms. The joint law is cross-shaped only in the limit $S\to1$: it puts mass $S^2(1-S^2)$ on each coordinate axis (minus the origin), mass $S^4$ at the origin, and spreads the remaining $(1-S^2)^2$ over the square---and this off-axis mass is what makes recovery nontrivial. Sweep $(\alpha, S)$ numerically for $d=4$ and observe whether global minimizers of $J$ place atoms at $\pm e_1,\pm e_2$ or merge/rotate them; then prove the observed diagram. All the probability is explicit; the only difficulty is the non-convexity of $J$ in $D$, in the lowest dimension where the question makes sense.
+\end{example}
+
+\section{What is known}\label{sec:known}
+
+\emph{Training for interpretability, empirically.} The idea has been tried at every scale. Elhage et al.\ \cite{elhage2022solu} replaced the nonlinearity of transformer language models (the deep-network architecture behind modern text-prediction systems) with \emph{softmax linear units} (SoLU) to encourage basis-aligned features; neurons looked more interpretable, but the authors themselves documented that superposition had partly \emph{hidden} rather than vanished---the cautionary tale behind Question~\ref{q:goodhart}. Jermyn et al.\ \cite{jermyn2022} engineered monosemanticity in a related toy architecture by steering which local minimum training finds. Tamkin et al.\ \cite{tamkin2023} trained networks through discrete vector-quantized bottlenecks (``codebook features''), making sparsity architectural. Gao et al.\ \cite{gao2025} trained transformers with all but $\sim$1-in-1000 weights zeroed and mapped a capability--interpretability frontier that model scale improves, the kind of curve Problems~\ref{prob:frontier} and~\ref{prob:wsparse} ask for as mathematics. Braun et al.\ \cite{braun2025} and Bushnaq et al.\ \cite{bushnaq2025} decompose the \emph{parameters} into sparsely used components by minimizing a description-length objective.
+
+\emph{Sparse autoencoders.} Bricken et al.\ \cite{bricken2023} and Cunningham et al.\ \cite{cunningham2023} established empirically that $\ell^1$-penalized reconstruction of language-model activations yields dictionaries far more interpretable than raw neurons, along with the failure modes (single features splitting into several finer near-duplicate atoms as $d$ grows, imperfect reconstruction) that motivate wanting guarantees. Ayonrinde et al.\ \cite{ayonrinde2024} select the SAE dictionary size by a minimum-description-length criterion---a sustained attempt to make ``good explanation'' quantitative, discussed further in Section~\ref{sec:resist}.
+
+\emph{Dictionary learning theory.} For the estimator of Definition~\ref{def:sae} the classical theory gives uniqueness of the sparse factorization from finitely many generic samples, up to permutation and scaling---roughly $(k+1)\binom{m}{k}$ samples suffice \cite{aharon2006,hillar2015}, stably under noise \cite{garfinkle2019}. For the $\ell^1$-penalized objective itself, the generating dictionary lies near a local minimum under coherence-type assumptions \cite{gribonval2015}. Recent SAE theory computes closed-form solutions in asymptotic regimes and shows recovery can fail without reweighting \cite{cui2025}; Chen et al.~\cite{chen2025} prove feature recovery for a modified bias-adaptation algorithm, Zhu et al.~\cite{zhu2026} give coherence-dependent recovery bounds, and Dorrell \cite{dorrell2026} analyzes local optimality for jointly learned nonnegative dictionaries. None treats dictionaries that are themselves the output of the upstream optimization in Problems~\ref{prob:summax}--\ref{prob:transfer}.
+
+\emph{Toy-model theory.} Scherlis et al.\ \cite{scherlis2022} analyze feature capacity allocation in closely related quadratic models. Cowsik et al.\ \cite{cowsik2024} optimize a permutation-symmetric large-$m$ ansatz and derive near-optimal high-sparsity scaling. Chen et al.\ \cite{chen2023} study $k$-gon critical points and phase transitions. Ivanov et al.\ \cite{ivanov2026} prove spectral and tight-frame structure conditional on capacity saturation; the hypothesis is empirical, not a theorem about global minimizers. Mencattini, Montagna, and Locatello \cite{mencattini2026} prove a rate--distortion--polysemanticity tradeoff for a different sparse-autoencoder model. These results supply structure near Problems~\ref{prob:frontier}, \ref{prob:orbit}, and~\ref{prob:mono}, but do not settle their exact objectives.
+
+\emph{Frames and packings.} The Welch bound \cite{welch1974}, the frame potential of Benedetto--Fickus \cite{benedetto2003}, and the sphere-packing tradition give the tools Lemma~\ref{lem:packing} samples; the subject of optimal line packings is a mature field waiting to be pointed at Problem~\ref{prob:frontier}.
+
+\emph{An alternative endpoint.} Gross et al.\ \cite{gross2024} propose measuring understanding by the length of a formal \emph{proof} of a performance bound that the understanding enables: interpretability as verification-cost reduction. I return to it in the next section as a route to eliminating the vague word altogether. Sharkey et al.\ \cite{sharkey2025} catalogue the field's open problems, including intrinsic interpretability, and are candid that ``satisfying formal definitions are elusive.''
+
+\section{What coherence does not capture}\label{sec:resist}
+
+Coherence is precise, but it is only a proxy. Here is what the toy model lets us say beyond it, and where definitions still run out.
+
+\emph{Made precise above:} sparsity (the data model, Definition~\ref{def:data}, and the sparsity of codes in Definition~\ref{def:sae}); stability (single-orbit identifiability, Problem~\ref{prob:orbit}); performance cost (the frontier functions $P(c)$, $P'(\delta)$, and $Q$); and recoverability (the predicate $\mathrm{REC}_S$, Definition~\ref{def:rec}). Each supports questions that coherence alone does not answer.
+
+\emph{Not made precise, and why.}
+
+\textbf{``Enough to interpret.''} Interpretation has an interpreter. Every surrogate above replaces the interpreter with a fixed mathematical proxy---an angle condition, an estimator, an alignment index---and Question~\ref{q:goodhart} is the formal expression of the worry that the proxies disagree with one another, hence cannot all equal the target. The SoLU episode \cite{elhage2022solu} shows the worry is realized in practice: a training change improved the proxy (neuron-level legibility) while the underlying difficulty relocated. What is missing is not one more metric but a \emph{criterion of adequacy} for metrics. The most principled candidate I know is verification cost \cite{gross2024}: define the interpretability of $(W,b)$ as the minimum length of a formal certificate, in a fixed proof system, of a stated performance bound for $f_{W,b}$. This is fully precise once the proof system is fixed---and there is the arbitrariness again, one level up. But it is a better arbitrariness: proof systems are inter-translatable at bounded cost, the quantity is operationally meaningful (an auditor could act on it), and ``training for interpretability'' becomes ``training to minimize loss plus certified-verification cost,'' a well-posed if formidable objective. Formulating a robustness theorem here---certificate lengths in natural proof systems agree up to polynomial factors on trained toy models---would go deeper than anything numbered above, and I have deliberately not numbered it as a Problem, because I cannot yet state it without hiding choices in the words ``natural'' and ``agree.''
+
+\textbf{``Modular.''} Modularity should mean the network factors into parts understandable separately. Every formalization I know chooses (i) a graph (weights? causal influence on which distribution?), (ii) a partition-quality functional (spectral cut? description length of the factored model?), and (iii) a null model against which ``more modular than chance'' is judged. Different choices give inequivalent notions, and unlike the coherence/recovery pair, I do not currently see a toy-model experiment that would adjudicate among them. So I decline to pick one; a well-motivated choice, with a theorem showing two natural choices agree on trained toy models, would itself be a contribution.
+
+\textbf{Minimum description length.} ``Interpretable = compressible'' \cite{ayonrinde2024,braun2025} is precise the moment one fixes a description language, and language-dependent thereafter; Kolmogorov invariance rescues the theory only up to additive constants that dwarf every quantity of interest at toy scale. The same missing-robustness-theorem shape recurs.
+
+\textbf{The referent problem.} Deepest of all: outside a generative model, ``recover the network's own features'' has no referent. In the toy model the true dictionary exists because I wrote it into Definition~\ref{def:toy}; for a language model trained on text, there is no ground-truth $W$ behind the activations---or rather, whether there is one is itself the empirical content of the superposition hypothesis. All the precision in this file is purchased by working where ground truth exists by construction. A satisfactory formulation of the survey's problem for real networks would have to decide: what is the ontology of features (generative postulate, or intrinsic invariant of the trained function?); who is the observer (human, algorithm, proof system?); and what downstream task the interpretation must serve, since ``interpretable'' with no task is as empty as ``useful'' with no user. Sharkey et al.\ \cite{sharkey2025} say plainly that these foundations do not yet exist. I agree, and think the fastest way to build them is from below.
+
+The interference--performance frontier and the average-to-worst-case question are fully formalized by Problems~\ref{prob:frontier} and~\ref{prob:summax}. Problems~\ref{prob:transfer} through~\ref{prob:wsparse} and Question~\ref{q:dynamics} ask what stronger notions might add. The word ``interpretable'' itself, as a property of a network rather than of a (network, observer, task) triple, resists formalization today. Meanwhile the smallest cases sit there almost provocatively: two features in one dimension with a penalty term nobody has analyzed, five vectors in a plane whose optimality nobody has certified, four antipodal atoms waiting for the first recovery theorem. Pick one and start computing.
+
+\begin{thebibliography}{99}
+
+\bibitem{mais}
+L.~Levine,
+\emph{Math for AI Safety: An Invitation for Mathematicians},
+2026. \url{https://github.com/lionellevine/MAIS/blob/main/survey/MAIS.pdf}.
+
+
+\bibitem{aharon2006} Aharon, M., Elad, M., and Bruckstein, A. M. (2006). On the uniqueness of overcomplete dictionaries, and a practical way to retrieve them. \emph{Linear Algebra and its Applications} 416(1), 48--67.
+
+\bibitem{ayonrinde2024} Ayonrinde, K., et al. (2024). Interpretability as compression: reconsidering SAE explanations of neural activations with MDL-SAEs. \arxiv{2410.11179}.
+
+\bibitem{benedetto2003} Benedetto, J. J., and Fickus, M. (2003). Finite normalized tight frames. \emph{Advances in Computational Mathematics} 18(2--4), 357--385.
+
+\bibitem{braun2025} Braun, D., et al. (2025). Interpretability in parameter space: minimizing mechanistic description length with attribution-based parameter decomposition. \arxiv{2501.14926}.
+
+\bibitem{bricken2023} Bricken, T., et al. (2023). Towards monosemanticity: decomposing language models with dictionary learning. \emph{Transformer Circuits Thread}, Anthropic. \url{https://transformer-circuits.pub/2023/monosemantic-features}
+
+\bibitem{bushnaq2025} Bushnaq, L., Braun, D., and Sharkey, L. (2025). Stochastic parameter decomposition. \arxiv{2506.20790}.
+
+\bibitem{chen2023} Chen, Z., Lau, E., Mendel, J., Wei, S., and Murfet, D. (2023). Dynamical versus Bayesian phase transitions in a toy model of superposition. \arxiv{2310.06301}.
+
+\bibitem{chen2025} Chen, S., Sheen, H., Xiong, X., Wang, T., and Yang, Z. (2025). Taming polysemanticity in LLMs: provable feature recovery via sparse autoencoders. \emph{International Conference on Learning Representations} (ICLR) 2026. \arxiv{2506.14002}.
+
+\bibitem{cowsik2024} Cowsik, A., Dolev, K., and Infanger, A. (2024). The Persian rug: solving toy models of superposition using large-scale symmetries. \arxiv{2410.12101}.
+
+\bibitem{cui2025} Cui, J., Zhang, Q., Wang, Y., and Wang, Y. (2025). On the limits of sparse autoencoders: a theoretical framework and reweighted remedy. \arxiv{2506.15963}.
+
+\bibitem{cunningham2023} Cunningham, H., Ewart, A., Riggs, L., Huben, R., and Sharkey, L. (2023). Sparse autoencoders find highly interpretable features in language models. \arxiv{2309.08600}.
+
+\bibitem{dorrell2026} Dorrell, W. (2026). How optimality structures sparse dictionaries: a theory for understanding SAE representations. \arxiv{2606.02385}.
+
+\bibitem{elhage2022} Elhage, N., et al. (2022). Toy models of superposition. \emph{Transformer Circuits Thread}. \arxiv{2209.10652}.
+
+\bibitem{elhage2022solu} Elhage, N., et al. (2022). Softmax linear units. \emph{Transformer Circuits Thread}, Anthropic. \url{https://transformer-circuits.pub/2022/solu/index.html}
+
+\bibitem{gao2025} Gao, L., et al. (2025). Weight-sparse transformers have interpretable circuits. \arxiv{2511.13653}.
+
+\bibitem{garfinkle2019} Garfinkle, C. J., and Hillar, C. J. (2019). On the uniqueness and stability of dictionaries for sparse representation of noisy signals. \emph{IEEE Transactions on Signal Processing} 67(23), 5884--5892. \arxiv{1606.06997}.
+
+\bibitem{gribonval2015} Gribonval, R., Jenatton, R., and Bach, F. (2015). Sparse and spurious: dictionary learning with noise and outliers. \emph{IEEE Transactions on Information Theory} 61(11), 6298--6319. \arxiv{1407.5155}.
+
+\bibitem{gross2024} Gross, J., et al. (2024). Compact proofs of model performance via mechanistic interpretability. \emph{Advances in Neural Information Processing Systems} 37 (2024). \arxiv{2406.11779}.
+
+\bibitem{hillar2015} Hillar, C. J., and Sommer, F. T. (2015). When can dictionary learning uniquely recover sparse data from subsamples? \emph{IEEE Transactions on Information Theory} 61(11), 6290--6297. \arxiv{1106.3616}.
+
+\bibitem{jermyn2022} Jermyn, A. S., Schiefer, N., and Hubinger, E. (2022). Engineering monosemanticity in toy models. \arxiv{2211.09169}.
+
+\bibitem{ivanov2026} Ivanov, G., Oozeer, N., Raval, S., Pejovic, T., Upadhyay, S., and Abdullah, A. (2026). Spectral superposition: a theory of feature geometry. \arxiv{2602.02224}.
+
+\bibitem{johnson1984} Johnson, W. B., and Lindenstrauss, J. (1984). Extensions of Lipschitz mappings into a Hilbert space. \emph{Contemporary Mathematics} 26, 189--206.
+
+\bibitem{mencattini2026} Mencattini, I., Montagna, F., and Locatello, F. (2026). The rate--distortion--polysemanticity tradeoff in sparse autoencoders. \arxiv{2605.14694}.
+
+\bibitem{olshausen1996} Olshausen, B. A., and Field, D. J. (1996). Emergence of simple-cell receptive field properties by learning a sparse code for natural images. \emph{Nature} 381, 607--609.
+
+\bibitem{scherlis2022} Scherlis, A., et al. (2022). Polysemanticity and capacity in neural networks. \arxiv{2210.01892}.
+
+\bibitem{sharkey2025} Sharkey, L., et al. (2025). Open problems in mechanistic interpretability. \arxiv{2501.16496}.
+
+\bibitem{tamkin2023} Tamkin, A., Taufeeque, M., and Goodman, N. D. (2023). Codebook features: sparse and discrete interpretability for neural networks. \arxiv{2310.17230}.
+
+\bibitem{welch1974} Welch, L. R. (1974). Lower bounds on the maximum cross correlation of signals. \emph{IEEE Transactions on Information Theory} 20(3), 397--399.
+
+\bibitem{zhu2026} Zhu, X., et al. (2026). Diagnosing and fixing latent recovery in sparse autoencoders. \emph{ICLR 2026 Workshop}. \url{https://openreview.net/forum?id=Hl3rEn7S4P}.
+
+\end{thebibliography}
+\end{document}

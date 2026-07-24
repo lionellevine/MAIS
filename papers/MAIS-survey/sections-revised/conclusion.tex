@@ -1,0 +1,219 @@
+\section{Getting started in AI safety}
+\label{sec:conclusion}
+
+%Mathematicians do not need to become machine-learning engineers, and beautiful problems do not need safety justifications. But the profession already knows how to do something the world badly needs: turn vague pressure into definitions, invariants, examples, counterexamples, and theorems. The difficulty is choosing where that craft should go.
+
+Technological progress is a human choice, not a law of nature. When mathematical ideas help build systems whose effects will be felt at civilizational scale, truth-seeking remains a core value, but it is no longer the only value in view. The civic mathematician also asks what our truths are for: whether they can help design AI systems to be more legible, more accountable, and easier to steer toward coexistence with us.
+
+The open problems above are meant as entry points into the new field of Math for AI Safety. Other ways in are workshops like \href{https://www.iliadconference.com}{ILIAD}, the \href{https://www.arena.education/}{ARENA} curriculum, research programs like \href{https://www.matsprogram.org/}{MATS} and \href{https://sparai.org/}{SPAR}, and organizations like \href{https://humancompatible.ai/}{CHAI}, \href{https://constellation.org/}{Constellation}, \href{https://www.far.ai/}{FAR AI}, and \href{https://resolution.org}{Resolution}. Funding for work in this area is available from grantmakers like \href{https://coefficientgiving.org/funds/navigating-transformative-ai/}{Coefficient Giving}, \href{https://www.cooperativeai.com/}{CAIF}, \href{https://survivalandflourishing.fund/}{SFF}, and \href{https://alignmentproject.aisi.gov.uk/}{UK AISI}. % pass 2: resource list moved before the closing line so the section ends on the exhortation, not the link list
+I hope you'll pick a problem whose language already feels like home, strip it down to the simplest interesting case, and start proving things!
+
+\section*{Acknowledgments}
+
+I thank Jesse Hoogland, Hyojeong Son, Jacob Tsimerman, Claude Fable 5, Claude Opus 4.8, and GPT 5.5 and 5.6 Sol for many inspiring conversations. Scott Aaronson, Ahmed Bou-Rabee, Vince Conitzer, Jonathan Gabor, Chris Hillar, Brad Knox, Phil Sosoe, Samuel Speas, Kate Stange, Steve Strogatz, Ariel Yadin, and an anonymous referee provided valuable feedback on an early draft.
+
+\appendix
+
+\section{A glossary for mathematicians}
+\label{app:glossary}
+
+\begin{longtable}{@{}p{0.26\textwidth} p{0.68\textwidth}@{}}
+\glsentry{neural-network}{neural network} & a function with millions to billions of adjustable parameters (its \emph{weights}), built by composing simple layers and tuned by \emph{gradient descent} to reduce a training \emph{loss}. \\[5pt]
+\glsentry{language-model}{language model} & a neural network trained to predict the next token of text; today's chat systems are language models further trained to follow instructions. \\[5pt]
+\glsentry{token}{token} & the atomic unit (word or word-fragment) a language model reads and predicts. \\[5pt]
+\glsentry{loss}{loss} & the scalar a network is trained to minimize; for language models, the negative log-probability it assigned to the actual next token. \\[5pt]
+\glsentry{weights}{weights} & the trainable parameters of an artificial neural network: the entries of its matrices, trained by gradient descent and fixed at deployment time. \\[5pt]
+\glsentry{activations}{activations} & the values that flow through the network on a given input (the outputs of its neurons and layers), as opposed to the fixed weights. \\[5pt]
+\glsentry{activation-space}{activation space} & the copy of $\mathbb{R}^n$ in which a given layer's activations live, one coordinate per neuron; feature directions are directions in this space. \\[5pt]
+\glsentry{gradient-descent}{gradient descent} & the optimizer: repeatedly nudge the parameters $w$ against the gradient of the loss, $w \leftarrow w - \eta\,\nabla L(w)$. \\[5pt]
+\glsentry{relu}{ReLU} & the rectified linear unit $x \mapsto \max(0,x)$, a canonical piecewise-linear nonlinearity; modern transformers often use smooth or gated variants instead (GELU, SiLU, SwiGLU). \\[5pt]
+\glsentry{transformer}{transformer} & the dominant network architecture for language: a stack of layers that mix information across token positions by \emph{attention} (each position selectively reads from the others) and read from / write to the residual stream. \\[5pt]
+\glsentry{residual-stream}{residual stream} & the running vector of activations a transformer reads from and writes to at each layer; a natural home for feature directions. \\[5pt]
+\glsentry{feature}{feature} & a hypothesized variable or property a network represents in its activations (e.g.\ ``the text is in French''). \\[5pt]
+\glsentry{probe}{probe} & a simple (usually linear) function of a network's activations, trained or searched to read off some quantity of interest. \\[5pt]
+\glsentry{policy}{policy} & an agent's rule for choosing actions from states (a possibly randomized map from states to actions). \\[5pt]
+\glsentry{reward-hacking}{reward hacking} & raising a measured reward signal in ways that defeat the intent behind it; Goodhart's law as it appears in agents trained by reward. \\[5pt]
+\glsentry{superposition}{superposition} & a hypothesized representation scheme in which a network stores more features than it has dimensions, as non-orthogonal directions, tolerable when few features are active at once. \\[5pt]
+\glsentry{sparse-autoencoder}{sparse autoencoder} & a network trained to reconstruct another network's activations as sparse combinations of learned dictionary directions; an empirical tool for extracting features. \\[5pt]
+\glsentry{interpretability}{interpretability} & reverse-engineering a trained network into human-understandable structure (circuits, features, algorithms), validated by intervention and not by human-readable description alone. \\[5pt]
+% corrigibility row commented out 2026-07-09: its first use (the intro's control/coexistence footnote) is commented out; restore both together.
+% \glsentry{corrigibility}{corrigibility} & the property that an AI system accepts correction, modification, and shutdown by its human principals, rather than resisting them. \\[5pt]
+\glsentry{gradual-disempowerment}{gradual disempowerment} & the risk that humans lose influence over the institutions that shape their lives, by incremental delegation to AI systems we do not understand rather than by any sudden takeover. \\
+\end{longtable}
+
+\begin{thebibliography}{99}
+
+% 2026-07-12: eleven uncited entries deleted outright per the citation review
+% (edits/citation-recommendations.md), along with einsteinarena and sanborn2022
+% (cut with their citations). Restored the same day with new one-sentence homes:
+% rao1999, wald1950, wentworth2025, ngo2025scale.
+
+\bibitem{abbe2023} Abbe, E., Boix-Adser\`a, E., and Misiakiewicz, T. (2023). SGD learning on neural networks: leap complexity and saddle-to-saddle dynamics. \emph{Conference on Learning Theory (COLT)} 2023. \arxiv{2302.11055}.
+
+\bibitem{aharon2006} Aharon, M., Elad, M., and Bruckstein, A. M. (2006). On the uniqueness of overcomplete dictionaries, and a practical way to retrieve them. \emph{Linear Algebra and its Applications} 416(1), 48--67.
+
+\bibitem{alon2026remarks} Alon, N., Bloom, T. F., Gowers, W. T., Litt, D., Sawin, W., Shankar, A., Tsimerman, J., Wang, V., and Wood, M. M. (2026). Remarks on the disproof of the unit distance conjecture. \arxiv{2605.20695}.
+
+\bibitem{alquier2020} Alquier, P., and Ridgway, J. (2020). Concentration of tempered posteriors and of their variational approximations. \emph{Annals of Statistics} 48(3), 1475--1497. \arxiv{1706.09293}.
+
+\bibitem{arditi2024} Arditi, A., Obeso, O., Syed, A., Paleka, D., Panickssery, N., Gurnee, W., and Nanda, N. (2024). Refusal in language models is mediated by a single direction. \emph{Advances in Neural Information Processing Systems} 37. \arxiv{2406.11717}.
+
+
+\bibitem{barasz2014} Bar\'asz, M., Christiano, P., Fallenstein, B., Herreshoff, M., LaVictoire, P., and Yudkowsky, E. (2014). Robust cooperation in the Prisoner's Dilemma: program equilibrium via provability logic. \arxiv{1401.5577}.
+
+
+\bibitem{bricken2023} Bricken, T., et al. (2023). Towards monosemanticity: decomposing language models with dictionary learning. \emph{Transformer Circuits Thread}, Anthropic. \url{https://transformer-circuits.pub/2023/monosemantic-features}.
+
+
+
+\bibitem{caizhang2014} Cai, T. T., and Zhang, A. (2014). Sparse representation of a polytope and recovery of sparse signals and low-rank matrices. \emph{IEEE Transactions on Information Theory} 60(1), 122--132. \arxiv{1306.1154}.
+
+\bibitem{candes2006} Cand\`es, E. J., Romberg, J., and Tao, T. (2006). Robust uncertainty principles: exact signal reconstruction from highly incomplete frequency information. \emph{IEEE Transactions on Information Theory} 52(2), 489--509.
+
+\bibitem{candes2008} Cand\`es, E. J. (2008). The restricted isometry property and its implications for compressed sensing. \emph{Comptes Rendus Math\'ematique} 346(9--10), 589--592.
+
+
+
+
+\bibitem{chughtai2023} Chughtai, B., Chan, L., and Nanda, N. (2023). A toy model of universality: reverse-engineering how networks learn group operations. \emph{International Conference on Machine Learning} 2023. \arxiv{2302.03025}.
+
+\bibitem{cooper2025} Cooper, E., Oesterheld, C., and Conitzer, V. (2025). Characterising simulation-based program equilibria. \emph{Proceedings of AAAI} 2025. \arxiv{2412.14570}.
+
+\bibitem{critch2016} Critch, A. (2019). A parametric, resource-bounded generalization of L\"ob's theorem, and a robust cooperation criterion for open-source game theory. \emph{The Journal of Symbolic Logic} 84(4), 1368--1381. \arxiv{1602.04184}.
+
+\bibitem{critch2022} Critch, A., Dennis, M., and Russell, S. (2022). Cooperative and uncooperative institution designs: surprises and problems in open-source game theory. \arxiv{2208.07006}.
+
+\bibitem{cunningham2023} Cunningham, H., Ewart, A., Riggs, L., Huben, R., and Sharkey, L. (2023). Sparse autoencoders find highly interpretable features in language models. \arxiv{2309.08600}.
+
+
+\bibitem{donoho2006} Donoho, D. L. (2006). Compressed sensing. \emph{IEEE Transactions on Information Theory} 52(4), 1289--1306.
+
+\bibitem{dyson2009} Dyson, F. (2009). Birds and frogs. \emph{Notices of the American Mathematical Society} 56(2), 212--223.
+
+
+
+\bibitem{eisenstat2025} Eisenstat, S. (2025). Condensation: a theory of concepts. Manuscript. \url{https://www.sameisenstat.net/doc/condensation-25-07.pdf}.
+
+\bibitem{elhage2022} Elhage, N., et al. (2022). Toy models of superposition. \emph{Transformer Circuits Thread}. \arxiv{2209.10652}.
+
+
+
+
+
+\bibitem{garfinkle2019} Garfinkle, C. J., and Hillar, C. J. (2019). On the uniqueness and stability of dictionaries for sparse representation of noisy signals. \emph{IEEE Transactions on Signal Processing} 67(23), 5884--5892. \arxiv{1606.06997}.
+
+\bibitem{garrabrant2016} Garrabrant, S., Benson-Tilsen, T., Critch, A., Soares, N., and Taylor, J. (2016). Logical induction. \arxiv{1609.03543}.
+
+\bibitem{gowers2000} Gowers, W. T. (2000). The two cultures of mathematics. In \emph{Mathematics: Frontiers and Perspectives} (V. Arnold, M. Atiyah, P. Lax, and B. Mazur, eds.), American Mathematical Society, 65--78.
+
+\bibitem{gribonval2015} Gribonval, R., Jenatton, R., and Bach, F. (2015). Sparse and spurious: dictionary learning with noise and outliers. \emph{IEEE Transactions on Information Theory} 61(11), 6298--6319. \arxiv{1407.5155}.
+
+\bibitem{grunwald2012} Gr\"unwald, P. (2012). The safe Bayesian: learning the learning rate via the mixability gap. \emph{Algorithmic Learning Theory (ALT)} 2012, 169--183.
+
+
+
+
+
+% 2026-07-13: entry moved here (was filed under its citation key "spherepacking2026",
+% stranding Hariharan et al. between Sharkey and Tennenholtz).
+\bibitem{spherepacking2026} Hariharan, S., Birkbeck, C., Lee, S., Ma, H. K. G., Mehta, B., Poiroux, A., and Viazovska, M. (2026). Progress in formalizing sphere packing in dimension~8. \arxiv{2604.23468}.
+
+\bibitem{hillar2015} Hillar, C. J., and Sommer, F. T. (2015). When can dictionary learning uniquely recover sparse data from subsamples? \emph{IEEE Transactions on Information Theory} 61(11), 6290--6297. \arxiv{1106.3616}.
+
+\bibitem{hironaka1964} Hironaka, H. (1964). Resolution of singularities of an algebraic variety over a field of characteristic zero. \emph{Annals of Mathematics} 79(1), 109--203; 79(2), 205--326.
+
+\bibitem{howard1988} Howard, J. V. (1988). Cooperation in the Prisoner's Dilemma. \emph{Theory and Decision} 24(3), 203--213.
+
+
+
+\bibitem{johnson1984} Johnson, W. B., and Lindenstrauss, J. (1984). Extensions of Lipschitz mappings into a Hilbert space. \emph{Contemporary Mathematics} 26, 189--206.
+
+\bibitem{khan2023} Khan, M. E., and Rue, H. (2023). The Bayesian learning rule. \emph{Journal of Machine Learning Research} 24(281), 1--46. \arxiv{2107.04562}.
+
+\bibitem{kulveit2025} Kulveit, J., Douglas, R., Ammann, N., Turan, D., Krueger, D., and Duvenaud, D. (2025). Gradual disempowerment: systemic existential risks from incremental AI development. \arxiv{2501.16946}.
+
+
+
+
+
+
+\bibitem{kwa2025} Kwa, T., West, B., Becker, J., et al. (2025). Measuring AI ability to complete long software tasks. METR report; \emph{Advances in Neural Information Processing Systems} 38. \arxiv{2503.14499}.
+
+% 2026-07-13: Orseau dropped to match the published ICML author list (he appears
+% only on the arXiv version); first author kept as "Langosco" per Lionel.
+\bibitem{langosco2022} Langosco, L., Koch, J., Sharkey, L., Pfau, J., and Krueger, D. (2022). Goal misgeneralization in deep reinforcement learning. \emph{International Conference on Machine Learning} 2022. \arxiv{2105.14111}.
+
+\bibitem{lau2023} Lau, E., Furman, Z., Wang, G., Murfet, D., and Wei, S. (2025). The local learning coefficient: a singularity-aware complexity measure. \emph{Artificial Intelligence and Statistics (AISTATS)} 2025. \arxiv{2308.12108}.
+
+
+\bibitem{lob1955} L\"ob, M. H. (1955). Solution of a problem of Leon Henkin. \emph{The Journal of Symbolic Logic} 20(2), 115--118.
+
+
+
+\bibitem{marchetti2024} Marchetti, G. L., Hillar, C., Kragic, D., and Sanborn, S. (2024). Harmonics of learning: universal Fourier features emerge in invariant networks. \emph{Conference on Learning Theory (COLT)} 2024. \arxiv{2312.08550}.
+
+\bibitem{mathlib2020} The mathlib Community. (2020). The Lean mathematical library. \emph{Certified Programs and Proofs (CPP)} 2020, 367--381. \arxiv{1910.09336}.
+
+\bibitem{murfet2026} Murfet, D., Gordon, A., Adam, M., Wang, G., Hoogland, J., Baker, G., Snell, W., van Wingerden, S., Newgas, A., Snikkers, B., and Hitchcock, R. (2026). Spectroscopy at scale: finding interpretable structure in Pythia-1.4B. Timaeus, research report. \url{https://timaeus.co/research/2026-04-21-spectroscopy-main/}.
+
+\bibitem{nanda2023} Nanda, N., Chan, L., Lieberum, T., Smith, J., and Steinhardt, J. (2023). Progress measures for grokking via mechanistic interpretability. \emph{International Conference on Learning Representations} 2023. \arxiv{2301.05217}.
+
+\bibitem{ngo2025scale} Ngo, R. (2025). Towards a scale-free theory of intelligent agency. LessWrong essay. \url{https://www.lesswrong.com/posts/5tYTKX4pNpiG4vzYg/towards-a-scale-free-theory-of-intelligent-agency}.
+
+\bibitem{oesterheld2021} Oesterheld, C., and Conitzer, V. (2021). Safe Pareto improvements for delegated game playing. \emph{International Conference on Autonomous Agents and Multiagent Systems (AAMAS)} 2021; journal version, \emph{Autonomous Agents and Multi-Agent Systems} 36 (2022).
+
+\bibitem{openai2026unitdistance} OpenAI. (2026). An OpenAI model has disproved a central conjecture in discrete geometry. \url{https://openai.com/index/model-disproves-discrete-geometry-conjecture/}.
+
+\bibitem{park2023} Park, K., Choe, Y. J., and Veitch, V. (2024). The linear representation hypothesis and the geometry of large language models. \emph{International Conference on Machine Learning} 2024. \arxiv{2311.03658}.
+
+\bibitem{parr2022} Parr, T., Pezzulo, G., and Friston, K. J. (2022). \emph{Active Inference: The Free Energy Principle in Mind, Brain, and Behavior}. MIT Press.
+
+\bibitem{pearl2009} Pearl, J. (2009). \emph{Causality: Models, Reasoning, and Inference}, 2nd ed. Cambridge University Press.
+
+\bibitem{lehalleur2025} Pepin Lehalleur, S., Hoogland, J., Farrugia-Roberts, M., Wei, S., Gietelink Oldenziel, A., Wang, G., Carroll, L., and Murfet, D. (2025). You are what you eat: AI alignment requires understanding how data shapes structure and generalisation. \arxiv{2502.05475}.
+
+\bibitem{rao1999} Rao, R. P. N., and Ballard, D. H. (1999). Predictive coding in the visual cortex: a functional interpretation of some extra-classical receptive-field effects. \emph{Nature Neuroscience} 2(1), 79--87.
+
+
+\bibitem{richens2024} Richens, J., and Everitt, T. (2024). Robust agents learn causal world models. \emph{International Conference on Learning Representations} 2024. \arxiv{2402.10877}.
+
+
+\bibitem{richens2025general} Richens, J., Everitt, T., and Abel, D. (2025). General agents need world models. \emph{International Conference on Machine Learning} 2025. \arxiv{2506.01622}.
+
+\bibitem{saff1997} Saff, E. B., and Kuijlaars, A. B. J. (1997). Distributing many points on a sphere. \emph{The Mathematical Intelligencer} 19(1), 5--11.
+
+
+\bibitem{sawin2026} Sawin, W. (2026). An explicit lower bound for the unit distance problem. \arxiv{2605.20579}.
+
+\bibitem{saxe2014} Saxe, A. M., McClelland, J. L., and Ganguli, S. (2014). Exact solutions to the nonlinear dynamics of learning in deep linear neural networks. \emph{International Conference on Learning Representations} 2014. \arxiv{1312.6120}.
+
+\bibitem{schelling1960} Schelling, T. C. (1960). \emph{The Strategy of Conflict}. Harvard University Press.
+
+\bibitem{sharkey2025} Sharkey, L., et al. (2025). Open problems in mechanistic interpretability. \emph{Transactions on Machine Learning Research} 2025. \arxiv{2501.16496}.
+
+
+
+
+
+
+\bibitem{tennenholtz2004} Tennenholtz, M. (2004). Program equilibrium. \emph{Games and Economic Behavior} 49(2), 363--373.
+
+
+\bibitem{thurston1994} Thurston, W. P. (1994). On proof and progress in mathematics. \emph{Bulletin of the American Mathematical Society} 30(2), 161--177. \arxiv{math/9404236}.
+
+
+% 2026-07-13: entry moved here (von Neumann under V; it sat between OpenAI and Park).
+\bibitem{vnm1944} von Neumann, J., and Morgenstern, O. (1944). \emph{Theory of Games and Economic Behavior}. Princeton University Press.
+
+\bibitem{wald1950} Wald, A. (1950). \emph{Statistical Decision Functions}. Wiley.
+
+\bibitem{watanabe2009} Watanabe, S. (2009). \emph{Algebraic Geometry and Statistical Learning Theory}. Cambridge University Press.
+
+\bibitem{watanabe2013} Watanabe, S. (2013). A widely applicable Bayesian information criterion. \emph{Journal of Machine Learning Research} 14, 867--897.
+
+\bibitem{wentworth2025} Wentworth, J., and Lorell, D. (2025). Natural latents: latent variables stable across ontologies. \arxiv{2509.03780}.
+
+\bibitem{zhang2017} Zhang, C., Bengio, S., Hardt, M., Recht, B., and Vinyals, O. (2017). Understanding deep learning requires rethinking generalization. \emph{International Conference on Learning Representations} 2017. \arxiv{1611.03530}.
+
+
+\end{thebibliography}

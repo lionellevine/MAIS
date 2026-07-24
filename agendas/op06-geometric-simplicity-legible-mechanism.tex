@@ -1,0 +1,685 @@
+\documentclass[11pt]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{xcolor}
+\usepackage[colorlinks=true, linkcolor=blue!55!black, citecolor=blue!55!black, urlcolor=blue!55!black]{hyperref}
+\newcommand{\arxiv}[1]{\href{https://arxiv.org/abs/#1}{\texttt{arXiv:#1}}}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\KL}{\mathrm{KL}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\E}{\mathbb{E}}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\vol}{vol}
+\DeclareMathOperator{\softmax}{softmax}
+
+\title[Geometric simplicity and legible mechanisms]{Does geometric simplicity force a legible mechanism?\\ Singular geometry of modular addition}
+\author{Claude Fable 5, audited by GPT 5.6 Sol}
+\date{}
+\hypersetup{
+  pdftitle={Does geometric simplicity force a legible mechanism?},
+  pdfauthor={Claude Fable 5; audited by GPT 5.6 Sol},
+  pdfsubject={Research agenda supplement to Open Problem 6 of Math for AI Safety}
+}
+
+\begin{document}
+
+\begin{abstract}
+Open Problem~6 asks whether singular geometry can select a mechanism one can read from a network's weights. For a quadratic network that computes addition modulo $p$, the population loss is an explicit degree-six polynomial, and Fourier inversion gives exact fits built from single-frequency hidden units. The headline question is whether every exact fit of smallest local learning coefficient in a fixed ball has that form. This supplement defines the learning coefficient from scratch, constructs the Fourier fits, proves bounds on the cost of extra width, and isolates the first non-vacuous case, $p=5$ with nine hidden units, for classification by symmetry or computer algebra. It also develops related questions about cross-entropy, attention, empirical estimators, and continuous-input ReLU networks.
+\end{abstract}
+
+\maketitle
+
+\begin{center}
+\small\emph{Research agenda A6 \(\cdot\) Claude Fable 5, audited by GPT 5.6 Sol\\
+July 12, 2026 \(\cdot\) Status: draft}
+\end{center}
+
+\noindent This is a supplement to Open Problem~6 of Lionel Levine's \emph{Math for AI Safety: An Invitation for Mathematicians}~\cite{mais}.
+
+\begin{quote}
+\textbf{Open Problem 6 (Does geometric simplicity force a legible mechanism?)}
+Fix an odd integer $p$ and $H\geq 2p-1$. On input $(a,b)\in(\mathbb{Z}/p\mathbb{Z})^2$, consider the one-hidden-layer network
+\[
+   f_w(a,b)=\sum_{j=1}^H V_j\bigl(u'_j(a)+u''_j(b)\bigr)^2\in\mathbb{R}^p,
+\]
+trained to output the coordinate vector indexed by $a+b$. The $j$th summand is one hidden neuron: it adds two entries from the lookup tables $u'_j,u''_j\colon\mathbb{Z}/p\mathbb{Z}\to\mathbb{R}$, squares the result, and writes the vector $V_j$ to the output. Fourier inversion gives exact fits in which each neuron that contributes nontrivially carries a single frequency: for some $k$, both lookup tables are a constant plus a linear combination of $\cos(2\pi k\,\cdot/p)$ and $\sin(2\pi k\,\cdot/p)$. Up to a change of basis, this is the algorithm found by reverse-engineering trained networks~\cite{nanda2023}.
+
+Is this Fourier structure forced by singular geometry? In a fixed closed ball containing one of these Fourier fits, prove or refute that every exact fit of smallest local learning coefficient has this single-frequency form, apart from neurons whose contribution vanishes identically. The first non-vacuous case is $p=5$ with nine hidden neurons: use its Fourier symmetries to classify the most singular exact fits, or find a non-Fourier one by computer algebra. A proof would connect geometric simplicity to a mechanism one can read from the weights; a counterexample would show that the two notions of simplicity can part ways.
+\end{quote}
+
+
+\setcounter{tocdepth}{1}
+\tableofcontents
+
+\section{The problem in brief}\label{sec:brief}
+
+How many essentially different ways can a neural network compute the same function? The question sounds like bookkeeping; it is in fact the door to the asymptotic theory of learning. When a model has more parameters than the data pins down, the set of parameters that fit the truth can be a singular variety, and the geometry of that variety---measured by a single rational number, the \emph{learning coefficient}---controls how well the model generalizes and which of its many representations Bayesian learning prefers.
+
+
+
+This file develops the singular-geometric side of the survey problem in full. No machine learning background is assumed: a ``neural network'' here is nothing but an explicitly parametrized family of probability distributions, and ``training'' plays no role except as motivation. The main test case concerns one explicit degree-six polynomial $K$ on a Euclidean parameter space. A hidden unit is one summand in the displayed network; it is \emph{active} when that summand contributes a nonzero function of the input. The question is whether the exact fits favored by singular geometry force every active unit to use just one Fourier frequency. Later sections collect attention, estimation, and ReLU variants as related directions.
+
+Why a safety survey cares: two networks can fit the same data by different internal mechanisms and then behave differently on inputs no test anticipated. Watanabe's theory says that Bayesian learning favors the strata of exact fits with the smallest learning coefficient, making the coefficient a mathematical handle on \emph{which mechanism learning selects} \cite{lehalleur2025}. If the minimizers are forced to be Fourier-structured, geometric simplicity selects a legible algorithm; a non-Fourier minimizer would cleanly separate the two notions. An experimental program now estimates learning coefficients inside networks with billions of parameters \cite{lau2023, murfet2026}, but exact ground truth is known only for a short list of classical models.
+
+Sections~\ref{sec:background}--\ref{sec:template} build the theory from scratch and state one solved case that serves as a model answer. Section~\ref{sec:modadd} defines the modular-addition problem and its geometric conjecture. Sections~\ref{sec:attention} and~\ref{sec:estimator} develop related test cases, Section~\ref{sec:start} lists entry points sized for a first paper, Section~\ref{sec:known} surveys what is known, and Section~\ref{sec:resisted} marks the boundary of the analytic setup. The status of the numbered items and their cited literature was checked in July 2026; settled items appear as worked examples or remarks, and the surviving numbered questions are open.
+
+\begin{remark}[Conventions]\label{rem:conventions}
+Unless a problem says otherwise, a global pair $(\lambda,m)$ is computed on a compact parameter domain $W$ defined by analytic inequalities, with a smooth prior bounded above and below by positive constants. We exclude the vacuous case $K\equiv0$. Whenever Theorem~\ref{thm:aw} supplies a global pair, $W$ contains a neighborhood of a factorization attaining the Aoyagi--Watanabe minimum. Local pairs use Euclidean balls and are unchanged by inserting a smooth positive density.
+\end{remark}
+
+\section{Background: free energy and the learning coefficient}\label{sec:background}
+
+\subsection{Models, truth, and free energy}\label{subsec:setup}
+
+A \textbf{statistical model} in this file is a family of conditional probability densities $p(y \mid x, w)$: for each value of a parameter $w$ in a compact set $W \subset \R^d$ and each input $x$, a probability density in $y$. (Models with no input are the special case where $x$ takes a single value.) Inputs are drawn from a fixed distribution $q(x)$ and outputs from a fixed conditional distribution $q(y \mid x)$, together called the \textbf{truth}. Recall the Kullback--Leibler divergence $\KL(q\,\|\,p) = \int q(y)\log\bigl(q(y)/p(y)\bigr)\,dy \ge 0$, which vanishes only at $q = p$. The central object is its population average
+\[
+   K(w) \;=\; \E_{x \sim q}\Bigl[\, \KL\bigl(q(\cdot \mid x)\,\big\|\,p(\cdot \mid x, w)\bigr) \Bigr],
+\]
+called the \textbf{population loss}: a nonnegative function of $w$ vanishing precisely on the set
+\[
+   W_0 \;=\; \{\, w \in W : K(w) = 0 \,\}
+\]
+of parameters that reproduce the truth. In words: $K(w)$ measures, in average nats per example (the natural-logarithm counterpart of bits), how distinguishable the model at parameter $w$ is from the truth, and $W_0$ is the locus of perfect fit. When $W_0 \neq \emptyset$ the truth is called \textbf{realizable}. All models in this file are realizable by construction.
+
+Given $n$ independent examples $(X_1,Y_1),\dots,(X_n,Y_n)$ from the truth, and a \textbf{prior} $\varphi$ (a probability density on $W$), Bayesian learning is summarized by the \textbf{free energy}
+\[
+   F_n \;=\; -\log \int_W \prod_{i=1}^n p(Y_i \mid X_i, w)\,\varphi(w)\,dw ,
+\]
+minus the logarithm of the probability the model-plus-prior assigns to the observed outputs. Normalizing the same integrand gives the \emph{posterior} distribution on $W$; the \emph{posterior predictive} density $\hat p_n(y \mid x)$ is the posterior average of $p(y \mid x, w)$, and the \textbf{generalization error} is its divergence from the truth on a fresh input,
+$G_n = \E_{x\sim q}\bigl[\KL(q(\cdot \mid x)\,\|\,\hat p_n(\cdot \mid x))\bigr]$.
+
+If the model is \emph{regular}---distinct parameters give distinct distributions and the Hessian of $K$ is positive-definite at the unique optimum---then Laplace approximation gives the classical expansion $F_n = nS_n + \frac d2 \log n + O_p(1)$, where $S_n = -\frac1n\sum_i \log q(Y_i \mid X_i)$ is the empirical entropy of the truth and $O_p(1)$ denotes a remainder bounded in probability. The penalty is half the parameter count. Commonly used overparametrized neural networks are not regular: their optimal sets have symmetries and singular strata, and the correct constant is a birational invariant of the loss germ.
+
+\begin{theorem}[Watanabe \cite{watanabe2009}]\label{thm:watanabe}
+Suppose\textup{:} $W \subset \R^d$ is compact, is the closure of its interior, and is defined by finitely many analytic inequalities\textup{;} $K$ extends to a nonzero real-analytic function on an open neighborhood of $W$\textup{;} the truth is realizable\textup{;} $\varphi$ is $C^\infty$ and strictly positive on $W$\textup{;} and the model has relatively finite variance.\footnote{Writing $f(x,y,w) = \log\bigl(q(y\mid x)/p(y \mid x,w)\bigr)$, so that $K(w) = \E_q[f]$, one assumes $\E_q[f(X,Y,w)^2] \le C\,K(w)$ for all $w \in W$. Both test cases in this file satisfy it: see Remarks~\ref{rem:conditions-modadd} and \ref{rem:conditions-attn}. The fundamental conditions allow $W_0$ to meet the boundary of $W$; no interior condition on the true set is needed.} Then there exist a rational number $\lambda \in (0, d/2]$ and an integer $m \in \{1,\dots,d\}$, depending only on $(K, W, \varphi)$, such that as $n \to \infty$
+\begin{equation}\label{eq:free-energy}
+   F_n \;=\; n S_n \;+\; \lambda \log n \;-\; (m-1)\log\log n \;+\; O_p(1),
+\end{equation}
+and the expected generalization error obeys $\E[G_n] = \lambda/n + o(1/n)$.
+\end{theorem}
+
+The number $\lambda$ is the \textbf{learning coefficient} of the triple (model, truth, prior), and $m$ is its \textbf{multiplicity}. The theorem says that $\lambda$ usurps both roles of the parameter count: it is the complexity penalty in the free energy and the coefficient of $1/n$ in the generalization error. Smaller $\lambda$ means a more degenerate optimal set, more prior volume near perfect fit, and better generalization. Computing $\lambda$ for a concrete model is therefore the exact answer to ``how complex is this solution, as learning theory counts complexity.''
+
+\subsection{The zeta function and resolution of singularities}\label{subsec:zeta}
+
+Where does $\lambda$ come from? Consider the \textbf{zeta function} of the pair $(K, \varphi)$,
+\[
+   \zeta(z) \;=\; \int_W K(w)^z \,\varphi(w)\,dw ,
+\]
+which converges and is holomorphic for $\operatorname{Re} z > 0$. If $K$ were a single squared coordinate, $K = w_1^2$ on $[-1,1]^d$, one integration gives a pole at $z = -1/2$; the general phenomenon is:
+
+\begin{theorem}[Atiyah \cite{atiyah1970}; Watanabe {\cite[Ch.~4]{watanabe2009}}]\label{thm:zeta}
+Under the hypotheses of Theorem~\textup{\ref{thm:watanabe}}, $\zeta$ extends to a meromorphic function on $\mathbb{C}$ whose poles are negative rational numbers. If $-\lambda$ is the largest pole and $m$ its order, then $(\lambda, m)$ are the constants of the expansion \eqref{eq:free-energy}.
+\end{theorem}
+
+The number $\lambda$ defined this way is the \textbf{real log canonical threshold} (\textsc{rlct}) of $K$ relative to $\varphi$. The engine behind Theorem~\ref{thm:zeta}, and the practical route to computing $\lambda$, is Hironaka's resolution of singularities \cite{hironaka1964}, in the form Watanabe uses \cite[Ch.~3]{watanabe2009}: for every point $w^* \in W_0$ there are a neighborhood $V \ni w^*$, a $d$-dimensional real-analytic manifold $M$, and a proper real-analytic map $g \colon M \to V$, an isomorphism away from $K^{-1}(0)$, such that around each point of $M$ there are local coordinates $u = (u_1,\dots,u_d)$ in which
+\[
+   K(g(u)) \;=\; u_1^{2k_1} u_2^{2k_2} \cdots u_d^{2k_d},
+   \qquad
+   |g'(u)| \;=\; b(u)\,|u_1^{h_1} u_2^{h_2}\cdots u_d^{h_d}| ,
+\]
+with integers $k_j \geq 0$, $h_j \geq 0$ and an analytic function $b > 0$. (Here $|g'(u)|$ is the Jacobian determinant.) In these coordinates the zeta integral is elementary---$\int u_j^{2k_j z + h_j}\,du_j$ has a pole at $z = -(h_j+1)/(2k_j)$---and collecting charts gives the working formula
+\begin{equation}\label{eq:rlct-formula}
+   \lambda \;=\; \min_{\text{charts}} \; \min_{j \,:\, k_j > 0} \; \frac{h_j + 1}{2 k_j},
+\end{equation}
+where $m$ is the maximum, over the charts in which the minimum is attained, of the number of indices $j$ attaining it in that chart. In words: after the singularity is untangled into coordinate hyperplanes, $\lambda$ reads off the worst ratio of Jacobian vanishing to loss vanishing. All the difficulty of computing a learning coefficient is the difficulty of finding, or circumventing, the resolution.
+
+A resolution-free characterization is often more usable. Write $\vol(\varepsilon) = \int_{\{K \le \varepsilon\}} \varphi(w)\,dw$ for the prior volume of the almost-true parameters. Then, under the same hypotheses \cite[Ch.~4]{watanabe2009}, there is a constant $c > 0$ with
+\begin{equation}\label{eq:volume}
+   \vol(\varepsilon) \;=\; c\,\varepsilon^{\lambda}\bigl(\log(1/\varepsilon)\bigr)^{m-1}(1 + o(1)) \qquad (\varepsilon \downarrow 0),
+\end{equation}
+so $\lambda = \lim_{\varepsilon\to 0} \log \vol(\varepsilon)/\log\varepsilon$. The learning coefficient is a volume-growth exponent: it answers ``how plentiful are the parameters that fit the truth to within $\varepsilon$?''
+
+\begin{example}\label{ex:baby}
+Three functions on a ball around the origin of $\R^2$, all with the same value at $0$, illustrate the invariant.
+(i) $K = w_1^2 + w_2^2$: regular point, $\lambda = 2/2 = 1$, $m = 1$.
+(ii) $K = w_1^2 w_2^2$: already normal crossing; formula \eqref{eq:rlct-formula} gives $(0+1)/2$ from each coordinate, so $\lambda = 1/2$ with $m = 2$---a genuine $\log\log n$ term in \eqref{eq:free-energy}.
+(iii) $K = (w_1^2 + w_2^2)^2$: blow up the origin, i.e.\ pass to $u_1 = w_1$, $u_2 = w_2/w_1$ on one chart; then $K = u_1^4 (1 + u_2^2)^2$ and $|g'| = |u_1|$, so $\lambda = (1+1)/4 = 1/2$, $m = 1$. Same threshold as (ii), different multiplicity, different geometry. More generally $K = (w_1^2 + \dots + w_r^2)^k$ on a ball in $\R^d$ with $r \le d$ has $\lambda = r/(2k)$: the sublevel set $\{K \le \varepsilon\}$ is a tube of radius $\varepsilon^{1/2k}$ around a codimension-$r$ plane, and \eqref{eq:volume} does the rest.
+\end{example}
+
+Two rules of calculus, used below, follow from \eqref{eq:volume} by inspection (proofs and many relatives are in \cite[\S7]{lin2011}, \cite{watanabe2009}):
+
+\begin{lemma}\label{lem:calculus}
+Let $K_1(w^{(1)})$, $K_2(w^{(2)})$ be nonnegative analytic functions of separate variables, with thresholds $(\lambda_1, m_1)$, $(\lambda_2, m_2)$ at $(w^{(1)}_*, w^{(2)}_*)$ respectively, thresholds at a point taken in the local sense of Definition~\ref{def:local} below. Then, at $(w^{(1)}_*, w^{(2)}_*)$\textup{:}
+\begin{enumerate}
+\item[(i)] $K_1 + K_2$ has threshold $\lambda_1 + \lambda_2$ with multiplicity $m_1 + m_2 - 1$\textup{;}
+\item[(ii)] $K_1 \cdot K_2$ has threshold $\min(\lambda_1, \lambda_2)$, with multiplicity $m_1$, $m_2$, or $m_1 + m_2$ according as $\lambda_1 < \lambda_2$, $\lambda_1 > \lambda_2$, or $\lambda_1 = \lambda_2$\textup{;}
+\item[(iii)] if $c_1 K \le K' \le c_2 K$ near the point for constants $c_1, c_2 > 0$, then $K$ and $K'$ have the same $(\lambda, m)$ there.
+\end{enumerate}
+\end{lemma}
+
+\subsection{The local coefficient}\label{subsec:local}
+
+The pair $(\lambda, m)$ of Theorem~\ref{thm:watanabe} is a minimum over the whole optimal set: different points of $W_0$ can be differently singular. The pointwise version is what experiments estimate and what the problems below ask for.
+
+\begin{definition}\label{def:local}
+Let $K \ge 0$ be real-analytic on an open set $U \subseteq \R^d$ and let $w^* \in U$ with $K(w^*) = 0$. The \textbf{local learning coefficient} $\lambda(w^*)$ and \textbf{local multiplicity} $m(w^*)$ are the threshold and pole order, in the sense of Theorem~\ref{thm:zeta}, of $\zeta_{w^*}(z) = \int_{B_\varepsilon(w^*)} K(w)^z\,dw$ for sufficiently small $\varepsilon > 0$. They do not depend on $\varepsilon$, nor on inserting any smooth positive density into the integral \cite{lau2023}. Equivalently, $\lambda(w^*)$ is the exponent in \eqref{eq:volume} with the volume computed over $B_\varepsilon(w^*)$.
+\end{definition}
+
+The global constants in \eqref{eq:free-energy} recover from the local ones: $\lambda = \min\{\lambda(w) : w \in W_0\}$, and the minimum is attained: the function $w \mapsto \lambda(w)$ is lower semicontinuous on the compact set $W_0$ (a small ball around any $w'$ near $w$ sits inside a ball around $w$ whose exponent in \eqref{eq:volume} is $\lambda(w)$, and shrinking the domain can only raise the exponent, so $\lambda(w') \ge \lambda(w)$), and a lower semicontinuous function on a compact set attains its minimum. The posterior concentrates, as $n$ grows, near the points attaining the minimum: \emph{learning selects the most singular representations of the truth}. This is the precise sense in which computing local learning coefficients predicts which internal mechanism a Bayesian learner adopts, and---conjecturally, with growing empirical support \cite{lau2023, murfet2026}---which one gradient-based training adopts.
+
+\section{The template: reduced-rank regression}\label{sec:template}
+
+One family of genuinely singular models has been solved completely, and every problem in this file should be read against it. \textbf{Reduced-rank regression} is the model
+\[
+   y = BAx + \text{noise}: \qquad
+   p(y \mid x, w) = (2\pi)^{-M/2} \exp\Bigl(-\tfrac12 \| y - BAx \|^2\Bigr),
+\]
+with input $x \in \R^N$ drawn from $N(0, I_N)$, output $y \in \R^M$, and parameter $w = (A, B)$, where $A \in \R^{H \times N}$ and $B \in \R^{M \times H}$; so $d = H(N + M)$. This is a two-layer neural network whose activation is the identity: the map $x \mapsto BAx$ is linear, but the parametrization is not, and if $H < \min(M,N)$ the family of representable maps---matrices of rank at most $H$---is itself a singular variety. Take the truth realizable: $q(y \mid x) = p(y \mid x, w_0)$ for some $w_0 = (A_0, B_0)$, and set $r = \rank(B_0 A_0)$. Then $W_0 = \{(A,B) : BA = B_0 A_0\}$, a fiber of the matrix-multiplication map with a rank stratification \cite{lehalleur2024}. A rank drop in one factor need not make the fiber singular: near $(A,B)=(I,0)$, for example, the equation $BA=0$ is equivalent to $B=0$.
+
+\begin{theorem}[Aoyagi--Watanabe \cite{aoyagi2005}]\label{thm:aw}
+Assume the parameter-domain convention of Remark~\textup{\ref{rem:conventions}}. The global learning coefficient $\lambda$ and multiplicity $m$ are as follows (the case list is tabulated in {\cite[Thm.~3.5]{ogden2026}}). Equivalently, $\lambda$ is the minimum of $\lambda(w)$ over $w\in W_0$, and $m$ is the largest $m(w)$ among the minimizers\textup{:}
+\begin{enumerate}
+\item If $M + r \le N + H$, \ $N + r \le M + H$, and $H + r \le M + N$\textup{:}
+  \begin{enumerate}
+  \item if $M + N + H + r$ is even, then $m = 1$ and
+  \[
+     \lambda = \frac{2(H+r)(M+N) - (M-N)^2 - (H+r)^2}{8};
+  \]
+  \item if $M + N + H + r$ is odd, then $m = 2$ and
+  \[
+     \lambda = \frac{2(H+r)(M+N) - (M-N)^2 - (H+r)^2 + 1}{8}.
+  \]
+  \end{enumerate}
+\item If $N + H < M + r$, then $m = 1$ and $\lambda = \bigl(HN - Hr + Mr\bigr)/2$.
+\item If $M + H < N + r$, then $m = 1$ and $\lambda = \bigl(HM - Hr + Nr\bigr)/2$.
+\item If $M + N < H + r$, then $m = 1$ and $\lambda = MN/2$.
+\end{enumerate}
+\end{theorem}
+
+Three glosses. First, the coefficient depends on the truth only through the rank $r$: all truths of the same rank are equally singular, so a closed form in a few integers is possible. (The minimum over $W_0$ matters: at less degenerate points, e.g.\ where $A$ has full rank $H > r$, the local pair $(\lambda(w), m(w))$ of Definition~\ref{def:local} can differ from the tabulated one.) That is the shape of answer Problems~\ref{prob:modadd} and~\ref{prob:attn-teacher} below ask for. Second, the formula is a genuine parity-sensitive rational count, not a dimension count: in case (1b) a $\log\log n$ term appears in the free energy, invisible to any heuristic that counts parameters. Third, the boundary cases are sanity checks: when $r = H$ and (say) $N < M$, case (2) gives $\lambda = (HN + HM - H^2)/2$, which is exactly half the codimension of $W_0$---the answer a Laplace approximation transverse to a smooth optimal manifold would give; the interior cases are strictly smaller, and this excess degeneracy is precisely what parameter counting misses. Aoyagi later extended the computation to linear networks of any depth \cite{aoyagi2024}. The two sections that follow ask for nonlinear counterparts.
+
+\section{First test case: modular addition}\label{sec:modadd}
+
+\subsection{Why this task}
+
+A small network trained to add residues mod $p$ is a fruit fly of neural network interpretability: it is a setting for \emph{grokking}, a sudden, delayed transition to perfect generalization. A trained modular-addition transformer has been reverse-engineered into a discrete Fourier algorithm, one frequency at a time \cite{nanda2023}; related quadratic networks admit the same Fourier mechanism \cite{gromov2023}. Estimated local learning coefficients change across the grokking transition \cite{cullen2026}, but an exact geometric classification of the Fourier fits is still missing. The quadratic architecture below is especially clean because its population loss is an explicit polynomial.
+
+Throughout this section $p \ge 3$ is an odd integer (not necessarily prime), and---following an entrenched convention in both communities---the letter $p$ is reserved for the modulus; the symbol $p$ never denotes a probability density below, so no collision arises. Write $\Z_p = \Z/p\Z$, let $\delta_c \in \R^p$ ($c \in \Z_p$) denote the standard basis (``one-hot'') vector, and set $\omega = 2\pi/p$.
+
+\subsection{The architecture and the polynomial}
+
+Fix a \textbf{width} $H \ge 1$. The parameter is $w = (u_1, \dots, u_H, V)$, where each $u_j = (u_j', u_j'') \in \R^p \times \R^p$ is the pair of weight vectors of the $j$th \textbf{hidden unit} (or \emph{neuron}; regard $u_j'$ and $u_j''$ as functions $\Z_p \to \R$), and $V \in \R^{p \times H}$ is the output matrix, with columns $V_1, \dots, V_H \in \R^p$. So $d = 3pH$. The network computes the function $f_w \colon \Z_p \times \Z_p \to \R^p$,
+\[
+   f_w(a, b) \;=\; \sum_{j=1}^{H} V_j \,\bigl(u_j'(a) + u_j''(b)\bigr)^2 .
+\]
+In network language: the input $(a,b)$ is encoded as the concatenated one-hot vector $(\delta_a, \delta_b) \in \R^{2p}$, the first layer applies a linear map and the \emph{activation function} $\sigma(t) = t^2$ coordinatewise, and the second layer applies the linear map $V$. Each coordinate of $f_w$ is a polynomial of degree $3$ in $w$ (quadratic in the $u$'s, linear in $V$).
+
+The statistical model is Gaussian regression onto the one-hot target: inputs $(a,b)$ uniform on $\Z_p \times \Z_p$, outputs $y \in \R^p$ with conditional density $ (2\pi)^{-p/2}\exp(-\tfrac12\|y - f_w(a,b)\|^2)$, and the truth given by the same form with mean $y^*(a,b) = \delta_{a+b}$ (addition mod $p$). Then
+\begin{equation}\label{eq:K-modadd}
+   K(w) \;=\; \frac{1}{2p^2} \sum_{a, b \,\in\, \Z_p} \bigl\| f_w(a,b) - \delta_{a+b} \bigr\|^2 ,
+\end{equation}
+\emph{an explicit polynomial of degree $6$ in $3pH$ real variables}, and
+\[
+   W_0(p, H) \;=\; \{\, w \in \R^{3pH} \,:\, f_w(a,b) = \delta_{a+b} \ \text{for all } a, b \in \Z_p \,\},
+\]
+a real-algebraic variety: the fiber of an explicit polynomial parametrization map over one point. Everything asked below is a question about the singularities of the pair $(K, W_0)$.
+
+\begin{remark}\label{rem:conditions-modadd}
+With $W$ any closed ball containing part of $W_0$ in its interior and any smooth positive prior, the hypotheses of Theorem~\ref{thm:watanabe} hold: $K$ is polynomial, and for a Gaussian location family the log-density ratio $f$ satisfies $\E[f^2] = \|f_w - y^*\|^2 + \tfrac14\|f_w - y^*\|^4$ pointwise in $(a,b)$, so relatively finite variance holds on any bounded set.
+\end{remark}
+
+\subsection{The Fourier solution}
+
+First, the variety must be shown nonempty. The construction is a network-flavored form of the discrete Fourier inversion formula, and it produces the solutions that trained networks are observed to find \cite{nanda2023, gromov2023}.
+
+\begin{lemma}\label{lem:fourier}
+If $H \ge 2p - 1$ then $W_0(p, H) \neq \emptyset$. Explicitly, for $H = 2p-1$ the following parameter $w^F \in W_0(p, 2p-1)$ works. Index the units by $0$ and by $(k, i)$ for $1 \le k \le (p-1)/2$, $i \in \{1,2,3,4\}$, and set
+\[
+\begin{aligned}
+&u_0' \equiv \tfrac12, \quad u_0'' \equiv \tfrac12; \\
+&u_{k,1} = (\cos \omega k a,\; \cos \omega k b), \quad
+u_{k,2} = (\sin \omega k a,\; -\sin \omega k b), \\
+&u_{k,3} = (\sin \omega k a,\; \cos \omega k b), \quad
+u_{k,4} = (\cos \omega k a,\; \sin \omega k b),
+\end{aligned}
+\]
+where the displayed expressions give the values of $u'(a)$ and $u''(b)$. Then
+\[
+   n_{k,1} + n_{k,2} = 2 + 2\cos\bigl(\omega k (a+b)\bigr), \qquad
+   n_{k,3} + n_{k,4} = 2 + 2\sin\bigl(\omega k (a+b)\bigr),
+\]
+where $n_j(a,b) = (u_j'(a) + u_j''(b))^2$, and $n_0 \equiv 1$; the output matrix
+\begin{align*}
+   V_{c,(k,1)} = V_{c,(k,2)} &= \frac{\cos \omega k c}{p}, \qquad
+   V_{c,(k,3)} = V_{c,(k,4)} = \frac{\sin \omega k c}{p}, \\
+   V_{c,0} &= \frac1p - \frac{2}{p}\sum_{k=1}^{(p-1)/2} \bigl(\cos \omega k c + \sin \omega k c\bigr)
+\end{align*}
+yields $f_{w^F}(a,b) = \delta_{a+b}$ exactly. For $H > 2p-1$, pad with zero units.
+\end{lemma}
+
+\begin{proof}
+The two displayed identities are the expansions $(\cos\alpha + \cos\beta)^2 + (\sin\alpha - \sin\beta)^2 = 2 + 2\cos(\alpha+\beta)$ and $(\sin\alpha + \cos\beta)^2 + (\cos\alpha + \sin\beta)^2 = 2 + 2\sin(\alpha+\beta)$ with $\alpha = \omega k a$, $\beta = \omega k b$. Fourier inversion on $\Z_p$ (for odd $p$, pairing $k$ with $p - k$) gives
+\begin{align*}
+   \delta_{a+b}(c) &= \frac1p \sum_{k=0}^{p-1} \cos\bigl(\omega k (a+b-c)\bigr) \\
+   &= \frac1p + \frac2p \sum_{k=1}^{(p-1)/2} \Bigl[ \cos \omega k c \cdot \cos \omega k (a+b) + \sin \omega k c \cdot \sin \omega k (a+b) \Bigr],
+\end{align*}
+and substituting
+\[
+   \cos\omega k(a{+}b) = \tfrac12(n_{k,1}{+}n_{k,2}) - n_0, \qquad
+   \sin \omega k (a{+}b) = \tfrac12(n_{k,3}{+}n_{k,4}) - n_0
+\]
+expresses the right side as the claimed linear combination of the unit outputs.
+\end{proof}
+
+Each unit of $w^F$ carries a single frequency $k$; the output matrix reads the answer off by correlating with $\cos \omega k c$ and $\sin \omega k c$. This is, up to inessential changes of basis, the mechanism found by reverse-engineering trained networks \cite{nanda2023}.
+
+Is width $2p-1$ optimal? An elementary count gives a floor: for fixed output coordinate $c$, the function $f_c(a,b)$ is a sum of a function of $a$, a function of $b$, and the bilinear kernel $2\sum_j V_{c,j}\, u_j'(a) u_j''(b)$, whose $p \times p$ matrix has rank at most $H$; the target kernel $\delta_{a+b}(c)$ is a permutation matrix (rank $p$) minus additive parts (rank $\le 2$), so $H \ge p - 2$.
+
+\begin{question}\label{q:width}
+Let $H_{\min}(p)$ be the least $H$ with $W_0(p,H) \neq \emptyset$. Then $p - 2 \le H_{\min}(p) \le 2p - 1$; determine $H_{\min}(p)$.
+\end{question}
+
+\begin{remark}
+Question~\ref{q:width} is a constrained tensor-rank problem: the units contribute rank-one terms $u_j' \otimes u_j'' \otimes 2V_j$ that must assemble the multiplication tensor of $\Z_p$ modulo additive corrections which are themselves generated by the units' square terms. Since $\R[\Z_p] \cong \R \times \mathbb{C}^{(p-1)/2}$ and complex multiplication costs three real multiplications (Gauss's trick), the unconstrained tensor rank is at most $1 + 3(p-1)/2 = (3p-1)/2$---and this is in fact an equality, by Winograd's theorem \cite{winograd1977}: the rank of multiplication modulo a degree-$p$ polynomial with $t$ distinct irreducible real factors is $2p - t$, here $t = (p+1)/2$. Whether the additive junk of a three-multiplication scheme can be made to cancel inside this architecture is what the question asks. Families of exact solutions beyond Lemma~\ref{lem:fourier}, carrying a semi-ring composition structure, are constructed in \cite{tian2024} for a zero-mean variant of this task; whether they descend to \eqref{eq:K-modadd} and lower the upper bound is worth checking.
+\end{remark}
+
+\subsection{The problems}
+
+For $H \ge 2p-1$ let $w^F_H \in W_0(p,H)$ denote the Fourier solution of Lemma~\ref{lem:fourier} padded with $H - (2p-1)$ zero units, and let $R_p = 1 + \|w^F_{2p-1}\|$. Local coefficients are in the sense of Definition~\ref{def:local} applied to the polynomial \eqref{eq:K-modadd}.
+
+\begin{problem}[Learning coefficients of modular addition]\label{prob:modadd}
+Fix an odd integer $p \ge 3$ and an integer $H \ge 2p - 1$.
+\begin{enumerate}
+\item[(a)] Determine $\lambda(w^F_H)$ and $m(w^F_H)$.
+\item[(b)] For each $R \ge R_p$, determine
+$\lambda_{\min}(p, H; R) = \min \{\lambda(w) : w \in W_0(p,H),\ \|w\| \le R\}$,
+the set of local multiplicities $m(w)$ among the minimizers (in particular their maximum, which enters the global free energy), and whether the answer depends on $R$.
+\end{enumerate}
+A closed form in $(p, H)$, in the style of Theorem~\ref{thm:aw}, is the goal; upper and lower bounds that pin down the growth in either variable would already be progress.
+\end{problem}
+
+The ball in part (b) is forced by symmetry: the per-unit scalings $(u_j, V_j) \mapsto (t\,u_j,\ t^{-2}V_j)$ fix $f_w$ (they return in the proof of Proposition~\ref{prop:width}), so $W_0$ is unbounded and an unrestricted minimum could escape along these orbits. Part (b) is the safety-relevant quantity: by Section~\ref{subsec:local}, the points attaining $\lambda_{\min}$ are where the posterior settles, so a formula for the minimizers is a prediction of which implementation of modular addition Bayesian learning prefers. What is known: very recently, closed-form local coefficients for shallow quadratic networks on this task were derived under explicit non-degeneracy hypotheses---all units active, their rank-one matrices independent, a genericity condition on tangent directions---in both the over- and the under-parametrized regime (more units than the task needs, or fewer) \cite{cullen2026}. Those hypotheses fail at the Fourier point $w^F$ itself---the non-degenerate value is $(3p-1)/2$ per active unit, so they would force $\lambda(w^F) = (2p-1)(3p-1)/2$, which Proposition~\ref{prop:width}(ii) beats---and they fail at the still more degenerate points that part (b) is about: dead units (output identically zero) and coinciding units. These singular strata are the target of both parts.
+
+\begin{proposition}[Width is cheap]\label{prop:width}
+Let $p \ge 3$ be odd.
+\begin{enumerate}
+\item[(i)] For every $w^* \in W_0(p, H)$ and every $s \ge 1$, the padded point $(w^*, 0) \in W_0(p, H+s)$ satisfies
+\[
+   \lambda\bigl((w^*, 0)\bigr) \;\le\; \lambda(w^*) \;+\; s\,\frac{2p-1}{4}.
+\]
+In particular $\lambda_{\min}(p, H+s; R) \le \lambda_{\min}(p, H; R) + s(2p-1)/4$ for $R \ge R_p$.
+\item[(ii)] $\lambda(w^F_{2p-1}) \le 3p^2 - 3p + 1$, which is less than $(2p-1)(3p-1)/2$, the value at the non-degenerate solutions of \cite{cullen2026}.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(i) Write the padded parameter as $(\theta, u_{H+1}, V_{H+1}, \dots, u_{H+s}, V_{H+s})$ with $\theta \in \R^{3pH}$, and let $K_\theta$ denote \eqref{eq:K-modadd} at width $H$. By Cauchy--Schwarz applied to $f = f_\theta + \sum_{j > H} V_j (u_j' (a) + u_j''(b))^2$,
+\[
+   K \;\le\; (s+1)\Bigl( K_\theta \,+\, \sum_{j=H+1}^{H+s} K_j \Bigr),
+   \qquad
+   K_j(u_j, V_j) := \tfrac12 \|V_j\|^2\, P(u_j),
+\]
+where $P(u) = p^{-2}\sum_{a,b} (u'(a) + u''(b))^4$. Hence the product of the sublevel sets $\{K_\theta \le \tfrac{\varepsilon}{(s+1)^2}\} \times \prod_j \{K_j \le \tfrac{\varepsilon}{(s+1)^2}\}$ lies in $\{K \le \varepsilon\}$, and by the local form of \eqref{eq:volume} the local coefficient at the padded point is at most $\lambda(w^*) + \sum_j \lambda_j$, where $\lambda_j$ is the local coefficient of $K_j$ at $(u_j, V_j) = (0,0)$. Now $K_j$ is a product of functions of separate variables. The factor $\|V_j\|^2$ has threshold $p/2$ at $0$ (Example~\ref{ex:baby}). The factor $P$ vanishes exactly on the line $\ell = \{u' \equiv t,\ u'' \equiv -t\}$, depends only on the projection $\bar u$ of $u$ to $\ell^\perp \cong \R^{2p-1}$, and is homogeneous of degree $4$ and positive on the unit sphere there, so $P \asymp |\bar u|^4$ and its threshold at $0$ is $(2p-1)/4$ by Lemma~\ref{lem:calculus}(iii) and Example~\ref{ex:baby}. By Lemma~\ref{lem:calculus}(ii), $\lambda_j = \min\bigl(p/2, (2p-1)/4\bigr) = (2p-1)/4$.
+
+(ii) The per-unit scalings $t = (t_j) \in (0,\infty)^{2p-1} \mapsto (t_j u_j,\ t_j^{-2} V_j)$ fix $f_w$. So do $p-1$ rotations special to $w^F$: within each pair $\{(k,1),(k,2)\}$ the two units share their output column, and replacing $(\alpha, \beta) = (\omega k a, \omega k b)$ by $(\alpha - \phi, \beta + \phi)$ in the identity $(\cos\alpha + \cos\beta)^2 + (\sin\alpha - \sin\beta)^2 = 2 + 2\cos(\alpha+\beta)$ leaves the pair's summed output unchanged---concretely, $u_{k,1} \mapsto (\cos(\omega k a - \phi), \cos(\omega k b + \phi))$ and $u_{k,2} \mapsto (\sin(\omega k a - \phi), -\sin(\omega k b + \phi))$ fixes $f_w$---and likewise for $\{(k,3),(k,4)\}$ via the sine identity. The orbit of $w^F_{2p-1}$ under scalings and rotations contains a smooth submanifold $\Sigma \subseteq W_0$ through $w^F$ of dimension $(2p-1) + (p-1) = 3p-2$: the scaling tangent vectors $(u_j, -2V_j)$ lie in distinct unit blocks and have nonzero $V$-parts, while the rotation tangent vector of a pair is $(u_{k,2}, -u_{k,1})$ in the pair's two $u$-blocks (respectively $(u_{k,4}, -u_{k,3})$) with zero $V$-part, so the $3p-2$ tangent vectors are linearly independent. Since $K$ is smooth, nonnegative, and vanishes on $\Sigma$, a Taylor bound gives $K(w) \le C \operatorname{dist}(w, \Sigma)^2$ near any compact piece of $\Sigma$; hence $\{K \le \varepsilon\}$ contains a tube of radius $(\varepsilon/C)^{1/2}$ and $\vol(\varepsilon) \ge c\, \varepsilon^{(d - (3p-2))/2}$ with $d = 3p(2p-1)$. By \eqref{eq:volume}, $\lambda(w^F) \le (d - (3p-2))/2 = 3p^2 - 3p + 1$.
+\end{proof}
+
+The proposition says an idle unit costs $(2p-1)/4$, about a third of the $3p/2$ that its parameter count would charge and well under the $(3p-1)/2$ per active unit at the non-degenerate solutions of \cite{cullen2026}. Heuristically---and I emphasize this is a heuristic---killing the extra unit should be the \emph{optimal} use of it while width is scarce; Remark~\ref{rem:ceiling} shows the linear growth cannot continue forever, which is why the conjecture carries a ceiling:
+
+\begin{conjecture}[The marginal cost of width]\label{conj:increment}
+For every odd $p \ge 3$, every $R \ge R_p$, and every $H \ge 2p-1$ with $\lambda_{\min}(p, H; R) + \frac{2p-1}{4} \le \frac{p^3}{2}$,
+\[
+   \lambda_{\min}(p, H+1; R) \;=\; \lambda_{\min}(p, H; R) + \frac{2p-1}{4}.
+\]
+\end{conjecture}
+
+\begin{remark}[Width is eventually free]\label{rem:ceiling}
+The ceiling is forced:
+\[
+ \lambda_{\min}(p,H;R)\le \frac{p^3}{2}
+ \qquad
+ (H\ge 2p-1+p^2,\ R\ge R_p),
+\]
+so increments of $(2p-1)/4$ cannot accumulate past it. To see this, pad $w^F_{2p-1}$ with $p^2$ units whose weight vectors $u_j$ are tiny and generic and whose output columns $V_j$ are zero. The padded point lies in $W_0(p,H)$ and inside the ball of radius $R_p$, and the parametrization map $w \mapsto (f_w(a,b))_{a,b}$, into the $p^3$-dimensional space of functions $\Z_p \times \Z_p \to \R^p$, is a submersion there: varying $V_j$ alone yields every function $n_j \otimes e_c$, and the squares $n_u = (u'(a)+u''(b))^2$ span the full $p^2$-dimensional space of functions of $(a,b)$ as $u$ ranges over any neighborhood of $0$ (polarizing $(x\,\delta_{a_0}(a) + y\,\delta_{b_0}(b))^2$ over $(x,y)$ yields every matrix unit $\delta_{a_0}(a)\,\delta_{b_0}(b)$), so $p^2$ generic tiny $u_j$ suffice. Near a submersion point, $W_0$ is a smooth submanifold of codimension $p^3$ and $K$ is comparable to squared distance to it, so $\lambda = p^3/2$ and $m = 1$ there by Example~\ref{ex:baby} and Lemma~\ref{lem:calculus}(iii). Extra width is eventually free, as in case (4) of Theorem~\ref{thm:aw}. Conjecture~\ref{conj:increment} asks where the ramp ends and whether the eventual plateau sits at exactly $p^3/2$.
+\end{remark}
+
+The geometric question becomes precise as follows. For $0 \le k \le (p-1)/2$ let $\mathcal F_k \subset \R^p$ be the span of the vectors $(\cos \omega k a)_{a \in \Z_p}$ and $(\sin \omega k a)_{a \in \Z_p}$ (so $\mathcal F_0$ is the constants). Call a unit $j$ of a parameter $w$ \textbf{active} if the function $(a,b) \mapsto V_j (u_j'(a) + u_j''(b))^2$ is not identically zero, and \textbf{single-frequency} if there is one $k$ with $u_j', u_j'' \in \mathcal F_0 + \mathcal F_k$. Thus an active unit is simply a hidden neuron whose summand contributes a nonzero input--output function. The constant part must be allowed: adding a constant $c$ to $u_j'$ and subtracting it from $u_j''$ fixes $f_w$---hence fixes $W_0$, every local coefficient, and the activity of every unit---so no property destroyed by these translations can be forced at the optimum, and membership in a bare $\mathcal F_k$ is such a property. Every unit of the Fourier solution $w^F_H$ is single-frequency or inactive; the conjecture asks whether the fixed ball from the survey forces this structure:
+
+\begin{conjecture}[Fourier structure of the most degenerate solutions]\label{conj:fourier}
+For every odd $p \ge 3$ and $H \ge 2p - 1$\textup{:} every $w \in W_0(p, H)$ with $\|w\| \le R_p$ and $\lambda(w) = \lambda_{\min}(p, H; R_p)$ has all of its active units single-frequency.
+\end{conjecture}
+
+The corresponding statement for every $R\ge R_p$ is a stronger extension: larger balls may meet new singular strata. If Conjecture~\ref{conj:fourier} is true, then Bayesian learning's preferred exact fits have a mechanism readable from their weights. There is a proved analog under a different selection principle: for essentially this architecture, every maximum-margin solution of modular addition has single-frequency units \cite{morwani2024}. Margin and degeneracy are different optima, so the conjecture does not follow; but the structure it posits has been forced once already. If false, the counterexample would exhibit a maximally degenerate implementation of modular addition with no single-frequency decomposition at the unit level.
+
+Finally, practice trains this task with the softmax/cross-entropy model rather than squared error, and the theory should follow it there. Fix $\beta > 0$ and define two objects. The \textbf{softmax model} assigns to input $(a,b)$ the conditional law $\softmax(f_w(a,b))$ on $\Z_p$, where for $z \in \R^p$ the probability vector $\softmax(z)$ has coordinates $\softmax(z)_c = \exp(z_c)/\sum_{c'} \exp(z_{c'})$. The \textbf{$\beta$-smoothed truth} is $q_\beta(\cdot \mid a,b) = \softmax(\beta\, \delta_{a+b})$: it weights the correct residue by $\exp(\beta)$ against $1$ for each other residue. The truth is realizable---scaling the output matrix of $w^F_H$ by $\beta$ gives $f_w = \beta\,\delta_{a+b}$ exactly---and the resulting $K_\beta$ is real-analytic (no longer polynomial).
+
+\begin{problem}[Cross-entropy version]\label{prob:xent}
+Fix odd $p \ge 3$ and $H \ge 2p-1$. Compute the common local pair of $K_\beta$ at the scaled Fourier solution for finite $\beta>0$. Then, for the specified radius $R_\beta=(1+\beta)R_p$, determine the minimum of the local coefficient over $\{w\in W_0^\beta:\|w\|\le R_\beta\}$, its multiplicity, and its asymptotics as $\beta\to\infty$, where $W_0^\beta$ is the zero set of $K_\beta$.
+\end{problem}
+
+\begin{remark}[Finite smoothing does not change the local pair]
+The local pair in the first sentence is independent of every finite $\beta$. Write the output weights as $V=\beta\widetilde V$. Near the scaled Fourier solution, KL divergence between softmax distributions is comparable to squared distance between centered logits, so
+\[
+ K_\beta(u,\beta\widetilde V)\asymp
+ \beta^2\bigl\|P\bigl(f_{u,\widetilde V}-\delta\bigr)\bigr\|^2
+ \asymp K_1(u,\widetilde V),
+\]
+where $P=I_p-p^{-1}\mathbf1\mathbf1^{\mathsf T}$. The analytic coordinate change and Lemma~\ref{lem:calculus}(iii) preserve both the threshold and its multiplicity. The global limit is posed for the single radius schedule $R_\beta$ because different expanding domains can meet different strata of $W_0^\beta$.
+\end{remark}
+
+The $\beta \to \infty$ limit is the deterministic task; what obstructs taking that limit inside the theory is discussed in Section~\ref{sec:resisted}.
+
+\section{Related test case: a one-head attention model}\label{sec:attention}
+
+\subsection{The architecture}
+
+The \emph{transformer}, the architecture behind current language models, is built from \emph{attention} layers. This makes a one-head attention model a natural second laboratory for the same singular-geometric tools, although it is not part of the headline survey problem. All ingredients are defined here; the only analytic fact needed is that everything in sight is real-analytic in the parameters.
+
+Fix integers $v \ge 2$ (the \textbf{vocabulary size}), $T \ge 2$ (the \textbf{context length}), and $e \ge 1$ (the \textbf{embedding dimension}). Write $[v] = \{1, \dots, v\}$; an input is a string $x = (x_1, \dots, x_T) \in [v]^T$ of \emph{tokens}, and the model outputs a probability distribution over $[v]$, interpreted as a prediction of the next token. The parameter is $w = (E, Q, U)$ with
+\[
+   E \in \R^{v \times e}, \qquad Q \in \R^{e \times e}, \qquad U \in \R^{e \times v},
+   \qquad d = ve + e^2 + ev.
+\]
+Row $E_a \in \R^e$ is the \emph{embedding} of token $a$. The model computes, for each input $x$:
+\begin{align*}
+   \text{scores:} \quad & s_t(x) = E_{x_T}\, Q\, E_{x_t}^{\!\top} \in \R \qquad (1 \le t \le T), \\
+   \text{attention weights:} \quad & \alpha(x) = \softmax\bigl(s_1(x), \dots, s_T(x)\bigr) \in \R^T, \\
+   \text{logits:} \quad & \ell(x) = \sum_{t=1}^{T} \alpha_t(x)\, E_{x_t}\, U \;\in\; \R^v, \\
+   \text{output law:} \quad & \softmax\bigl(\ell(x)\bigr) \in \R^v \quad \text{(a probability vector on } [v]).
+\end{align*}
+In words: the final token's embedding is compared, through the bilinear form $Q$, with every token in the context; the comparison scores are converted to a probability weighting $\alpha$ over positions by the map $\softmax$ of Section~\ref{sec:modadd} (exponentiate the coordinates, normalize the sum to $1$); the output is a $v$-way distribution read off, through $U$, from the $\alpha$-weighted average of the context's embeddings. (An aside for readers who already know the standard transformer: this is a one-layer, one-head, attention-only model with no position encoding, no layer normalization, and no biases; $Q$ merges the usual query and key matrices, $U$ the value, output, and unembedding matrices. Readers meeting attention here for the first time are missing nothing: the four displayed maps are the complete definition.) Inputs are drawn uniformly from $[v]^T$. The map $w \mapsto (\text{output law at } x)$ is real-analytic for each $x$, so $K$ is real-analytic on all of $\R^d$.
+
+\begin{remark}\label{rem:conditions-attn}
+For any realizable truth and $W$ a closed ball, the hypotheses of Theorem~\ref{thm:watanabe} hold: there are finitely many inputs; output probabilities are continuous and strictly positive, hence bounded below on $W$; and for finite alphabets with densities bounded below, both $K(w)$ and the second moment of the log-likelihood ratio are comparable to $\sum_{x,y}(q(y\mid x) - p(y \mid x, w))^2$, giving relatively finite variance.
+\end{remark}
+
+\subsection{A worked example and the problems}
+
+The uniform truth $q(y\mid x)=1/v$ is realized at $w=0$ and on a large positive-dimensional locus. In this base case the attention weights disappear from the singularity calculation altogether.
+
+\begin{remark}[Uniform truth reduces to matrix factorization]\label{rem:attn-uniform}
+Let $P=I_v-v^{-1}\mathbf1\mathbf1^{\mathsf T}$. The zero set is
+\[
+ W_0=\{(E,Q,U):EUP=0\},
+\]
+and on every bounded parameter set
+\[
+ K(E,Q,U)\asymp \|EUP\|_F^2.
+\]
+Indeed, a softmax output is uniform precisely when its centered logit vanishes. On the constant context $x=(a,\ldots,a)$ that logit is $E_aUP$, independently of $Q$; these $v$ contexts prove the forward implication and the lower bound. Conversely, if $EUP=0$, every attention-weighted average has centered logit zero. Strict convexity of categorical KL on $\mathbf1^\perp$, followed by convexity of squared norm over the attention weights, gives the upper bound.
+
+Choose an orthonormal matrix $C\in\R^{v\times(v-1)}$ with image $\mathbf1^\perp$ and put $\bar U=UC$. Then $\|EUP\|_F^2=\|E\bar U\|_F^2$; the $Q$ coordinates and the component of $U$ in the $\mathbf1$ direction are flat. The germ is therefore reduced-rank regression at zero truth with
+\[
+ (M,N,H,r)=(v,v-1,e,0).
+\]
+Substitution in Theorem~\ref{thm:aw} gives, independently of $T$ and of every radius $R>0$,
+\[
+ (\lambda(0),m(0))=
+ \begin{cases}
+ \left(\dfrac{2e(2v-1)-1-e^2}{8},1\right),
+    & e\le 2v-1\ \text{and }e\text{ is odd},\\[6pt]
+ \left(\dfrac{2e(2v-1)-e^2}{8},2\right),
+    & e\le 2v-1\ \text{and }e\text{ is even},\\[6pt]
+ \left(\dfrac{v(v-1)}2,1\right),
+    & e>2v-1.
+ \end{cases}
+\]
+For every $R>0$, the minimum of $\lambda(w)$ over $w\in W_0\cap\bar B_R$ is $\lambda(0)$. Among the minimizers in that ball, the largest multiplicity is $m(0)$.
+Homogeneity lets every exact factorization be scaled into every ball about $0$, while lower semicontinuity shows that no point has a smaller coefficient than the origin. Positivity of the local zeta integrals gives the corresponding maximal pole order at $0$.
+\end{remark}
+
+For structured truths, the right analog of ``the truth has rank $r$'' is ``the truth is a smaller transformer.'' For $1 \le e_0 < e$ let $\iota \colon \R^{d_0} \to \R^d$ ($d_0 = ve_0 + e_0^2 + e_0 v$) be the padding embedding: $\iota(E^0, Q^0, U^0)$ places $E^0$ in the first $e_0$ columns of $E$, $Q^0$ in the top-left block of $Q$, $U^0$ in the top rows of $U$, and zeros elsewhere. A \textbf{teacher} $w^0 \in \R^{d_0}$ defines the truth $q(y \mid x) = $ output law of the dimension-$e_0$ model at $w^0$; this truth is realized by the student at $\iota(w^0)$. Let $\lambda(\iota(w^0))$, $m(\iota(w^0))$ denote the local coefficient and multiplicity of the student's $K$ there. In Theorem~\ref{thm:aw} the coefficient depends only on the rank of the truth; here the honest first question is whether a ``generic teacher'' value exists at all.
+
+\begin{conjecture}[Generic constancy]\label{conj:generic}
+For each $(v, T, e, e_0)$ with $1 \le e_0 < e$ there is a real-analytic function $h \colon \R^{d_0} \to \R$, not identically zero, such that $\bigl(\lambda(\iota(w^0)), m(\iota(w^0))\bigr)$ is constant on $\{w^0 : h(w^0) \neq 0\}$.
+\end{conjecture}
+
+\begin{problem}\label{prob:attn-teacher}
+Assuming or proving Conjecture~\ref{conj:generic}, compute the generic value $\Lambda(v, T, e, e_0)$ and its multiplicity.
+\end{problem}
+
+Finally, a fully polynomial variant, closest in spirit to reduced-rank regression and the most likely to fall to existing technology (Newton polyhedra, computer algebra). \textbf{Linear attention with squared error}: same parameters, but
+\[
+   \ell^{\mathrm{lin}}(x) = \frac1T \sum_{t=1}^{T} \bigl(E_{x_T} Q E_{x_t}^{\!\top}\bigr)\, E_{x_t} U \in \R^v,
+\]
+with Gaussian output model $y = \ell^{\mathrm{lin}}(x) + N(0, I_v)$ and inputs uniform on $[v]^T$. Each coordinate of $\ell^{\mathrm{lin}}$ is a polynomial in $w$, multihomogeneous of degree $(3,1,1)$ in $(E, Q, U)$, so for the truth generated by any teacher, $K$ is an explicit polynomial of degree $10$. (For this Gaussian output model the hypotheses of Theorem~\ref{thm:watanabe} hold by the argument of Remark~\ref{rem:conditions-modadd}, not Remark~\ref{rem:conditions-attn}.)
+
+\begin{problem}[Linear attention]\label{prob:linear-attn}
+For the linear-attention model with the zero truth $q=N(0,I_v)$, determine $\lambda(0)$ and $m(0)$ as functions of $(v,T,e)$. Then compute the generic pair for a teacher of embedding dimension $e_0<e$, with Conjecture~\textup{\ref{conj:generic}} restated for this degree-$10$ polynomial and the same padding map $\iota$.
+\end{problem}
+
+\section{Comparing with the estimated coefficient}\label{sec:estimator}
+
+Learning coefficients are estimated in practice by sampling. The estimator of Lau, Furman, Wang, Murfet, and Wei \cite{lau2023}, idealized here by replacing Markov chain Monte Carlo with exact expectations, is the following. Fix a model, truth, compact $W$, a point $w^* \in W$, a localization strength $\gamma > 0$, and a sample of size $n$; write $L_n(w) = -\frac1n \sum_i \log p(Y_i \mid X_i, w)$ for the empirical loss. The \textbf{localized tempered posterior} is the probability density on $W$ proportional to
+\[
+   \exp\Bigl( -n\beta^* L_n(w) \;-\; \tfrac{\gamma}{2}\|w - w^*\|^2 \Bigr),
+   \qquad \beta^* = \frac{1}{\log n},
+\]
+and the estimator is
+\[
+   \hat\lambda_n(w^*; \gamma) \;=\; \frac{\E^{\beta^*\!,\,\gamma}\bigl[\, n L_n(w) \,\bigr] - n L_n(w^*)}{\log n},
+\]
+the expectation taken under that density. The design descends from Watanabe's ``widely applicable Bayesian information criterion'' (WBIC) \cite{watanabe2013}, whose main theorem says that \emph{without} localization ($\gamma$-term replaced by a fixed smooth positive prior), the numerator equals $\lambda \log n$ up to $O_p(\sqrt{\log n})$---with $\lambda$ the \emph{global} coefficient of Theorem~\ref{thm:watanabe}.
+
+That theorem cuts both ways. For fixed $\gamma$, the Gaussian factor is itself a smooth positive prior on $W$, so the estimator converges to the global coefficient, not necessarily to $\lambda(w^*)$. To recover a local coefficient, the localization strength must grow with $n$. The following model has two components of unequal local complexity and asks how fast.
+
+\begin{problem}[When does Gaussian localization localize?]\label{prob:estimator}
+Take $d = 2$, $W = \{w \in \R^2 : \|w\| \le 3\}$, no inputs, model $y \sim N(\mu(w), 1)$ with
+\[
+   \mu(w) = (w_1 - 1)\,(w_1^2 + w_2^2)^2,
+\]
+and truth $y \sim N(0,1)$, so that $K(w) = \tfrac12 \mu(w)^2$ and $W_0 = \{w_1 = 1\} \cup \{(0,0)\}$, with local coefficients $\lambda(w) = \tfrac12$ on the segment and $\lambda((0,0)) = \tfrac14$ at the isolated point \textup{(}by Example~\textup{\ref{ex:baby}} and Lemma~\textup{\ref{lem:calculus}}\textup{)}. Let $w^* = (1, 0)$.
+Determine the sequences $\gamma_n \to \infty$ for which $\hat\lambda_n(w^*;\gamma_n)\to\tfrac12$ in probability, and identify the limit at the transitional scaling.
+\end{problem}
+
+\begin{remark}[Fixed-strength localization is global]
+For every fixed $\gamma>0$, Watanabe's WBIC theorem \cite{watanabe2013} applies directly with the Gaussian factor as the prior. The global coefficient of this model is $1/4$, hence
+\[
+ \E^{\beta^*,\gamma}[nL_n(w)]-nL_n(w^*)
+ =\tfrac14\log n+O_p(\sqrt{\log n}),
+\]
+and $\hat\lambda_n(w^*;\gamma)\to1/4$ in probability. Fixed-strength localization therefore misses the local value $\lambda(w^*)=1/2$. Problem~\ref{prob:estimator} isolates the remaining choice of scale.
+\end{remark}
+
+A complementary calibration problem runs the estimator where the answer is known:
+
+\begin{problem}[Local coefficients on the template]\label{prob:calibration}
+For reduced-rank regression with parameters $(N,M,H,r)$, prove that the local pair $(\lambda(w^*),m(w^*))$ at a factorization $w^*=(A,B)\in W_0$ depends only on $(\rank A,\rank B)$, and compute the resulting table. Hence characterize the strata on which $\lambda(w^*)$ equals the minimum in Theorem~\textup{\ref{thm:aw}}. For example, when $N=M=H=2$ and $r=0$, a neighborhood of $(I_2,0)$ has local coefficient $2$, whereas the table gives $3/2$.
+\end{problem}
+
+\begin{remark}[What WBIC already gives]
+The estimator calibration itself follows from WBIC. Restrict the parameter domain to a sufficiently small closed ball $\bar B_\delta(w^*)$ and use any fixed smooth positive prior there. Then
+\[
+ \hat\lambda_n
+ =\lambda(w^*)+
+ U_n\sqrt{\frac{\lambda(w^*)}{2\log n}}
+ +O_p\!\left(\frac1{\log n}\right),
+\]
+where $U_n$ is the fluctuation in Watanabe's theorem (asymptotically Gaussian, apart from its possible parity degeneration). Thus $\hat\lambda_n\to\lambda(w^*)$ in probability. Problem~\ref{prob:calibration} asks for the pointwise local pairs; the convergence theorem is already available.
+\end{remark}
+
+Reduced-rank regression would become a complete benchmark for the estimator once those local strata are tabulated; it already plays that role informally in the benchmarking literature \cite{hitchcock2025}.
+
+\section{A place to start}\label{sec:start}
+
+Each of the following is deliberately small, and each would be a genuine contribution.
+
+\begin{enumerate}
+\item \textbf{Classify the first non-vacuous case.} Take $(p,H)=(5,9)$ and the fixed ball $\bar B_{R_5}$. Use Fourier coordinates, the per-unit scaling symmetries, and the rotations exhibited in Proposition~\ref{prop:width} to classify the exact fits of smallest local learning coefficient, or use computer algebra to find a non-Fourier minimizer. For $p=3$, the single-frequency condition is vacuous because $\mathcal F_0+\mathcal F_1=\R^3$; $p=5$ is the first case that can distinguish the conjecture from its negation.
+\item \textbf{One dead unit, exactly.} Sharpen Proposition~\ref{prop:width}(i) at $s = 1$ into an equality or a counterexample: compute the exact local coefficient at $(w^F_{2p-1}, 0) \in W_0(p, 2p)$, where the cross terms between the Fourier core and the dead unit---discarded by the Cauchy--Schwarz step---must be confronted. Conjecture~\ref{conj:increment} predicts equality.
+\item \textbf{Warm up at $p = 3$.} Problem~\ref{prob:modadd}(a) with $p = 3$, $H = 5$ is a degree-six polynomial in 45 variables, with per-unit scalings, unit permutations, the affine symmetries of $\Z_3$, and an explicit zero point. Its learning coefficient is a plausible computer-algebra calculation even though its Fourier-structure question is vacuous.
+\item \textbf{Minimal width by machine.} Question~\ref{q:width} for $p = 3, 5, 7$ by Gr\"obner-basis methods: decide emptiness of $W_0(p, H)$ for $H$ between $p-2$ and $2p-1$.
+\item \textbf{Smallest attention teacher.} As a related project, study Problem~\ref{prob:attn-teacher} with $(v,T,e,e_0)=(2,2,2,1)$. First prove generic constancy in this four-input model, then compute the generic local pair at the padded teacher. The uniform teacher is already the reduced-rank worked example in Remark~\ref{rem:attn-uniform}.
+\item \textbf{The first local fiber table.} Problem~\ref{prob:calibration} for $N=M=H=2$, listing the local pair on each rank stratum of $\{(A,B):BA=C\}$.
+\end{enumerate}
+
+\section{What is known}\label{sec:known}
+
+\emph{Exact thresholds for classical singular models.} Beyond reduced-rank regression \cite{aoyagi2005} and deep linear networks \cite{aoyagi2024} (see also \cite{lehalleur2024} for the geometry of the fibers), exact learning coefficients or tight bounds are known for three-layer $\tanh$ networks (bounds in \cite{watanabe2001}; exact values in cases via Vandermonde-type singularities \cite{aoyagi2009}), Gaussian mixtures (bounds \cite{yamazaki2003}), naive Bayes / latent class models \cite{rusakov2005}, general Markov (tree) models \cite{zwiernik2011}, and matrix factorization / latent Dirichlet allocation \cite{hayashi2021}. Lin's thesis \cite{lin2011} develops the \textsc{rlct} calculus and many worked examples. Recent work of Aoyagi \cite{aoyagi2025} moves toward three-layer networks with ReLU units (activation $\max(t,0)$; see Section~\ref{sec:resisted}) and softmax outputs, and Kurumadani \cite{kurumadani2026} derives upper bounds on local coefficients of three-layer networks with non-polynomial real-analytic activations, and with polynomial activations when the truth has no hidden units. The uniform-attention calculation above reduces to the linear template; exact coefficients for nonuniform softmax attention and for the Fourier solutions of a trained task remain outside the classical list.
+
+\emph{Neural examples adjacent to the main and related test cases.} Chen, Lau, Mendel, Wei, and Murfet \cite{chen2023} identified the critical points ($k$-gons) of the ``toy model of superposition'' of Elhage et al.\ \cite{elhage2022} and analyzed their local coefficients, giving the first case study of Bayesian phase transitions between differently-singular critical points in a nonlinear network. Cullen, Estan-Ruiz, Danait, and Li \cite{cullen2026} give closed-form local coefficients for shallow quadratic networks on modular arithmetic under non-degeneracy hypotheses, as discussed after Problem~\ref{prob:modadd}. Exact-solution algebra \cite{tian2024,mccracken2025} and Fourier-diversification dynamics \cite{he2026} explain other parts of the modular-addition picture, but do not compute the local pairs at its singular Fourier strata. For attention, refined local coefficients have been estimated componentwise \cite{wang2024}, while tensor-decomposition methods give adjacent bounds for linear attention \cite{yoshida2023}; neither supplies the generic-teacher values in Problems~\ref{prob:attn-teacher} and \ref{prob:linear-attn}.
+
+\emph{Estimation.} Watanabe's WBIC \cite{watanabe2013} is the theoretical basis; Lau et al.\ \cite{lau2023} define the local estimator and validate it on deep linear networks against \cite{aoyagi2024} up to $10^8$ parameters; Hitchcock and Hoogland \cite{hitchcock2025} benchmark the sampling layer. Refined (per-module, per-data-distribution) variants track the differentiation of attention heads during training \cite{wang2024}, and the same machinery scaled to a $1.4$-billion-parameter language model surfaces tens of thousands of candidate internal structures \cite{murfet2026}. The safety case for all of this---that safety-relevant properties of a trained model are properties of the singular geometry of its loss landscape---is argued in \cite{lehalleur2025}.
+
+\emph{Provenance of the theory.} Everything in Section~\ref{sec:background} is from Watanabe's book \cite{watanabe2009}, resting on Hironaka's resolution of singularities \cite{hironaka1964} and Atiyah's meromorphic continuation \cite{atiyah1970}.
+
+\section{What resisted precise formulation}\label{sec:resisted}
+
+The modular-addition conjecture is fully formalized above. The cross-entropy, attention, estimator, and ReLU questions are extensions that test how far the same geometric picture survives. Four boundaries of the present setup are worth making explicit.
+
+\emph{ReLU.} A natural extension replaces the quadratic activation by the non-analytic $\mathrm{ReLU}(t)=\max(t,0)$. On a finite input set, however, the apparent obstruction is only bookkeeping: parameter space splits into finitely many activation cells. Lion and Rolin's integration theorem \cite{lion1998} supplies the corresponding subanalytic volume asymptotics; a smooth positive prior leaves the leading exponent and logarithmic power unchanged.
+
+\begin{remark}[Finite-input ReLU models]
+The finite-input ReLU variant has an affirmative analytic reduction. Fix odd $p\ge3$ and $H\ge p^2$, use the Gaussian modular-addition model \eqref{eq:K-modadd} with $\sigma(t)=\max(t,0)$, and let $W$ be compact semialgebraic with a smooth positive prior. Exact fits exist: the unit with $u'(a)=\delta_{a_0}(a)$ and $u''(b)=\delta_{b_0}(b)-1$ is the indicator of $(a_0,b_0)$, so $p^2$ such units span the target table. There are only $Hp^2$ preactivations $u_j'(a)+u_j''(b)$. Their signs partition $W$ into finitely many polyhedral cells, and on each cell the network and $K$ agree with polynomial functions.
+
+Intersect each activation cell with a finite basic-semialgebraic decomposition of $W$. Theorem~\ref{thm:watanabe} applies to every resulting analytic branch that meets $W_0$ (including fits on a cell boundary); branches disjoint from $W_0$ are exponentially negligible. The total evidence is a finite sum of positive branch evidences, so the smallest branch threshold dominates and, among ties, the largest multiplicity dominates. The weighted sublevel volume is the same finite sum and selects the same pair. Thus \eqref{eq:free-energy} holds with $(\lambda,m)=(\lambda_{\vol},m_{\vol})$. The proof uses finiteness of the input set.
+\end{remark}
+
+For a continuous input distribution there is no finite activation partition in parameter space. Here is a concrete replacement.
+
+\begin{question}[Continuous-input ReLU learning]\label{q:relu}
+Fix $r,H\ge1$ and
+\[
+ f_w(x)=c+\sum_{j=1}^H v_j\max(a_j\cdot x+b_j,0),
+ \qquad x\in[-1,1]^r,
+\]
+with parameter $w=(c,(a_j,b_j,v_j)_{j=1}^H)$. Inputs are uniform on $[-1,1]^r$, the output model is $y\sim N(f_w(x),1)$, and the truth is generated by a fixed $w^0$. Let $W$ be a compact semialgebraic parameter domain containing $w^0$, let $\varphi$ be smooth and positive, and assume $K\not\equiv0$. Prove that there are $\lambda>0$, an integer $m\ge1$, and a constant $c_0>0$ such that
+\[
+ \int_{\{K\le\varepsilon\}}\varphi(w)\,dw
+ =c_0\varepsilon^\lambda(\log(1/\varepsilon))^{m-1}(1+o(1))
+\]
+and
+\[
+ F_n=nS_n+\lambda\log n-(m-1)\log\log n+O_p(1).
+\]
+\end{question}
+
+The question asks whether the same pair controls geometry and learning once the moving ReLU breakpoints range over a continuum. Free-energy upper bounds for deep ReLU networks are known \cite{nagayasu2023}, but they do not give this expansion.
+
+\emph{Deterministic truths.} The actual grokking task is deterministic: the label \emph{is} $a + b$. A deterministic conditional law is not realizable by any softmax model at finite parameters---the fit improves forever as weights grow---so $W_0$ is empty and the realizable theory says nothing. The squared-error formulation \eqref{eq:K-modadd} realizes the deterministic target exactly (this is why I made it the primary test case), and the smoothing parameter $\beta$ of Problem~\ref{prob:xent} is the honest price of a cross-entropy formulation. What resists formalization is the claim that either choice is canonical: the $\beta \to \infty$ behavior asked for in Problem~\ref{prob:xent} is the precise fragment of that question I could extract.
+
+\emph{``Interpretable structure.''} There is no general mathematical definition of \emph{interpretable}. Conjecture~\ref{conj:fourier} uses one precise surrogate: single-frequency Fourier units, the structure reported by reverse-engineering. A solution would not settle what interpretability is; it would settle whether \emph{this} legible structure is what maximal degeneracy selects.
+
+\emph{The sampler.} Comparing an exact learning coefficient with an empirical estimate splits into two gaps: exact-sampling estimator versus theorem (formalized in Problems~\ref{prob:estimator} and \ref{prob:calibration}), and stochastic-gradient Markov chain Monte Carlo versus exact sampling. The second gap---mixing of a non-log-concave chain on a landscape whose multimodality is the very object of study---depends strongly on implementation details and is not formalized here.
+
+None of these residues touches the core. The function \eqref{eq:K-modadd} is an explicit polynomial of degree six; its zero set contains the Fourier solutions that trained networks demonstrably find; the local learning coefficient at those solutions is a well-defined rational number governing both generalization and the posterior's choice among mechanisms. The shortest path is the oldest one: resolve the singularity and read off the exponents.
+
+\begin{thebibliography}{99}
+
+\bibitem{mais}
+L.~Levine,
+\emph{Math for AI Safety: An Invitation for Mathematicians},
+2026. \url{https://github.com/lionellevine/MAIS/blob/main/survey/MAIS.pdf}.
+
+
+\bibitem{aoyagi2005}
+Aoyagi, M., and Watanabe, S. (2005). Stochastic complexities of reduced rank regression in Bayesian estimation. \emph{Neural Networks} 18(7), 924--933.
+
+\bibitem{aoyagi2009}
+Aoyagi, M. (2009). Log canonical threshold of Vandermonde matrix type singularities and generalization error of a three layered neural network in Bayesian estimation. \emph{International Journal of Pure and Applied Mathematics} 52(2), 177--204.
+
+\bibitem{aoyagi2024}
+Aoyagi, M. (2024). Consideration on the learning efficiency of multiple-layered neural networks with linear units. \emph{Neural Networks} 172, 106132.
+
+\bibitem{aoyagi2025}
+Aoyagi, M. (2025). Singular learning coefficients and efficiency in learning theory. \arxiv{2501.12747}.
+
+\bibitem{atiyah1970}
+Atiyah, M. F. (1970). Resolution of singularities and division of distributions. \emph{Communications on Pure and Applied Mathematics} 23(2), 145--150.
+
+\bibitem{chen2023}
+Chen, Z., Lau, E., Mendel, J., Wei, S., and Murfet, D. (2023). Dynamical versus Bayesian phase transitions in a toy model of superposition. \arxiv{2310.06301}.
+
+\bibitem{cullen2026}
+Cullen, B., Estan-Ruiz, S., Danait, R., and Li, J. (2026). Grokking as a phase transition between competing basins: a singular learning theory approach. \arxiv{2603.01192}.
+
+\bibitem{elhage2022}
+Elhage, N., Hume, T., Olsson, C., Schiefer, N., Henighan, T., et al. (2022). Toy models of superposition. Transformer Circuits Thread. \url{https://transformer-circuits.pub/2022/toy_model/index.html}.
+
+\bibitem{gromov2023}
+Gromov, A. (2023). Grokking modular arithmetic. \arxiv{2301.02679}.
+
+\bibitem{hayashi2021}
+Hayashi, N. (2021). The exact asymptotic form of Bayesian generalization error in latent Dirichlet allocation. \emph{Neural Networks} 137, 127--137. \arxiv{2008.01304}.
+
+\bibitem{hironaka1964}
+Hironaka, H. (1964). Resolution of singularities of an algebraic variety over a field of characteristic zero. \emph{Annals of Mathematics} 79(1), 109--203; 79(2), 205--326.
+
+\bibitem{he2026}
+He, J., Wang, L., Chen, S., and Yang, Z. (2026). On the mechanism and dynamics of modular addition: Fourier features, lottery ticket, and grokking. \arxiv{2602.16849}.
+
+\bibitem{hitchcock2025}
+Hitchcock, R., and Hoogland, J. (2025). From global to local: a scalable benchmark for local posterior sampling. \arxiv{2507.21449}.
+
+\bibitem{kurumadani2026}
+Kurumadani, Y. (2026). Upper bounds for local learning coefficients of three-layer neural networks. \arxiv{2603.12785}.
+
+\bibitem{lau2023}
+Lau, E., Furman, Z., Wang, G., Murfet, D., and Wei, S. (2023). The local learning coefficient: a singularity-aware complexity measure. \arxiv{2308.12108}.
+
+\bibitem{lehalleur2024}
+Lehalleur, S. P., and Rim\'anyi, R. (2024). Geometry of fibers of the multiplication map of deep linear neural networks. \arxiv{2411.19920}.
+
+\bibitem{lehalleur2025}
+Lehalleur, S. P., Hoogland, J., Farrugia-Roberts, M., Wei, S., Gietelink Oldenziel, A., Wang, G., Carroll, L., and Murfet, D. (2025). You are what you eat: AI alignment requires understanding how data shapes structure and generalisation. \arxiv{2502.05475}.
+
+\bibitem{lin2011}
+Lin, S. (2011). \emph{Algebraic Methods for Evaluating Integrals in Bayesian Statistics}. PhD thesis, University of California, Berkeley.
+
+\bibitem{lion1998}
+Lion, J.-M., and Rolin, J.-P. (1998). Int\'egration des fonctions sous-analytiques et volumes des sous-ensembles sous-analytiques. \emph{Annales de l'Institut Fourier} 48(3), 755--767.
+
+\bibitem{mccracken2025}
+McCracken, G., Moisescu-Pareja, G., Letourneau, V., Precup, D., and Love, J. (2025). Uncovering a universal abstract algorithm for modular addition in neural networks. \arxiv{2505.18266}.
+
+\bibitem{morwani2024}
+Morwani, D., Edelman, B. L., Oncescu, C.-A., Zhao, R., and Kakade, S. (2024). Feature emergence via margin maximization: case studies in algebraic tasks. \emph{International Conference on Learning Representations} 2024. \arxiv{2311.07568}.
+
+\bibitem{murfet2026}
+Murfet, D., Gordon, A., Adam, M., Wang, G., Hoogland, J., Baker, G., Snell, W., van Wingerden, S., Newgas, A., Snikkers, B., and Hitchcock, R. (2026). Spectroscopy at scale: finding interpretable structure in Pythia-1.4B. Timaeus, research report.
+
+\bibitem{nagayasu2023}
+Nagayasu, S., and Watanabe, S. (2023). Bayesian free energy of deep ReLU neural network in overparametrized cases. \arxiv{2303.15739}.
+
+\bibitem{nanda2023}
+Nanda, N., Chan, L., Lieberum, T., Smith, J., and Steinhardt, J. (2023). Progress measures for grokking via mechanistic interpretability. \emph{International Conference on Learning Representations} 2023. \arxiv{2301.05217}.
+
+\bibitem{ogden2026}
+Ogden, K., Farrugia-Roberts, M., and Furman, Z. (2026). Degeneracy in deep learning: an invitation to singular learning theory. Lecture notes, Iliad intensive course.
+
+\bibitem{rusakov2005}
+Rusakov, D., and Geiger, D. (2005). Asymptotic model selection for naive Bayesian networks. \emph{Journal of Machine Learning Research} 6, 1--35.
+
+\bibitem{tian2024}
+Tian, Y. (2025). Composing global solutions to reasoning tasks via algebraic objects in neural nets. \emph{Advances in Neural Information Processing Systems}. \arxiv{2410.01779}.
+
+\bibitem{watanabe2001}
+Watanabe, S. (2001). Algebraic analysis for nonidentifiable learning machines. \emph{Neural Computation} 13(4), 899--933.
+
+\bibitem{watanabe2009}
+Watanabe, S. (2009). \emph{Algebraic Geometry and Statistical Learning Theory}. Cambridge University Press.
+
+\bibitem{watanabe2013}
+Watanabe, S. (2013). A widely applicable Bayesian information criterion. \emph{Journal of Machine Learning Research} 14, 867--897.
+
+\bibitem{wang2024}
+Wang, G., Hoogland, J., van Wingerden, S., Furman, Z., and Murfet, D. (2024). Differentiation and specialization of attention heads via the refined local learning coefficient. \arxiv{2410.02984}.
+
+\bibitem{winograd1977}
+Winograd, S. (1977). Some bilinear forms whose multiplicative complexity depends on the field of constants. \emph{Mathematical Systems Theory} 10(2), 169--180.
+
+\bibitem{yamazaki2003}
+Yamazaki, K., and Watanabe, S. (2003). Singularities in mixture models and upper bounds of stochastic complexity. \emph{Neural Networks} 16(7), 1029--1038.
+
+\bibitem{yoshida2023}
+Yoshida, N., and Watanabe, S. (2023). Upper bound of real log canonical threshold of tensor decomposition and its application to Bayesian inference. \arxiv{2303.05731}.
+
+\bibitem{zwiernik2011}
+Zwiernik, P. (2011). An asymptotic behaviour of the marginal likelihood for general Markov models. \emph{Journal of Machine Learning Research} 12, 3283--3310.
+
+\end{thebibliography}
+
+\end{document}

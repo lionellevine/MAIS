@@ -1,0 +1,589 @@
+\documentclass[11pt]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{xcolor}
+\usepackage[colorlinks=true, linkcolor=blue!55!black, citecolor=blue!55!black, urlcolor=blue!55!black]{hyperref}
+\emergencystretch=2em
+\newcommand{\arxiv}[1]{\href{https://arxiv.org/abs/#1}{\texttt{arXiv:#1}}}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+\title[Out-of-distribution generalization]{A predictive theory of out-of-distribution generalization:\\ which of two perfect policies does gradient descent select?}
+\author{Claude Fable 5, audited by GPT 5.6 Sol}
+\date{}
+\hypersetup{
+  pdftitle={A predictive theory of out-of-distribution generalization},
+  pdfauthor={Claude Fable 5; audited by GPT 5.6 Sol},
+  pdfsubject={Research agenda supplement to Open Problem 8 of Math for AI Safety}
+}
+\begin{document}
+\begin{abstract}
+An agent trained to collect a coin that always sat at the right end of its levels learned ``move right,'' not ``get the coin'': two rules that agree on every training level and disagree the moment the coin moves. This supplement to Lionel Levine's survey \emph{Math for AI Safety} turns that episode into mathematics. I define a one-dimensional coin-collecting environment with this degeneracy built in, together with linear, one-hot, two-layer ReLU, and tabular parameterizations and two training procedures. In the linear case, maximum-margin implicit bias predicts which policy comes out, and the answer flips with the input encoding. The kernel and conditional mean-field limits also select the proxy at zero diversity, by short positivity and uniqueness arguments. Every monomial feature encoding selects the proxy. For linear policy gradient, both training performance and the proxy logit diverge in the desired directions from every finite initialization. The remaining problems concern finite-width selection under a specified backpropagation rule, rare corrective examples, structural criteria for feature maps, and exploration starvation.
+\end{abstract}
+\maketitle
+
+\begin{center}
+\small\emph{Research agenda A8 \(\cdot\) Claude Fable 5, audited by GPT 5.6 Sol\\
+July 16, 2026 \(\cdot\) Status: draft}
+\end{center}
+
+\noindent This is a supplement to Open Problem~8 of Lionel Levine's \emph{Math for AI Safety: An Invitation for Mathematicians}~\cite{mais}.
+
+\begin{quote}
+\textbf{Open Problem 8 (A predictive theory of}\\
+\textbf{out-of-distribution generalization)}
+In the coin-collecting environment of Langosco et al.~\cite{langosco2022}, reduced to one dimension, two policies fit the training data perfectly: ``move right'' (the proxy) and ``go to the coin'' (the intended goal), which agree whenever the coin sits at the right end. Train a two-layer network by gradient descent to imitate optimal play, randomizing the coin's position in an $\varepsilon$-fraction of training episodes. Determine the probability, over the random initialization, that the trained network follows the proxy on a probe state where the two policies disagree, as a function of $\varepsilon$, the width, and the input encoding. For linear policies the answer is a theorem---the encoding, not the initialization, decides---and the standard infinite-width limits follow it; for networks of finite width it is open at every $\varepsilon$, including $\varepsilon=0$, already at width two.
+\end{quote}
+
+
+\section{The problem in brief}\label{sec:brief}
+
+In 2022, Langosco et al.~\cite{langosco2022} trained a reinforcement-learning agent to collect a coin in a side-scrolling video game. In every training level the coin sat at the far right end. When the experimenters then moved the coin, the trained agent ran right past it to the end of the level. It had not learned ``get the coin.'' It had learned ``move right.'' The two rules agree on every level the agent ever saw, so the training data could not distinguish them---yet training reliably produced one and not the other. Something chose, and it was not the data.
+
+
+
+\begin{remark}[Conventions]
+\label{rem:conventions}
+Finite-width ReLU training uses a single-valued discrete backpropagation rule: $\varphi'(z)=\mathbf1\{z>0\}$, so $\varphi'(0)=0$, and a fixed step size $\eta>0$. Behavior cloning uses $\theta_{k+1}=\theta_k-\eta G_\varepsilon(\theta_k)$, where $G_\varepsilon$ is the resulting backpropagated loss derivative; policy training uses the corresponding ascent update. Thus the initialization determines a unique trajectory. Kernel and mean-field flows are separate infinite-width objects and are stated explicitly. Behavior-cloning results that encode data weights by repetitions take rational $\varepsilon$; reinforcement-learning questions quantify over real $\varepsilon\in[0,1]$.
+\end{remark}
+
+Open-status claims in this file were checked against the literature through July 2026.
+
+Section~\ref{sec:coinline} defines a coin-collecting environment on a line, small enough that the two policies, the architectures, the training dynamics, and the off-distribution probe are all finite, explicit mathematical objects. Section~\ref{sec:linear} shows that for linear parameterizations the selection question is already a theorem: gradient descent provably learns ``move right,'' and changing the input encoding provably flips the outcome. Sections~\ref{sec:nets} and~\ref{sec:rl} state the corresponding open problems for networks and reinforcement learning; Section~\ref{sec:start} extracts starter projects; and Section~\ref{sec:known} surveys neighboring results.
+
+Throughout, the reader is assumed to be a mathematician with no machine-learning background; every term of art is defined before use in the body. (The abstract, the opening story above, and the survey's quoted problem statement, of necessity, run ahead of the definitions.)
+
+\section{Background: training selects one of many equivalent solutions}\label{sec:background}
+
+\subsection{Learning a function by gradient descent}
+In supervised learning one is given a finite list of \emph{training examples} $(x_1,y_1),\dots,(x_n,y_n)$, with inputs $x_i$ in some set $\mathcal X\subseteq\mathbb R^d$ and labels $y_i\in\{\pm1\}$, drawn from a probability distribution called the \emph{training distribution}. One fixes a parameterized family of functions $f_\theta:\mathcal X\to\mathbb R$, $\theta\in\mathbb R^D$ (the \emph{architecture}), and a \emph{loss} measuring disagreement with the labels; in this note the loss is always the \emph{logistic loss}
+\[
+   \ell(z)=\log(1+e^{-z}),
+\]
+applied to the \emph{margin} $z=y\,f_\theta(x)$, so that $\ell(yf_\theta(x))$ is small when $f_\theta(x)$ is large with the sign of $y$. With weights $\omega_i>0$, training minimizes the total loss
+\[
+   \mathcal L(\theta)=\sum_i \omega_i\,\ell\bigl(y_i f_\theta(x_i)\bigr)
+\]
+by \emph{gradient descent},
+\[
+   \theta_{k+1}=\theta_k-\eta\,\nabla\mathcal L(\theta_k)
+\]
+with fixed step size $\eta>0$, or by its continuous-time idealization \emph{gradient flow}, $\dot\theta(t)=-\nabla\mathcal L(\theta(t))$, both started from a random \emph{initialization} $\theta_0$. The trained function is then used to classify fresh inputs by the sign of $f_\theta$.
+
+The architectures in this note are \emph{linear models} $f_w(x)=w\cdot x$ and \emph{two-layer ReLU networks}
+\begin{equation}\label{eq:twolayer}
+   f_\theta(x)\;=\;\sum_{j=1}^m a_j\,\varphi(u_j\cdot x),
+   \qquad \varphi(z)=\max(z,0),
+\end{equation}
+with \emph{width} $m$, parameters $\theta=(a_1,\dots,a_m,u_1,\dots,u_m)$, and the \emph{rectifier} $\varphi$ as the nonlinearity. Finite-width training uses the backpropagation convention of Remark~\ref{rem:conventions}. This matters: a Clarke differential inclusion need not select a unique trajectory.
+
+\subsection{The abundance of loss-equivalent solutions}
+A trained network is judged two ways: on fresh inputs from the \emph{same} distribution as the training data (\emph{in-distribution generalization}) and on inputs from a \emph{different} distribution (\emph{out-of-distribution}, the regime of this note). The starting difficulty for any theory is that the training data pins down almost nothing. Zhang et al.~\cite{zhang2017} showed that standard image-classification networks reach zero training error even when every label is replaced by an independent coin flip---the architecture can memorize anything---and they isolated the reason in a theorem:
+
+\begin{theorem}[{Zhang et al.~\cite[Thm.~1]{zhang2017}}]\label{thm:zhang}
+Let $x_1,\dots,x_n\in\mathbb R^d$ be distinct, and let $y_1,\dots,y_n\in\mathbb R$. There is a two-layer ReLU network with $2n+d$ parameters, of the form $f(x)=\sum_{j=1}^{n}w_j\,\varphi(a\cdot x - b_j)$, with $f(x_i)=y_i$ for all $i$.
+\end{theorem}
+
+In words: fitting $n$ points perfectly needs only about $n$ parameters, and modern networks have vastly more. The theorem uses offsets $b_j$; in the coin model the constant coordinate of $x$ absorbs such biases, while a general input space should be augmented by a constant coordinate. For logistic loss there is no finite zero-loss parameter: separable predictors have zero training error and drive the loss toward its infimum only as their norm diverges. Many separating directions nevertheless agree on the data and disagree away from it. Which direction does gradient descent deliver? Any property not forced by the data is chosen by this \emph{implicit bias}. A recent large-deviations analysis of Chen and El Alaoui~\cite{chen2026} sharpens the puzzle in an idealized linear setting: among all perfect fits, the typical one generalizes poorly, while in their numerical comparison gradient descent finds solutions better than all but an exponentially small fraction. Selection is real, and it is algorithmic.
+
+\subsection{Goal misgeneralization}
+When the learner is an \emph{agent}---a system choosing actions to earn reward---the selection problem acquires a safety edge. Langosco et al.~\cite{langosco2022} named the failure mode \emph{goal misgeneralization}: under a shift of the input distribution the trained agent retains its competence but pursues the wrong objective. Their coin-collector is the standard example, and their catalogue has the same shape throughout: an agent trained to reach a piece of cheese that always sat in the upper-right region of a maze navigates, once the cheese is placed elsewhere, to the upper right rather than to the cheese. Shah et al.~\cite{shah2022} extended the catalogue beyond reinforcement learning (a large language model prompted only on arithmetic problems with two unknowns learns ``always ask the user a question,'' and asks ``What's~6?'' when there are no unknowns) and argued that a capable agent pursuing a proxy is the dangerous quadrant: incompetent failure is noisy and self-limiting, while competent pursuit of the wrong goal is coherent, invisible to on-distribution testing, and scales with the agent's ability.
+
+Two empirical facts from \cite{langosco2022} calibrate everything below. First, the failure is reliable: with the coin always at the right end during training, the trained agent ignores a displaced coin. Second, the failure is cheap to fix \emph{if you know to look}: randomizing the coin's position in as little as $2\%$ of training levels largely restores the intended behavior. A predictive theory should reproduce both facts---and say what the $2\%$ depends on.
+
+\subsection{Agents, formally}
+A (finite-horizon) \emph{Markov decision process} consists of a finite state space $\mathcal S$, a finite action set $\mathcal A$, a transition rule giving the next state as a function of the current state and action, a distribution over initial states, a reward attached to states, and a horizon $H$ after which the episode ends. A \emph{policy} is a map $\pi$ from states to probability distributions over actions; it is \emph{deterministic} if each state gets a single action. The \emph{return} of a policy is the expected total reward of an episode played by it. Two ways to train a policy appear below:
+\begin{itemize}
+\item \emph{Behavior cloning}: supervised learning of the intended action. Training states are sampled, each is labeled with the action the designer intends, and the policy is fit by gradient descent on the logistic loss, as above.
+\item \emph{Policy gradient}: reinforcement learning proper. The agent's expected return $J(\theta)$ is smooth for a smooth policy parametrization, and one ascends it. For finite ReLU policies I use the discrete backpropagation rule of Remark~\ref{rem:conventions}. No labels are given; only reward.
+\end{itemize}
+
+\section{The coin line}\label{sec:coinline}
+
+Here is the toy the survey's problem asks for, chosen to be the smallest environment I know that exhibits the coin-collector degeneracy.
+
+\begin{definition}[The coin line]\label{def:coinline}
+Fix an integer $L\ge4$. States are pairs $s=(p,c)$ with $p,c\in\{0,1,\dots,L\}$: the agent stands at position $p$ and the coin lies at position $c$, both visible to the agent. Actions are $a\in\{-1,+1\}$ (step left, step right), with transition $p\mapsto \min(\max(p+a,0),L)$; the coin does not move. An episode starts with $p_0$ uniform on $\{0,\dots,L\}$ and $c$ drawn, independently, from a distribution $\mu$ on $\{0,\dots,L\}$; it ends with reward $1$ the first time $p=c$, and with reward $0$ if this has not happened after $H=2L$ steps. The \emph{return} $V(\pi,\mu)$ of a policy $\pi$ is the probability that an episode played by $\pi$ collects the coin.
+\end{definition}
+
+The horizon $2L$ is long enough to cross the whole line from either end, so the reward carries no time pressure: a policy is perfect if and only if it always finds the coin. Two deterministic policies matter:
+\[
+\begin{aligned}
+\pi_{\mathrm{right}}&:\ a=+1 \text{ always},\\
+\pi_{\mathrm{coin}}&:\ a=\operatorname{sign}(c-p)
+  \text{ (either action when }p=c\text{)}.
+\end{aligned}
+\]
+The first tracks the proxy ``go right''; the second tracks the intended goal.
+
+For the training distributions, fix a rational $\varepsilon\in[0,1]$---rationality is a harmless restriction, whose convenience will appear in Section~\ref{sec:linear}---and let
+\[
+   \mu_\varepsilon \;=\; (1-\varepsilon)\,\delta_L \;+\; \varepsilon\,\mathrm{Unif}\{1,\dots,L\}.
+\]
+At $\varepsilon=0$ the coin always sits at the right end, as in \cite{langosco2022}; the parameter $\varepsilon$ is the training-diversity knob, the toy analogue of Langosco et al.'s percentage of coin-randomized levels. The randomized coin is deliberately never placed at $0$, so that states with $c=0$ lie outside the training distribution \emph{for every} $\varepsilon$. The test distribution is $\mu^{*}=\mathrm{Unif}\{0,\dots,L\}$.
+
+\begin{lemma}[Two perfect policies]\label{lem:twopolicies}
+Under the training distribution $\mu_0=\delta_L$, both $\pi_{\mathrm{right}}$ and $\pi_{\mathrm{coin}}$ achieve the maximal return $V=1$, and they take the same action at every state that occurs with positive probability. Under the test distribution they separate:
+\[
+   V(\pi_{\mathrm{coin}},\mu^{*})=1,
+   \qquad
+   V(\pi_{\mathrm{right}},\mu^{*})=\frac{L+2}{2(L+1)}\;\approx\;\tfrac12 .
+\]
+\end{lemma}
+
+\begin{proof}
+Under $\mu_0$, every state that occurs has $c=L\ge p$, where both policies step right and reach the coin within $L\le H$ steps. Under $\mu^{*}$, the policy $\pi_{\mathrm{coin}}$ reaches the coin in $|c-p_0|\le L$ steps from any start. The policy $\pi_{\mathrm{right}}$ passes through the coin if and only if $c\ge p_0$ (otherwise it walks to the wall at $L$ and stays); with $p_0,c$ independent and uniform this has probability $\sum_{p=0}^{L}(L+1-p)/(L+1)^2=(L+2)/(2(L+1))$.
+\end{proof}
+
+On the training distribution the two policies behave identically, not merely with equal loss. At test time one is perfect and the other fails on essentially half of all episodes, precisely those where the coin lies behind the agent. This is the survey's requested degeneracy in its sharpest form.
+
+\subsection{Parameterizations}\label{subsec:param}
+A parameterized policy takes the logistic form
+\[
+   \pi_\theta(+1\mid s)\;=\;\sigma\bigl(f_\theta(x(s))\bigr),
+   \qquad \sigma(z)=\frac{1}{1+e^{-z}},
+\]
+where $x(s)$ is a fixed \emph{encoding} of the state as a vector and $f_\theta$ is drawn from an architecture. Positive $f$ favors stepping right. Two encodings recur:
+\[
+   \begin{aligned}
+   x_{\mathrm a}(p,c)&=(1,\,p,\,c)\in\mathbb R^3
+      &&\text{(absolute)},\\
+   x_{\mathrm r}(p,c)&=(1,\,c-p)\in\mathbb R^2
+      &&\text{(relative)}.
+   \end{aligned}
+\]
+Both are faithful in the sense that matters: with either encoding, a linear $f$ can already realize both $\pi_{\mathrm{right}}$ (take $f\equiv1$) and $\pi_{\mathrm{coin}}$ (take $f=c-p$) in the limit of large parameter scale. Expressive power will never be the deciding factor below.
+
+\subsection{Training data and the selection functional}\label{subsec:selection}
+For behavior cloning, the intended label at state $(p,c)$, $p\ne c$, is the intended action $y=\operatorname{sign}(c-p)$. Let $\nu_\varepsilon$ be the training state distribution: $p\sim\mathrm{Unif}\{0,\dots,L\}$ and $c\sim\mu_\varepsilon$ independent, conditioned on $p\ne c$. The \emph{population cloning loss} is
+\[
+   \mathcal L_\varepsilon(\theta)\;=\;\mathbb E_{(p,c)\sim\nu_\varepsilon}\,
+   \ell\bigl(\operatorname{sign}(c-p)\, f_\theta(x(p,c))\bigr),
+\]
+a finite sum with positive rational weights (rational because $\varepsilon$ is). At $\varepsilon=0$ its support is $S_0=\{(p,L):0\le p\le L-1\}$ and every label is $+1$; for $\varepsilon>0$ its support is $S_+=\{(p,c): c\ge1,\ p\ne c\}$ and both labels occur.
+
+To read off which extrapolation was selected I use a single off-distribution probe:
+\[
+   s^{*}=(p^{*},0),\qquad p^{*}=\lceil L/2\rceil:
+\]
+the agent stands mid-line and the coin lies at the left end---a state outside the training support for every $\varepsilon$. At the probe, $\pi_{\mathrm{right}}$ and $\pi_{\mathrm{coin}}$ disagree, so the sign of $f_\theta(x(s^{*}))$ is the verdict: positive means the proxy was selected, negative means the goal. For the finite-width iteration $\theta_k$ from random initialization define the \emph{misgeneralization probability}
+\begin{equation}\label{eq:selection}
+   q(k)\;=\;\mathbb P_{\theta_0}\bigl(f_{\theta_k}(x(s^{*}))>0\bigr).
+\end{equation}
+This is the probability, over initialization, that the step-$k$ policy walks away from the coin. Infinite-width flows below use continuous time $t$ and their own notation. Every problem asks for the long-run probe behavior as a function of architecture, initialization, data, and the fixed step size.
+
+One degenerate architecture disposes of a possible misconception immediately. A \emph{tabular} policy has one parameter per state, $f_\theta(p,c)=\theta_{(p,c)}$, with no sharing. Write $J_\varepsilon(\theta)$ for the return of the policy $\pi_\theta$ when the coin is drawn from $\mu_\varepsilon$: the probability that an episode collects the coin.
+
+\begin{proposition}[Extrapolation lives in the parameter sharing]\label{prop:tabular}
+Train a tabular policy by policy-gradient flow $\dot\theta=\nabla J_0(\theta)$ on the coin line with $\varepsilon=0$, from any initialization. Then $\theta_{s^{*}}(t)=\theta_{s^{*}}(0)$ for all $t$: the action at the probe is forever whatever the initialization dictates. The same holds for behavior cloning on $\mathcal L_0$.
+\end{proposition}
+
+\begin{proof}
+With $\varepsilon=0$ the environment fixes $c=L$, so states $(p,c)$ with $c\ne L$ occur with probability zero under every policy; hence $J_0$ (a finite sum over trajectories, each a product of factors $\sigma(\pm\theta_{(p,L)})$) does not depend on $\theta_{(p,c)}$ for $c\neq L$, and $\partial J_0/\partial\theta_{s^{*}}\equiv0$. Likewise $\mathcal L_0$ depends only on coordinates in $S_0$.
+\end{proof}
+
+In other words, a learner with no parameter sharing has \emph{no opinion} away from the training distribution: its extrapolation is its initialization, frozen. All structure on new inputs comes from the way an architecture couples visited states to unvisited ones. The selection problem is a question about that coupling.
+
+\section{The linear case is a theorem---and it predicts misgeneralization}\label{sec:linear}
+
+For linear architectures the entire selection question is answered by a known implicit-bias theorem, and the answer is worth seeing before any general theory. Recall the result. Call a dataset $(x_i,y_i)_{i\le N}$ (repetitions allowed) \emph{linearly separable} if some $w$ has $y_i\,w\cdot x_i>0$ for all $i$.
+
+\begin{theorem}[{Soudry et al.~\cite{soudry2018}}]\label{thm:soudry}
+Let $(x_i,y_i)_{i\le N}$ be linearly separable and let $w_k$ be gradient descent on $\sum_{i}\ell(y_i\,w\cdot x_i)$ with any initialization and any sufficiently small constant step size. Then $\|w_k\|\to\infty$ and
+\[
+   \frac{w_k}{\|w_k\|}\;\longrightarrow\;\frac{\hat w}{\|\hat w\|},
+   \qquad
+   \hat w \;=\; \operatorname*{argmin}\bigl\{\|w\|^2:\ y_i\,w\cdot x_i\ge1 \text{ for all } i\bigr\}.
+\]
+\end{theorem}
+
+The limit direction $\hat w$ is the \emph{maximum-margin} direction, equivalently the direction selected by the hard-margin support vector machine: among all separating directions, it maximizes the smallest rescaled margin $\min_i y_i\,w\cdot x_i/\|w\|$. The theorem converts ``which classifier does gradient descent select'' into a finite convex program---a predictive statement, and the template for everything this note asks for. Since our population losses $\mathcal L_\varepsilon$ are sums with positive \emph{rational} weights ($\varepsilon$ being rational), they equal $1/M$ times an unweighted sum over a finite multiset (duplicate each point proportionally to its weight; the factor $1/M$ only rescales the step size), so Theorem~\ref{thm:soudry} applies verbatim to them.
+
+Now compute $\hat w$ for the coin line. Write $f_k$ for the trained function after $k$ steps, and say training \emph{selects} an action at a state if the sign of $f_k$ there is eventually constant.
+
+\begin{proposition}[Absolute encoding, no diversity: the proxy wins]\label{prop:absolute}
+Train a linear policy $f_w=w\cdot x_{\mathrm a}$ by gradient descent on $\mathcal L_0$ (any initialization, any sufficiently small constant step). Then
+\[
+   \frac{w_k}{\|w_k\|}\;\longrightarrow\;\frac{(1,0,L)}{\sqrt{1+L^2}},
+\]
+and training selects action $+1$ at \emph{every} state: the selected policy is exactly $\pi_{\mathrm{right}}$. In particular $q(k)\to1$: at the probe, the agent walks away from the coin, with probability $1$ over the initialization.
+\end{proposition}
+
+\begin{proof}
+The $\varepsilon=0$ data are $x_p=(1,p,L)$ for $0\le p\le L-1$, all with label $+1$; they are separable (by $(1,0,0)$). I claim the max-margin program $\min\|w\|^2$ subject to $w_0+w_1p+w_2L\ge1$ for all such $p$ is solved by $\hat w=(1,0,L)/(1+L^2)$. Feasibility: every constraint equals $(1+L^2)/(1+L^2)=1$. Optimality: the Karush--Kuhn--Tucker conditions for this convex program require $\hat w=\sum_p\alpha_p x_p$ with $\alpha_p\ge0$ supported on active constraints; take $\alpha_0=1/(1+L^2)$ and all other $\alpha_p=0$, giving $\alpha_0(1,0,L)=\hat w$. Uniqueness follows from strict convexity of $\|w\|^2$. By Theorem~\ref{thm:soudry} the direction of $w_k$ converges to $\hat w/\|\hat w\|$ while $\|w_k\|\to\infty$; since $\hat w\cdot x_{\mathrm a}(p,c)=(1+Lc)/(1+L^2)\ge 1/(1+L^2)>0$ at every state, $f_k=\|w_k\|\,(\hat w\cdot x/\|\hat w\|+o(1))\to+\infty$ pointwise, so the eventual action is $+1$ everywhere.
+\end{proof}
+
+Pause on what was just proved. The architecture could express the intended policy; the data were perfectly clean; no approximation intervened---and gradient descent \emph{provably} learns ``move right.'' Goal misgeneralization, in this corner, is not an empirical accident to be measured; it is a theorem, predicted in advance by the max-margin principle. This is what the survey's problem looks like when it is solved.
+
+Two more computations show the theory's discriminating power.
+
+\begin{proposition}[Any diversity: the goal wins, eventually]\label{prop:diversity}
+For any $\varepsilon\in(0,1]$, gradient descent on $\mathcal L_\varepsilon$ with the absolute encoding satisfies
+\[
+   \frac{w_k}{\|w_k\|}\;\longrightarrow\;\frac{(0,-1,1)}{\sqrt 2},
+\]
+so training selects the action $\operatorname{sign}(c-p)$ at every state with $p\ne c$---including all states with $c=0$, which are absent from the training distribution at every $\varepsilon$. The selected policy is exactly $\pi_{\mathrm{coin}}$, and $q(k)\to0$.
+\end{proposition}
+
+\begin{proof}
+The data are now $x_{p,c}=(1,p,c)$ with labels $y=\operatorname{sign}(c-p)$, over the support $S_+=\{(p,c):1\le c\le L,\ p\ne c\}$. The vector $\hat w=(0,-1,1)$ is feasible for the program $\min\|w\|^2$ subject to $y\,(w\cdot x)\ge1$, since $y\,\hat w\cdot x=|c-p|\ge1$, with equality exactly on the pairs $(p,p+1)$, $0\le p\le L-1$ (label $+1$) and $(q+1,q)$, $1\le q\le L-1$ (label $-1$). For the KKT certificate, seek $\hat w=\sum\alpha^+_p\,(1,p,p+1)-\sum\alpha^-_q\,(1,q+1,q)$ with nonnegative coefficients. Matching coordinates requires $\sum\alpha^+_p=\sum\alpha^-_q=1$ and $\sum\alpha^+_pp=\sum\alpha^-_qq$; take $\alpha^+_p=1/L$ for all $p$ (so $\sum\alpha^+_pp=(L-1)/2$) and put $\alpha^-$ on $q=1$ and $q=L-1$ with weights $\frac{L-1}{2(L-2)}$ and $\frac{L-3}{2(L-2)}$, which are nonnegative for $L\ge4$ and have the required first moment. Strict convexity gives uniqueness, and Theorem~\ref{thm:soudry} concludes as before: since $\hat w\cdot x_{\mathrm a}(p,c)=c-p\neq0$ off the diagonal, the eventual sign is $\operatorname{sign}(c-p)$ everywhere, in particular $-1$ at the probe.
+\end{proof}
+
+\begin{proposition}[Relative encoding, no diversity: the goal (nearly) wins]\label{prop:relative}
+Train a linear policy $f_w=w\cdot x_{\mathrm r}$, $x_{\mathrm r}=(1,c-p)$, by gradient descent on $\mathcal L_0$. Then $w_k/\|w_k\|\to(1,1)/\sqrt2$, so training selects action $\operatorname{sign}(c-p+1)$ at every state with $c-p\ne-1$: rightward when $c\ge p$, leftward when $c\le p-2$. At the probe the agent walks \emph{toward} the coin: $q(k)\to0$.
+\end{proposition}
+
+\begin{proof}
+The $\varepsilon=0$ data in this encoding are $x_k=(1,k)$ for $k=c-p=L-p\in\{1,\dots,L\}$, all labeled $+1$. The program $\min\|w\|^2$ with $w_0+w_1k\ge1$ has solution $\hat w=(\tfrac12,\tfrac12)$: feasible with the constraint $k=1$ active, certified by $\alpha_1=\tfrac12$ on the point $(1,1)$, unique by strict convexity. The limit direction gives eventual sign $\operatorname{sign}(1+(c-p))$ wherever this is nonzero; at the probe, $1+(0-p^{*})<0$ for $p^{*}\ge2$.
+\end{proof}
+
+\begin{example}[One-hot encoding: the proxy again]\label{ex:onehot}
+Encode the state as $x_{\mathrm{oh}}(p,c)=(e_p,e_c)\in\mathbb R^{2(L+1)}$, the concatenation of indicator vectors (a standard encoding of categorical data). The same computation at $\varepsilon=0$---constraints $w_p+v_L\ge1$ for $p\le L-1$, objective $\sum w_p^2+\sum v_c^2$---gives the unique optimum $w_p=\frac1{L+1}$, $v_L=\frac{L}{L+1}$, all other coordinates $0$ (certificate: $\alpha_p=\frac1{L+1}$ on every constraint). At the probe, $f\propto w_{p^{*}}+v_0=\frac{1}{L+1}>0$: the proxy is selected.
+\end{example}
+
+\subsection{The morals}\label{subsec:morals}
+Here is what the linear case teaches about the survey's three-way dependence on architecture, initialization, and data.
+\begin{itemize}
+\item \emph{Architecture decides.} Absolute and one-hot encodings misgeneralize; the relative encoding generalizes. All three can express both policies; expressiveness never enters. What differs is which direction is norm-cheapest per unit margin---a geometric property of the encoding, computable in advance. An encoding that hard-wires the task-relevant comparison $c-p$ makes the intended policy the max-margin one; encodings that present $p$ and $c$ separately make the proxy cheaper.
+\item \emph{Initialization does not decide---at leading order.} Theorem~\ref{thm:soudry} holds from every initialization: in the convex case the selection is deterministic. Dependence on initialization, promised by the survey's problem, only appears for nonconvex parameterizations (Proposition~\ref{prop:tabular} is the extreme case, and Section~\ref{sec:nets} is the middle ground)---or in the subleading term, as follows.
+\item \emph{The residual can carry half the test return.} In Proposition~\ref{prop:relative} the limit direction is silent at the boundary states $c=p-1$, where $\hat w\cdot x=0$. The bounded residual controls the limiting boundary logit and therefore the probability of stepping right there. A deterministic right action creates a two-cycle one step from the coin, while a left action reaches it; intermediate logits give a stochastic interpolation. The leading direction predicts the bulk behavior, but the exact return can hinge on the residual. Problem~\ref{prob:boundary} asks for that number.
+\item \emph{Only the support matters at $t=\infty$; the weights matter at finite $t$.} The max-margin direction depends on the training distribution only through its support---note that $\varepsilon$ is absent from Proposition~\ref{prop:diversity}'s conclusion---so the entire empirical phenomenon of ``$2\%$ diversity suffices'' \cite{langosco2022} is, in this theory, a statement about \emph{finite-time} dynamics: how long the rare corrective examples take to overturn the proxy. Problem~\ref{prob:crossover} asks for that timescale.
+\end{itemize}
+
+Proposition~\ref{prop:absolute} versus Proposition~\ref{prop:relative} is, to my knowledge, the simplest setting in which the survey's demand---\emph{prove} which policy gradient descent selects, and exhibit the dependence on architecture---is met in full. The rest of this note is the project of proving the next chapters.
+
+\section{Open problems: networks trained by behavior cloning}\label{sec:nets}
+
+Fix the absolute encoding $x_{\mathrm a}=(1,p,c)$ and the two-layer architecture \eqref{eq:twolayer} with width $m$ and initialization $a_j\sim N(0,\sigma^2)$, $u_j\sim N(0,\sigma^2 I_3)$, all independent. Train by the iteration of Remark~\ref{rem:conventions}, and let $q_\varepsilon(k;m,\sigma,L,\eta)$ be the misgeneralization probability \eqref{eq:selection}.
+
+\begin{problem}[The selection map]\label{prob:selectionmap}
+Determine whether the limit
+\[
+\bar q_\varepsilon(m,\sigma,L,\eta)
+   =\lim_{k\to\infty}q_\varepsilon(k;m,\sigma,L,\eta)
+\]
+exists and, if it does, compute it. At finite width the probe sign may change more than once; the first case is $\varepsilon=0$, $m=2$.
+\end{problem}
+
+The gloss: over initialization alone, what is the probability that the trained network walks away from the coin? The available homogeneous-network theory sends suitable training trajectories toward Karush--Kuhn--Tucker directions of a nonconvex parameter-space margin problem \cite{lyu2020,jitelgarsky2020}, but it does not select among them. On the training support the vector $n=(L,0,-1)$ is invisible: $n\cdot(1,p,L)=0$. Shifting a hidden weight by a multiple of $n$ leaves all training preactivations unchanged, and its $n$-component is conserved by backpropagation. This loss symmetry does \emph{not} create a second norm-minimizing representative, since Euclidean norm penalizes the invisible shift. It does show why the finite trajectory can retain initialization data that the training examples never see.
+
+I expect the proxy to win the tie, at both extremes of the initialization scale.
+
+\begin{conjecture}[The proxy wins at $\varepsilon=0$]\label{conj:proxywins}
+For every $\sigma>0$, $L\ge4$, and sufficiently small $\eta>0$,
+\[
+   \lim_{m\to\infty}\;\liminf_{k\to\infty}\;q_0(k;m,\sigma,L,\eta)\;=\;1 .
+\]
+\end{conjecture}
+
+Two neighboring infinite-width limits of the same phenomenon can be stated with the standard normalizations under which wide-network limits are theorems. (Each normalization is a different parameterization from \eqref{eq:twolayer}, so neither conjecture below formally implies Conjecture~\ref{conj:proxywins}.) In the \emph{kernel} (lazy) regime, the network barely moves from its initialization and behaves like a linear model with a fixed kernel; in the \emph{mean-field} (rich) regime, neurons travel far from their initialization and the data genuinely reorganize the function the network represents. See \cite{chizat2019} for the dichotomy.
+
+\begin{proposition}[Kernel regime]\label{prop:ntk}
+For the neural-tangent parameterization $f_\theta(x)=m^{-1/2}\sum_j a_j\varphi(u_j\cdot x)$ with $a_j\sim N(0,1)$, $u_j\sim N(0,I_3)$, define the \emph{tangent kernel}
+\[
+   K_{\mathrm{NTK}}(x,x')\;=\;\mathbb E\bigl[\nabla_\theta f_\theta(x)\cdot\nabla_\theta f_\theta(x')\bigr],
+\]
+and let $\bar f_t$ solve the kernel gradient flow
+\[
+   \partial_t\bar f_t(x)\;=\;-\,\mathbb E_{(p,c)\sim\nu_0}\Bigl[\ell'\bigl(\bar f_t(x_{\mathrm a}(p,c))\bigr)\,K_{\mathrm{NTK}}\bigl(x,x_{\mathrm a}(p,c)\bigr)\Bigr]
+\]
+from the Gaussian-process initialization. Then almost surely
+\[
+\bar f_t(x_{\mathrm a}(s^*))\longrightarrow+\infty.
+\]
+\end{proposition}
+
+\begin{proof}
+List the training inputs as $x_i$ with positive weights $\omega_i$. The trajectory has the form
+\[
+\bar f_t=\bar f_0+\sum_i\beta_i(t)K_{\mathrm{NTK}}(x_i,\cdot),
+\qquad
+\dot\beta_i(t)=\frac{\omega_i}{1+\exp(\bar f_t(x_i))}>0.
+\]
+If every $\beta_i$ were bounded, all training values would be bounded, so every $\dot\beta_i$ would eventually be bounded below by a positive constant. Hence some $\beta_i\to\infty$. For the two-layer ReLU NTK, $K_{\mathrm{NTK}}(x_i,x^*)>0$ whenever $x_i\cdot x^*>0$. Here $x_i\cdot x^*=1+pp^*\ge1$, so the diverging nonnegative coefficient forces $\bar f_t(x^*)\to+\infty$.
+\end{proof}
+
+Proposition~\ref{prop:ntk} concerns the kernel flow itself. Establishing that finite-width ReLU backpropagation converges to this logistic kernel flow for fixed training time, and then controlling the long-time interchange, remains part of Problem~\ref{prob:ntkstarter}; the squared-loss result of Arora et al.~\cite{arora2019} does not supply that step.
+
+\begin{proposition}[Mean-field regime]\label{prop:meanfield}
+Adopt the mean-field normalization $f=m^{-1}\sum_j a_j\varphi(u_j\cdot x)$ with $N(0,1)$ initialization, and consider the infinite-width Wasserstein gradient flow of Chizat--Bach \cite{chizat2020} on $\mathcal L_0$. Define the \emph{variation norm} $\|f\|_{\mathrm{var}}$ as the least cost $\int|a|\,\|u\|$ over representing measures. Suppose the normalized representing measures converge weakly under the hypotheses of \cite{chizat2020}, so that the limiting predictor $f_\infty$ maximizes training margin in the variation-norm unit ball. Then
+\[
+f_\infty(x_{\mathrm a}(s^*))=\frac1{\sqrt{1+L^2}}>0.
+\]
+\end{proposition}
+
+\begin{proof}
+Let $x_0=(1,0,L)$, one of the training inputs. Every two-layer representation satisfies
+\[
+f(x_0)\le\|f\|_{\mathrm{var}}\|x_0\|.
+\]
+The single unit $f_0(x)=\varphi(x_0\cdot x/\|x_0\|)$ has variation norm one and value $\|x_0\|$ on every training input $(1,p,L)$, so it attains the largest possible margin. Equality in the point-evaluation bound forces every nonzero representing atom to have nonnegative output coefficient and hidden direction parallel to $x_0$. The normalized maximizing predictor is therefore unique and equals $f_0$, whose probe value is $1/\|x_0\|$.
+\end{proof}
+
+Weak convergence of normalized representing measures is the premise here. Pointwise convergence of predictors is not equivalent to it: representations are non-unique, and pointwise convergence alone gives neither tightness nor a distinguished measure limit.
+
+The two infinite-width regimes therefore select the proxy at $\varepsilon=0$. The finite-width standard family may still behave differently:
+
+\begin{question}[Is there any coin-lover in the standard family?]\label{q:coinlover}
+Do there exist $L\ge4$, $m$, $\sigma>0$, and a sufficiently small step size $\eta>0$ with
+\[
+   \limsup_{k\to\infty}\;\mathbb P_{\theta_0}\bigl(f_{\theta_k}(x_{\mathrm a}(s^{*}))<0\bigr)\;>\;\tfrac12
+\]
+---a member of the standard family at which the trained network walks strictly toward the displaced coin with probability better than one half?
+\end{question}
+
+\begin{problem}[Diversity at the level of networks]\label{prob:diversitynets}
+Fix rational $\varepsilon\in(0,1]$, $m\ge2$, $\sigma>0$, and sufficiently small $\eta>0$. Determine
+\[
+\lim_{k\to\infty}q_\varepsilon(k;m,\sigma,L,\eta).
+\]
+The linear theory predicts $0$. The kernel comparison is the sign at the probe of a finite kernel support-vector machine; the finite-width problem asks how the answer depends on $(m,\sigma,\eta)$.
+\end{problem}
+
+\begin{problem}[The crossover time, or: why $2\%$?]\label{prob:crossover}
+In the linear model of Proposition~\ref{prop:diversity}, run gradient descent on $\mathcal L_\varepsilon$ from $w_0=0$ with a sufficiently small constant step size, so that Theorem~\ref{thm:soudry} applies, and let
+\[
+   k^{*}(\varepsilon)\;=\;\inf\{k:\ f_{w_k}(x_{\mathrm a}(s^{*}))<0\}
+\]
+be the first step at which the probe verdict flips from proxy to goal; $k^{*}(\varepsilon)$ is finite because Proposition~\ref{prop:diversity} sends the probe value to $-\infty$. Determine its asymptotics as $\varepsilon\to0$ with $L$ and the step size fixed. A balance between logarithmic growth along the proxy direction and an $\varepsilon$-weighted corrective drift suggests $k^{*}(\varepsilon)=\varepsilon^{-1+o(1)}$. For the two-layer iteration define
+\[
+K^*_\varepsilon=\inf\{k:f_{\theta_k}(x_{\mathrm a}(s^*))<0\},
+\]
+with $K^*_\varepsilon=\infty$ if the set is empty, and determine $\Pr(K^*_\varepsilon>N)$ as a function of $(\varepsilon,m,\sigma,\eta,L)$.
+\end{problem}
+
+The crossover time is the theory's answer to Langosco et al.'s $2\%$: their agents were trained for a fixed compute budget, and the empirical misgeneralization frequency should be read at a fixed iteration budget.
+
+\begin{proposition}[monomial encodings select the proxy]\label{prop:monomials}
+For every integer $k\ge0$ and $L\ge4$, the monomial encoding
+\[
+\psi_k(p,c)=(p^ic^j)_{i+j\le k}
+\]
+has positive maximum-margin score at the probe. Hence linear gradient descent at $\varepsilon=0$ selects the proxy.
+\end{proposition}
+
+\begin{proof}
+The unique maximum-margin vector has a KKT representation
+\[
+\widehat w=\sum_{p=0}^{L-1}\alpha_p\psi_k(p,L),
+\qquad \alpha_p\ge0,
+\]
+with some $\alpha_p>0$. At the probe,
+\[
+\psi_k(p,L)\cdot\psi_k(p^*,0)
+=\sum_{i=0}^k(pp^*)^i>0,
+\]
+because precisely the monomials with $j=0$ survive and the constant term is one. Therefore $\widehat w\cdot\psi_k(p^*,0)>0$.
+\end{proof}
+
+\begin{problem}[Which representations misgeneralize?]\label{prob:encodings}
+Give a structural criterion on a feature map $\psi:\{0,\dots,L\}^2\to\mathbb R^D$ deciding whether the maximum-margin direction at $\varepsilon=0$ is positive or negative at the probe. Restrict to separable encodings. If the maximum-margin direction vanishes at the probe, classify the result as undetermined at leading order and pass to the residual of Problem~\ref{prob:boundary}.
+\end{problem}
+
+\begin{question}[The Bayesian-sampler test, in a box]\label{q:bayes}
+Valle-P\'erez et al.~\cite{valleperez2019} and Mingard et al.~\cite{mingard2021} argue that the function distribution produced by stochastic gradient descent can resemble a Bayesian posterior under the corresponding infinite-width Gaussian-process prior. The iteration in this file is full-batch and deterministic after initialization, so the comparison below tests random initialization plus gradient descent, not SGD itself. Bernstein and Yue \cite{bernstein2022} make this comparison directly and find an additional large-margin bias. The coin line makes one marginal exactly computable. Let $K(x,x')=\mathbb E_{u\sim N(0,I_3)}[\varphi(u\cdot x)\varphi(u\cdot x')]$ (in closed form, $\frac{\|x\|\|x'\|}{2\pi}(\sin\vartheta+(\pi-\vartheta)\cos\vartheta)$ with $\vartheta$ the angle between $x,x'$ \cite{chosaul2009}), let $g\sim \mathrm{GP}(0,K)$, and set
+\[
+   Q(L)\;=\;\mathbb P\bigl(g(x_{\mathrm a}(s^{*}))>0 \;\big|\; g(x_{\mathrm a}(p,L))>0 \text{ for } 0\le p\le L-1\bigr),
+\]
+the posterior probability of the proxy verdict at the probe. Provided the Gram matrix on the $L$ training inputs together with the probe is nonsingular, the conditional variance at the probe is positive and $Q(L)<1$. The prior is the $m\to\infty$ law of the unit-scale parameterization in Proposition~\ref{prop:ntk}. Write $q^{\mathrm{ntk}}_0(k;m,L,\eta)$ for the finite-width backpropagation probability in that parameterization. Determine whether
+\[
+\lim_{m\to\infty}\liminf_{k\to\infty}q^{\mathrm{ntk}}_0(k;m,L,\eta)
+\]
+equals $Q(L)$, equals $1$, or equals neither. Proposition~\ref{prop:ntk} gives the kernel-flow answer; this question asks whether finite-width training inherits it.
+\end{question}
+
+\begin{remark}[Relation to singular learning theory]
+At $\varepsilon=0$, many parameter directions have zero classification error and asymptotically vanishing logistic loss while disagreeing at the probe. Standard singular-learning-theory volume calculations concern finite singular minima, so they do not apply verbatim to an infimum reached at infinity. They still motivate asking whether Bayesian geometric weighting and gradient descent select the same functions \cite{watanabe2009,lehalleur2025}; Question~\ref{q:bayes} isolates that comparison.
+\end{remark}
+
+\section{Open problems: reinforcement learning}\label{sec:rl}
+
+Behavior cloning hands the learner the intended action at every sampled state. Reinforcement learning gives only reward, and it changes the problem in one essential way: \emph{the training data become endogenous}, since the states an agent experiences depend on the policy it currently has. The coin-collector experiments of \cite{langosco2022} live here.
+
+Fix the coin line with training coin distribution $\mu_\varepsilon$, the logistic policy $\pi_\theta(+1\mid s)=\sigma(f_\theta(x_{\mathrm a}(s)))$, and the expected return
+\[
+   J_\varepsilon(\theta)\;=\;\mathbb P\bigl(\text{an episode played by }\pi_\theta\text{ collects the coin}\bigr),
+\]
+a polynomial in the finitely many policy probabilities. It is smooth for the linear model and locally Lipschitz in ReLU parameters. For the two-layer architecture use the ascent iteration of Remark~\ref{rem:conventions} and write $q^{\mathrm{RL}}_\varepsilon(k;m,\sigma,L,\eta)$. For the linear policy $f_w=w\cdot x_{\mathrm a}$, initialize $w(0)\sim N(0,\sigma^2I_3)$ and use the smooth flow $\dot w=\nabla J_\varepsilon(w)$, writing $q^{\mathrm{RL}}_\varepsilon(t;\sigma,L)$. Proposition~\ref{prop:tabular} settled the tabular case.
+
+\begin{proposition}[Linear policy gradient, no diversity]\label{prop:linearpg}
+For the linear policy and $\varepsilon=0$, every finite initialization satisfies
+\[
+J_0(w(t))\longrightarrow1,
+\qquad
+f_{w(t)}(x_{\mathrm a}(s^*))\longrightarrow+\infty.
+\]
+Thus linear policy-gradient flow selects the proxy.
+\end{proposition}
+
+\begin{proof}
+Write $z_p=w_0+pw_1+Lw_2$ for $0\le p<L$ and $g_p=\partial J_0/\partial z_p$. Increasing the probability of stepping right at $p$ cannot reduce the chance of reaching $L$ within the remaining horizon: every successful path starting with a left step must later pass through $p+1$, with fewer steps remaining than after an immediate right step. Thus $g_p\ge0$. At $p=L-1$ the inequality is strict for every finite $w$: a right step reaches the coin immediately, while a left step has a positive probability of failing.
+
+Set $B=w_0+Lw_2$. Then
+\[
+\dot B=(1+L^2)\sum_pg_p>0,\qquad
+\dot w_1=\sum_ppg_p\ge0,\qquad
+\frac{d}{dt}(w_2-Lw_0)=0,
+\]
+and $\dot w_1\le\frac{L-1}{1+L^2}\dot B$. If $B$ were bounded, these relations would make $w(t)$ converge to a finite limit, where $g_{L-1}$ would remain positive, contradicting boundedness of $B$. Hence $B\to+\infty$. The invariant gives $w_0\to+\infty$, while $w_1$ is bounded below by its initial value. Therefore every training logit $B+pw_1$ and the probe logit $w_0+p^*w_1$ tend to $+\infty$.
+\end{proof}
+
+Global convergence theorems for tabular softmax policy gradient \cite{mei2020,agarwal2021}, linear bandits \cite{lin2025}, and linear-quadratic extrapolation \cite{razin2024} do not contain this calculation; the proposition is specific to the order structure of the coin line.
+
+The genuinely new phenomenon in reinforcement learning is an asymmetry that behavior cloning lacks. The gradient $\nabla J$ is an expectation, over episodes, of (return)\,$\times$\,(a score term); episodes with return $0$ contribute nothing. So a policy that has already committed to ``move right'' receives corrective signal from a left-lying coin only on episodes where it \emph{happens to random-walk left far enough to collect it}---an event whose probability decays geometrically as the policy grows confident. The corrective signal at diversity $\varepsilon$ is therefore not of size $\varepsilon$, as in cloning, but of size $\varepsilon$ times a policy-dependent exploration factor that the proxy itself drives toward zero. Misgeneralization protects itself. (This paragraph is a heuristic, and making it quantitative is part of the problem below. In a neighboring setting---reinforcement finetuning of language models---the mechanism is a theorem: the expected gradient contributed by an input vanishes as the reward's standard deviation under the current policy tends to zero \cite{razin2024vanish}.)
+
+\begin{question}[Exploration starvation]\label{q:starvation}
+Fix $L\ge4$ and $\sigma>0$. Are there $\bar\varepsilon>0$ and $\delta>0$ such that for every real $\varepsilon\in(0,\bar\varepsilon]$ the linear policy-gradient flow satisfies $\limsup_{t\to\infty}q^{\mathrm{RL}}_\varepsilon(t;\sigma,L)\ge\delta$? Behavior cloning has no such $\bar\varepsilon$: Proposition~\ref{prop:diversity} gives $q_\varepsilon(k)\to0$ for every rational $\varepsilon>0$.
+\end{question}
+
+\begin{problem}[The misgeneralization curve]\label{prob:curve}
+For the two-layer policy and each $\delta\in(0,\tfrac12)$, let $\tau_\delta=\inf\{k: J_\varepsilon(\theta_k)\ge1-\delta\}$, with $\tau_\delta=\infty$ if the set is empty. Determine
+\[
+   \varepsilon\;\longmapsto\;
+   \mathbb P\bigl(\tau_\delta<\infty,\quad
+   f_{\theta_{\tau_\delta}}(x_{\mathrm a}(s^{*}))>0\bigr)
+\]
+as a function of $(\varepsilon,m,\sigma,L,\delta,\eta)$, together with $\Pr(\tau_\delta<\infty)$, and compare their shapes with the empirical diversity curves of \cite[\S4.1]{langosco2022}.
+\end{problem}
+
+\section{A place to start}\label{sec:start}
+
+Four projects, in increasing order of ambition.
+
+\begin{problem}[The boundary residual]\label{prob:boundary}
+In the setting of Proposition~\ref{prop:relative}, the boundary logit at $c=p-1$ is $d_k=w_{0,k}-w_{1,k}$; the leading maximum-margin term cancels there. Determine whether $d_k$ converges as a function of the initialization and step size, and compute its limit $d_\infty$. Then compute the exact return of the limiting logistic policy, which steps right at a boundary state with probability $\sigma(d_\infty)$. This convention includes $d_\infty=0$ without a separate tie rule.
+\end{problem}
+
+\begin{problem}[The crossover asymptotics]
+Prove $k^{*}(\varepsilon)=\varepsilon^{-1+o(1)}$, or refute it, in the setting of Problem~\ref{prob:crossover}. The tools are those of \cite{soudry2018} plus a two-phase analysis; no network is involved.
+\end{problem}
+
+\begin{problem}[Kernel-regime selection, end to end]\label{prob:ntkstarter}
+Proposition~\ref{prop:ntk} settles the infinite-width $\varepsilon=0$ flow. Prove the finite-width probe statement
+\[
+\lim_{m\to\infty}\liminf_{k\to\infty}
+q^{\mathrm{ntk}}_0(k;m,L,\eta)=1,
+\]
+or identify the obstruction. The observable is the sign at this one probe; uniform-in-time convergence of the entire empirical kernel is not required and in general fails under cross-entropy training \cite{yu2025}. Separately, compute the probe sign of the kernel support-vector machine for $\varepsilon>0$ and small $L$.
+\end{problem}
+
+\begin{problem}[The atlas]
+Compute, by simulation, the selection maps
+\[
+q_\varepsilon(k;m,\sigma,L,\eta)
+\quad\text{and}\quad
+q^{\mathrm{RL}}_\varepsilon(k;m,\sigma,L,\eta)
+\]
+over a grid of $(\varepsilon,m,\sigma,\eta)$ at $L\in\{4,8,16\}$, together with the Gaussian conditional probability $Q(L)$ of Question~\ref{q:bayes}. Publish the atlas either way.
+\end{problem}
+
+\section{What is known}\label{sec:known}
+
+\emph{Abundance of equivalent solutions.} Zhang et al.~\cite{zhang2017} showed that capacity-based bounds cannot explain generalization (Theorem~\ref{thm:zhang} above); Chen and El Alaoui~\cite{chen2026} prove, for interpolating linear classifiers on idealized Gaussian data, a large-deviation principle showing the typical perfect fit generalizes poorly, and observe numerically that gradient descent finds exponentially rare good ones. D'Amour et al.~\cite{damour2020} document the same underdetermination (``underspecification'') across production-scale pipelines.
+
+\emph{Implicit bias of gradient methods.} The linear separable case is completely solved: gradient descent selects the maximum-margin direction \cite{soudry2018}, with refined residual and rate analysis by Ji and Telgarsky \cite{jitelgarsky2019}. For homogeneous networks, gradient flow directions converge \cite{jitelgarsky2020} to KKT directions of the parameter-space margin program \cite{lyu2020}; for infinite-width two-layer networks the limit, when it exists, maximizes margin per unit variation norm \cite{chizat2020}; the lazy/rich dichotomy is from \cite{chizat2019} and the kernel limit from \cite{jacot2018}. What these theorems do \emph{not} deliver is the selection among multiple KKT directions as a function of initialization---exactly the gap Problems~\ref{prob:selectionmap}--\ref{prob:diversitynets} sit in. Two structured-data exceptions prove selection outright: on linearly separable symmetric data, two-layer nets with the leaky rectifier $\max(z,\alpha z)$, $\alpha\in(0,1)$---not our $\varphi$---provably converge to \emph{linear} classifiers \cite{lyu2021}, and on multi-cluster data gradient descent provably learns an \emph{average} of the cluster features rather than the features individually \cite{li2025}---both instances of a rigorous simplicity bias, in settings adjacent to but not containing the coin line. Vardi \cite{vardi2022} surveys the field.
+
+\emph{Out-of-distribution failure analyses.} Nagarajan, Andreassen, and Neyshabur \cite{nagarajan2021} prove that max-margin linear classifiers pick up fully dispensable ``spurious'' coordinates through geometric and statistical skews. Sagawa et al.~\cite{sagawa2020} analyze how overparameterization amplifies reliance on a spurious feature as the fraction of contradicting examples shrinks. For behavior cloning, de Haan, Jayaraman, and Levine \cite{dehaan2019} name the failure \emph{causal confusion}. Shah et al.~\cite{shah2020} construct datasets on which networks use only the simplest of several predictive features; Pezeshki et al.~\cite{pezeshki2021} analyze how a feature learned first suppresses the gradient signal for others. Xu et al.~\cite{xu2020} give architectural conditions for ReLU extrapolation, neighboring the structural feature-map question in Problem~\ref{prob:encodings}.
+
+\emph{Candidate predictive theories.} The parameter-function map of a random network is heavily biased toward simple functions \cite{valleperez2019}, and SGD's distribution over learned functions empirically tracks the corresponding Gaussian-process posterior \cite{mingard2021}. Bernstein and Yue \cite{bernstein2022} show that gradient descent adds a large-margin bias beyond the prior. Yu, Tian, and Chen \cite{yu2025} prove that under long-time cross-entropy training the empirical tangent kernel cannot remain uniformly close to its initial infinite-width kernel, which is why Problem~\ref{prob:ntkstarter} asks only for the probe sign. Singular learning theory \cite{watanabe2009} supplies a Bayesian geometric language, with the caveat about minima at infinity recorded after Question~\ref{q:bayes}.
+
+\emph{Reinforcement learning.} Global convergence of unregularized softmax policy gradient is known in the tabular case \cite{mei2020,agarwal2021} and, under conditions on the features, in finite-arm bandits with linear function approximation \cite{lin2025}; entropy-regularized mean-field and natural-gradient kernel variants are also understood \cite{agazzi2021,wang2020}. Abdel Sadek et al.~\cite{sadek2025} delimit which near-optimal policies survive the objective, rather than which one the dynamics select. Razin et al.~\cite{razin2024} show in linear-quadratic control that extrapolation depends on the exploration induced by training states. Brown and Young \cite{brown2026} study goal generalization across many sequential training pipelines and introduce latent policy gradients that predict OOD behavior. Kumar, Areyan Viqueira, and Greenwald \cite{kumar2026} give a neighboring vanishing-signal failure mode. These works sharpen the motivation for Question~\ref{q:starvation} and Problem~\ref{prob:curve}; they do not compute the coin-line curves.
+
+Propositions~\ref{prop:ntk}, \ref{prop:meanfield}, \ref{prop:monomials}, and \ref{prop:linearpg} settle the zero-diversity kernel flow, the conditional mean-field limit, every monomial encoding, and linear policy-gradient flow. The surviving problems are finite-width selection under the fixed backpropagation rule, rare-example crossover, structural feature-map criteria, finite-width/kernel limit interchange, exploration starvation, and the trained-to-criterion reinforcement-learning curve.
+
+\begin{thebibliography}{99}
+
+\bibitem{mais}
+L.~Levine,
+\emph{Math for AI Safety: An Invitation for Mathematicians},
+2026. \url{https://github.com/lionellevine/MAIS/blob/main/survey/MAIS.pdf}.
+
+
+\bibitem{sadek2025} Abdel Sadek, K., Farrugia-Roberts, M., Anwar, U., Erlebach, H., Schroeder de Witt, C., Krueger, D., and Dennis, M. (2025). Mitigating goal misgeneralization via minimax regret. \emph{Reinforcement Learning Conference} 2025. \arxiv{2507.03068}.
+
+\bibitem{agarwal2021} Agarwal, A., Kakade, S., Lee, J., and Mahajan, G. (2021). On the theory of policy gradient methods: optimality, approximation, and distribution shift. \emph{Journal of Machine Learning Research} 22(98):1--76. \arxiv{1908.00261}.
+
+\bibitem{agazzi2021} Agazzi, A., and Lu, J. (2021). Global optimality of softmax policy gradient with single hidden layer neural networks in the mean-field regime. \emph{International Conference on Learning Representations} 2021. \arxiv{2010.11858}.
+
+\bibitem{arora2019} Arora, S., Du, S.~S., Hu, W., Li, Z., Salakhutdinov, R., and Wang, R. (2019). On exact computation with an infinitely wide neural net. \emph{Advances in Neural Information Processing Systems} 32. \arxiv{1904.11955}.
+
+\bibitem{bernstein2022} Bernstein, J., and Yue, Y. (2022). On the implicit biases of architecture and gradient descent. \emph{International Conference on Learning Representations} 2022. \arxiv{2110.04274}.
+
+\bibitem{brown2026} Brown, J.~R., and Young, E.~J. (2026). Understanding goal generalisation in sequential reinforcement learning. \arxiv{2605.23565}.
+
+\bibitem{chen2026} Chen, A.~Y., and El Alaoui, A. (2026). How abundant are good interpolators? \arxiv{2606.06469}.
+
+\bibitem{chizat2019} Chizat, L., Oyallon, E., and Bach, F. (2019). On lazy training in differentiable programming. \emph{Advances in Neural Information Processing Systems} 32. \arxiv{1812.07956}.
+
+\bibitem{chizat2020} Chizat, L., and Bach, F. (2020). Implicit bias of gradient descent for wide two-layer neural networks trained with the logistic loss. \emph{Conference on Learning Theory} 2020. \arxiv{2002.04486}.
+
+\bibitem{chosaul2009} Cho, Y., and Saul, L. (2009). Kernel methods for deep learning. \emph{Advances in Neural Information Processing Systems} 22.
+
+\bibitem{damour2020} D'Amour, A., et al. (2022). Underspecification presents challenges for credibility in modern machine learning. \emph{Journal of Machine Learning Research} 23(226):1--61. \arxiv{2011.03395}.
+
+\bibitem{dehaan2019} de Haan, P., Jayaraman, D., and Levine, S. (2019). Causal confusion in imitation learning. \emph{Advances in Neural Information Processing Systems} 32. \arxiv{1905.11979}.
+
+\bibitem{jacot2018} Jacot, A., Gabriel, F., and Hongler, C. (2018). Neural tangent kernel: convergence and generalization in neural networks. \emph{Advances in Neural Information Processing Systems} 31. \arxiv{1806.07572}.
+
+\bibitem{jitelgarsky2019} Ji, Z., and Telgarsky, M. (2019). The implicit bias of gradient descent on nonseparable data. \emph{Conference on Learning Theory} 2019, pp.~1772--1798. \arxiv{1803.07300}.
+
+\bibitem{jitelgarsky2020} Ji, Z., and Telgarsky, M. (2020). Directional convergence and alignment in deep learning. \emph{Advances in Neural Information Processing Systems} 33. \arxiv{2006.06657}.
+
+\bibitem{kumar2026} Kumar, N., Areyan Viqueira, E., and Greenwald, A. (2026). Zero collapse: a failure mode of policy gradient methods in discontinuous reward environments. \arxiv{2605.30896}.
+
+\bibitem{langosco2022} Langosco, L., Koch, J., Sharkey, L., Pfau, J., Orseau, L., and Krueger, D. (2022). Goal misgeneralization in deep reinforcement learning. \emph{International Conference on Machine Learning} 2022. \arxiv{2105.14111}.
+
+\bibitem{lehalleur2025} Lehalleur, S.~P., Hoogland, J., Farrugia-Roberts, M., Wei, S., Gietelink Oldenziel, A., Wang, G., Carroll, L., and Murfet, D. (2025). You are what you eat---AI alignment requires understanding how data shapes structure and generalisation. \arxiv{2502.05475}.
+
+\bibitem{li2025} Li, B., Pan, Z., Lyu, K., and Li, J. (2025). Feature averaging: an implicit bias of gradient descent leading to non-robustness in neural networks. \emph{International Conference on Learning Representations} 2025. \arxiv{2410.10322}.
+
+\bibitem{lin2025} Lin, M.~Q., Mei, J., Aghaei, M., Lu, M., Dai, B., Agarwal, A., Schuurmans, D., Szepesv\'ari, C., and Vaswani, S. (2025). Rethinking the global convergence of softmax policy gradient with linear function approximation. \arxiv{2505.03155}.
+
+\bibitem{lyu2020} Lyu, K., and Li, J. (2020). Gradient descent maximizes the margin of homogeneous neural networks. \emph{International Conference on Learning Representations} 2020. \arxiv{1906.05890}.
+
+\bibitem{lyu2021} Lyu, K., Wang, R., Li, Z., and Arora, S. (2021). Gradient descent on two-layer nets: margin maximization and simplicity bias. \emph{Advances in Neural Information Processing Systems} 34. \arxiv{2110.13905}.
+
+\bibitem{mei2020} Mei, J., Xiao, C., Szepesv\'ari, C., and Schuurmans, D. (2020). On the global convergence rates of softmax policy gradient methods. \emph{International Conference on Machine Learning} 2020. \arxiv{2005.06392}.
+
+\bibitem{mingard2021} Mingard, C., Valle-P\'erez, G., Skalse, J., and Louis, A. (2021). Is SGD a Bayesian sampler? Well, almost. \emph{Journal of Machine Learning Research} 22(79):1--64. \arxiv{2006.15191}.
+
+\bibitem{nagarajan2021} Nagarajan, V., Andreassen, A., and Neyshabur, B. (2021). Understanding the failure modes of out-of-distribution generalization. \emph{International Conference on Learning Representations} 2021. \arxiv{2010.15775}.
+
+\bibitem{pezeshki2021} Pezeshki, M., Kaba, S.-O., Bengio, Y., Courville, A., Precup, D., and Lajoie, G. (2021). Gradient starvation: a learning proclivity in neural networks. \emph{Advances in Neural Information Processing Systems} 34. \arxiv{2011.09468}.
+
+\bibitem{razin2024} Razin, N., Alexander, Y., Cohen-Karlik, E., Giryes, R., Globerson, A., and Cohen, N. (2024). Implicit bias of policy gradient in linear quadratic control: extrapolation to unseen initial states. \emph{International Conference on Machine Learning} 2024. \arxiv{2402.07875}.
+
+\bibitem{razin2024vanish} Razin, N., Zhou, H., Saremi, O., Thilak, V., Bradley, A., Nakkiran, P., Susskind, J., and Littwin, E. (2024). Vanishing gradients in reinforcement finetuning of language models. \emph{International Conference on Learning Representations} 2024. \arxiv{2310.20703}.
+
+\bibitem{sagawa2020} Sagawa, S., Raghunathan, A., Koh, P.~W., and Liang, P. (2020). An investigation of why overparameterization exacerbates spurious correlations. \emph{International Conference on Machine Learning} 2020. \arxiv{2005.04345}.
+
+\bibitem{shah2020} Shah, H., Tamuly, K., Raghunathan, A., Jain, P., and Netrapalli, P. (2020). The pitfalls of simplicity bias in neural networks. \emph{Advances in Neural Information Processing Systems} 33. \arxiv{2006.07710}.
+
+\bibitem{shah2022} Shah, R., Varma, V., Kumar, R., Phuong, M., Krakovna, V., Uesato, J., and Kenton, Z. (2022). Goal misgeneralization: why correct specifications aren't enough for correct goals. \arxiv{2210.01790}.
+
+\bibitem{soudry2018} Soudry, D., Hoffer, E., Nacson, M.~S., Gunasekar, S., and Srebro, N. (2018). The implicit bias of gradient descent on separable data. \emph{Journal of Machine Learning Research} 19(70):1--57. \arxiv{1710.10345}.
+
+\bibitem{valleperez2019} Valle-P\'erez, G., Camargo, C., and Louis, A. (2019). Deep learning generalizes because the parameter-function map is biased towards simple functions. \emph{International Conference on Learning Representations} 2019. \arxiv{1805.08522}.
+
+\bibitem{vardi2022} Vardi, G. (2023). On the implicit bias in deep-learning algorithms. \emph{Communications of the ACM} 66(6):86--93. \arxiv{2208.12591}.
+
+\bibitem{wang2020} Wang, L., Cai, Q., Yang, Z., and Wang, Z. (2020). Neural policy gradient methods: global optimality and rates of convergence. \emph{International Conference on Learning Representations} 2020. \arxiv{1909.01150}.
+
+\bibitem{watanabe2009} Watanabe, S. (2009). \emph{Algebraic Geometry and Statistical Learning Theory}. Cambridge University Press.
+
+\bibitem{xu2020} Xu, K., Zhang, M., Li, J., Du, S.~S., Kawarabayashi, K.-i., and Jegelka, S. (2020). How neural networks extrapolate: from feedforward to graph neural networks. \arxiv{2009.11848}.
+
+\bibitem{yu2025} Yu, Z., Tian, S., and Chen, G. (2025). Divergence of the empirical neural tangent kernel in classification problems. \emph{International Conference on Learning Representations} 2025. \arxiv{2504.11130}.
+
+\bibitem{zhang2017} Zhang, C., Bengio, S., Hardt, M., Recht, B., and Vinyals, O. (2017). Understanding deep learning requires rethinking generalization. \emph{International Conference on Learning Representations} 2017. \arxiv{1611.03530}.
+
+\end{thebibliography}
+\end{document}

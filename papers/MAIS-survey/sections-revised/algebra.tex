@@ -1,0 +1,182 @@
+% 2026-07-13: \glsfirst anchors moved out of the section/subsection titles (underlined
+% glossary links don't belong in headings); the anchors now sit at the first body uses.
+\section{Algebra: what is a learned feature?}
+\label{sec:interp}
+
+\emph{Mechanistic \glsfirst{interpretability}{interpretability}} tries to reverse-engineer a trained neural network into something a human can read. Much of its core is linear algebra and representation theory: how a network stores more concepts than it has dimensions, and what it means for a concept to be a \emph{direction} one can read or steer.
+
+\subsection{Superposition: packing features into directions}
+
+How does a network with a few hundred dimensions in each layer represent
+the many thousands of distinct concepts (``\glsfirst{feature}{features}'')
+it seems to know?
+A \glsfirst{transformer}{transformer} reads text as a sequence of
+\glsfirst{token}{tokens}, words and word-fragments; at any fixed layer,
+the computation has the form
+\[
+\text{text}
+\longrightarrow
+\text{tokens}
+\longrightarrow
+\underbrace{(h_1,\ldots,h_T)\in(\mathbb{R}^n)^T}
+            _{\text{activations at one layer}}
+\longrightarrow
+\text{next-token log-probabilities}.
+\]
+For a text of $T$ tokens, each token position carries a vector
+$h_j\in\mathbb{R}^n$.
+The copy of $\mathbb{R}^n$ in which these vectors live is the network's
+\glsfirst{activation-space}{activation space}.
+A leading hypothesis, made vivid by Elhage et al.~\cite{elhage2022},
+is \glsfirst{superposition}{superposition}: when features are sparse,
+a network can store more of them than it has dimensions, as directions in
+activation space that are \emph{not} orthogonal but only nearly so,
+tolerating the resulting interference because at any moment only a few
+features are active (Figure~\ref{fig:superposition}).
+In a small \glsfirst{relu}{ReLU} model one can watch the geometry organize
+itself into regular polytopes---antipodal pairs, triangles, pentagons---as
+a function of how sparse and how important the features are; it is,
+recognizably, a Thomson problem (where do mutually repelling charges
+on a sphere come to rest?)~\cite{saff1997}.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=1.15]
+  \begin{scope}
+    \node[font=\small] at (0,1.65) {dictionary directions};
+    \draw[->, gray!60] (-1.35,0)--(1.35,0);
+    \draw[->, gray!60] (0,-1.35)--(0,1.35);
+    \foreach \a/\i in {90/1, 162/2, 234/3, 306/4, 18/5} {
+      \draw[->, thick, gray!80!black] (0,0) -- (\a:1);
+      \node at (\a:1.2) {\footnotesize $f_{\i}$};
+    }
+    \draw[->, very thick, blue!60!black] (0,0) -- (90:1);
+    \draw[->, very thick, blue!60!black] (0,0) -- (306:1);
+  \end{scope}
+  \begin{scope}[xshift=4.7cm]
+    \node[font=\small] at (0,1.65) {one sparse activation};
+    \draw[->, gray!60] (-1.35,0)--(1.35,0);
+    \draw[->, gray!60] (0,-1.35)--(0,1.35);
+    \foreach \a in {90,162,234,306,18} {
+      \draw[->, thin, gray!65] (0,0) -- (\a:1);
+    }
+    \coordinate (a) at (90:1);
+    \coordinate (b) at (306:1);
+    \coordinate (sum) at ($(a)+(b)$);
+    \draw[->, very thick, blue!60!black] (0,0) -- (a) node[above] {\footnotesize $f_1$};
+    \draw[->, very thick, blue!60!black] (a) -- (sum) node[midway, right] {\footnotesize $f_4$};
+    \draw[->, very thick, red!65!black] (0,0) -- (sum) node[right] {\footnotesize $y=f_1+f_4$};
+    \draw[dashed, gray!70] (sum) -- (b);
+  \end{scope}
+  \draw[->, thick] (1.6,0) -- (3.0,0)
+    node[midway, above, font=\scriptsize, align=center] {few active\\at once};
+\end{tikzpicture}
+\caption{Superposition: five feature directions packed into a two-dimensional space as a regular pentagon. No two are orthogonal, but if only a few features are active at once, the activation is a sparse sum such as $y=f_1+f_4$ and the active directions can still be recovered despite interference.}
+\label{fig:superposition}
+\end{figure}
+
+The nearest classical analogue is \emph{compressed sensing}~\cite{candes2006,donoho2006}. Picture the features active on a given input as a sparse vector $x\in\mathbb{R}^m$ (only a few of the $m$ possible features fire at once); the network stores it as $y=\Phi x$ in the $n\ll m$ dimensions of its activation space---a linear \emph{measurement}---and reading a feature back out is the \emph{recovery} of $x$ from $y$. Two classical facts explain how this can work. First, there is room for the directions: for every $\varepsilon\in(0,1)$, the space $\mathbb{R}^n$ contains $e^{\Omega(\varepsilon^2 n)}$ unit vectors whose pairwise inner products are at most $\varepsilon$ in absolute value, so the number of $\varepsilon$-almost-orthogonal directions grows \emph{exponentially} in the dimension (a consequence of the Johnson--Lindenstrauss lemma~\cite{johnson1984}). And second, when only a few of those directions are active at once, the stored signal can be read back out. Say that $\Phi\in\mathbb{R}^{n\times m}$ is \emph{restricted-isometric of order $k$} with distortion $\delta$ if
+\[
+   (1-\delta)\|x\|^2\le\|\Phi x\|^2\le(1+\delta)\|x\|^2
+\]
+for every \emph{$k$-sparse} vector $x$, meaning one with at most $k$ nonzero entries.
+
+\begin{theorem*}[Cand\`es~\cite{candes2008}; sharp constant, Cai--Zhang~\cite{caizhang2014}]
+If $\Phi$ is restricted-isometric of order $2s$ with distortion $\delta<1/\sqrt{2}$, then every $s$-sparse $x\in\mathbb{R}^m$ is the \emph{unique} minimizer of
+\[
+   \min_{z}\ \|z\|_1 \quad\text{subject to}\quad \Phi z=\Phi x,
+\]
+and so is recovered \emph{exactly} by a convex program. A random $\Phi$, say with independent Gaussian entries suitably normalized, has the property with high probability once
+\[
+   n \;\gtrsim\; s\,\log(m/s).
+\]
+\end{theorem*}
+
+\noindent That last scaling is the quantitative heart of the analogy: the dimension a network needs grows linearly with the number of features active \emph{at once}, and only logarithmically with the total number it can represent. A few hundred dimensions can carry many thousands of features, provided only a handful fire on any given input. For trained transformers this remains an analogy rather than a theorem; turning it into one is part of the invitation.
+
+There is a catch.
+Compressed sensing assumes the dictionary $\Phi$ is \emph{known}.
+What if someone hands you a trained network and asks what features it
+represents?
+You can run inputs through the network and record activation vectors,
+but the feature directions were not supplied with the
+\glsfirst{weights}{weights} (the network's trained parameters).
+Recovering the features is therefore a problem in \emph{dictionary learning}:
+from the observed activation vectors alone, simultaneously infer a dictionary
+$\Phi$ whose columns are feature directions and, for each activation $y$,
+a sparse coefficient vector $x$ with $y\approx\Phi x$.
+Both the dictionary $\Phi$ and the codes $x$ are unknown.
+
+A \glsfirst{sparse-autoencoder}{sparse autoencoder} attempts this empirically.
+It is trained to reconstruct activation vectors using a learned dictionary,
+with an $\ell^1$ penalty encouraging each reconstruction to use only a few
+dictionary directions.
+The resulting directions are often more interpretable than the network's raw
+neurons~\cite{bricken2023,cunningham2023}.
+This raises an identifiability question: when does the sparse autoencoder
+recover features already used by the network, rather than impose a new
+coordinate system that merely makes the activations easier to describe?
+Classical dictionary learning answers this question when the codes are
+exactly sparse and their supports well spread: the dictionary is then
+determined up to relabeling and rescaling of its
+columns~\cite{aharon2006,hillar2015}, stably in the presence of
+noise~\cite{gribonval2015,garfinkle2019}.
+Network activations flout these hypotheses because their features co-occur,
+which is where the first open problem below begins.
+
+\subsection{Reading, steering, and learned representations}
+
+What could it mean for a concept to be a direction in activation space?
+Consider incomplete sentences such as ``The keys on the table \ldots'' and
+pause the computation at the activation $h_T$ of the last token.
+A linear functional $\ell$ \emph{reads} grammatical number if, for some
+threshold $c$, the inequality $\ell(h_T)>c$ predicts that the subject is
+plural.
+A vector $v\in\mathbb{R}^n$ \emph{steers} toward the plural if replacing
+$h_T$ by $h_T+v$ raises the log-probability of ``are'' relative to ``is.''
+Thus the same example produces a readout covector $\ell$ and a steering
+vector $v$.
+Relating them requires an inner product.
+
+Park, Choe, and Veitch~\cite{park2023} formalize these two experiments for
+next-token prediction.
+They ask whether activation space carries a \emph{causal inner product}
+in which independently varying concepts are orthogonal and whose Riesz map
+sends readout covectors to steering vectors.
+They estimate this geometry from the unembedding matrix
+(the model's final linear map, from activation space to next-token
+scores).
+
+Arditi et al.~\cite{arditi2024} show that in several open chat models, refusal is mediated by a single direction in the \glsfirst{residual-stream}{residual stream} (the running activation vector that a transformer's layers read from and write to): this direction both predicts whether the model will refuse and causally controls refusal when added or removed. A lone direction serving as both readout and control is evidence for the linear representation hypothesis, though in a different representation space from the unembedding geometry above.
+
+Refusal and its cousins are semantic properties, with no ground truth for what the network \emph{should} compute. Arithmetic is a cleaner laboratory: train a network on a group operation, and the algorithm it ought to discover is known in advance. Representation theory appears in trained arithmetic circuits. A one-layer transformer trained to add integers modulo $p$ learns a discrete-Fourier ``clock'' algorithm, with the characters of $\mathbb{Z}/p\mathbb{Z}$ appearing in its weights~\cite{nanda2023}. Chughtai, Chan, and Nanda~\cite{chughtai2023} take the first step beyond this abelian case. The ambient structure is the Artin--Wedderburn decomposition of the group algebra into matrix blocks,
+\[
+   \mathbb{C}[G]\;\cong\;\bigoplus_{\rho\in\widehat{G}} M_{d_\rho}(\mathbb{C}),
+   \qquad \sum_{\rho\in\widehat{G}} d_\rho^{2}=\lvert G\rvert,
+\]
+one block per irreducible representation $\rho$. For a nonabelian group the higher-dimensional blocks are genuine matrix representations, and trained networks compute the product through a sparse subset of them. The algorithm's correctness is a representation-theory theorem; that networks implement it is empirical. Which irreducible representations training selects is still something we discover after the fact.
+
+Sometimes the emergence of this structure is a theorem rather than an observation. Marchetti et al.~\cite{marchetti2024} prove that for architectures whose weights are pinned down by the function they compute (up to a unitary change of basis in each unit), invariance under a finite group $G$ forces each unit's weights to be an irreducible unitary representation of $G$; when the weights are moreover orthonormal, together they form the Fourier transform on $G$, and the group itself can be read off the trained weights.
+
+What makes this a safety topic is \emph{selection}: a trained network can discover a crisp algebraic algorithm, hide it in weights, and use only part of the mathematically available structure. If we want to predict a system's behavior off-distribution, it matters which algorithm training found, not only that the training \glsfirst{loss}{loss} is low.
+
+One caveat carries across this whole enterprise: a direction that \emph{predicts} a feature is only a \emph{correlate}. Showing that the network actually \emph{uses} it takes an intervention---ablating the direction, or patching it to the value it would take on another input, and watching the behavior change---not a \glsfirst{probe}{probe} that merely reads it off.
+
+\subsection{Open problems}
+
+% pass 2: moved here from the end of the section, so the section ends on the last open problem rather than on a bibliography pointer
+\noindent A broad, structured catalogue of open problems in this area---several with a precise mathematical core---is collected by Sharkey et al.~\cite{sharkey2025}.
+
+\begin{openproblem}[The geometry and identifiability of superposition]
+Suppose activations have the form $y=\Phi x+\xi$, where the columns $v_1,\dots,v_m$ of $\Phi$ are unit feature directions, $\xi$ is noise, and the sparse codes $x$ have correlated supports. Estimate the dictionary the way a sparse autoencoder does: minimize reconstruction error plus an $\ell^1$ penalty. Determine, in terms of the coherence $\mu=\max_{i\neq j}\lvert\langle v_i,v_j\rangle\rvert$, the sparsity, the sample size, and the support correlations, when every minimizer recovers the true directions up to permutation and scaling, and when it instead \emph{merges} co-occurring directions into one. Already for two features the answer is unknown: a nested two-event model provably forces merging for every sufficiently small positive penalty, while solo firing restores recovery in the zero-penalty constrained limit; locating the positive-penalty phase boundary is the place to start.
+\end{openproblem}
+
+\begin{openproblem}[Training for interpretability]
+Post-hoc interpretability asks whether a trained network's features can be recovered after the fact. A complementary problem is to train networks whose features are easier to recover in the first place. In the ReLU toy model of Elhage et al.~\cite{elhage2022} the features are known by construction, so the trade-off can be made exact. Determine the interference--performance frontier: for features appearing sparsely and independently, among weight matrices whose coherence (worst-case interference between stored features) is at most $\mu$, how small can the task loss be, as a function of $\mu$, the sparsity, the number of features, and the number of neurons? A first case: prove or refute that penalizing the \emph{average} interference during training lowers the \emph{worst-case} coherence of the minimizer, compared with training on the task loss alone.
+\end{openproblem}
+
+\begin{openproblem}[Representation theory of learned circuits]
+Networks trained on group multiplication learn representation-theoretic algorithms~\cite{nanda2023,chughtai2023}, but \emph{which} irreducible representations they use varies from one random seed to the next. Fix a finite group $G$, a one-hidden-layer architecture of fixed width, Gaussian initialization, and gradient flow on the cross-entropy loss (the mean negative log-probability assigned to the correct product) with \emph{weight decay}, an added penalty proportional to the squared norm of the weights. The irreducibles visible in the trained network's outputs then form a random subset of $\widehat{G}$; determine its distribution---which irreducibles are learned, with what probability, as a function of the width and the decay strength. The tables of learned representations in~\cite{chughtai2023} are the data such a theorem would have to explain; the smallest case with genuine competition, $G=\mathbb{Z}/5\mathbb{Z}$ at width two, is open already with the decay switched off.
+\end{openproblem}
+
+% \noindent\emph{Entry points.} Linear algebra, compressed sensing, harmonic analysis, representation theory, and differential geometry.

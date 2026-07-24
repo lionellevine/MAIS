@@ -1,0 +1,818 @@
+\documentclass[11pt]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{xcolor}
+\usepackage[colorlinks=true, linkcolor=blue!55!black, citecolor=blue!55!black, urlcolor=blue!55!black]{hyperref}
+\newcommand{\arxiv}[1]{\href{https://arxiv.org/abs/#1}{\texttt{arXiv:#1}}}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\dist}{\operatorname{dist}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\vol}{\operatorname{vol}}
+
+\title[Effective loss and learning dynamics]{Effective loss and learning dynamics:\\ selection among the strata of a singular optimal set}
+\author{Claude Fable 5, audited by GPT 5.6 Sol}
+\date{}
+\hypersetup{
+  pdftitle={Effective loss and learning dynamics: selection among the strata of a singular optimal set},
+  pdfauthor={Claude Fable 5; audited by GPT 5.6 Sol},
+  pdfsubject={Research agenda supplement to Open Problem 7 of Math for AI Safety}
+}
+
+\begin{document}
+
+\begin{abstract}
+For a singular statistical model, Watanabe's free-energy asymptotics predict which solutions Bayesian learning prefers: the posterior concentrates on the parts of the optimal set with the smallest learning coefficient. Gradient descent is not Bayesian, yet in solvable cases it exhibits a superficially similar stagewise progression, unfolding in training time rather than in sample size. This research agenda develops several routes toward a bridge: the structure of the stratification of the optimal set by local learning coefficient; an Eyring--Kramers law whose subexponential prefactor is governed by real log canonical thresholds; a coarse-grained \emph{effective loss} at which a degenerate saddle can register as a local minimum; entropic selection within a connected optimal set, with a two-variable trigonometric polynomial as the first test case; the extension of the Katzenberger--Li--Wang--Arora effective diffusion from smooth manifolds of minimizers to singular ones, with matrix factorization as the concrete instance; and a time--sample dictionary calibrated on the deep linear network, where a heuristic computation gives training time $t \asymp \sqrt{n/\log n}$ against sample size $n$. It also isolates two obstructions: the free energy of a saddle is not an invariant of the naive kind, and the learning coefficient alone cannot set the clock of the dynamics.
+\end{abstract}
+
+\maketitle
+
+\begin{center}
+\small\emph{Research agenda A7 \(\cdot\) Claude Fable 5, audited by GPT 5.6 Sol\\
+July 13, 2026 \(\cdot\) Status: draft}
+\end{center}
+
+\noindent This is a supplement to Open Problem~7 of Lionel Levine's \emph{Math for AI Safety: An Invitation for Mathematicians}~\cite{mais}.
+
+\begin{quote}
+\textbf{Open Problem 7 (Opposing staircases).}
+Watanabe's theorem is Bayesian; gradient descent is not. (What bridging the two would mean for safety is discussed in~\cite{lehalleur2025}.) Build the bridge first in the deep-linear staircase above, where both sides are explicit. Each plateau sits at a saddle where only the $k$ largest modes have been learned, and there the definition itself is part of the problem: the local learning coefficient is defined at a local \emph{minimum}, as the volume exponent of the set of nearby parameters fitting almost as well, but a saddle has descent directions, so that volume does not shrink to zero. Formulate the right local invariant at the $k$th saddle (one candidate, the \emph{two-sided} exponent: the volume of nearby parameters whose loss lies within $\varepsilon$ of the saddle's, above or below, shrinks like $\varepsilon^{\lambda}$), compute it for the deep-linear network, and prove or refute the monotone picture that gives this problem its name: as gradient flow descends the staircase of losses, the invariant that controls generalization climbs an opposing staircase. As a first check, the estimator of Lau et al.~\cite{lau2023} runs at any parameter, saddle or not; run it along a simulated staircase and see.
+\end{quote}
+
+
+\section{The problem in brief}\label{sec:brief}
+
+Training a neural network ends, if all goes well, at a parameter that fits the data. Which one? For large networks the data-fitting parameters often form a positive-dimensional, typically singular set, and the parameters in that set do not behave alike off the training data. Two theories currently claim to predict the choice. One is Bayesian and geometric: Watanabe's singular learning theory weighs regions of parameter space by volume, through an invariant from algebraic geometry called the learning coefficient. The other is dynamical and explicit in rare solvable cases: for deep linear networks the gradient flow is known in closed form, and it selects structures one at a time, in a definite order, on definite timescales. The open problem asks for the theorem that contains both.
+
+
+
+Why a safety survey cares: two networks can fit their training data identically and yet compute by different internal mechanisms, so they extrapolate differently to inputs unlike the training data. Testing only probes behavior on data; the geometry of training decides which mechanism is instantiated. A predictive theory of that selection---which stratum, when, and how robustly---is a prerequisite for knowing whether a system that behaves as intended on the tests will behave as intended elsewhere \cite{lehalleur2025}.
+
+A bridge between the Bayesian and dynamical staircases must make three choices: which local invariant to attach to a saddle, which training dynamics to study, and what it means for a stage to be selected. The purpose of this agenda is to make those choices explicit---more than once, because they admit inequivalent readings---and to extract from each reading a problem precise enough that a claimed solution can be checked. Section~\ref{sec:background} builds everything from scratch, assuming no machine learning. Section~\ref{sec:precise} states the problems and conjectures. Section~\ref{sec:start} points to the smallest ones. Section~\ref{sec:known} maps the neighboring results. Section~\ref{sec:resist} records two obstructions that any bridge must address.
+
+The open statuses in this note were checked against the literature through July 2026.
+
+\paragraph{Conventions.}
+All finite-dimensional norms are Euclidean or Frobenius norms. A global learning coefficient is the minimum of the local coefficients on the zero set; its multiplicity is the largest local pole order among points attaining that minimum. Any asymptotic statement near a moving crossover is taken along an explicitly declared joint family in which the crossover tends to infinity.
+
+\section{Background: training, and the geometry of the optimal set}\label{sec:background}
+
+\subsection{Losses and training dynamics}\label{sec:losses}
+
+Fix a dimension $d$. A \textbf{loss} is a function $L\colon \T^d \to [0,\infty)$, where $\T^d = (\R/2\pi\mathbb{Z})^d$; I work on the torus to avoid boundary and integrability issues, and everything transposes to $\R^d$ with a confining term (a potential growing at infinity, so that trajectories stay bounded). Throughout, $L$ is \textbf{real-analytic} and attains the value $0$; the \textbf{optimal set} is
+\[
+   W_0 \;=\; L^{-1}(0).
+\]
+In the statistical setting that motivates everything, $L$ arises as follows. A \textbf{model} is a family of probability densities $p(x \mid w)$ on a data space, indexed by a parameter $w$ (the ``weights'' of a network); data are i.i.d.\ samples $X_1, X_2, \dots$ from a fixed \textbf{true distribution} $q$. The \textbf{population loss} is $\bar L(w) = \E_q[-\log p(X \mid w)]$, and $L(w) = \bar L(w) - \inf \bar L$ is its normalization; when the truth is realizable, $q = p(\cdot \mid w_0)$, the normalized loss equals the Kullback--Leibler divergence $K(w) = \int q \log (q / p(\cdot \mid w))$ and $W_0 = K^{-1}(0)$ is the set of parameters that reproduce the truth exactly. The \textbf{empirical loss} on $n$ samples is $L_n(w) = -\tfrac1n \sum_{i \le n} \log p(X_i \mid w)$. A model is \textbf{singular} when distinct parameters give the same distribution or the Fisher information degenerates. Its zero set may be positive-dimensional, isolated but nonquadratic, or a union of both kinds of pieces; neural networks exhibit all three.
+
+Four dynamics on parameter space will appear; each is a candidate meaning of ``training.''
+\begin{enumerate}
+\item \textbf{Gradient flow:} $\dot w(t) = -\nabla L(w(t))$. For real-analytic $L$, every bounded trajectory converges to a single critical point (\L{}ojasiewicz \cite{lojasiewicz1984}).
+\item \textbf{Gradient descent:} $w_{k+1} = w_k - \eta \nabla L(w_k)$ with \textbf{learning rate} $\eta > 0$; gradient flow is its $\eta \to 0$ limit on times $t = k\eta$.
+\item \textbf{Stochastic gradient descent (SGD):} $w_{k+1} = w_k - \eta \, g_k(w_k)$, where $g_k(w) = \nabla \ell(w; \xi_k)$ is an unbiased random estimate of $\nabla L(w)$, obtained by evaluating the loss on a random datum or small batch $\xi_k$ (i.i.d.\ over steps). Its \textbf{noise covariance} is $\Sigma(w) = \operatorname{Cov}(g_k(w))$, a state-dependent, typically degenerate matrix. Two special cases recur: \textbf{minibatch noise}, where $\Sigma$ vanishes on $W_0$ if the model fits every datum exactly there; and \textbf{label noise}, which arises in the supervised setting where a datum is a pair $(x, y)$, the model predicts $y = f_w(x) + \text{noise}$, and $\ell$ is the \textbf{square loss} $\tfrac12 |y - f_w(x)|^2$: adding independent noise to the targets $y$ afresh at each step makes $\Sigma(w)$ proportional, near $W_0$, to the Hessian $\nabla^2 L(w)$ \cite{blanc2020,damian2021}.
+\item \textbf{Langevin dynamics at temperature $\varepsilon > 0$:}
+\begin{equation}\label{eq:langevin}
+   dX_t = -\nabla L(X_t)\, dt + \sqrt{2\varepsilon}\, dB_t,
+\end{equation}
+with $B$ a standard Brownian motion. On $\T^d$ this process is ergodic with invariant \textbf{Gibbs measure} $\pi_\varepsilon(dw) \propto e^{-L(w)/\varepsilon} dw$.
+\end{enumerate}
+Langevin dynamics is the mathematician's proxy for SGD: isotropic, reversible, with an explicit stationary law. Genuine SGD is none of these things, and Section~\ref{sec:resist} returns to how much that costs.
+
+\subsection{The local learning coefficient and the \texorpdfstring{$\lambda$}{lambda}-stratification}\label{sec:llc}
+
+The central invariant measures how much room there is near a point at a given loss level.
+
+\begin{definition}[Local learning coefficient]\label{def:llc}
+Let $L$ be real-analytic near $w^* \in \T^d$, not identically equal to $L(w^*)$ on any neighborhood of $w^*$ (otherwise $Z$ below vanishes identically and the invariants are undefined), and let $\delta > 0$ be small. For $\operatorname{Re} z > 0$ set
+\[
+   Z(z; w^*, \delta) \;=\; \int_{B_\delta(w^*)} \bigl| L(w) - L(w^*) \bigr|^{z} \, dw .
+\]
+By resolution of singularities \cite{hironaka1964}, $Z$ extends meromorphically to $\mathbb{C}$ with poles on finitely many arithmetic progressions of negative rationals \cite{agv1988,saito2007}. Define the \textbf{local learning coefficient} $\lambda(w^*) \in \Q_{>0}$ by $-\lambda(w^*) = $ (largest pole), and the \textbf{multiplicity} $m(w^*) \ge 1$ as the order of that pole. Both are independent of $\delta$ once $\delta$ is small.
+\end{definition}
+
+In words: the volume of the set of nearby parameters whose loss lies within $\varepsilon$ of $L(w^*)$ scales like
+\[
+   \vol \bigl\{ w \in B_\delta(w^*) : |L(w) - L(w^*)| < \varepsilon \bigr\}
+   \;\asymp\; \varepsilon^{\lambda(w^*)} \bigl( \log \tfrac1\varepsilon \bigr)^{m(w^*) - 1},
+\]
+so a small $\lambda$ means near-level parameters are plentiful. When $w^*$ is a local minimum the two-sided absolute value is redundant and Definition~\ref{def:llc} recovers the local learning coefficient of Lau, Furman, Wang, Murfet, and Wei \cite{lau2023}, whose $\lambda(w^*)$ is Watanabe's \emph{real log canonical threshold} (\textsc{rlct}) of $L - L(w^*)$ at $w^*$. At a critical point that is not a minimum, Definition~\ref{def:llc} is one of several inequivalent choices; I flag this now and analyze it in Section~\ref{sec:saddle-free-energy}.
+
+Three examples on $\R^2$ calibrate the invariant. A nondegenerate minimum $L = x^2 + y^2$ has $\lambda = 1 = d/2$, $m = 1$. The degenerate minimum $L = x^2 y^2$, whose zero set is a crossing of two lines, has $\lambda = \tfrac12$, $m = 2$ at the crossing and $\lambda = \tfrac12$, $m = 1$ at every other point of the zero set. The nondegenerate saddle $L = x^2 - y^2$ has $\lambda = 1$, $m = 2$: same $\lambda$ as the nondegenerate minimum, distinguished only by the multiplicity. Degeneracy, not criticality type, is what $\lambda$ sees.
+
+\begin{definition}[$\lambda$-stratification]\label{def:strat}
+For $c \in \Q_{>0}$ let $S_c = \{ w \in W_0 : \lambda(w) = c \}$. The partition $W_0 = \bigsqcup_c S_c$ is the \textbf{$\lambda$-stratification} of the optimal set, and the $S_c$ are its \textbf{strata}. (Refining by the multiplicity $m$ when needed, write $S_{c,k} = \{ w \in W_0 : \lambda(w) = c, \, m(w) = k \}$.)
+\end{definition}
+
+The word ``stratification'' is aspirational: whether this partition has the structure the name promises is itself the first open problem below (Question~\ref{q:strat}).
+
+\subsection{Watanabe's selection principle: the Bayesian side}\label{sec:bayes}
+
+Given $n$ samples, a smooth positive prior density $\varphi$ on a compact parameter domain $W \subset \R^d$, and the model $p(x \mid w)$, the \textbf{posterior} is the probability measure $\pi_n(dw) \propto \varphi(w) \prod_{i \le n} p(X_i \mid w)\, dw$: the prior reweighted by fit. The \textbf{free energy} of a region $U \subseteq W$ is $F_n(U) = -\log \int_U \varphi(w) \prod_i p(X_i \mid w)\, dw$, so regions of small free energy carry the posterior mass.
+
+\begin{theorem}[Watanabe \cite{watanabe2009}; local form as in \cite{lau2023}]\label{thm:watanabe}
+Assume Watanabe's fundamental conditions: $W$ is a compact basic semianalytic set; the prior is an analytic nonnegative factor times a smooth positive factor; the likelihood ratio has common support, the required integrability, and an analytic extension in the relevant function space; the truth is realizable; the relatively finite variance condition holds; and $K\not\equiv0$. Then, with $S_n = -\tfrac1n \sum_{i \le n} \log q(X_i)$ the empirical entropy of the sample and $(\lambda, m)$ the global pair in the Conventions block,
+\[
+   F_n(W) \;=\; n S_n + \lambda \log n - (m - 1) \log\log n + O_p(1), \qquad n \to \infty,
+\]
+where $O_p(1)$ denotes a term bounded in probability (tight as $n \to \infty$).
+Moreover, if $C \subseteq W_0$ is compact and at positive distance from $W_0 \setminus C$, and $U$ is a sufficiently small basic semianalytic neighborhood of $C$, the same expansion holds for $F_n(U)$ with the corresponding minimum and maximal tie multiplicity on $C$. The true set may meet the boundary of $W$ or $U$.
+\end{theorem}
+
+\begin{remark}[positive-level regions: conditional, not yet a theorem]\label{rem:positive-level}
+The problems below will also need free energies of regions around \emph{local} minimizers at positive loss. If $C$ is a component of the set of local minimizers at level $L_C = \min_U L > 0$, containing a point $w^*$ of minimal local coefficient $\lambda_C$, then Lau, Furman, Wang, Murfet, and Wei \cite{lau2023} obtain
+\[
+   F_n(U) \;=\; n L_n(w^*) + \lambda_C \log n + O_p(\log\log n)
+\]
+by applying Watanabe's expansion to the localized model whose prior is restricted to $U$, inside which the level-$L_C$ set is the optimal set. The localization is not free: Watanabe's theorem concerns the optimal set of the model at hand, the localized model is no longer realizable, and \cite{lau2023} \emph{assume}, rather than verify, that it satisfies the relatively finite variance condition. Every use of this expansion below is therefore conditional on that hypothesis. Note also that $L_n(w^*) = S_n + L_C + O_p(n^{-1/2})$, so the term $n L_n(w^*)$ fluctuates by $O_p(\sqrt n)$, which swamps $\lambda_C \log n$; the fluctuation cancels only in comparisons at equal loss.
+\end{remark}
+
+The gloss: the posterior weighs a region by $e^{-nL_C} \, n^{-\lambda_C}$, a fit term against a volume term. Comparing two regions gives the \textbf{internal model selection} rule of \cite{lehalleur2025}: a region $U$ of higher loss but smaller $\lambda$ dominates a region $V$ of lower loss and larger $\lambda$ for all $n$ up to the crossover
+\begin{equation}\label{eq:crossover}
+   \frac{n^*}{\log n^*} \;\approx\; \frac{\lambda_V - \lambda_U}{L_U - L_V},
+\end{equation}
+after which the fitting region wins. As $n$ grows the dominant region walks down a \textbf{free-energy ladder}: higher loss and lower $\lambda$ early, lower loss and higher $\lambda$ late. This is the Bayesian staircase. When the competing regions surround minimizers at the same (zero) loss it is a theorem; when one sits at positive loss, as in \eqref{eq:crossover}, it rests on the conditional expansion of Remark~\ref{rem:positive-level}; extending it to saddles is not routine (Section~\ref{sec:saddle-free-energy}).
+
+\subsection{The deep-linear staircase: the dynamical side}\label{sec:dln}
+
+The calibration model for everything in this file. Fix integers $M, N, H \ge 1$ and a target matrix $\Phi \in \R^{N \times M}$ of rank $r$, with singular value decomposition $\Phi = \sum_{\alpha = 1}^{r} s_\alpha u_\alpha v_\alpha^{\top}$ and distinct singular values $s_1 > \dots > s_r > 0$. A \textbf{two-layer linear network} is the map $x \mapsto BAx$ with $A \in \R^{H \times M}$, $B \in \R^{N \times H}$; the name \textbf{deep linear network} signals only that the map is a composition of linear layers, with no nonlinearity between them, and two layers already make the loss nonconvex. Its population square loss against the target, for \textbf{whitened inputs} (inputs $x$ with $\E[xx^\top] = I$, under which the population square loss reduces to the displayed quadratic in $BA$), is
+\begin{equation}\label{eq:dln-loss}
+   L(A, B) \;=\; \tfrac12 \| BA - \Phi \|_F^2 ,
+\end{equation}
+a polynomial in the $H(M+N)$ entries of $(A,B)$, nonconvex because the parametrization is a product. Assume $H \ge r$, so the optimal set is the \textbf{fiber}
+\[
+   F_\Phi \;=\; \{ (A,B) : BA = \Phi \} .
+\]
+All critical points of \eqref{eq:dln-loss} are classified \cite{baldi1989,zhou2017}: they occur where $BA = \Phi_S := \sum_{\alpha \in S} s_\alpha u_\alpha v_\alpha^{\top}$ for a subset $S$ of modes with $|S| \le H$, together with the orthogonality conditions $A v_\alpha = 0$ and $B^{\top} u_\alpha = 0$ for every discarded mode $\alpha \in \{1, \dots, r\} \setminus S$ (matching $BA = \Phi_S$ alone does not make the gradient vanish); every non-minimal critical point is a saddle, and the critical values are $L_S = \tfrac12 \sum_{\alpha \notin S} s_\alpha^2$. Baldi and Hornik give the classical restricted result; Zhou and Liang give a necessary-and-sufficient characterization in arbitrary rectangular dimensions. Write $C_k$ for the critical set with $S = \{1, \dots, k\}$ (the top-$k$ truncation) and $L_k = \tfrac12 \sum_{\alpha > k} s_\alpha^2$ for its level.
+
+\begin{theorem}[Saxe et al.~\cite{saxe2014}]\label{thm:saxe}
+Consider gradient flow $\tau \dot A = -\partial_A L$, $\tau \dot B = -\partial_B L$ on \eqref{eq:dln-loss} from the aligned initialization
+\[
+\begin{aligned}
+A(0)&=\sum_\alpha a_\alpha(0)\,e_\alpha v_\alpha^{\top},\\
+B(0)&=\sum_\alpha b_\alpha(0)\,u_\alpha e_\alpha^{\top},
+\end{aligned}
+\]
+where $e_\alpha$ are the standard basis vectors of $\R^H$ and $a_\alpha(0)=b_\alpha(0)=\sqrt{u_0}>0$. Then the flow preserves this form, the mode strengths $u_\alpha = a_\alpha b_\alpha$ decouple and satisfy the logistic equation $\tau \dot u_\alpha = 2 u_\alpha (s_\alpha - u_\alpha)$, with closed-form solution
+\[
+   u_\alpha(t) \;=\; \frac{s_\alpha e^{2 s_\alpha t/\tau}}{e^{2 s_\alpha t/\tau} - 1 + s_\alpha / u_0},
+\]
+so mode $\alpha$ switches on at time $t_\alpha \approx \dfrac{\tau}{2 s_\alpha} \log \dfrac{s_\alpha}{u_0}$.
+\end{theorem}
+
+For $u_0 \to 0$ the trajectory spends almost all its time near the saddle chain $C_0, C_1, \dots, C_r$ (all saddles except the last: $C_r = F_\Phi$ is the optimal set), visiting them in order of increasing rank, with sharp drops between plateaus: a staircase in time. The nonlinear analogue is the saddle-to-saddle picture of Abbe, Boix-Adser\`a, and Misiakiewicz \cite{abbe2023}, where for two-layer networks learning sparse targets the waiting time of each stage is governed by a combinatorial \emph{leap complexity} (Section~\ref{sec:leap}).
+
+The Bayesian side of the same model is exactly solved. Reduced rank regression, the statistical model $y = BAx + \text{Gaussian noise}$, was the first nontrivial model whose learning coefficient was computed, by a resolution of singularities carried out by hand.
+
+\begin{theorem}[Aoyagi--Watanabe \cite{aoyagi2005}]\label{thm:aw}
+For the model above with input dimension $M$, output dimension $N$, hidden width $H$, and true rank $r$, the learning coefficient $\lambda$ and multiplicity $m$ in Theorem~\ref{thm:watanabe} (the global values, attained at the most degenerate points of $W_0$) are:
+\begin{enumerate}
+\item if $N + r \le M + H$, $M + r \le N + H$, and $H + r \le M + N$, then
+\[
+   \lambda = \frac{2(H+r)(M+N) - (M-N)^2 - (H+r)^2 + [\,M{+}H{+}N{+}r \text{ odd}\,]}{8},
+\]
+with $m = 1$ if $M + H + N + r$ is even and $m = 2$ if odd (here $[\cdot]$ is $1$ if the condition holds, else $0$);
+\item if $M + H < N + r$, then $\lambda = \tfrac12 (HM - Hr + Nr)$ and $m = 1$;
+\item if $N + H < M + r$, then $\lambda = \tfrac12 (HN - Hr + Mr)$ and $m = 1$;
+\item if $M + N < H + r$, then $\lambda = \tfrac12 MN$ and $m = 1$.
+\end{enumerate}
+\end{theorem}
+
+In the constant-width case $M = N = H$, write $p_r = [\,3H+r\text{ odd}\,]$. Case (1) gives
+\[
+\begin{aligned}
+   \lambda_r^{\mathrm{AW}} \;=\; \frac{(H+r)(3H-r)+p_r}{8},
+   \\
+   \lambda_r^{\mathrm{AW}}-\lambda_{r-1}^{\mathrm{AW}}
+   \;=\; \frac{2(H-r)+1+p_r-p_{r-1}}{8}.
+\end{aligned}
+\]
+The sequence is nondecreasing, but the final increment vanishes when $r=H$. Thus lower-rank fits are never less flat in this model. Strict preference requires $r<H$, and a ladder passing through every rank also requires the well-separated spectra imposed in Section~\ref{sec:dictionary}. Under those conditions the formal Bayesian crossover schedule visits the ranks in the same order in which gradient flow visits $C_0,C_1,C_2,\dots$. The problem is to justify that schedule for saddle neighborhoods and prove the dictionary.
+
+\section{Precise formulations}\label{sec:precise}
+
+A bridge must decide three things, and each admits more than one defensible choice: the \emph{stratification} (Definition~\ref{def:strat}, if it deserves the name); the \emph{noise model} (gradient flow with small initialization, Langevin at low temperature, or SGD with structured noise---these are genuinely different problems with different answers); and the meaning of \emph{selected} (a limit of trajectories, an occupation measure, a metastable sequence). Rather than legislate, I state one problem per reading. A full ``effective dynamics on the strata'' would be a limit theorem: a time rescaling under which the stratum-valued process $t \mapsto (\text{stratum nearest } w(t))$ converges to an autonomous Markov jump process on the strata with explicit rates. Every problem below is an instance or a prerequisite of that template.
+
+\subsection{The \texorpdfstring{$\lambda$}{lambda}-stratification}\label{sec:strat-problem}
+
+The following question is closely related to Conjecture~5 of Lin~\cite{lin2017}.
+
+\begin{question}\label{q:strat}
+Let $L\colon \T^d \to [0,\infty)$ be real-analytic and not identically zero, with $W_0 = L^{-1}(0) \neq \emptyset$. (Since $\T^d$ is connected, analyticity then forbids $L$ from vanishing on any open set, so Definition~\ref{def:llc} applies at every point of $W_0$; for $L \equiv 0$ the map below is undefined everywhere.) Let $\lambda\colon W_0 \to \Q_{>0}$ be the local learning coefficient of Definition~\ref{def:llc}.
+\begin{enumerate}
+\item[(a)] Does $\lambda$ take only finitely many values on $W_0$?
+\item[(b)] Is each level set $S_c$ a locally closed subanalytic subset of $\T^d$, and does the partition satisfy the frontier condition $\overline{S_c} \setminus S_c \subseteq \bigcup_{c' < c} S_{c'}$?
+\end{enumerate}
+For the refinement by multiplicity, order pairs by declaring $(\lambda',m')$ deeper than $(\lambda,m)$ when $\lambda'<\lambda$, or when $\lambda'=\lambda$ and $m'>m$. Does the finite-image assertion and the corresponding locally closed subanalytic frontier condition hold for this ordered pair?
+\end{question}
+
+\begin{remark}[Lower semicontinuity]
+Lehalleur and Rim\'anyi prove that $x\mapsto\operatorname{rlct}_{X,x}(F)$ is lower semicontinuous for every real-analytic function on a real-analytic manifold \cite[Proposition~8.4(ii)]{lehalleurrimanyi2024}. Applied to $F=L$ on $\T^d$, this shows that $\{w\in W_0:\lambda(w)\le c\}$ is closed in $W_0$. The finite-image assertion and the locally closed subanalytic frontier condition, including the multiplicity-refined version, remain open.
+\end{remark}
+
+The picture behind the frontier condition: at a smooth point of $W_0$ where the Hessian is nondegenerate transversally, $\lambda = \tfrac12 \operatorname{codim}$; approaching a more singular point, the transversal geometry flattens and $\lambda$ can only drop, while at equal $\lambda$ the multiplicity may rise. At the crossing of $x^2 y^2$ the coefficient stays at $\tfrac12$ while $m$ jumps to $2$, and at the crossing of $x^2 y^4$ the coefficient takes the smaller of the two branch values. Lower semicontinuity is now known; what remains is whether these levels form finitely many subanalytic pieces with the expected frontier order. The real case has behavior absent from its complexification, including parity effects already visible in Theorem~\ref{thm:aw}.
+
+\subsection{Langevin selection: equilibrium is known, timescales are not}\label{sec:kramers}
+
+At equilibrium, selection by $\lambda$ is essentially Watanabe's computation transposed from sample size to temperature.
+
+\begin{proposition}[equilibrium selection; essentially \cite{watanabe2009}]\label{prop:gibbs}
+Let $L\colon \T^d \to [0,\infty)$ be real-analytic, not identically zero, $W_0 \neq \emptyset$, and let $\pi_\varepsilon \propto e^{-L/\varepsilon}$ be the Gibbs measure. For every open $U$ with $U \cap W_0 \neq \emptyset$ and $\overline{U} \cap W_0 \subseteq U$ (no point of the optimal set on the boundary of $U$; equivalently, $U \cap W_0$ is at positive distance from $W_0 \setminus U$),
+\[
+   \int_U e^{-L(w)/\varepsilon}\, dw \;=\; \varepsilon^{\lambda(U) + o(1)}, \qquad \varepsilon \to 0,
+   \qquad \text{where } \lambda(U) = \inf_{w \in U \cap W_0} \lambda(w);
+\]
+with matching $(\log \tfrac1\varepsilon)^{m-1}$ corrections and positive constants when $\overline U$ meets finitely many strata. Consequently $\pi_\varepsilon(U) / \pi_\varepsilon(V) \asymp \varepsilon^{\lambda(U) - \lambda(V)}$ up to logarithms: as $\varepsilon \to 0$ the Gibbs measure concentrates on the strata of minimal $\lambda$ (among those of minimal loss), and within a $\lambda$-tie on maximal multiplicity.
+\end{proposition}
+
+The proof is the deterministic core of Watanabe's free-energy theorem: write $\int_U e^{-L/\varepsilon}$ as the Laplace transform of the volume function $t \mapsto \vol(U \cap \{L < t\})$ and apply the volume asymptotics of Definition~\ref{def:llc}, localized by a finite cover of the compact set $\overline{U} \cap W_0$ by resolution charts, whose smallest exponent is $\lambda(U)$; the $\varepsilon^{\lambda(U) + o(1)}$ form needs no finiteness of the stratification, so it does not presuppose Question~\ref{q:strat}. The boundary hypothesis is not decoration: a more degenerate point of $W_0$ sitting on $\partial U$ can leak mass into $U$. For the loss $L = \sin^2\! x \, \sin^4\! y$ of Problem~\ref{prob:entropic} below and the cusped region $U = \{ 0 < y < \delta_0, \ |x| < y \}$, whose closure touches the crossing at the origin ($\lambda = \tfrac14$), we have $U \cap W_0 \subset \{x = 0\}$ so $\lambda(U) = \tfrac12$, yet $\int_U e^{-L/\varepsilon} \asymp \int_0^{\delta_0} \min(y, \sqrt{\varepsilon}/y^2)\, dy \asymp \varepsilon^{1/3}$: the mass leaking through the cusp beats the $\varepsilon^{1/2}$ that $\lambda(U)$ would predict, and the true exponent is set by the geometry of $U$ at the excluded boundary point. I state the proposition to fix the target: \emph{equilibrium} selection is by $\lambda$. Everything open is about time.
+
+Since the Langevin process on the torus is ergodic, the occupation fractions converge to $\pi_\varepsilon$ at any fixed $\varepsilon$; the content of ``effective dynamics'' is the order of visits and the transition times. On exponential timescales this is metastability. For nondegenerate (Morse) landscapes the sharp answer is the Eyring--Kramers law \cite{begk2004}; the problem is its singular version, with the polynomial-in-$\varepsilon$ prefactor carrying the \textsc{rlct} data.
+
+\begin{problem}[singular Eyring--Kramers]\label{prob:kramers}
+Let $L\colon \T^d \to [0,\infty)$ be real-analytic with $W_0 = K_A \sqcup K_B$, two disjoint compact connected components (possibly positive-dimensional and singular), with local data $(\lambda_A, m_A)$ and $(\lambda_B, m_B)$ (minimal $\lambda$, then maximal $m$, over each component). Let
+\[
+   h \;=\; \inf_{\gamma} \, \max_{t \in [0,1]} L(\gamma(t)) \;>\; 0,
+\]
+the infimum over continuous paths $\gamma\colon [0,1] \to \T^d$ with $\gamma(0) \in K_A$ and $\gamma(1) \in K_B$, be the communication height, and let $X$ solve \eqref{eq:langevin}. For $\rho > 0$ small let $\tau_B = \inf \{ t : \dist(X_t, K_B) \le \rho \}$. Let $\mathcal{B}_A$ be the \textbf{basin} of $K_A$: the set of $x \in \T^d$ from which the gradient flow $\dot w = -\nabla L(w)$, $w(0) = x$, converges to a point of $K_A$. (The restriction to $\mathcal B_A$ matters: a point near a positive-level local minimum can lie in the sublevel component of $K_A$ below $h$ and still have a different exit exponent.) Derive the leading expansion
+\[
+   \E_x[\tau_B]
+   \;=\;
+   C\,\varepsilon^\alpha
+   \bigl(\log\tfrac1\varepsilon\bigr)^q
+   e^{h/\varepsilon}(1+o(1)),
+\]
+uniformly for $x$ in compact subsets of the interior of $\mathcal{B}_A \cap \{ L < h \}$. Determine the rational exponent $\alpha$, the integer $q$, and the constant $C>0$ from a finite resolution of the germ along $K_A$ (its exponents and leading volume coefficients) and the corresponding leading local capacity data at the minimizing gate. The exponential term is already supplied by Freidlin--Wentzell theory \cite{freidlin2012}; the problem is the stated polynomial--logarithmic prefactor.
+\end{problem}
+
+\begin{conjecture}\label{conj:kramers}
+In the setting of Problem~\ref{prob:kramers}, suppose additionally that the infimum $h$ is attained at a single nondegenerate index-one critical point $z^*$ (a Morse saddle). Then
+\[
+   \E_x[\tau_B] \;=\; C\, \varepsilon^{\lambda_A - d/2} \bigl( \log \tfrac1\varepsilon \bigr)^{m_A - 1} e^{h/\varepsilon} \, (1 + o(1)),
+\]
+where $C > 0$ is explicit in the leading coefficient of the volume asymptotics of $L$ at $K_A$ and the Hessian data of $L$ at $z^*$.
+\end{conjecture}
+
+The gloss, and the sanity checks. By Proposition~\ref{prop:gibbs}, the well's Gibbs mass has order
+\[
+\varepsilon^{\lambda_A}\bigl(\log\tfrac1\varepsilon\bigr)^{m_A-1}.
+\]
+The capacity through a Morse saddle (the potential-theoretic conductance between the two wells that sets the crossing rate) is $\asymp \varepsilon^{d/2} e^{-h/\varepsilon}$ by the computation of \cite{begk2004}; the mean time is their ratio. When $K_A$ is a nondegenerate minimum $w_A$, $\lambda_A = d/2$, $m_A = 1$, and the conjecture reduces to the classical Eyring--Kramers formula
+\[
+\E_x[\tau_B]
+=\frac{2\pi}{\mu_-}
+\sqrt{\frac{|\det \nabla^2 L(z^*)|}{\det \nabla^2 L(w_A)}}
+\,e^{h/\varepsilon}(1+o(1)).
+\]
+Here $\mu_-$ is the absolute value of the unique negative eigenvalue of $\nabla^2 L(z^*)$, and no power of $\varepsilon$ survives. As reversibility demands, the ratio of the two crossing times satisfies
+\[
+\frac{\E\tau_{A\to B}}{\E\tau_{B\to A}}
+\;\asymp\;
+\varepsilon^{\lambda_A-\lambda_B},
+\]
+matching the equilibrium ratio of Proposition~\ref{prop:gibbs}. The new content is the exponent: \emph{flatter wells are stickier}, by precisely the learning coefficient's deficit from $d/2$. Berglund and Gentz proved laws of this kind for specific degenerate normal forms (pitchfork saddles, isolated degenerate wells with explicit Taylor data) \cite{berglundgentz2010, berglund2013}, and semiclassical analysis of the Witten Laplacian now reaches further: Assal, Bony, and Michel \cite{assal2025} settle the Morse--Bott case, in which the well is a smooth compact manifold with nondegenerate transversal Hessian (so $\lambda_A = \tfrac12 \operatorname{codim} K_A$ and $m_A = 1$), and Delande \cite{delande2024} treats isolated wells and gates with diagonal monomial normal forms. These results do not cover an arbitrary analytic singular well with exponents given by its \textsc{rlct} data; that case is Problem~\ref{prob:kramers}. For a degenerate positive-dimensional saddle gate, even the conjectural prefactor needs another ingredient: the two-sided coefficient of Definition~\ref{def:llc} captures volume, while the unstable direction enters the capacity through data that no purely volumetric invariant can see (Section~\ref{sec:two-clocks}).
+
+\subsection{Entropic selection within a connected optimal set}\label{sec:entropic}
+
+Metastability concerns wells separated by loss barriers. A second regime has strata of \emph{the same} loss, joined inside $W_0$, with no barrier at all. There the selection is purely entropic (driven by transversal volume) and the timescales should be polynomial in $1/\varepsilon$, not exponential.
+
+\begin{problem}[two-stratum entropic selection]\label{prob:entropic}
+On $\T^2$, let
+\[
+   L(x, y) \;=\; \sin^2\! x \, \sin^4\! y .
+\]
+Then $W_0$ is the union of the two vertical circles $\{ x \in \{0, \pi\} \}$ and the two horizontal circles $\{ y \in \{0, \pi\} \}$; off the crossings, the vertical stratum has $\lambda = \tfrac12$ (quadratic transversal) and the horizontal stratum has $\lambda = \tfrac14$ (quartic transversal), and each crossing has $\lambda = \tfrac14$, $m = 1$. Let $X$ solve \eqref{eq:langevin} with $X_0 = (0, \pi/2)$, the midpoint of a vertical stratum.
+\begin{enumerate}
+\item[(a)] Let $\tau_H = \inf\{ t : \dist(X_t, \{ y \in \{0,\pi\} \}) \le \rho \}$ for fixed small $\rho$. Prove $\E[\tau_H] = \varepsilon^{-b + o(1)}$ and determine $b$. (I expect $b = 1$, with the exponent set by diffusion: the noise carries the process along the flat stratum diffusively, covering order-one distance in time $\varepsilon^{-1}$. The transversal channel width $\propto \varepsilon^{1/2} / \sin^2 y$ induces an entropic drift of order $\varepsilon$ along the stratum---the same order as the diffusion, so it biases the exit law toward the crossings, the gates between strata, without changing the exponent.)
+\item[(b)] Prove that the relaxation time of the generator (inverse spectral gap) is $\Theta(\varepsilon^{-a})$ up to logarithmic factors, and determine $a$.
+\item[(c)] Replace the isotropic noise by the degenerate noise $dX = -\nabla L\, dt + \sqrt{2 \varepsilon L(X)}\, dB$, a caricature of minibatch noise vanishing at zero loss, and for this part take $X_0=(\pi/4,\pi/2)\notin W_0$. For noise of this type ($\sigma \asymp \sqrt{L}$, dying on the zero-loss set), Wojtowytsch \cite{wojtowytsch2023} proves convergence to the minimizing set and a flatness preference provably different from the isotropic Langevin case; what remains open here is quantitative. Show that $X$ converges a.s.\ to a point of $W_0$ and determine the hitting distribution's asymptotics as $\varepsilon \to 0$. Then obtain the corresponding asymptotic uniformly for $X_0$ in compact subsets of $\T^2\setminus W_0$: with noise that dies on the optimal set, how is the selection split between $\lambda$ and the basin of first arrival?
+\end{enumerate}
+\end{problem}
+
+\begin{remark}[Why the initial condition is off the zero set]
+The off-zero initial condition in part (c) is essential. If $X_0\in W_0$, both the drift and the globally Lipschitz diffusion coefficient vanish, so pathwise uniqueness forces the constant solution and the limiting law is the point mass at $X_0$.
+\end{remark}
+
+Every object here is explicit; parts (a) and (b) reduce to one-dimensional effective potentials, and part (c) is the smallest instance of ``how noise changes the selection.'' The general problem shaped by this example: for real-analytic $L$ with connected $W_0$ containing two maximal strata $S_1$ (larger $\lambda$) and $S_2$ (smaller $\lambda$) meeting along a lower-dimensional seam, prove that Langevin dynamics started on $S_1$ concentrates on $S_2$ after time $\varepsilon^{-b}$, with $b$ determined by the stratification data along the seam.
+
+\subsection{SGD noise: the effective diffusion on a singular zero set}\label{sec:katzenberger}
+
+For genuine SGD near a \emph{smooth} manifold of minimizers there is a complete result. Li, Wang, and Arora \cite{liwangarora2022}, adapting a 1991 theorem of Katzenberger \cite{katzenberger1991}, prove: if the set $\Gamma$ of local minimizers is a compact $C^\infty$ manifold on which the Hessian rank is constant and equal to the codimension, then SGD with learning rate $\eta$, run for $\lfloor t / \eta^2 \rfloor$ steps, converges as $\eta \to 0$ to a limiting diffusion \emph{on} $\Gamma$, whose drift and diffusion coefficients are explicit in the loss Hessian and the noise covariance. For label noise the limit is (up to time constants) the gradient flow on $\Gamma$ of the function $\tfrac14 \tr \nabla^2 L$ \cite{blanc2020, damian2021, liwangarora2022}: SGD, having reached the optimal set, slides along it toward flatter points. This supplies an effective dynamics on the smooth part. The hypothesis of constant Hessian rank excludes precisely the singularities where the strata meet, which is where the selection happens.
+
+\begin{problem}[effective diffusion beyond the smooth part]\label{prob:katzenberger}
+Let $L(A, B) = \tfrac12 \| BA - \Phi \|_F^2$ as in \eqref{eq:dln-loss} with $H > r = \rank \Phi$ and $H \le \min(M, N)$. On the fiber $F_\Phi$, Sylvester's rank inequality $\rank A + \rank B - H \le \rank BA = r$ caps the rank sum, so the \textbf{top stratum} is
+\[
+   \Gamma \;=\; \{ (A,B) \in F_\Phi : \rank A + \rank B = H + r \}
+\]
+(note that $\rank A = \rank B = H$ is impossible on the fiber: a rank-$H$ factor $B$ is injective, forcing $\rank BA = \rank A$). The set $\Gamma$ is open in $F_\Phi$, since ranks are lower semicontinuous and their sum is capped; it is dense, since for fixed $B$ the solutions of $BA = \Phi$ form an affine space in which a generic point attains $\rank A = H + r - \rank B$; the rank pair $(\rank A, \rank B)$ is locally constant on $\Gamma$, and each piece with a fixed rank pair is a smooth manifold on which the Hessian rank of $L$ is constant and equal to the codimension, so the Li--Wang--Arora hypotheses hold locally there. On the complement $\Sigma = F_\Phi \setminus \Gamma$, where the rank sum drops below $H + r$, a tangent-space count shows the fiber is singular. On the fiber,
+\[
+   \tr \nabla^2 L(A, B) \;=\; M \| B \|_F^2 + N \| A \|_F^2 ,
+\]
+whose minimizers over $F_\Phi$ are the weighted-balanced factorizations of rank exactly $r$, those with $N \, A A^\top = M \, B^\top B$ (for $M = N$, the balanced ones $A A^\top = B^\top B$), inside the most degenerate stratum.
+For $a+b=H+r$, write
+\[
+   \Gamma_{a,b}
+   \;=\;
+   \{(A,B)\in F_\Phi:\rank A=a,\ \rank B=b\}.
+\]
+Fix $x\in\Gamma_{a,b}$. Let $Z^{a,b,x}$ be the maximal diffusion on this smooth rank-pair component with the Li--Wang--Arora coefficients, started at $x$, and define
+\[
+   \begin{aligned}
+   \tau_\Sigma
+   &=
+   \lim_{j\to\infty}\inf\{t:\dist(Z_t^{a,b,x},\Sigma)\le j^{-1}\},\\
+   \tau_\infty
+   &=
+   \lim_{R\to\infty}\inf\{t:\|Z_t^{a,b,x}\|\ge R\}.
+   \end{aligned}
+\]
+The maximal lifetime is $\tau_\Sigma\wedge\tau_\infty$; this stopped process is the object supplied by the smooth local theory.
+\begin{enumerate}
+\item[(a)] Determine $\mathbb{P}_x(\tau_\Sigma<\tau_\infty)$ for every component and starting point. When this probability is positive, determine the law of the limiting point in $\Sigma$, its rank-pair stratum, and the tail of $\tau_\Sigma$ conditional on $\tau_\Sigma<\tau_\infty$.
+\item[(b)] Define the continuation selected by SGD: formulate a martingale problem (or Dirichlet form) on the stratified space $F_\Phi$ whose restriction to every smooth stratum is its Katzenberger diffusion, and prove that rescaled label-noise SGD converges to its unique solution across $\Sigma$. Is the selected process absorbed, reflected, or transmitted at each singular stratum?
+\item[(c)] The general form: for real-analytic $L$ whose optimal set is smooth with constant Hessian rank off a codimension-one (in $W_0$) singular locus, construct the stopped diffusion on each smooth component, distinguish singular hitting from escape, and prove a rescaled-SGD limit theorem that selects a well-posed continuation across the singular locus.
+\end{enumerate}
+\end{problem}
+
+The limitation, expanded in Section~\ref{sec:two-clocks}, is that the label-noise drift is built from the Hessian trace, which is quadratic data, while $\lambda$ sees all orders. On the deep-linear fiber the two agree about where to go (rank-deficient points minimize both), but they can come apart. Compare, transversally, the quartic well $x^4$ ($\lambda = \tfrac14$) with the crossing $x^2 y^2$ ($\lambda = \tfrac12$, $m = 2$): both have identically vanishing Hessian at the origin, so the label-noise drift $-\nabla_{W_0}\bigl(\tfrac14 \tr \nabla^2 L\bigr)$ ties them and cannot choose, while $\lambda$ strictly prefers the quartic. Wherever such profiles arise as the transversal types of two strata of one optimal set, the Hessian-flattest and the $\lambda$-smallest strata part ways. The first task is to decide in an explicit example whether SGD follows the Hessian or the threshold; the answer determines whether ``stratified by learning coefficient'' is the right stratification for SGD.
+
+\subsection{The calibration case: a dictionary for the deep linear network}\label{sec:dictionary}
+
+The deep-linear network is the one model where both staircases are explicit, so it is where a dictionary between them should first be proved or refuted. Three problems, in increasing ambition.
+
+\begin{problem}[$\lambda$-stratification of the fiber and its saddles]\label{prob:fiber}
+For $L$ as in \eqref{eq:dln-loss} with $H > r$:
+\begin{enumerate}
+\item[(a)] Compute the local invariants $(\lambda(w), m(w))$ of Definition~\ref{def:llc} at every point $w \in F_\Phi$, and identify the minimal stratum. Determine whether the invariants depend only on the pair $(\rank A, \rank B)$. The minimal value is Theorem~\ref{thm:aw}. There is partial progress: Lehalleur and Rim\'anyi \cite{lehalleurrimanyi2024} determine the components and codimensions of such fibers at any depth and compute the \textsc{rlct} of the zero-target fiber, and Lau et al.~\cite{lau2023} give closed-form local values at parameters of each product rank as ground truth for their estimator. These results do not determine the dependence on the two ranks separately, the edge cases, or any of part (b). Aoyagi's recursive blow-ups \cite{aoyagi2005,aoyagi2024} are the natural tool.
+\item[(b)] Compute the two-sided invariants $(\lambda(w), m(w))$ at every point of each saddle set $C_k$, $0 \le k < r$.
+\end{enumerate}
+\end{problem}
+
+\begin{conjecture}[opposing staircases]\label{conj:opposing}
+In the setting of Problem~\ref{prob:fiber}, let $\lambda_k = \inf_{w \in C_k} \lambda(w)$ with the two-sided definition. This is an infimum because $C_k$ is noncompact; Question~\ref{q:strat}(a), posed on a compact analytic zero set, does not imply attainment here, so attainment is part of the claim. Then $\lambda_0 < \lambda_1 < \dots < \lambda_r$ while $L_0 > L_1 > \dots > L_r$: along the saddle chain that gradient flow visits, the loss falls and the learning coefficient rises, step for step.
+\end{conjecture}
+
+This is the deep-linear instance of the ``opposing staircases'' observed empirically in transformers (the neural-network architecture behind large language models), where the estimated local learning coefficient rises as the training loss falls through most stages \cite{hoogland2024, chen2023}---most, not all: \cite{hoogland2024} also documents stages in which the estimate falls with the loss. On the Bayesian side Theorem~\ref{thm:aw} gives the exact nonnegative increments displayed above; they are strictly positive for $k<H$ and vanish at $k=H$.
+
+For the dictionary itself, fix $M=N=H$ and $1\le r<H$. Let the target spectrum vary in a one-parameter family
+\[
+   s_1(q)>\dots>s_r(q)>0,\qquad q\to\infty,
+\]
+and use the aligned initialization of Theorem~\ref{thm:saxe}. Put
+\[
+   \begin{aligned}
+   p_k&=[\,3H+k\text{ odd}\,],\\
+   \lambda_k^{\mathrm{AW}}
+   &=\frac{(H+k)(3H-k)+p_k}{8},\\
+   \Delta\lambda_k
+   &=\frac{2(H-k)+1+p_k-p_{k-1}}{8}.
+   \end{aligned}
+\]
+Thus $\tfrac12\le\Delta\lambda_k\le\tfrac H4$ for $1\le k<H$. Define
+\[
+   A_k(q)=\frac{2\Delta\lambda_k}{s_k(q)^2}.
+\]
+Assume $A_k(q)>e$ and $A_k(q)\to\infty$ for every $k$. The equation $n/\log n=A_k(q)$ has two real roots; throughout this section the \textbf{Bayesian crossover} is the large one,
+\[
+   n_k(q)
+   =-A_k(q)\,W_{-1}\!\left(-\frac1{A_k(q)}\right)>e,
+\]
+where $W_{-1}$ is the lower real branch of Lambert's $W$ function. The \textbf{dynamical schedule} is
+\[
+   t_k(q,u_0)
+   =\frac{\tau}{2s_k(q)}\log\frac{s_k(q)}{u_0}.
+\]
+Here $\lambda_k^{\mathrm{AW}}$ is the invariant of the rank-$k$ model's own optimal set, not the two-sided coefficient of the saddle set $C_k$ in Conjecture~\ref{conj:opposing}; whether the two agree is part of Problem~\ref{prob:fiber}(b). Call the spectral family \textbf{well separated} if $n_1(q)<\dots<n_r(q)$ for all sufficiently large $q$. This hypothesis is substantive: a near-flat spectrum can make the lower convex envelope of the points $(L_k,\lambda_k^{\mathrm{AW}})$ skip rungs. The joint limit $q\to\infty$ is also substantive: for one fixed spectrum the crossovers are finite, so an $n\to\infty$ statement eventually sees only the final rank.
+
+\begin{problem}[time versus sample size]\label{prob:dictionary}
+Fix $H,r,\tau$ and a well-separated spectral family as above.
+\begin{enumerate}
+\item[(a)] Prove or refute that the Bayesian schedule is realized by the posterior in this joint limit. For each $q$, take i.i.d.\ data $(x_i,y_i)$ with standard Gaussian $x_i\in\R^H$ and $y_i=\Phi(q)x_i+{}$standard Gaussian noise, and a smooth positive prior on one compact parameter domain $W\subset\R^{2H^2}$ meeting every $C_k(q)$ and its most degenerate points. Write
+\[
+   \psi_{q,n}(k)=nL_k(q)+\lambda_k^{\mathrm{AW}}\log n,
+   \qquad
+   k^*(q,n)=\arg\min_{0\le k\le r}\psi_{q,n}(k).
+\]
+Show that there are radii $\delta_{q,n}\to0$ along the joint limit and a constant $c>0$ such that the following holds. For every sequence $q\to\infty$ and integers $n=n(q)\to\infty$ with $n(q)=O(n_r(q))$ and
+\[
+   \min_{1\le k\le r}|n(q)-n_k(q)|
+   \ge c\sqrt{n(q)\log n(q)},
+\]
+the window $\{w\in W:\dist(w,C_{k^*(q,n)}(q))<\delta_{q,n}\}$ has maximal posterior mass among the $r+1$ saddle windows, with probability tending to $1$. The exclusion width separates the $\log n$ ladder terms from the $O_p(\sqrt n)$ empirical fit fluctuations. This problem also requires the saddle-window free energy of Section~\ref{sec:saddle-free-energy}; the rim computation there keeps the refutation branch live.
+\item[(b)] Call a reparametrization \textbf{admissible} if
+\[
+   n(t)=\phi\!\left(\frac{t}{\log(1/u_0)}\right)
+\]
+for one continuous increasing $\phi\colon(0,\infty)\to(0,\infty)$ depending only on $H,r,\tau$, not on $q$, the spectrum, or $u_0$. Take any $u_0=u_0(q)\to0$ with $\log(1/s_r(q))=o(\log(1/u_0(q)))$. Determine which of the following holds uniformly over $1\le k\le r$ and over all well-separated spectral families: (i) some admissible $\phi$ gives $\phi(t_k/\log(1/u_0))=n_k(1+o(1))$; (ii) no admissible $\phi$ gives relative error $o(1)$, but one gives two-sided constant-factor bounds whose constants depend only on $H,r,\tau$; or (iii) even such uniform constant-factor bounds are impossible. Quantify the obstruction. The heuristic below suggests (ii), with $\phi(x)\asymp x^2\log x$ and the exact mode factor $\Delta\lambda_k$ as the obstruction to (i).
+\end{enumerate}
+\end{problem}
+
+\emph{Heuristic}, offered as such. Eliminating $s_k$ between the two schedules: $s_k = \tfrac{\tau}{2 t_k} \log \tfrac{s_k}{u_0}$, so
+\[
+   \frac{n_k}{\log n_k} \;=\; \frac{2 \, \Delta\lambda_k}{s_k^2}
+   \;=\; \frac{8 \, \Delta\lambda_k \, t_k^2}{\tau^2 \log^2 (s_k/u_0)} ,
+   \qquad \text{i.e.} \qquad
+   t \;\asymp\; \frac{\tau \log(1/u_0)}{2\sqrt{2\, \Delta\lambda}} \sqrt{ \frac{n}{\log n} } .
+\]
+Training time exchanges against sample size at the rate $t \asymp \sqrt{n / \log n}$---not $t \asymp n$, as a naive ``one step, one sample'' account would guess---with a residual mode dependence through $\Delta\lambda_k$, which is nearly constant when $k \ll H$. Part (b) asks in which of its three senses this square-root dictionary holds; the mode dependence is what stands between (ii) and (i), and any of the three answers would be informative.
+
+\subsection{The effective loss}\label{sec:effective-loss}
+
+Can a training plateau turn a saddle into a local minimum at the resolution visible to the dynamics? In the developmental interpretability community (researchers who study how a network's internal structure emerges over the course of training) one hears the slogan that during a plateau, \emph{the saddle is a local minimum of an effective loss}: what gradient descent is ``really'' descending, at a given resolution, differs from $L$. Here is one way to make the slogan precise; the inverse temperature acts as a resolution dial in the sense made rigorous, on the Bayesian side, by Chen and Murfet \cite{chenmurfet2025}.
+
+\begin{definition}[effective loss]\label{def:effective-loss}
+For $\varepsilon > 0$ and $\delta > 0$ define $L_{\varepsilon, \delta}\colon \T^d \to \R$ by
+\[
+   L_{\varepsilon, \delta}(w) \;=\; -\varepsilon \log \int_{B_\delta(w)} e^{-L(u)/\varepsilon} \, du .
+\]
+A compact set $C \subset \T^d$ is an \textbf{effective local minimum at resolution $(\varepsilon, \delta)$} if
+$\sup_{w \in C} L_{\varepsilon,\delta}(w) < \inf \{ L_{\varepsilon,\delta}(w) : \dist(w, C) = 2\delta \}$.
+\end{definition}
+
+In words: $L_{\varepsilon,\delta}(w)$ is the free energy of a $\delta$-window at $w$, trading the depth of the loss in the window against its volume; a degenerate saddle, poor in depth but rich in volume, can beat its own rim. At $\varepsilon \to 0$ with $\delta$ fixed, $L_{\varepsilon,\delta}(w) \to \min_{B_\delta(w)} L$, and no strict saddle is an effective minimum; at large $\varepsilon$, volume dominates. The slogan lives, if anywhere, in a window.
+
+\begin{question}\label{q:effective-loss}
+For the deep linear network \eqref{eq:dln-loss} with the spectrum $s_1 > \dots > s_r$, fix $R$ large enough that the ball $\| A \|_F^2 + \| B \|_F^2 \le R$ meets every $C_k$, and let $C_k^R = C_k \cap \{ \| A \|_F^2 + \| B \|_F^2 \le R \}$. The truncation is forced, not cosmetic: Definition~\ref{def:effective-loss} requires $C$ compact, and along the noncompact $C_k$ with $\| A \|_F \to \infty$ the fiber directions steepen, the window mass shrinks, and $\sup_{C_k} L_{\varepsilon,\delta} = +\infty$, so no untruncated $C_k$ is an effective minimum. Determine for each $k$ the set $E_k \subseteq (0,\infty)^2$ of resolutions $(\varepsilon, \delta)$ at which $C_k^R$ is an effective local minimum. For fixed $\delta>0$, write
+\[
+   I_k(\delta)=\{\varepsilon>0:(\varepsilon,\delta)\in E_k\}.
+\]
+Does there exist $\delta$ for which every $I_k(\delta)$ is a nonempty interval and
+\[
+   \sup I_k(\delta)<\inf I_{k-1}(\delta),
+   \qquad 1\le k\le r?
+\]
+This is the precise claim that decreasing $\varepsilon$ makes the effective minima pass through $C_0^R,C_1^R,\dots,C_r^R$ in order. Finally, fix such a $\delta$. Write $w(t)$ for the gradient flow of $L$ from the aligned initialization of Theorem~\ref{thm:saxe} at scale $u_0$, and define $w_{\mathrm{eff}}$ by
+\[
+   \dot w_{\mathrm{eff}}(t)
+   =-\nabla L_{\varepsilon_{u_0}(t),\delta}(w_{\mathrm{eff}}(t))
+\]
+from the same initialization. Is there, for each small $u_0$, a positive $C^1$ decreasing schedule $\varepsilon_{u_0}$ and a horizon $T(u_0)\ge t_r$ covering all $r$ stage transitions, such that
+\[
+   \sup_{t \le T(u_0)} \dist\bigl( w_{\mathrm{eff}}(t), \, w(t) \bigr) \;\to\; 0 \qquad \text{as } u_0 \to 0 \, ?
+\]
+That is the precise sense of \emph{shadowing} asked for here.
+\end{question}
+
+The first two clauses are concrete finite-dimensional questions about explicit integrals. The last clause is the actual bridge (annealing in $\varepsilon$ as a proxy for time) and I state it as a question rather than a conjecture because I see no principled derivation of the schedule $\varepsilon(t)$; finding one (or proving none exists) is the point.
+
+\subsection{Beyond linear: the leap and the threshold}\label{sec:leap}
+
+For $f\colon \{-1, 1\}^d \to \R$, expand in the Fourier--Walsh basis $f = \sum_{S \subseteq [d]} \hat f(S) \chi_S$, $\chi_S(x) = \prod_{i \in S} x_i$, and let $\mathcal{S}(f) = \{ S : \hat f(S) \neq 0 \}$ be the support. The \textbf{leap} of $f$ is
+\[
+   \operatorname{Leap}(f) \;=\; \min_{\text{orderings } S_1, \dots, S_k \text{ of } \mathcal S(f)} \; \max_{i} \; \bigl| S_i \setminus (S_1 \cup \dots \cup S_{i-1}) \bigr| ,
+\]
+the largest number of fresh coordinates any stage of a best build-up must acquire at once. Abbe, Boix-Adser\`a, and Misiakiewicz \cite{abbe2023} conjecture, for uniform Boolean or isotropic Gaussian inputs, that online SGD (one fresh sample per step) learns such targets saddle-to-saddle in $\tilde\Theta\bigl(d^{\max(\operatorname{Leap}(f),\,2)}\bigr)$ steps, where $\tilde\Theta$ is $\Theta$ up to logarithmic factors and the step count equals the sample count in this one-pass regime; they prove a version of the conjecture for isotropic Gaussian data and two-layer networks, under technical assumptions on how SGD is run, so on the Boolean cube---the setting below---the timescale is conjectural. A combinatorial invariant of the \emph{target} sets the timescale. Singular learning theory assigns geometric invariants to the \emph{critical points}. The problem is whether the two bookkeepings agree.
+
+\begin{problem}\label{prob:leap}
+Fix once and for all a nonpolynomial real-analytic activation $\sigma$. An \textbf{admissible instance} consists of a dimension $d$, a target $f\colon\{-1,1\}^d\to\R$, and a width $N$ for which
+\[
+   f_w(x)=\sum_{i\le N}a_i\,\sigma(\langle w_i,x\rangle)
+\]
+represents $f$ exactly, together with the following small-initialization data. Gradient flow on the population square loss $\tfrac12\E_x|f_w(x)-f(x)|^2$ starts from i.i.d.\ Gaussian parameters of standard deviation $\alpha$. There is a specified deterministic time rescaling $t\mapsto T_\alpha(t)$ for which $w_\alpha(T_\alpha(\,\cdot\,))$ converges in distribution, locally in the Skorokhod topology, to a process $Z$ supported on paths visiting a specified finite ordered chain of compact critical sets
+\[
+   \mathcal C=(C_0,\dots,C_J).
+\]
+Here ``visiting'' means that each limiting path has stopping times $0=\theta_0<\theta_1<\dots<\theta_{J+1}=\infty$ with $Z_t\in C_j$ for $\theta_j\le t<\theta_{j+1}$, and its only jumps are from $C_j$ to $C_{j+1}$.
+Require the local two-sided pair $(\lambda(w),m(w))$ and the multiset of nonzero negative Hessian eigenvalues (with algebraic multiplicity and with zero modes omitted) to be constant on each $C_j$. The \textbf{singularity data list} of the instance is the ordered list
+\[
+   \mathcal D
+   =
+   \bigl((\lambda_j,m_j),\operatorname{Spec}_{<0}\nabla^2L|_{C_j}\bigr)_{j=0}^{J}.
+\]
+Compute $\mathcal D$ for a nontrivial class of admissible instances, and decide whether leap is a function of this list: must any two admissible instances with identical $\mathcal D$ have equal $\operatorname{Leap}(f)$? A pair with matching lists and different leaps refutes functionhood and would sharpen Section~\ref{sec:two-clocks}; a proof of functionhood would be the first genuinely nonlinear entry in the dictionary.
+\end{problem}
+
+\section{A place to start}\label{sec:start}
+
+Three of the problems above are sized for a first paper, and they are independent of one another.
+
+The smallest is Problem~\ref{prob:entropic}(a)--(b): one trigonometric polynomial on $\T^2$, one Langevin process, effective one-dimensional potentials along each stratum, and a mixing-time estimate. The tools are standard (spectral gap via capacity estimates; one-dimensional reductions), the answer is a pair of exponents, and the payoff is the first proved instance of purely entropic selection between strata of a singular optimal set.
+
+Next is Conjecture~\ref{conj:kramers} in its cleanest open case: a singular well, a Morse saddle. Wells that are isolated critical points are no longer the frontier: sharp Eyring--Kramers laws for isolated wells and gates with diagonal monomial normal forms were recently proved by semiclassical methods (Delande \cite{delande2024}, following Michel \cite{michel2019}). What remains is the well that is not a point. The monomial singularity $\prod x_i^{2k_i}$, whose zero set is a union of coordinate hyperplanes, falls outside every treated case and would already display the full $\varepsilon^{\lambda - d/2} (\log \tfrac1\varepsilon)^{m-1}$ prefactor; the two halves of a proof exist in the literature---the capacity through a Morse saddle from Bovier, Eckhoff, Gayrard, and Klein \cite{begk2004}, and the well mass from Watanabe's volume asymptotics (Proposition~\ref{prop:gibbs})---and the work is to run them together on a singular well.
+
+Third is Problem~\ref{prob:fiber}: commutative algebra and blow-ups, no probability at all. Aoyagi's resolution of the reduced-rank singularity is the template, and the deliverable---the full table of $(\lambda, m)$ over the fiber and the saddle chain---is what Problems \ref{prob:katzenberger} and \ref{prob:dictionary} consume as input. A weekend's preliminary: estimate the local coefficients along a simulated staircase with the estimator of \cite{lau2023} and check Conjecture~\ref{conj:opposing} numerically before proving it.
+
+\section{What is known}\label{sec:known}
+
+\subsection*{Exact and partial dynamical results}
+The closed-form staircase for deep linear networks under whitened inputs and aligned initialization is Saxe--McClelland--Ganguli \cite{saxe2014}. For small \emph{generic} initialization, the greedy low-rank path was proved for matrix factorization under genericity hypotheses by Li, Luo, and Lyu \cite{lilylyu2021}; Jacot, Ged, \c{S}im\c{s}ek, Hongler, and Gabriel \cite{jacot2021} formulated the general saddle-to-saddle conjecture for deep linear networks and proved the passage between the first two saddles; Pesme and Flammarion \cite{pesme2023} proved the complete saddle-to-saddle limit for two-layer \emph{diagonal} linear networks. On the stochastic side of the same model, Corlouer, Semler, Strang, and Gietelink Oldenziel \cite{corlouer2026} decompose SGD in the saddle-to-saddle regime of deep linear networks into per-mode one-dimensional SDEs and find that the noise marks the stages without reordering them. For nonlinear two-layer networks, Abbe, Boix-Adser\`a, and Misiakiewicz \cite{abbe2023} prove the leap-complexity timescale in their isotropic-Gaussian setting under technical assumptions; the Boolean-cube version in Section~\ref{sec:leap} remains conjectural. None of these results mention the learning coefficient; that is the gap this file's problems live in.
+
+\subsection*{The Bayesian singular theory}
+Watanabe's book \cite{watanabe2009} is the source for Theorem~\ref{thm:watanabe}; the widely applicable Bayesian information criterion \cite{watanabe2013} makes $\lambda$ estimable from one tempered-posterior run (sampling from the posterior raised to a fractional power, that is, at a chosen temperature). Aoyagi and Watanabe \cite{aoyagi2005} computed $(\lambda, m)$ for reduced rank regression (Theorem~\ref{thm:aw}); Aoyagi \cite{aoyagi2024} extended the computation to deeper linear networks, showing the coefficients stay bounded as depth grows. Lau, Furman, Wang, Murfet, and Wei \cite{lau2023} localized the invariant and gave the scalable estimator; Drton and Plummer \cite{drton2017} built singular model selection (the ladder of Section~\ref{sec:bayes}, across models rather than within one) into a usable information criterion. The safety case for connecting all this to training dynamics is Lehalleur, Hoogland, Farrugia-Roberts, Wei, Gietelink Oldenziel, Wang, Carroll, and Murfet \cite{lehalleur2025}.
+
+\subsection*{How SGD noise selects among equal-loss minimizers}
+That SGD noise drives motion \emph{along} a zero-loss manifold toward flatter points was established by Blanc, Gupta, Valiant, and Valiant \cite{blanc2020} locally, by Damian, Ma, and Lee \cite{damian2021} for label-noise SGD globally along the manifold, and in sharp rescaled-limit form by Li, Wang, and Arora \cite{liwangarora2022} via Katzenberger's theorem \cite{katzenberger1991}---all under the smooth-manifold, constant-rank hypothesis that Problem~\ref{prob:katzenberger} asks to remove. Shalova, Schlichting, and Peletier \cite{shalova2024} widen the admissible noise-injection schemes, allowing covariances that share a null space with the Hessian, with the matching timescales---still over a smooth manifold of minimizers. Mandt, Hoffman, and Blei \cite{mandt2017} model constant-rate SGD as an Ornstein--Uhlenbeck process to view it as approximate Bayesian sampling; the approximation is Gaussian and hence blind to singular structure.
+
+\subsection*{Bridges attempted}
+Khan and Rue's Bayesian learning rule \cite{khan2023} derives SGD (and Adam, its widely used adaptive-step-size variant, and much else) as successive approximations of one natural-gradient variational Bayesian update. It is scaffolding for this problem rather than a solution: the approximations that yield SGD fix the posterior covariance and collapse expectations to a point, so the entropy term---precisely where $\lambda$ lives---drops out. Walking one rung back up the ladder (variational Gaussian with free covariance) restores a flatness preference and would be a natural setting for a rigorous selection theorem. Chen, Lau, Mendel, Wei, and Murfet \cite{chen2023} computed both staircases in a toy model of superposition (a small network storing more features than it has dimensions), finding that SGD's transitions have Bayesian counterparts but not conversely---evidence for a one-way ``Bayesian antecedent'' rather than an equivalence; Hoogland, Wang, Farrugia-Roberts, Carroll, Wei, and Murfet \cite{hoogland2024} found the loss-down-$\lambda$-up signature across most training stages in transformers (Conjecture~\ref{conj:opposing} is its solvable case). Hennick and De Baerdemacker \cite{hennick2025} model late-stage SGD as diffusion constrained by the fractal geometry of the low-loss set, arriving at a tempered-posterior picture with accessibility corrections; Cullen, Estan-Ruiz, Danait, and Li \cite{cullen2026} derive learning coefficients for shallow quadratic networks and cast grokking (generalization emerging long after the training data are already fit) as basin selection by $\lambda$; Shirodkar \cite{shirodkar2026} recovers directional \textsc{rlct} data from the decay of Fisher curvature toward a singular set. All of these are selection \emph{diagnostics} or equilibrium statements; none proves a dynamical limit theorem on the strata.
+
+\subsection*{Metastability}
+Freidlin--Wentzell theory \cite{freidlin2012} gives the exponential scales; the sharp prefactor for Morse landscapes is Bovier--Eckhoff--Gayrard--Klein \cite{begk2004}; degenerate saddles and some degenerate wells, treated normal form by normal form, are in Berglund--Gentz \cite{berglundgentz2010} and the survey \cite{berglund2013}. Semiclassical analysis of the Witten Laplacian reaches further: non-generic critical values in Michel \cite{michel2019}, Morse--Bott wells in Assal--Bony--Michel \cite{assal2025}, isolated wells and gates of diagonal monomial type in Delande \cite{delande2024}; and Avelin, Julin, and Viitasaari \cite{avelin2023} characterize the sharp prefactor geometrically, with transition-time bounds that allow degenerate minima and multiple saddles at equal height. The \textsc{rlct}-general statement of Conjecture~\ref{conj:kramers} appears in none of them.
+
+\section{What resists formalization}\label{sec:resist}
+
+Two obstructions appear when the proposed bridge is made precise.
+
+\subsection{The free energy of a saddle}\label{sec:saddle-free-energy}
+
+The Bayesian ladder of Section~\ref{sec:bayes} is a theorem when the rungs are minimizers at the same loss, and conditional already when they are local minimizers at distinct positive levels (Remark~\ref{rem:positive-level}). The dynamical staircase's rungs are saddles. Transcribing the ladder to saddles---assigning $C_k$ the free energy $n L_k + \lambda_k \log n$---is the step everyone takes informally, and it is not innocent. Throughout this computation the inverse temperature $\beta$ stands proxy for the sample size $n$: the Gibbs measure $e^{-\beta L}$ at $\beta = n$ is the population stand-in for the posterior on $n$ samples, so a free energy read off in $\beta$ translates directly to one in $n$ (Watanabe's $\lambda \log n$ is $\lambda \log \beta$). Take a Morse saddle $z$ in dimension $2$, $L = L(z) + \tfrac{\mu}{2}(x^2 - y^2)$, and compute the Gibbs mass of a $\delta$-ball at inverse temperature $\beta$:
+\[
+   \int_{B_\delta(z)} e^{-\beta L} \;\asymp\; e^{-\beta L(z)} \cdot \underbrace{\beta^{-1/2}}_{\text{stable}} \cdot \underbrace{\frac{e^{\beta \mu \delta^2 / 2}}{\beta \mu \delta}}_{\text{unstable}} ,
+\]
+so the unnormalized window free energy is $\beta \bigl( L(z) - \tfrac{\mu \delta^2}{2} \bigr) + O(\log \beta)$: it is set by the \emph{rim}, in the escape direction, not by the saddle. Shrinking the window, $\delta = \beta^{-\rho}$ with $0 < \rho < \tfrac12$, trades the rim term for an intermediate power $\beta^{1 - 2\rho}$, which still swamps $\log \beta$. At the boundary scale $\delta=c\beta^{-1/2}$, however, the rescaling $(x,y)=\beta^{-1/2}(X,Y)$ gives
+\[
+   -\log\int_{B_\delta(z)}e^{-\beta L}
+   =\beta L(z)+\log\beta+O(1).
+\]
+In this two-dimensional example the coefficient $1$ happens to equal the two-sided $\lambda$ of the saddle, though it does not reproduce the multiplicity correction. For $\rho>\tfrac12$ the coefficient is instead $d\rho$. The conclusion is therefore schedule-dependence, not universal nonexistence: a chosen boundary scale may coincide with $\lambda$, while no intrinsic window exponent has emerged. What the empirical successes \cite{chen2023, hoogland2024} suggest is that the relevant critical sets in practice are minima-with-flat-directions or very shallow saddles, for which the rim term is small in the observed window of $n$. The formalization problem this leaves:
+
+\begin{problem}\label{prob:saddle-free-energy}
+Use the well-separated target family $\Phi(q)$ and the compact parameter domain $W$ of Problem~\ref{prob:dictionary}(a), with moving crossovers $n_k(q)\to\infty$, and put
+\[
+   J_q=\bigl[\sqrt{n_1(q)},\,2n_r(q)\bigr]\cap\mathbb{N}.
+\]
+Let $F_{q,n}$ and $L_{q,n}$ denote the free energy and empirical loss for the model with target $\Phi(q)$. Define a functional $\Lambda(C) \in \Q_{>0}$ on compact critical sets $C$ of real-analytic losses, agreeing with the local learning coefficient when $C$ consists of local minimizers, and an explicit window schedule $\delta_{q,n}>0$ with $\sup_{n\in J_q}\delta_{q,n}\to0$. For
+\[
+   U_{k}^{q,n}
+   =
+   \{w\in W:\dist(w,C_k(q)\cap W)<\delta_{q,n}\},
+\]
+prove the uniform expansion
+\[
+   \sup_{n\in J_q}
+   \frac{\left|
+   F_{q,n}(U_k^{q,n})
+   -n\inf_{U_k^{q,n}}L_{q,n}
+   -\Lambda(C_k(q)\cap W)\log n
+   \right|}{\log n}
+   \;\xrightarrow[q\to\infty]{p}\;0
+\]
+for every $0\le k\le r$, or prove that no such pair $(\Lambda,\delta_{q,n})$ exists. In the latter case identify the schedule-dependent correction terms, such as the rim term above, that any true ladder must carry. The moving interval $J_q$ contains every crossover while tending to infinity, and the $o_p(\log n)$ precision prevents an unconstrained error from absorbing the discrepancy.
+\end{problem}
+
+Until Problem~\ref{prob:saddle-free-energy} is settled, ``stratified by learning coefficient'' is fully meaningful on the optimal set itself, and only heuristically meaningful on the saddle chains above it, which is where the interesting dynamics happens. That is the single sharpest obstruction this file has to report.
+
+\subsection{Two clocks}\label{sec:two-clocks}
+
+Selection and timescale are controlled by different data. Selection---equilibrium mass, crossing-time \emph{ratios}, ladder order---is volumetric. For these quantities, $(\lambda,m)$ is the right currency; see Proposition~\ref{prop:gibbs} and Conjecture~\ref{conj:kramers}. Timescales are not: the deep-linear plateau ends at $t_k \approx \tfrac{\tau}{2 s_k} \log \tfrac{1}{u_0}$, and $s_k$ is an eigenvalue of the Hessian's negative part at the saddle---spectral data, invisible to any volume-scaling invariant. (Rescale $L$ by a constant: every $\lambda$ is unchanged, every timescale shifts.) Likewise the noise matters through its covariance, not merely its temperature: Problem~\ref{prob:entropic}(c) and the label-noise drift of Problem~\ref{prob:katzenberger} are different selections from the same geometry. The resulting effective dynamics cannot be a function of the $\lambda$-stratification alone. A plausible target is a jump process whose \emph{states} are the strata, whose \emph{stationary preferences} are set by $(\lambda, m)$, and whose \emph{rates} require the barrier heights and unstable spectra as further inputs.
+
+There are, then, two clocks in this problem: one ticks in samples and prefers flat strata by volume; one ticks in seconds and escapes saddles by curvature. The deep-linear calculation suggests that the two clocks may agree on the order of events under a well-separated spectrum, and it names a possible exchange rate, $t \asymp \sqrt{n / \log n}$. Proving any entry of that dictionary---one exponent of Problem~\ref{prob:entropic}, one prefactor of Conjecture~\ref{conj:kramers}, one row of the table in Problem~\ref{prob:fiber}---would be the first theorem in which training dynamics answers to a birational invariant.
+
+\begin{thebibliography}{99}
+
+\bibitem{mais}
+L.~Levine,
+\emph{Math for AI Safety: An Invitation for Mathematicians},
+2026. \url{https://github.com/lionellevine/MAIS/blob/main/survey/MAIS.pdf}.
+
+
+\bibitem{abbe2023}
+E.~Abbe, E.~Boix-Adser\`a, T.~Misiakiewicz,
+\emph{SGD learning on neural networks: leap complexity and saddle-to-saddle dynamics},
+Proc.\ 36th Conference on Learning Theory (COLT), 2023.
+\arxiv{2302.11055}
+
+\bibitem{aoyagi2005}
+M.~Aoyagi, S.~Watanabe,
+\emph{Stochastic complexities of reduced rank regression in Bayesian estimation},
+Neural Networks \textbf{18} (2005), 924--933.
+
+\bibitem{aoyagi2024}
+M.~Aoyagi,
+\emph{Consideration on the learning efficiency of multiple-layered neural networks with linear units},
+Neural Networks \textbf{172} (2024), 106132.
+
+\bibitem{agv1988}
+V.~I. Arnold, S.~M. Gusein-Zade, A.~N. Varchenko,
+\emph{Singularities of Differentiable Maps, Volume II: Monodromy and Asymptotics of Integrals},
+Birkh\"auser, 1988.
+
+\bibitem{assal2025}
+M.~Assal, J.-F.~Bony, L.~Michel,
+\emph{Metastable diffusions with degenerate drifts},
+Ann.\ Inst.\ Fourier \textbf{75} (2025), 1--33.
+\arxiv{2202.02208}
+
+\bibitem{avelin2023}
+B.~Avelin, V.~Julin, L.~Viitasaari,
+\emph{Geometric characterization of the Eyring--Kramers formula},
+Comm.\ Math.\ Phys.\ \textbf{404} (2023).
+\arxiv{2206.13206}
+
+\bibitem{baldi1989}
+P.~Baldi, K.~Hornik,
+\emph{Neural networks and principal component analysis: learning from examples without local minima},
+Neural Networks \textbf{2} (1989), 53--58.
+
+\bibitem{zhou2017}
+Y.~Zhou, Y.~Liang,
+\emph{Critical points of neural networks: analytical forms and landscape properties},
+2017. \arxiv{1710.11205}
+
+\bibitem{berglundgentz2010}
+N.~Berglund, B.~Gentz,
+\emph{The Eyring--Kramers law for potentials with nonquadratic saddles},
+Markov Processes and Related Fields \textbf{16} (2010), 549--598.
+\arxiv{0807.1681}
+
+\bibitem{berglund2013}
+N.~Berglund,
+\emph{Kramers' law: validity, derivations and generalisations},
+Markov Processes and Related Fields \textbf{19} (2013), 459--490.
+\arxiv{1106.5799}
+
+\bibitem{blanc2020}
+G.~Blanc, N.~Gupta, G.~Valiant, P.~Valiant,
+\emph{Implicit regularization for deep neural networks driven by an Ornstein--Uhlenbeck like process},
+Proc.\ 33rd Conference on Learning Theory (COLT), 2020.
+\arxiv{1904.09080}
+
+\bibitem{begk2004}
+A.~Bovier, M.~Eckhoff, V.~Gayrard, M.~Klein,
+\emph{Metastability in reversible diffusion processes I: sharp asymptotics for capacities and exit times},
+J.\ Eur.\ Math.\ Soc.\ \textbf{6} (2004), 399--424.
+
+\bibitem{chen2023}
+Z.~Chen, E.~Lau, J.~Mendel, S.~Wei, D.~Murfet,
+\emph{Dynamical versus Bayesian phase transitions in a toy model of superposition},
+2023. \arxiv{2310.06301}
+
+\bibitem{chenmurfet2025}
+Z.~Chen, D.~Murfet,
+\emph{Modes of sequence models and learning coefficients},
+2025. \arxiv{2504.18048}
+
+\bibitem{corlouer2026}
+G.~Corlouer, A.~Semler, A.~Strang, A.~Gietelink Oldenziel,
+\emph{Stochastic gradient descent in the saddle-to-saddle regime of deep linear networks},
+2026. \arxiv{2604.06366}
+
+\bibitem{cullen2026}
+B.~Cullen, S.~Estan-Ruiz, R.~Danait, J.~Li,
+\emph{Grokking as a phase transition between competing basins: a singular learning theory approach},
+2026. \arxiv{2603.01192}
+
+\bibitem{damian2021}
+A.~Damian, T.~Ma, J.~D. Lee,
+\emph{Label noise SGD provably prefers flat global minimizers},
+Advances in Neural Information Processing Systems (NeurIPS), 2021.
+\arxiv{2106.06530}
+
+\bibitem{delande2024}
+L.~Delande,
+\emph{Sharp spectral gap for some degenerate Witten Laplacians},
+Ann.\ Henri Poincar\'e (2026), published online March 5, 2026.
+\href{https://doi.org/10.1007/s00023-026-01673-4}{doi:10.1007/s00023-026-01673-4}.
+\arxiv{2410.21899}
+
+\bibitem{drton2017}
+M.~Drton, M.~Plummer,
+\emph{A Bayesian information criterion for singular models},
+J.\ R.\ Stat.\ Soc.\ Ser.\ B \textbf{79} (2017), 323--380.
+
+\bibitem{freidlin2012}
+M.~I. Freidlin, A.~D. Wentzell,
+\emph{Random Perturbations of Dynamical Systems},
+3rd ed., Springer, 2012.
+
+\bibitem{hennick2025}
+M.~Hennick, S.~De Baerdemacker,
+\emph{Almost Bayesian: the fractal dynamics of stochastic gradient descent},
+2025. \arxiv{2503.22478}
+
+\bibitem{hironaka1964}
+H.~Hironaka,
+\emph{Resolution of singularities of an algebraic variety over a field of characteristic zero I, II},
+Ann.\ of Math.\ \textbf{79} (1964), 109--326.
+
+\bibitem{hoogland2024}
+J.~Hoogland, G.~Wang, M.~Farrugia-Roberts, L.~Carroll, S.~Wei, D.~Murfet,
+\emph{Loss landscape degeneracy and stagewise development in transformers},
+Trans.\ Mach.\ Learn.\ Res.\ (2025). \arxiv{2402.02364}
+
+\bibitem{jacot2021}
+A.~Jacot, F.~Ged, B.~\c{S}im\c{s}ek, C.~Hongler, F.~Gabriel,
+\emph{Saddle-to-saddle dynamics in deep linear networks: small initialization training, symmetry, and sparsity},
+2021. \arxiv{2106.15933}
+
+\bibitem{katzenberger1991}
+G.~S. Katzenberger,
+\emph{Solutions of a stochastic differential equation forced onto a manifold by a large drift},
+Ann.\ Probab.\ \textbf{19} (1991), 1587--1628.
+
+\bibitem{khan2023}
+M.~E. Khan, H.~Rue,
+\emph{The Bayesian learning rule},
+J.\ Mach.\ Learn.\ Res.\ \textbf{24} (2023), no.\ 281, 1--46.
+\arxiv{2107.04562}
+
+\bibitem{lau2023}
+E.~Lau, Z.~Furman, G.~Wang, D.~Murfet, S.~Wei,
+\emph{The local learning coefficient: a singularity-aware complexity measure},
+2023. \arxiv{2308.12108}
+
+\bibitem{lehalleur2025}
+S.~P. Lehalleur, J.~Hoogland, M.~Farrugia-Roberts, S.~Wei, A.~Gietelink Oldenziel, G.~Wang, L.~Carroll, D.~Murfet,
+\emph{You are what you eat---AI alignment requires understanding how data shapes structure and generalisation},
+2025. \arxiv{2502.05475}
+
+\bibitem{lehalleurrimanyi2024}
+S.~P. Lehalleur, R.~Rim\'anyi,
+\emph{Geometry of fibers of the multiplication map of deep linear neural networks},
+2024. \arxiv{2411.19920}
+
+\bibitem{lilylyu2021}
+Z.~Li, Y.~Luo, K.~Lyu,
+\emph{Towards resolving the implicit bias of gradient descent for matrix factorization: greedy low-rank learning},
+International Conference on Learning Representations (ICLR), 2021.
+\arxiv{2011.13772}
+
+\bibitem{liwangarora2022}
+Z.~Li, T.~Wang, S.~Arora,
+\emph{What happens after SGD reaches zero loss?---a mathematical framework},
+International Conference on Learning Representations (ICLR), 2022.
+\arxiv{2110.06914}
+
+\bibitem{lojasiewicz1984}
+S.~\L{}ojasiewicz,
+\emph{Sur les trajectoires du gradient d'une fonction analytique},
+Seminari di Geometria 1982--1983, Universit\`a di Bologna (1984), 115--117.
+
+\bibitem{lin2017}
+S.~Lin,
+\emph{Ideal-theoretic strategies for asymptotic approximation of marginal likelihood integrals},
+J.\ Algebraic Stat.\ \textbf{8} (2017), 22--55.
+
+\bibitem{mandt2017}
+S.~Mandt, M.~D. Hoffman, D.~M. Blei,
+\emph{Stochastic gradient descent as approximate Bayesian inference},
+J.\ Mach.\ Learn.\ Res.\ \textbf{18} (2017), 1--35.
+\arxiv{1704.04289}
+
+\bibitem{michel2019}
+L.~Michel,
+\emph{About small eigenvalues of the Witten Laplacian},
+Pure Appl.\ Anal.\ \textbf{1} (2019), 149--206.
+\arxiv{1702.01837}
+
+\bibitem{pesme2023}
+S.~Pesme, N.~Flammarion,
+\emph{Saddle-to-saddle dynamics in diagonal linear networks},
+Advances in Neural Information Processing Systems (NeurIPS), 2023.
+\arxiv{2304.00488}
+
+\bibitem{saito2007}
+M.~Saito,
+\emph{On real log canonical thresholds},
+2007. \arxiv{0707.2308}
+
+\bibitem{saxe2014}
+A.~M. Saxe, J.~L. McClelland, S.~Ganguli,
+\emph{Exact solutions to the nonlinear dynamics of learning in deep linear neural networks},
+International Conference on Learning Representations (ICLR), 2014.
+\arxiv{1312.6120}
+
+\bibitem{shalova2024}
+A.~Shalova, A.~Schlichting, M.~Peletier,
+\emph{Singular-limit analysis of gradient descent with noise injection},
+2024. \arxiv{2404.12293}
+
+\bibitem{shirodkar2026}
+T.~P. Shirodkar,
+\emph{Dead directions: geometric singular learning},
+2026. \arxiv{2606.05957}
+
+\bibitem{watanabe2009}
+S.~Watanabe,
+\emph{Algebraic Geometry and Statistical Learning Theory},
+Cambridge Monographs on Applied and Computational Mathematics 25, Cambridge University Press, 2009.
+
+\bibitem{watanabe2013}
+S.~Watanabe,
+\emph{A widely applicable Bayesian information criterion},
+J.\ Mach.\ Learn.\ Res.\ \textbf{14} (2013), 867--897.
+\arxiv{1208.6338}
+
+\bibitem{wojtowytsch2023}
+S.~Wojtowytsch,
+\emph{Stochastic gradient descent with noise of machine learning type. Part II: continuous time analysis},
+J.\ Nonlinear Sci.\ \textbf{33} (2023), Paper No.\ 45.
+\arxiv{2106.02588}
+
+\end{thebibliography}
+
+\end{document}

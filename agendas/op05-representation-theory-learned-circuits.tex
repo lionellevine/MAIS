@@ -1,0 +1,520 @@
+\documentclass[11pt]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{xcolor}
+\usepackage[colorlinks=true, linkcolor=blue!55!black, citecolor=blue!55!black, urlcolor=blue!55!black]{hyperref}
+\newcommand{\arxiv}[1]{\href{https://arxiv.org/abs/#1}{\texttt{arXiv:#1}}}
+\emergencystretch=1.5em
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+
+\DeclareMathOperator{\Irr}{Irr}
+\DeclareMathOperator{\Out}{Out}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\tr}{tr}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\Rcl}{\mathcal{R}}
+
+\title[Representation theory of learned circuits]{Which irreducible representations does training select?\\ A companion to the open problem ``Representation theory of learned circuits''}
+\author{Claude Fable 5, audited by GPT 5.6 Sol}
+\date{}
+\hypersetup{
+  pdftitle={Which irreducible representations does training select?},
+  pdfauthor={Claude Fable 5; audited by GPT 5.6 Sol},
+  pdfsubject={Research agenda supplement to Open Problem 5 of Math for AI Safety}
+}
+\begin{document}
+\begin{abstract}
+Small neural networks trained to multiply in a finite group $G$ discover representation-theoretic algorithms: their weights contain matrix coefficients of irreducible representations of $G$, and their outputs are sums of characters. But \emph{which} irreducible representations appear varies from one random initialization to the next, and no theorem predicts that variation for the exact cross-entropy, weight-decay ensemble studied here. This note is a self-contained companion to Open Problem~5 in Lionel Levine's survey \emph{Math for AI Safety}. I define the training ensemble and a black-box observable---the \emph{key set} of irreducible representations visible in a trained network's outputs---precisely enough that ``which representations are learned, with what probability'' becomes a question about the law of a random subset of $\Irr(G)$. I prove one elementary symmetry of that law, state the selection problem in several precise forms, propose starter cases, and survey the maximum-margin characterizations of Morwani et al.\ and He et al.'s asymptotic theorems for a Taylor-surrogate projected flow. Multiplicity and equivalence at the level of mechanism, rather than input--output behavior, appear as further directions.
+\end{abstract}
+\maketitle
+
+\begin{center}
+\small\emph{Research agenda A5 \(\cdot\) Claude Fable 5, audited by GPT 5.6 Sol\\
+July 12, 2026 \(\cdot\) Status: draft}
+\end{center}
+
+\noindent This is a supplement to Open Problem~5 of Lionel Levine's \emph{Math for AI Safety: An Invitation for Mathematicians}~\cite{mais}.
+
+\begin{quote}
+\textbf{Open Problem 5 (Representation theory of learned circuits).}
+Networks trained on group multiplication learn representation-theoretic algorithms~\cite{nanda2023,chughtai2023}, but \emph{which} irreducible representations they use varies from one random seed to the next. Fix a finite group $G$, a one-hidden-layer architecture of fixed width, Gaussian initialization, and gradient flow on the cross-entropy loss (the mean negative log-probability assigned to the correct product) with \emph{weight decay}, an added penalty proportional to the squared norm of the weights. The irreducibles visible in the trained network's outputs then form a random subset of $\widehat{G}$; determine its distribution---which irreducibles are learned, with what probability, as a function of the width and the decay strength. The tables of learned representations in~\cite{chughtai2023} are the data such a theorem would have to explain; the smallest case with genuine competition, $G=\mathbb{Z}/5\mathbb{Z}$ at width two, is open already with the decay switched off.
+\end{quote}
+
+
+\section{The problem in brief}
+
+
+
+In plain terms: training a neural network is a randomized algorithm, its randomness coming from the initial weights. On group-multiplication tasks the algorithm's output is, empirically, always drawn from the same menu---circuits built from irreducible representations of $G$---but the item drawn varies by seed. The problem asks for the law of the draw. Everything needed to state that law precisely is defined below, from scratch, for a mathematician who has read no machine learning. The one delicate step is choosing the observable: what, formally, is ``the set of representations a trained network has learned''? Section~\ref{sec:observables} commits to a specific answer, and Section~\ref{sec:resist} examines what the choice leaves out.
+
+\begin{remark}[Conventions]
+The training ensemble always uses the exact cross-entropy loss and Euclidean squared weight decay of Definition~\ref{def:ensemble}. Results for a Taylor-surrogate risk, projected flow, or the $\ell_{2,3}$ margin are identified as such and are not transferred silently to this ensemble.
+\end{remark}
+
+\section{The phenomenon}\label{sec:phenomenon}
+
+Before any definitions, here is the data a theorem would have to explain.
+
+Nanda, Chan, Lieberum, Smith, and Steinhardt \cite{nanda2023} trained a small network to compute $a+b \bmod 113$ from examples. (Their architecture is a one-layer \emph{transformer} with $512$ neurons---a design I use only descriptively; every formal statement below concerns the explicit architecture of Definition~\ref{def:arch}.) The trained network computes in the Fourier basis of $\Z/113\Z$: its outputs are well approximated, to $95\%$ of their variance, by an expression of the form
+\[
+   \sum_{\zeta \in F} \kappa_\zeta \cos\Bigl(\frac{2\pi \zeta (a+b-c)}{113}\Bigr),
+   \qquad F = \{14, 35, 41, 42, 52\},
+\]
+with positive coefficients $\kappa_\zeta$. Five frequencies, out of the $56$ available ($\zeta$ and $113 - \zeta$ give the same cosine, so there are $(113-1)/2 = 56$ frequencies). A different random seed yields a different five-or-so-element $F$.
+
+Chughtai, Chan, and Nanda \cite{chughtai2023} replaced $\Z/113\Z$ by a nonabelian group and found the same story one level up: networks trained to compute the product in $G$ learn matrix coefficients of irreducible representations $\rho$ of $G$, and their outputs are sums of characters $\chi_\rho(abc^{-1})$ over a sparse set of $\rho$'s. Which set depends on the seed. For $G = S_5$, whose seven irreducible representations have dimensions $1,1,4,4,5,5,6$, their four seeds gave:
+
+\begin{center}
+\begin{tabular}{c|l|l}
+seed & fully connected network (width 128) & transformer \\
+\hline
+1 & sign, std, std$\otimes$sign, one 5-dim & sign, std$\otimes$sign \\
+2 & sign, std & sign, std$\otimes$sign \\
+3 & sign, std, the other 5-dim & sign, std \\
+4 & sign, std & sign, std \\
+\end{tabular}
+\end{center}
+
+\noindent Here ``std'' is the standard $4$-dimensional representation, and the \emph{fully connected network} is exactly the one-hidden-layer architecture written out in Definition~\ref{def:arch} below. The transformer consistently learns fewer representations than the fully connected network, despite having more parameters; one $S_6$ transformer seed learned a single faithful $5$-dimensional representation and nothing else. For the cyclic group $C_{113}$ the same contrast appears as $10$--$15$ \emph{key} frequencies (fully connected) against $3$--$4$ (transformer); ``key''---visible in the outputs above a detection threshold---is made precise in Definition~\ref{def:keyset}.
+
+Now the twist that makes the problem interesting rather than merely unfinished. Morwani, Edelman, Oncescu, Zhao, and Kakade \cite{morwani2024} proved that for a particular architecture (one hidden layer, \emph{quadratic} activation) and a particular implicit bias (maximum margin in a norm adapted to the architecture; definitions in Section~\ref{sec:known}), the optimal networks use \emph{every} frequency: each hidden unit carries a single frequency, and all $(p-1)/2$ frequencies appear. Their trained quadratic networks match this dense prediction. So the same task supports two regimes, dense and sparse, and the observed spectrum depends delicately on activation function, optimizer, and regularization. That dependence is the selection problem. No current theorem predicts, for the networks of \cite{nanda2023,chughtai2023}---Gaussian initialization at a fixed scale, trained to convergence---how many representations are learned, which ones, or with what probability; the nearest theorems, surveyed in Section~\ref{sec:known}, concern idealized regimes: vanishing weight decay, vanishing initialization scale, or no weight decay at all.
+
+\section{Background and definitions}\label{sec:background}
+
+\subsection{Representation theory}\label{sec:reptheory}
+Let $G$ be a finite group. A \textbf{(unitary) representation} of $G$ of dimension $d$ is a homomorphism $\rho \colon G \to U(d)$ into the group of $d \times d$ unitary complex matrices; $\rho$ is \textbf{irreducible} if no proper nonzero subspace of $\C^d$ is invariant under all $\rho(g)$. Two representations $\rho, \rho'$ are \textbf{equivalent} if $\rho' = T \rho T^{-1}$ for a fixed invertible $T$. Write $\Irr(G)$ for a set of representatives of the equivalence classes of irreducible representations, $d_\rho$ for the dimension of $\rho$, and $\chi_\rho(g) = \tr \rho(g)$ for its \textbf{character}. The characters satisfy the orthogonality relation $\sum_{g \in G} \chi_\rho(g) \overline{\chi_{\rho'}(g)} = |G|\,\delta_{\rho \rho'}$ for $\rho, \rho' \in \Irr(G)$, and $\sum_{\rho} d_\rho^2 = |G|$. Standard references include Serre \cite{serre1977}.
+
+The group algebra $\C[G]$, the vector space $\C^G$ of complex-valued functions on $G$ equipped with convolution, decomposes as an algebra into matrix blocks (Artin--Wedderburn):
+\[
+   \C[G] \;\cong\; \bigoplus_{\rho \in \Irr(G)} M_{d_\rho}(\C).
+\]
+Concretely, the projection of $\C^G$ onto the $\rho$-block, the \textbf{isotypic projection}, is convolution with the central idempotent $z_\rho = \frac{d_\rho}{|G|} \sum_{g} \overline{\chi_\rho(g)}\, g$; I write $P_\rho \colon \C^G \to \C^G$ for this projection. Its image is the $d_\rho^2$-dimensional span of the matrix coefficients $g \mapsto \rho(g)_{jk}$.
+
+For $G = C_p = \Z/p\Z$ with $p$ an odd prime, the irreducible representations are the $p$ characters $\rho_\zeta(a) = e^{2\pi i \zeta a / p}$ for $\zeta \in \Z/p\Z$, all one-dimensional, and the block decomposition is the discrete Fourier transform. Since the objects below are real-valued, conjugate representations always appear together; I therefore group $\Irr(G)$ into \textbf{conjugation classes} $[\rho] = \{\rho, \bar\rho\}$ and write
+\[
+   \Rcl(G) \;=\; \{\,[\rho] : \rho \in \Irr(G) \text{ nontrivial}\,\}.
+\]
+For $C_p$ the classes are the \textbf{frequencies} $[\rho_\zeta] = \{\rho_\zeta, \rho_{-\zeta}\}$, $\zeta \in \{1, \dots, (p-1)/2\}$, and $|\Rcl(C_p)| = (p-1)/2$. For $S_n$ all characters are real, so $\Rcl(S_n)$ is just the set of nontrivial irreducible representations.
+
+An automorphism $\alpha \in \Aut(G)$ acts on $\Irr(G)$ by $\rho \mapsto \rho \circ \alpha^{-1}$; inner automorphisms act trivially (conjugate representations are equivalent), so the action factors through the outer automorphism group $\Out(G)$, and it descends to $\Rcl(G)$. For $C_p$, $\Out(C_p) = \Aut(C_p) \cong (\Z/p\Z)^\times$ acts on frequencies by $\zeta \mapsto t\zeta$, transitively on $\Rcl(C_p)$.
+
+\subsection{Networks and training}\label{sec:networks}
+A neural network here is an explicit parametrized family of functions; no other machine-learning background is assumed.
+
+\begin{definition}[Architecture]\label{def:arch}
+Fix a finite group $G$, a function $\sigma \colon \R \to \R$ (the \textbf{activation}), and an integer $m \geq 1$ (the \textbf{width}). The parameter space is $\Theta = \bigl((\R^G)^3\bigr)^m$; a parameter $\theta = (u_i, v_i, w_i)_{i=1}^m$ consists of three real-valued functions on $G$ per \textbf{neuron} $i$. The network computes, for each input pair $(a,b) \in G \times G$, the output vector $f_\theta(a,b) \in \R^G$ with entries
+\[
+   f_\theta(a,b)(c) \;=\; \sum_{i=1}^m \sigma\bigl(u_i(a) + v_i(b)\bigr)\, w_i(c), \qquad c \in G.
+\]
+The entries $f_\theta(a,b)(c)$ are called \textbf{logits}: the network's answer to ``what is $ab$?'' is read off as $\arg\max_c f_\theta(a,b)(c)$. The two activations of interest are the \textbf{quadratic} activation $\sigma(x) = x^2$ and the \textbf{rectifier} $\mathrm{ReLU}(x) = \max(x,0)$.
+\end{definition}
+
+This is the architecture used in \cite{chughtai2023,morwani2024}---the fully connected network of Section~\ref{sec:phenomenon}---in machine-learning terms: one hidden layer, untied left and right embeddings $u, v$, unembedding $w$, no biases (a constant shift of $u_i$ serves as a bias since the input determines one coordinate of $u_i$). The transformer of \cite{nanda2023} is a different architecture, used here only in narrative.
+
+\begin{definition}[Training ensemble]\label{def:ensemble}
+Fix $(G, \sigma, m)$ as above, a \textbf{weight-decay} constant $\lambda \geq 0$, and an \textbf{initialization scale} $\tau > 0$. The \textbf{loss} is the function $L_\lambda \colon \Theta \to \R$,
+\[
+   L_\lambda(\theta) \;=\; \frac{1}{|G|^2} \sum_{(a,b) \in G^2}
+   \Bigl[\, \log \sum_{c \in G} e^{f_\theta(a,b)(c)} \;-\; f_\theta(a,b)(ab) \,\Bigr]
+   \;+\; \lambda \|\theta\|^2,
+\]
+where $\|\theta\|$ is the Euclidean norm on $\Theta$. \textbf{Training} is the gradient flow
+\[
+   \frac{d\theta}{dt} = -\nabla L_\lambda(\theta(t)), \qquad
+   \theta(0) \text{ with independent } N(0, \tau^2) \text{ coordinates}.
+\]
+I write $\mathcal{T}(G, \sigma, m, \lambda, \tau)$ for this random trajectory $(\theta(t))_{t \geq 0}$.
+\end{definition}
+
+Glosses, one per ingredient. The bracketed term is the \emph{cross-entropy}: it is $-\log$ of the probability that the network assigns to the correct answer $ab$ when its logits are converted to a probability distribution by $c \mapsto e^{f(c)}/\sum_{c'} e^{f(c')}$ (the \emph{softmax}); it is nonnegative, and small when the correct logit dominates. I take the input distribution to be uniform on the full multiplication table, so there is no distinction here between training data and the underlying distribution. A uniformly random subset of the table, as in the experiments of \cite{nanda2023}, would give a natural second parameter. The term $\lambda \|\theta\|^2$ is weight decay, the regularization that empirically drives these networks from memorization to algorithm \cite{nanda2023,power2022}. Gradient flow idealizes the discrete optimizers used in practice. For $\sigma(x) = x^2$ the loss is smooth and the flow exists for all time, for every $\lambda \geq 0$: when $\lambda > 0$ the loss is coercive, and when $\lambda = 0$ the energy identity $L_0(\theta(0)) - L_0(\theta(T)) = \int_0^T \|\dot\theta\|^2\,dt$, together with $L_0 \geq 0$ and Cauchy--Schwarz, gives $\|\theta(T) - \theta(0)\| \leq \sqrt{T\, L_0(\theta(0))}$, so the trajectory cannot blow up in finite time. Either way the trajectory is a well-defined random variable. (The $\lambda = 0$ case is not idle: Conjecture~\ref{conj:lln} and Problems~\ref{start:c5} and~\ref{start:relu} are set there.) For $\sigma = \mathrm{ReLU}$ the loss is only piecewise smooth and the flow must be read as a differential inclusion: a \textbf{Clarke trajectory} is an absolutely continuous path $\theta \colon [0,\infty) \to \Theta$ with $\dot\theta(t) \in -\partial L_\lambda(\theta(t))$ for almost every $t$, where $\partial$ is the Clarke subdifferential. Clarke trajectories exist from every initial condition, but they need not be unique. Convention: every formal statement below about a ReLU ensemble is asserted for \emph{every} measurable assignment of one complete Clarke trajectory to each initial condition. Such global assignments exist. On each interval $[0,T]$ the solution sets are nonempty and compact, their restriction maps are compatible, and the inverse limit is the set of complete trajectories; applying the Kuratowski--Ryll-Nardzewski theorem to this global path-space multifunction gives a measurable selection. Practical experiments replace gradient flow by discrete algorithms such as AdamW; those algorithms are coordinatewise and permutation-equivariant, so Proposition \ref{prop:symmetry} below applies to them as well, but each formal problem is stated for the flow.
+
+\subsection{Why characters solve the task}\label{sec:gcr}
+The algorithm the trained networks implement rests on one elementary lemma, which I include to make this note self-contained. It is the correctness proof of the ``group composition via representations'' algorithm of \cite{chughtai2023}, specializing to the ``Fourier multiplication'' algorithm of \cite{nanda2023} when $G$ is cyclic.
+
+\begin{lemma}\label{lem:gcr}
+Let $\rho^{(1)}, \dots, \rho^{(r)}$ be nontrivial irreducible unitary representations of $G$ and let $\kappa_1, \dots, \kappa_r > 0$. Define $\ell(a,b,c) = \sum_{j=1}^r \kappa_j \operatorname{Re} \chi_{\rho^{(j)}}(abc^{-1})$. Then for every $(a,b)$, the function $c \mapsto \ell(a,b,c)$ attains its maximum at $c = ab$; the maximum is attained \emph{only} at $c = ab$ if and only if $\bigcap_j \ker \rho^{(j)} = \{1\}$.
+\end{lemma}
+
+\begin{proof}
+The eigenvalues of the unitary matrix $\rho(g)$ lie on the unit circle, so $\operatorname{Re} \chi_\rho(g) \leq d_\rho$, with equality if and only if all eigenvalues equal $1$, i.e.\ $\rho(g) = I$. Each summand of $\ell(a,b,c)$ is therefore maximized, over $c$, at those $c$ with $abc^{-1} \in \ker \rho^{(j)}$, and $c = ab$ maximizes all summands simultaneously. Uniqueness holds precisely when $abc^{-1} \in \bigcap_j \ker \rho^{(j)}$ forces $abc^{-1} = 1$.
+\end{proof}
+
+In words: a positive combination of characters, evaluated at $abc^{-1}$, is a ``bump function'' peaked at the correct answer, and the peak is unique when the representations are jointly faithful. Everything else in the trained networks---the matrix coefficients in $u_i, v_i$, the multiplication performed by the nonlinearity, the readout in $w_i$---exists to produce logits of this form. Whether the logits of a \emph{particular} trained network take this form is an empirical finding, not a theorem, and Section~\ref{sec:resist} returns to a genuine dispute about it.
+
+\section{The observable: key sets and the selection law}\label{sec:observables}
+
+The survey asks ``which irreducible representations are learned.'' I now fix an observable that makes this precise. It is black-box (computed from the network's input--output behavior alone, so it does not presuppose any interpretation of the weights), basis-free, and matches the measurement actually reported in \cite{chughtai2023}.
+
+For each nontrivial $\rho \in \Irr(G)$ define $\psi_\rho \colon G^3 \to \C$ by $\psi_\rho(a,b,c) = \chi_\rho(abc^{-1})$. Since $(a,b,c) \mapsto abc^{-1}$ is, for each fixed $(a,b)$, a bijection in $c$, character orthogonality gives
+\[
+   \langle \psi_\rho, \psi_{\rho'} \rangle
+   \;=\; \sum_{(a,b,c) \in G^3} \psi_\rho(a,b,c) \overline{\psi_{\rho'}(a,b,c)}
+   \;=\; |G|^3\, \delta_{\rho\rho'}.
+\]
+So the $\psi_\rho$ are orthogonal in $L^2(G^3)$, and correlating a network's logits against them isolates the contribution of each representation.
+
+\begin{definition}[Spectral weight, key set, spectral count]\label{def:keyset}
+Given $\theta \in \Theta$, let $\tilde\ell_\theta(a,b,c) = f_\theta(a,b)(c) - \frac{1}{|G|}\sum_{c'} f_\theta(a,b)(c')$ be the centered logits. The \textbf{spectral weight} of $\rho$ is the correlation
+\[
+   \beta_\rho(\theta) \;=\; \frac{\langle \tilde\ell_\theta, \psi_\rho \rangle}{\|\tilde\ell_\theta\|\,\|\psi_\rho\|}
+   \qquad (\text{set } \beta_\rho = 0 \text{ if } \tilde\ell_\theta = 0),
+\]
+and the weight of a conjugation class is $b_{[\rho]}(\theta)^2 = \sum_{\rho' \in [\rho]} |\beta_{\rho'}(\theta)|^2$. For a threshold $\varepsilon \in (0,1)$, the \textbf{key set} is
+\[
+   K_\varepsilon(\theta) \;=\; \{\, [\rho] \in \Rcl(G) : b_{[\rho]}(\theta) \geq \varepsilon \,\},
+\]
+and for $\delta \in (0,1)$ the \textbf{spectral count} $N_\delta(\theta)$ is the smallest cardinality of a set $S \subseteq \Rcl(G)$ with $\sum_{[\rho] \in S} b_{[\rho]}(\theta)^2 \geq (1-\delta) \sum_{[\rho] \in \Rcl(G)} b_{[\rho]}(\theta)^2$.
+\end{definition}
+
+Glosses. The key set is the list of representations visible in the network's outputs above a fixed signal threshold; it is the formal version of the seed tables in Section~\ref{sec:phenomenon} ($\varepsilon$ plays the role of the detection threshold $0.005$ used in \cite{chughtai2023}). Centering removes the trivial representation, and one checks that adding to the logits any function of $(a,b)$ alone changes no $\beta_\rho$ with $\rho$ nontrivial (such a function is orthogonal to every nontrivial $\psi_\rho$ because $\sum_g \chi_\rho(g) = 0$), which is as it should be: logits are only meaningful up to a per-input shift. Since the $\psi_\rho / \|\psi_\rho\|$ are orthonormal, Bessel's inequality gives $\sum_{[\rho]} b_{[\rho]}^2 \leq 1$, so $|K_\varepsilon| \leq \varepsilon^{-2}$ always; for questions about \emph{how many} representations are used, the right observable is not $K_\varepsilon$ but the spectral count $N_\delta$, the number of representations needed to capture a $(1-\delta)$ fraction of the logits' spectral mass. In the mainline experiment of \cite{nanda2023}, five frequencies explain $95\%$ of the logit variance, so $N_{0.05} \leq 5$ out of $56$---an inequality rather than an equality, both because a smaller set might already cross $95\%$ and because their variance is measured against all logit directions, not against the spectral mass $\sum_{[\rho]} b_{[\rho]}^2$.
+
+Two more observables, these ones white-box, record where individual neurons live.
+
+\begin{definition}[Purity and multiplicity]\label{def:purity}
+For $x \in \R^G$ let $x^\circ = x - (\text{mean of } x)$, and for a class $[\rho]$ let $\Pi_{[\rho]} = \sum_{\rho' \in [\rho]} P_{\rho'}$ be the isotypic projection of Section~\ref{sec:reptheory}. Call $E_i(\theta) = \|u_i^\circ\|^2 + \|v_i^\circ\|^2 + \|w_i^\circ\|^2$ the \textbf{centered energy} of neuron $i$. Neuron $i$ of $\theta$ is \textbf{$(\delta, [\rho])$-pure} if $E_i(\theta) > 0$ and
+\[
+   \|\Pi_{[\rho]} u_i^\circ\|^2 + \|\Pi_{[\rho]} v_i^\circ\|^2 + \|\Pi_{[\rho]} w_i^\circ\|^2
+   \;\geq\; (1-\delta)\, E_i(\theta).
+\]
+A neuron with $E_i(\theta) = 0$ (a \textbf{dead} neuron: all three weight vectors constant) is by convention pure for no class. The \textbf{multiplicity} of $[\rho]$ is $\nu_{[\rho],\delta}(\theta) = \frac{1}{m} \#\{ i : \text{neuron } i \text{ is } (\delta,[\rho])\text{-pure} \}$.
+\end{definition}
+
+A pure neuron is one whose weights are, up to a small fraction $\delta$ of their energy and a constant offset, matrix coefficients of a single irreducible representation. The dead-neuron convention is not pedantry: without it a dead neuron would satisfy the purity inequality vacuously for \emph{every} class, and since weight decay tends to produce dead neurons, every multiplicity $\nu_{[\rho],\delta}$ would be inflated by them. Purity is scale-invariant, so it makes sense even when training drives the weights to infinity. Empirically, trained networks on these tasks are almost entirely composed of pure neurons ($84.6\%$ of neurons at frequency-purity $\geq 0.85$ in \cite{nanda2023}; neuron clusters by representation in \cite{chughtai2023}). The profile $(\nu_{[\rho],\delta})$ is a white-box extension of the survey's output-level selection question: it asks how the chosen representations are distributed across neurons.
+
+\begin{definition}[Selection law]\label{def:law}
+In the ensemble $\mathcal{T}(G,\sigma,m,\lambda,\tau)$, the \textbf{selection law at time $t$} is the probability distribution
+\[
+   \mu_t \;=\; \mu_t(G,\sigma,m,\lambda,\tau,\varepsilon)
+   \;=\; \operatorname{Law}\bigl( K_\varepsilon(\theta(t)) \bigr)
+\]
+on the (finite) power set of $\Rcl(G)$. The \textbf{limiting selection law}, when the weak limit exists, is $\mu_\infty = \lim_{t \to \infty} \mu_t$.
+\end{definition}
+
+The selection law is the central object of this note. Computing it is exactly the survey's question; two qualitatively different answers are possible. A \emph{deterministic selection theorem} would prove that $\mu_\infty$ is a point mass and compute its support, while a \emph{random-selection theorem} would prove that $\mu_\infty$ charges at least two subsets and compute their probabilities. The seed tables of Section~\ref{sec:phenomenon} are four samples from $\mu_t$ for two ensembles.
+
+One constraint on the selection law can be proved now. It is elementary, but it delimits what any selection theorem could say.
+
+\begin{proposition}[Symmetry of the selection law]\label{prop:symmetry}
+Let $\sigma(x) = x^2$ and $\lambda \geq 0$. For every $t \geq 0$, the selection law $\mu_t$ is invariant under the action of $\Out(G)$ on subsets of $\Rcl(G)$, and the laws of $N_\delta(\theta(t))$ and of the multiplicity profile are likewise $\Out(G)$-invariant. In particular, for $G = C_p$: every frequency is key with the same probability, $\Prob\bigl([\rho_\zeta] \in K_\varepsilon(\theta(t))\bigr) = \frac{2}{p-1}\, \E\, |K_\varepsilon(\theta(t))|$ for all $\zeta$.
+\end{proposition}
+
+\begin{proof}
+Let $\alpha \in \Aut(G)$ and define $\theta^\alpha$ by $u_i^\alpha = u_i \circ \alpha^{-1}$, $v_i^\alpha = v_i \circ \alpha^{-1}$, $w_i^\alpha = w_i \circ \alpha^{-1}$. Then $f_{\theta^\alpha}(a,b)(c) = f_\theta(\alpha^{-1}a, \alpha^{-1}b)(\alpha^{-1}c)$. Consequently the cross-entropy term of $L_\lambda(\theta^\alpha)$ at the input pair $(a,b)$ equals the term of $L_\lambda(\theta)$ at the pair $(\alpha^{-1}a, \alpha^{-1}b)$: the softmax sum over $c$ is a bijective reindexing $c \mapsto \alpha^{-1}c$, and the correct label goes to the correct label because $\alpha^{-1}(ab) = \alpha^{-1}(a)\,\alpha^{-1}(b)$. Summing over all $(a,b)$, which the substitution merely permutes, and noting that $\|\theta^\alpha\| = \|\theta\|$, we get $L_\lambda(\theta^\alpha) = L_\lambda(\theta)$. The map $\theta \mapsto \theta^\alpha$ is a coordinate permutation of $\Theta$, hence orthogonal, so it conjugates the gradient flow to itself, and it preserves the law $N(0,\tau^2 I)$ of $\theta(0)$. Therefore $\theta(t)^\alpha$ has the same law as $\theta(t)$. Finally, a change of variables in the inner product gives $\langle \tilde\ell_{\theta^\alpha}, \psi_\rho \rangle = \langle \tilde\ell_\theta, \psi_{\rho \circ \alpha} \rangle$, so $b_{[\rho]}(\theta^\alpha) = b_{[\rho \circ \alpha]}(\theta)$ and hence $K_\varepsilon(\theta^\alpha) = \alpha \cdot K_\varepsilon(\theta)$ under the action $\rho \mapsto \rho \circ \alpha^{-1}$ of Section~\ref{sec:reptheory}; similarly $\nu_{[\rho],\delta}(\theta^\alpha) = \nu_{[\rho \circ \alpha],\delta}(\theta)$ for the multiplicities of Definition \ref{def:purity}. Combining: $\mu_t$ is invariant under the induced action, which factors through $\Out(G)$. For $C_p$ the action on frequencies is transitive, giving the last claim by exchangeability.
+\end{proof}
+
+\begin{remark}
+The proposition explains the part of the seed tables that looks like uniform noise---for cyclic groups, no frequency can be preferred to any other---and it applies to every width, $\lambda\ge0$, and initialization scale in the smooth quadratic ensemble. In one idealized regime more is known: for quadratic activation, $\lambda=0$, and abelian $G$, He et al.\ \cite{he2026spectral} prove a dense selection law for projected flow under a Taylor-surrogate small-logit risk. The margin results of \cite{morwani2024,wei2019} concern a different norm; Section~\ref{sec:known} states the distinction. Note what the proposition does \emph{not} give: $\Aut(C_p)$ acts transitively on frequencies but not on $k$-element sets of frequencies, so the law of $K_\varepsilon$ could in principle prefer multiplicatively structured sets (say, geometric progressions $\{\zeta, 2\zeta, 4\zeta, \dots\}$). Question~\ref{q:exchangeable} asks whether it does. For $\sigma = \mathrm{ReLU}$ the same argument applies to any selection of Clarke trajectories that commutes with the relabeling maps $\theta \mapsto \theta^\alpha$, and to coordinatewise discrete optimizers such as AdamW; I restrict the formal statement to the smooth case to keep the flow single-valued.
+\end{remark}
+
+\begin{remark}[Correctness does not constrain the key set]\label{rem:correctness}
+One might hope that merely \emph{solving the task} forces certain representations into the key set, so that selection would be partly an algebraic fact rather than a dynamical one. It does not. Take $G = S_3$, whose nontrivial classes are the sign representation and the $2$-dimensional standard representation. Consider $h(g) = \mathbf{1}\{g = 1\} - \frac{1-\eta}{3} \chi_{\mathrm{std}}(g)$, i.e.\ the indicator bump with its standard-isotypic part nearly removed (I write $\eta$ for the deformation parameter, reserving $\delta$ for thresholds): $h = \frac13 + \frac{2\eta}{3}$ at $g = 1$, $h = 0$ on transpositions, $h = \frac{1-\eta}{3}$ on $3$-cycles. For every $\eta > 0$ the unique maximum of $h$ is at $g = 1$, so the logits $\ell(a,b,c) = h(abc^{-1})$ solve the task perfectly, while their correlation with $\psi_{\mathrm{std}}$ is $O(\eta)$. Moreover a width-$|G|^2$ ReLU network of the form in Definition~\ref{def:arch} can realize \emph{any} prescribed logit function (constant shifts of $u_i$ act as thresholds, so single neurons can implement indicators of input pairs). So every key set compatible with joint faithfulness---and, at vanishing spectral weight, even every \emph{nonempty} set violating it---is realized by some zero-error network; only the empty key set is excluded, since pairing the centered logits with the centered indicator of the correct answer shows that zero error forces a total character correlation bounded below by a positive constant depending only on $|G|$, so $K_\varepsilon \neq \emptyset$ for small $\varepsilon$. Whatever the selection law turns out to be, it is a theorem about gradient flow, not about $G$.
+\end{remark}
+
+\section{Precise formulations}\label{sec:problems}
+
+Throughout this section $\varepsilon$ and $\delta$ denote thresholds as above; each statement is asserted for Lebesgue-almost every sufficiently small $\varepsilon > 0$ (respectively $\delta$), and all other parameters are quantified explicitly. Unless a statement says otherwise, its displayed parameters are fixed but arbitrary, and a proof for a single explicit choice is a full solution. The almost-every is not decorative: the limiting law of a spectral weight $b_{[\rho]}(\theta(t))$ may place an atom exactly at $\varepsilon$, in which case the event $[\rho] \in K_\varepsilon$ is unstable and, for instance, $\mu_\infty$ can fail to exist at that one threshold; nothing is asserted at such exceptional values. Where a nearby result exists I say so in place.
+
+The headline problem is Open Problem~5 in measurable form. Its weight decay $\lambda > 0$ is not incidental: that is the regime of the survey statement and of every seed table in Section~\ref{sec:phenomenon}. The survey also singles out the first case with genuine competition: $C_5$, quadratic activation, width two, and no decay. Problem~\ref{start:c5} makes that foothold explicit.
+
+\begin{problem}[The selection law]\label{prob:law}
+Fix a finite group $G$, $\sigma \in \{x^2, \mathrm{ReLU}\}$, a width $m$, and $\lambda, \tau > 0$, and consider $\mathcal{T}(G,\sigma,m,\lambda,\tau)$ (for $\sigma = \mathrm{ReLU}$, under every measurable selection of Clarke trajectories, per the convention of Section~\ref{sec:networks}).
+\begin{enumerate}
+\item[(a)] Prove that the limiting selection law $\mu_\infty$ of Definition~\ref{def:law} exists.
+\item[(b)] Decide whether $\mu_\infty$ is a point mass.
+\item[(c)] (\emph{Existential}, overriding the fixed data above.) Compute $\mu_\infty$ for at least one nonabelian $G$, one activation, and one explicit parameter regime $(m, \lambda, \tau, \varepsilon)$.
+\end{enumerate}
+\end{problem}
+
+Parts (a) and (b) are posed for each fixed tuple $(G,\sigma,m,\lambda,\tau)$ separately, and I do not conjecture uniformity in the parameters. For $\sigma=x^2$ and $\lambda>0$, analyticity, coercivity, and the {\L}ojasiewicz gradient inequality \cite{lojasiewicz1984} imply that every parameter trajectory converges to one critical point. This does not settle the key-set law. Near the origin,
+\[
+L_\lambda(\theta)=\log|G|+\lambda\|\theta\|^2+O(\|\theta\|^3),
+\]
+so $\theta=0$ is a strict hyperbolic local minimum with an open attraction basin. Gaussian initialization hits that basin with positive probability, and the normalized correlations $\beta_\rho$ need not converge merely because the logits vanish. A negative answer to (b), with two explicitly described charged sets and their probabilities, would establish genuinely random selection; a solution to (c) with a point mass would establish deterministic selection in one concrete regime.
+
+Two neighboring theories do not yet predict this ensemble. Morwani et al.~\cite{morwani2024} characterize maximum margin in the $\ell_{2,3}$ norm, whereas Definition~\ref{def:ensemble} uses Euclidean squared decay; Wei et al.~\cite{wei2019} preserve the chosen regularizer norm rather than converting one norm into another. He et al.~\cite{he2026spectral} prove per-neuron alignment and abelian diversification for projected flow under a Taylor-surrogate risk. Their comparison with exact cross-entropy is finite-horizon, so it does not transfer the asymptotic theorem.
+
+\begin{problem}[Sparse or dense]\label{prob:sparse}
+Let $p\to\infty$ through odd primes, $G = C_p$, $\sigma = \mathrm{ReLU}$, $m = \lceil C_0\, p \rceil$, $\lambda = \lambda_0 > 0$, and $\tau = \tau_0 p^{-1/2}$ with $C_0,\lambda_0,\tau_0>0$ fixed. Fix a small $\delta$ and determine
+\[
+   \limsup_{p \to \infty} \; \limsup_{t \to \infty} \; \frac{\E\, N_\delta(\theta(t))}{p}\,:
+\]
+is it zero (\emph{sparse} regime, as observed in \cite{nanda2023,chughtai2023}) or positive (\emph{dense} regime, as in the $\ell_{2,3}$ maximum-margin model and quadratic experiments of \cite{morwani2024})? In the sparse case, determine the growth rate of $\limsup_t \E N_\delta$ in $p$. (This is posed per measurable selection of Clarke trajectories; whether the answer depends on the selection is part of the problem.)
+\end{problem}
+
+The empirical record is too thin even to conjecture the growth rate: the published data are essentially $N_{0.05} \approx 5$ at $p = 113$ for one transformer \cite{nanda2023} and $3$--$15$ for the networks of \cite{chughtai2023}. A heuristic of McCracken et al.~\cite{mccracken2025}, who reinterpret the learned circuits through approximate cosets and a ``Chinese remainder'' mechanism, suggests $O(\log p)$ features suffice for deeper networks; whether trained shallow networks track any such rate is open. The measurement itself is Starter Project~\ref{start:measure}.
+
+The next two statements concern multiplicities in the one regime where per-neuron behavior is already a theorem: quadratic activation, no weight decay.
+
+\begin{conjecture}[Law of large numbers for multiplicities]\label{conj:lln}
+Fix a nonabelian finite group $G$, $\sigma(x) = x^2$, $\lambda = 0$, $\tau > 0$. There exist constants $q_{[\rho]} \geq 0$ with $\sum_{[\rho] \in \Rcl(G)} q_{[\rho]} = 1$, not depending on $\tau$, such that for every $\delta \in (0, \tfrac12)$ and every $[\rho] \in \Rcl(G)$,
+\[
+   \lim_{m \to \infty} \; \lim_{t \to \infty} \; \nu_{[\rho],\delta}\bigl(\theta_m(t)\bigr) \;=\; q_{[\rho]}
+   \qquad \text{in probability},
+\]
+where $\theta_m$ denotes the trajectory of $\mathcal{T}(G, x^2, m, 0, \tau)$, and $q_{[\rho]} > 0$ for every $[\rho]$. Existence of the inner limit, almost surely for each fixed $m$, is part of the conjecture.
+\end{conjecture}
+
+\begin{question}[Selection probabilities]\label{q:dsquared}
+In the setting of Conjecture~\ref{conj:lln}, is $q_{[\rho]}$ proportional to $\dim \Pi_{[\rho]} = \sum_{\rho' \in [\rho]} d_{\rho'}^2$, i.e.\ to the dimension of the isotypic component?
+\end{question}
+
+The conjecture asserts convergence of empirical proportions; it does not assert that neurons land independently. For abelian $G$ with no self-conjugate nontrivial character, He, Wang, Zhang, Chen, and Yang \cite{he2026spectral} prove the analogue for projected flow under their Taylor-surrogate risk: each neuron converges to one irreducible representation, with uniform diversification across the nontrivial characters. For nonabelian $G$ they prove the corresponding alignment theorem for the same surrogate flow, but not the landing law. Three heuristics suggest different answers. Gaussian initialization puts mean squared mass $\sum_{\rho' \in [\rho]} d_{\rho'}^2/|G|$ in the isotypic component, suggesting $q_{[\rho]}\propto d_\rho^2$ if the initially heaviest component wins. Morwani et al.'s $\ell_{2,3}$ maximum-margin construction allocates neurons in proportions closer to $d_\rho^3$. In the small-initialization limit, the alternating-gradient-flow picture of \cite{kunin2025} predicts sequential acquisition ranked by initial spectral mass. Deciding among these heuristics is part of the problem.
+
+The cyclic foothold $C_5$ has the advantage of matching Open Problem~5 exactly. For a first \emph{nonabelian} laboratory, take $G=S_3$. Its representation theory still fits on one line: $\Rcl(S_3) = \{\mathrm{sgn}, \mathrm{std}\}$, with $d_{\mathrm{sgn}} = 1$, $d_{\mathrm{std}} = 2$, and only $\mathrm{std}$ faithful.
+
+\begin{problem}[$S_3$ with the architecture fixed in advance]\label{prob:s3}
+Consider $\mathcal{T}(S_3, \sigma, m, \lambda, \tau)$ with $\sigma \in \{x^2, \mathrm{ReLU}\}$, $m \geq 100$, $\lambda > 0$, $\tau > 0$.
+\begin{enumerate}
+\item[(a)] (\emph{Purity.}) For $\sigma = \mathrm{ReLU}$: prove or refute that almost surely every neuron ends pure or silent. Precisely: each neuron $i$ either is eventually \emph{inactive}---$u_i(a) + v_i(b) < 0$ for all $(a,b)$, so that it contributes to no logit---or there is a class $[\rho] \in \{\mathrm{sgn}, \mathrm{std}\}$ such that, for every $\delta \in (0,\tfrac12)$, neuron $i$ is $(\delta,[\rho])$-pure for all large $t$. (The silent alternative cannot be dropped: with positive probability a neuron is inactive at initialization, and then its gradient is pure weight decay, so it shrinks radially and stays inactive, and impure, forever. The restriction $\delta < \tfrac12$ matters too: at $\delta \geq \tfrac12$ one neuron can be pure for both classes at once. For $\sigma=x^2$ and $\lambda=0$, He et al.~\cite{he2026spectral} prove alignment for projected flow under a Taylor-surrogate risk; the exact-loss, rectifier, and weight-decay regimes are open.)
+\item[(b)] (\emph{Selection.}) For each $\sigma \in \{x^2, \mathrm{ReLU}\}$: prove that the limiting selection law $\mu_\infty$ of Definition~\ref{def:law} exists, and determine it as a measure on the four subsets of $\{\mathrm{sgn}, \mathrm{std}\}$. In particular, decide whether $\mu_\infty(\{S : \mathrm{std} \in S\}) = 1$ and whether $\mu_\infty(\{S : \mathrm{sgn} \in S\}) < 1$.
+\end{enumerate}
+\end{problem}
+
+\begin{conjecture}\label{conj:s3}
+Fix a nonexceptional threshold $\varepsilon>0$. In $\mathcal{T}(S_3, x^2, m, \lambda, \tau)$ with $m \geq 100$, in the double limit $t \to \infty$ then $\lambda \to 0$: the selection law converges to the point mass at $\{\mathrm{sgn}, \mathrm{std}\}$.
+\end{conjecture}
+
+Morwani et al.'s Theorem 9 \cite{morwani2024} applies to $S_3$ under the $\ell_{2,3}$ normalized margin and shows that every \emph{nonzero} neuron in a maximum-margin network is pure, with both nontrivial representations present. The character-sum hypothesis holds: its values are $-1$ on transpositions and $1-2\sqrt2$ on $3$-cycles. This theorem motivates comparison with Conjecture~\ref{conj:s3}, but does not predict it, because the ensemble uses Euclidean squared decay. A proof of the conjecture would require a dynamical analysis of that norm and this double limit.
+
+Finally, non-identifiability where the data most strongly suggest it. $\Out(S_5)$ is trivial, so Proposition~\ref{prop:symmetry} imposes no constraint: no symmetry identifies one key set with another.
+
+\begin{problem}[Non-identifiability at width 128]\label{prob:nonident}
+Consider the ensembles $\mathcal{T}(S_5, \mathrm{ReLU}, 128, \lambda, \tau)$, the fully connected setting of \cite{chughtai2023}. Prove or refute: for some $\lambda, \tau > 0$ there exist two subsets $S \neq S'$ of $\Rcl(S_5)$ with
+\[
+   \liminf_{t \to \infty} \mu_t(\{S\}) > 0 \quad\text{and}\quad \liminf_{t \to \infty} \mu_t(\{S'\}) > 0.
+\]
+\end{problem}
+
+The four seeds in Section~\ref{sec:phenomenon} suggest $S = \{\mathrm{sgn}, \mathrm{std}\}$ and $S' = S \cup \{\text{a 5-dimensional}\}$. This is a nonabelian extension of the survey problem: not merely that inequivalent zero-loss circuits exist---for the quadratic activation with $\ell^2$ loss on abelian group tasks, the algebraic constructions of \cite{tian2024} already provide them in abundance, though nothing analogous is proved for the cross-entropy loss or for $S_5$---but that gradient flow from Gaussian initialization actually charges two key sets with positive probability. Nothing of this kind is proved for any group and any architecture.
+
+\begin{question}[Exchangeability beyond symmetry]\label{q:exchangeable}
+Fix $G = C_p$ with $p \geq 7$, an activation $\sigma \in \{x^2, \mathrm{ReLU}\}$, and $m, \lambda, \tau$ as in Problem~\ref{prob:law}. Is every limit point of the selection laws $(\mu_t)_{t \geq 0}$ invariant under \emph{all} permutations of the $(p-1)/2$ frequency classes, or only under the multiplicative action of Proposition~\ref{prop:symmetry}? Equivalently: conditioned on $|K_\varepsilon| = k$, is $K_\varepsilon$ asymptotically a uniformly random $k$-set?
+\end{question}
+
+A negative answer would mean training feels the multiplicative structure of $(\Z/p\Z)^\times$ when choosing frequencies---for instance, preferring or avoiding sets closed under doubling---something no published experiment has tested. (For $p \leq 5$ there are at most two frequency classes and the multiplicative action already realizes every permutation of them, so the question starts at $p = 7$.)
+
+\section{A place to start}\label{sec:start}
+
+\begin{problem}[The smallest case with competition]\label{start:c5}
+Let $G = C_5$, $\sigma(x) = x^2$, $m = 2$, $\lambda = 0$, and $\tau = 1$. The parameter space is $\R^{30}$ and $\Rcl(C_5)$ has two frequencies. Write the gradient field in a real Fourier basis. As a first finite calculation, classify its stationary directions for which each neuron is supported on one frequency, determine their transverse stability, and decide which of the four ordered frequency assignments can attract an open set. Then prove or refute that almost surely each neuron \emph{aligns}: the limit of $\theta(t)/\|\theta(t)\|$ exists and its neuron $i$ is $(\delta,[\rho_{\zeta_i}])$-pure for every $\delta>0$, for some frequency $\zeta_i$. Compute the probability that the two neurons choose the same frequency. (Proposition~\ref{prop:symmetry} makes the frequencies exchangeable, so this one probability determines the law of the pair on the alignment event.)
+\end{problem}
+
+The first step is a symmetry-reduced algebra problem; the second asks whether those local calculations control a random trajectory. Together they isolate the phenomenon on which the larger problems turn: competition between representations for a finite supply of neurons. The comparison arguments of \cite{he2026grokking} use small or specially controlled initialization and an early-stage decoupled approximation; the Riemannian-gradient structure of \cite{he2026spectral} belongs to a Taylor-surrogate projected flow. The width-$2$, unit-scale, exact-loss problem above lies outside both theories.
+
+\begin{problem}[One rectifier neuron]\label{start:relu}
+Let $G = C_p$, $\sigma = \mathrm{ReLU}$, $m = 1$, $\lambda = 0$, $\tau = 1$, and condition on the event that the neuron is active at initialization---$u_1(a) + v_1(b) > 0$ for some $(a,b)$. On the complementary event the gradient vanishes almost surely; equality at a ReLU kink is a Gaussian null event. Prove or refute: almost surely on the active event, the normalized weights $(u_1, v_1, w_1)/\|\cdot\|$ converge, and the limit is $(\delta, [\rho_\zeta])$-pure for every $\delta > 0$, for some frequency $\zeta$. The nearest rectifier result, a leakage-rate estimate in \cite{he2026grokking}, starts from a controlled single-frequency state rather than random initialization.
+\end{problem}
+
+\begin{problem}[A pilot measurement of the law]\label{start:measure}
+For $G\in\{C_5,S_3\}$, train Definition~\ref{def:arch} with both activations, widths $m\in\{2,8\}$, initialization scale $\tau=|G|^{-1/2}$, and
+\[
+\lambda\in\{0,10^{-4},10^{-2}\}.
+\]
+Use the full multiplication table and full-batch Adam on $L_\lambda$ (learning rate $10^{-3}$, $\beta_1=.9$, $\beta_2=.999$, numerical stabilizer $10^{-8}$), with the convention $\mathrm{ReLU}'(0)=0$. Run at most $2\cdot10^4$ updates from $100$ fixed seeds per configuration. Declare convergence when both the relative loss change and the relative parameter change stay below $10^{-7}$ for $500$ consecutive updates; otherwise label the run nonconvergent. Record $K_{.005}$, $N_{.05}$, and the finite-width multiplicities $\nu_{[\rho],.05}$. Publish the configuration files, seeds, final checkpoints, and nonconvergence counts, with $95\%$ confidence intervals for the observed key-set probabilities.
+
+The two readouts are deliberately local: estimate the same-frequency probability in the $C_5$, width-$2$ foothold, and measure how the key-set law changes when width or decay is varied. The $S_3$ runs test whether the same pipeline survives its first nonabelian group. These are finite-width estimates, not the conjectural constants $q_{[\rho]}$; a larger scaling study should wait until this pilot is reproducible.
+\end{problem}
+
+\section{What is known}\label{sec:known}
+
+This section is the literature answer to the problem, organized by the kind of statement each work proves. A structured catalogue of open problems in \emph{mechanistic interpretability}---the enterprise of reverse-engineering trained networks into human-legible algorithms---including a variant of this one, is Sharkey et al.~\cite{sharkey2025}.
+
+\subsection*{The empirical base}
+Grokking was reported by Power et al.~\cite{power2022}: a network trained on a random subset of an algebraic operation's table (those experiments withhold part of the table, unlike the full-table idealization of Definition~\ref{def:ensemble}) first memorizes its training data, then, long after, abruptly becomes correct on the withheld entries. Nanda et al.~\cite{nanda2023} reverse-engineered the grokked transformer for addition mod $113$: sparse key frequencies, single-frequency neurons, logits of the form in Lemma~\ref{lem:gcr}, verified by ablation (deleting the key frequencies destroys the network; deleting all others slightly improves it). Chughtai, Chan, and Nanda \cite{chughtai2023} generalized to nonabelian groups ($D_{59}, D_{61}, S_5, S_6, A_5$), introduced the character-based algorithm of Lemma~\ref{lem:gcr}, and documented the seed tables that this note treats as samples from the selection law; they framed the outcome as ``weak but not strong universality''---the algorithm family is stable, the instance is not. Zhong, Liu, Tegmark, and Andreas \cite{zhong2023} found that small architectural changes flip one-layer transformers on modular addition between at least two Fourier-based but mechanistically distinct algorithms (their ``clock'' and ``pizza''), with the choice varying by seed as well. Stander, Yu, Fan, and Biderman \cite{stander2024} reverse-engineered fully connected networks grokking $S_5$ and $S_6$ and argued that the circuits are organized by cosets of subgroups rather than by the irreducible representations of \cite{chughtai2023}; Section~\ref{sec:resist} discusses the dispute. Ding, Guo, Michaud, Liu, and Tegmark \cite{ding2024} tracked the competition between embedded circular representations during training on modular addition and observed that circles with larger initial signal and gradient are likelier to survive---an empirical preview of a \emph{lottery-ticket} selection mechanism, the winners decided by the random draw at initialization. McCracken, Moisescu-Pareja, Letourneau, Precup, and Love \cite{mccracken2025} proposed a unifying ``approximate Chinese remainder'' reading of modular-addition circuits across architectures, with neurons activating on approximate cosets, and predicted logarithmically few features for deep networks.
+
+\subsection*{Maximum-margin characterizations}
+The \textbf{margin} of a parameter $\theta$ is the worst-case gap between the correct logit and the best competitor,
+\[
+   \gamma(\theta) \;=\; \min_{(a,b) \in G^2} \Bigl[\, f_\theta(a,b)(ab) - \max_{c \neq ab} f_\theta(a,b)(c) \,\Bigr];
+\]
+since $f_\theta$ is $3$-homogeneous in $\theta$ for the quadratic activation, Morwani et al.~\cite{morwani2024} normalize by $\|\theta\|_{2,3}^3$, where $\|\theta\|_{2,3}=(\sum_i\|\omega_i\|_2^3)^{1/3}$ and $\omega_i$ is the concatenated weight vector of neuron $i$. They characterize the global maximizers for this norm. For $C_p$, at width $m\ge4(p-1)$, every \emph{nonzero} neuron is supported on one frequency and every frequency is present. For a finite group whose irreducible representations are real and whose characters satisfy their sign condition, every nonzero neuron is supported on one nontrivial irreducible representation and every such representation is present. Li, Liang, Shi, Song, and Zhou \cite{li2025} extend the cyclic characterization to sums of $k$ inputs.
+
+The regularizer norm matters. Wei, Lee, Liu, and Ma \cite{wei2019} relate weak regularization to maximum margin for the \emph{same} norm used in the regularizer. Morwani et al.'s experiments and theorems use $\ell_{2,3}$ regularization, whereas Definition~\ref{def:ensemble} uses Euclidean squared decay. Their characterization therefore does not identify the endpoint of this file's ensemble. Even with the norm matched, gradient flow is known to approach only Karush--Kuhn--Tucker points of the homogeneous margin problem \cite{lyu2020}, not necessarily global maximizers; the mean-field theorem of \cite{chizat2020} treats infinitely wide two-homogeneous networks, not this cubic architecture.
+
+\subsection*{The solution manifold}
+Gromov \cite{gromov2023} wrote down closed-form two-layer quadratic networks solving modular addition. Tian \cite{tian2024} showed that for the quadratic activation and $\ell^2$ loss on abelian group tasks, the space of global solutions across widths carries a semiring structure under which partial solutions compose into global ones, constructed rich families of inequivalent global optimizers, and reported that about $95\%$ of gradient-descent solutions match the constructed forms. This settles, for that activation and loss, the static half of non-identifiability (many inequivalent zero-loss circuits exist); Problem~\ref{prob:nonident} asks for the dynamical half (that training charges more than one).
+
+\subsection*{Training dynamics}
+He, Wang, Chen, and Yang \cite{he2026grokking} analyze quadratic networks on modular addition through a small-initialization, early-stage decoupled approximation. Their rigorous lottery-ticket statements begin from single-frequency neurons or controlled equal-magnitude multi-frequency initializations; the evidence for full random initialization with rectifiers is empirical. He, Wang, Zhang, Chen, and Yang \cite{he2026spectral} introduce exact cross-entropy and projected gradient flow, then Taylor-expand the loss to a small-logit surrogate. Their asymptotic alignment and abelian-diversification theorem is for projected flow under that surrogate. Exact and surrogate trajectories are compared only on fixed finite time intervals, with an error bound that grows in time, so the theorem does not transfer to exact cross-entropy as $t\to\infty$.
+
+Kunin, Marchetti, Chen, Karkada, Simon, DeWeese, Ganguli, and Miolane \cite{kunin2025} approximate training from small initialization by an \emph{alternating gradient flow} in which dormant neurons activate one at a time; for quadratic modular addition with square loss, the resulting picture is sequential acquisition in decreasing order of initial Fourier magnitude. Marchetti, Kunin, Myers, Acosta, and Miolane \cite{marchetti2026} prove a sequential representation-learning theorem in a vanishing-initialization regime. These results isolate mechanisms, but none gives the fixed-scale, exact-cross-entropy selection law of Definition~\ref{def:ensemble}.
+
+\subsection*{Invariance forces harmonics}
+Two results explain why representation-theoretic features are the natural endpoint rather than an accident of this task family. Marchetti, Hillar, Kragic, and Sanborn \cite{marchetti2024} prove that for architectures whose weights are identifiable from their input--output behavior up to per-unit unitary changes of basis, any weight configuration invariant under a finite group $G$ must have each unit's weights equal to an irreducible unitary representation of $G$ up to a fixed linear map, and orthonormal weights assemble into the Fourier transform on $G$; the group's multiplication table can then be read off the weights, robustly under approximate invariance. Sanborn, Shewmake, Olshausen, and Hillar \cite{sanborn2022} exhibit this empirically in bispectral networks, which recover the irreducible representations and the full Cayley table of an unknown compact abelian group from orbit data alone. These are statements about which configurations are \emph{possible}, with no probability measure on them; the selection problem is precisely the question of which the training dynamics choose.
+
+\section{Beyond key sets: mechanism-level equivalence}\label{sec:resist}
+
+Open Problem~5 asks for the distribution of representations visible in the outputs. The key set $K_\varepsilon$ makes that question precise. At zero weight decay, however, cross-entropy may have no finite minimizer: scaling a strictly separating ray sends the loss toward zero. This is why the $C_5$ foothold in Problem~\ref{start:c5} asks about normalized directions, as in the margin framework of \cite{wei2019,lyu2020,morwani2024}, rather than finite minima.
+
+A stronger question asks whether two networks with the same key set compute by the same mechanism. The key set cannot decide this: it sees input--output characters, not the intermediate computation. The clock and pizza circuits of \cite{zhong2023}, for example, both produce Fourier logits but use different intermediate quantities. Likewise, Stander et al.~\cite{stander2024} describe trained group-multiplication networks in terms of cosets, while Chughtai et al.~\cite{chughtai2023} describe them in terms of characters. Since cosets and irreducible representations are not in bijection, the two descriptions are not trivially interchangeable.
+
+Formalizing mechanism-level equivalence would require choices that Open Problem~5 does not need: which internal quantities are part of the algorithm, which reparametrizations count as trivial, and how much approximation error a mechanism may absorb before it becomes a different one. The causal-abstraction literature offers candidate machinery \cite{geiger2025}, but no definitive invariant. Multiplicities and mechanism-level equivalence are therefore extensions of the key-set problem, not hidden assumptions inside it.
+
+The main question is already concrete: which representations appear, with what probability, under an explicit ODE with random initial data? Proposition~\ref{prop:symmetry} gives one universal constraint, and \cite{he2026spectral} gives an asymptotic classification for a Taylor-surrogate projected flow. The exact fixed-scale ensemble remains open. The group $C_5$ has two competing frequencies and the network has two neurons. Start the flow, and determine the law of their choices.
+
+\begin{thebibliography}{99}
+
+\bibitem{mais}
+L.~Levine,
+\emph{Math for AI Safety: An Invitation for Mathematicians},
+2026. \url{https://github.com/lionellevine/MAIS/blob/main/survey/MAIS.pdf}.
+
+
+\bibitem{chizat2020}
+L.~Chizat and F.~Bach,
+\emph{Implicit bias of gradient descent for wide two-layer neural networks trained with the logistic loss},
+Proceedings of the 33rd Conference on Learning Theory (COLT), 2020.
+\arxiv{2002.04486}
+
+\bibitem{chughtai2023}
+B.~Chughtai, L.~Chan, and N.~Nanda,
+\emph{A toy model of universality: reverse engineering how networks learn group operations},
+Proceedings of the 40th International Conference on Machine Learning (ICML), 2023.
+\arxiv{2302.03025}
+
+\bibitem{ding2024}
+X.~D.~Ding, Z.~C.~Guo, E.~J.~Michaud, Z.~Liu, and M.~Tegmark,
+\emph{Survival of the fittest representation: a case study with modular addition},
+ICML 2024 Workshop on Mechanistic Interpretability, 2024.
+\arxiv{2405.17420}
+
+\bibitem{geiger2025}
+A.~Geiger, D.~Ibeling, A.~Zur, et al.,
+\emph{Causal abstraction: a theoretical foundation for mechanistic interpretability},
+preprint, 2025.
+\arxiv{2301.04709}
+
+\bibitem{gromov2023}
+A.~Gromov,
+\emph{Grokking modular arithmetic},
+preprint, 2023.
+\arxiv{2301.02679}
+
+\bibitem{he2026grokking}
+J.~He, L.~Wang, S.~Chen, and Z.~Yang,
+\emph{On the mechanism and dynamics of modular addition: Fourier features, lottery ticket, and grokking},
+preprint, 2026.
+\arxiv{2602.16849}
+
+\bibitem{he2026spectral}
+J.~He, L.~Wang, F.~Zhang, S.~Chen, and Z.~Yang,
+\emph{Neural networks provably learn spectral representations for group composition},
+preprint, 2026.
+\arxiv{2606.02993}
+
+\bibitem{kunin2025}
+D.~Kunin, G.~L.~Marchetti, F.~Chen, D.~Karkada, J.~B.~Simon, M.~R.~DeWeese, S.~Ganguli, and N.~Miolane,
+\emph{Alternating gradient flows: a theory of feature learning in two-layer neural networks},
+Advances in Neural Information Processing Systems (NeurIPS), 2025.
+\arxiv{2506.06489}
+
+\bibitem{li2025}
+C.~Li, Y.~Liang, Z.~Shi, Z.~Song, and T.~Zhou,
+\emph{Fourier circuits in neural networks and transformers: a case study of modular arithmetic with multiple inputs},
+Proceedings of the 28th International Conference on Artificial Intelligence and Statistics (AISTATS), 2025.
+\arxiv{2402.09469}
+
+\bibitem{lojasiewicz1984}
+S.~{\L}ojasiewicz,
+\emph{Sur les trajectoires du gradient d'une fonction analytique},
+Seminari di Geometria 1982--1983, Universit\`a di Bologna, 1984, pp.~115--117.
+
+\bibitem{lyu2020}
+K.~Lyu and J.~Li,
+\emph{Gradient descent maximizes the margin of homogeneous neural networks},
+International Conference on Learning Representations (ICLR), 2020.
+\arxiv{1906.05890}
+
+\bibitem{marchetti2024}
+G.~L.~Marchetti, C.~J.~Hillar, D.~Kragic, and S.~Sanborn,
+\emph{Harmonics of learning: universal Fourier features emerge in invariant networks},
+Proceedings of the 37th Conference on Learning Theory (COLT), 2024.
+\arxiv{2312.08550}
+
+\bibitem{marchetti2026}
+G.~L.~Marchetti, D.~Kunin, A.~Myers, F.~Acosta, and N.~Miolane,
+\emph{Sequential group composition: a window into the mechanics of deep learning},
+Proceedings of the 43rd International Conference on Machine Learning (ICML), 2026.
+\arxiv{2602.03655}
+
+\bibitem{mccracken2025}
+G.~McCracken, G.~Moisescu-Pareja, V.~Letourneau, D.~Precup, and J.~Love,
+\emph{Uncovering a universal abstract algorithm for modular addition in neural networks},
+preprint, 2025.
+\arxiv{2505.18266}
+
+\bibitem{morwani2024}
+D.~Morwani, B.~L.~Edelman, C.-A.~Oncescu, R.~Zhao, and S.~Kakade,
+\emph{Feature emergence via margin maximization: case studies in algebraic tasks},
+International Conference on Learning Representations (ICLR), 2024.
+\arxiv{2311.07568}
+
+\bibitem{nanda2023}
+N.~Nanda, L.~Chan, T.~Lieberum, J.~Smith, and J.~Steinhardt,
+\emph{Progress measures for grokking via mechanistic interpretability},
+International Conference on Learning Representations (ICLR), 2023.
+\arxiv{2301.05217}
+
+\bibitem{power2022}
+A.~Power, Y.~Burda, H.~Edwards, I.~Babuschkin, and V.~Misra,
+\emph{Grokking: generalization beyond overfitting on small algorithmic datasets},
+preprint, 2022.
+\arxiv{2201.02177}
+
+\bibitem{sanborn2022}
+S.~Sanborn, C.~Shewmake, B.~Olshausen, and C.~Hillar,
+\emph{Bispectral neural networks},
+International Conference on Learning Representations (ICLR), 2023.
+\arxiv{2209.03416}
+
+\bibitem{serre1977}
+J.-P.~Serre,
+\emph{Linear Representations of Finite Groups},
+Graduate Texts in Mathematics 42, Springer, 1977.
+
+\bibitem{sharkey2025}
+L.~Sharkey, B.~Chughtai, et al.,
+\emph{Open problems in mechanistic interpretability},
+preprint, 2025.
+\arxiv{2501.16496}
+
+\bibitem{stander2024}
+D.~Stander, Q.~Yu, H.~Fan, and S.~Biderman,
+\emph{Grokking group multiplication with cosets},
+Proceedings of the 41st International Conference on Machine Learning (ICML), 2024.
+\arxiv{2312.06581}
+
+\bibitem{tian2024}
+Y.~Tian,
+\emph{Composing global solutions to reasoning tasks via algebraic objects in neural nets},
+Advances in Neural Information Processing Systems (NeurIPS), 2025.
+\arxiv{2410.01779}
+
+\bibitem{wei2019}
+C.~Wei, J.~D.~Lee, Q.~Liu, and T.~Ma,
+\emph{Regularization matters: generalization and optimization of neural nets v.s.\ their induced kernel},
+Advances in Neural Information Processing Systems (NeurIPS), 2019.
+\arxiv{1810.05369}
+
+\bibitem{zhong2023}
+Z.~Zhong, Z.~Liu, M.~Tegmark, and J.~Andreas,
+\emph{The clock and the pizza: two stories in mechanistic explanation of neural networks},
+Advances in Neural Information Processing Systems (NeurIPS), 2023.
+\arxiv{2306.17844}
+
+\end{thebibliography}
+\end{document}

@@ -1,0 +1,62 @@
+\documentclass[11pt,reqno]{amsart}
+
+% ============================================================
+%  Math for AI Safety
+%  Ported to amsart (mytemplate.tex house style).
+%  Citations: numbered \cite with hyperref links; bibliography is a
+%  manual thebibliography. arXiv links via the \arxiv macro.
+% ============================================================
+
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{microtype}
+\usepackage[normalem]{ulem} % \uline for glossary terms at first use; normalem keeps \emph italic
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc, decorations.pathreplacing, shapes.geometric}
+\usepackage[colorlinks=true, linkcolor=blue!55!black, citecolor=blue!55!black, urlcolor=blue!55!black]{hyperref}
+\hypersetup{pdftitle={Math for AI Safety: An Invitation for Mathematicians}, pdfauthor={Lionel Levine}}
+
+% Wider text block (mytemplate.tex house style).
+\addtolength{\oddsidemargin}{-.2in}
+\addtolength{\evensidemargin}{-.2in}
+\addtolength{\textwidth}{.4in}
+
+% Clickable arXiv links (from mytemplate.tex).
+\newcommand{\arxiv}[1]{\href{http://arxiv.org/abs/#1}{\texttt{arXiv:#1}}}
+% Glossary terms are underlined at first use (2026-07-13, per Lionel); the intro says so.
+\DeclareRobustCommand{\glsfirst}[2]{\hypertarget{first:#1}{\hyperlink{gloss:#1}{\uline{#2}}}}
+\DeclareRobustCommand{\glsentry}[2]{\hypertarget{gloss:#1}{\hyperlink{first:#1}{#2}}}
+
+\theoremstyle{plain}
+\newtheorem*{theorem*}{Theorem}
+\theoremstyle{definition}
+% A small marker for the starred open problems.
+\newcommand{\op}{\ensuremath{\bigstar}\;}
+\newtheorem{openproblem}{\op Open Problem}
+
+\title[Math for AI Safety]{Math for AI Safety: \\ An invitation for mathematicians}
+\author{Lionel Levine}
+\date{July 22, 2026}
+
+\begin{document}
+
+\begin{abstract}
+Powerful AI systems raise questions that look, at first, like engineering: What should the system optimize? What has it learned? Why does it generalize? How will it behave on unfamiliar inputs? Each has a mathematical core. I organize this invitation by mathematical field, so you can turn straight to your own: logic and game theory for cooperation and bounded reasoning; probability and causality for agency and world-models; algebra and representation theory for learned features; analysis and geometry for generalization and training dynamics. New mathematics is needed to help make AI systems more legible, steerable, and cooperative. Each section ends with a concrete open problem, chosen to be small enough to start and close enough to the safety question to matter.
+\end{abstract}
+
+\maketitle
+
+\input{sections-revised/intro}
+\input{sections-revised/logic}
+\input{sections-revised/probability}
+\input{sections-revised/algebra}
+\input{sections-revised/analysis}
+%\input{sections-revised/control}       % parked: not in current compile
+%\input{sections-revised/topology}      % parked: not in current compile
+\input{sections-revised/conclusion}
+
+\end{document}

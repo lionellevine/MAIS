@@ -1,0 +1,475 @@
+\documentclass[11pt]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{xcolor}
+\usepackage[colorlinks=true, linkcolor=blue!55!black, citecolor=blue!55!black, urlcolor=blue!55!black]{hyperref}
+\emergencystretch=2em
+\newcommand{\arxiv}[1]{\href{https://arxiv.org/abs/#1}{\texttt{arXiv:#1}}}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\pr}{\mathbb{P}}
+\DeclareMathOperator{\relu}{ReLU}
+\DeclareMathOperator{\cone}{cone}
+
+\title[Identifiability of superposition]{The geometry and identifiability of superposition}
+\author{Claude Fable 5, audited by GPT 5.6 Sol}
+\date{}
+\hypersetup{
+  pdftitle={The geometry and identifiability of superposition},
+  pdfauthor={Claude Fable 5; audited by GPT 5.6 Sol},
+  pdfsubject={Research agenda supplement to Open Problem 3 of Math for AI Safety}
+}
+\begin{document}
+\begin{abstract}
+This is a self-contained companion to the open problem ``The geometry and identifiability of superposition'' in Lionel Levine's survey \emph{Math for AI Safety: an invitation for mathematicians}. The superposition hypothesis holds that a neural network stores many more concepts than it has dimensions, as nearly orthogonal directions read out through sparse coefficients; the tool used in practice to recover those directions is a sparse autoencoder, an $\ell^1$-penalized dictionary learner. Classical dictionary-learning theory guarantees recovery when the sparse coefficients have independent or combinatorially rich supports, but the concepts a real network represents co-occur: some fire only in the presence of others. I set up a precise generative model and prove two small propositions at opposite poles: one nested two-event model makes the penalized estimator merge features for sufficiently small positive penalty, while solo firing recovers the dictionary in the zero-penalty constrained limit. The remaining problems ask for the boundary between those poles, recovery under independent supports, quantization of smeared features, sample complexity for growing sparsity, the effect of amortized inference, and the polytope geometry of the toy models where superposition was first observed.
+\end{abstract}
+\maketitle
+
+\begin{center}
+\small\emph{Research agenda A3 \(\cdot\) Claude Fable 5, audited by GPT 5.6 Sol\\
+July 12, 2026 \(\cdot\) Status: draft}
+\end{center}
+
+\noindent This is a supplement to Open Problem~3 of Lionel Levine's \emph{Math for AI Safety: An Invitation for Mathematicians}~\cite{mais}.
+
+\begin{quote}
+\textbf{Open Problem 3 (The geometry and identifiability of superposition).}
+Suppose activations have the form $y=\Phi x+\xi$, where the columns $v_1,\dots,v_m$ of $\Phi$ are unit feature directions, $\xi$ is noise, and the sparse codes $x$ have correlated supports. Estimate the dictionary the way a sparse autoencoder does: minimize reconstruction error plus an $\ell^1$ penalty. Determine, in terms of the coherence $\mu=\max_{i\neq j}\lvert\langle v_i,v_j\rangle\rvert$, the sparsity, the sample size, and the support correlations, when every minimizer recovers the true directions up to permutation and scaling, and when it instead \emph{merges} co-occurring directions into one. Already for two features the answer is unknown: a nested two-event model provably forces merging for every sufficiently small positive penalty, while solo firing restores recovery in the zero-penalty constrained limit; locating the positive-penalty phase boundary is the place to start.
+\end{quote}
+
+
+\section{The problem in brief}\label{sec:brief}
+
+
+
+In plain terms: \emph{mechanistic interpretability} is the project of reverse-engineering what a trained network computes from its internal states. Its researchers believe that a trained network encodes each concept as a direction in the space of those states, with many more concepts than dimensions, and they extract the directions by fitting a sparse linear model to observed states. The classical mathematics of such fitting---dictionary learning---has uniqueness theorems, but under hypotheses (independent or exhaustively varied sparsity patterns, oracle-optimal sparse codes) that the practical procedure violates. The problem is to prove, or refute, recovery for the procedure and the data as they actually are: an $\ell^1$-penalized estimator, applied to sparse combinations whose active sets are \emph{correlated}, because concepts in the world co-occur. This document defines every object from scratch, exhibits the failure mode in the smallest possible example, and then states precise problems and conjectures.
+
+Everything below is stated for a mathematician who has read no machine learning. In particular, the vectors $v_i$ and $v_j$ appearing in the coherence $\mu$ above are the columns of the dictionary $\Phi$, normalized to unit Euclidean length (Definition~\ref{def:coherence}).
+
+\begin{remark}[Conventions]
+All atoms are unit vectors, all sparse codes are nonnegative, and the sparse-autoencoder objective below is a centered idealization (practical versions often learn an output bias). The spark condition of order $k$ means that every set of at most $2k$ columns is linearly independent. The status of every numbered problem was checked against the literature as of July 2026.
+\end{remark}
+
+\section{Background: from networks to dictionaries}\label{sec:background}
+
+\subsection{Activation vectors and the superposition hypothesis}
+
+A \textbf{neural network} is a function built by composing affine maps with a fixed nonlinearity applied coordinatewise; one common nonlinearity is $\relu(t)=\max(t,0)$. The coefficients of the affine maps, called \textbf{weights}, are chosen by numerical optimization of an error measure on example data (\textbf{training}). Run an input through a trained network and record the intermediate vector produced after a given layer of the composition: this is the layer's \textbf{activation vector}, a point of $\R^n$, where $n$ is the number of coordinates (\textbf{neurons}) in that layer. The distribution of inputs induces a distribution of activation vectors, and this distribution---not the weights---is the raw material below.
+
+Large trained networks appear to represent vastly more distinct concepts (``features'': a fragment of syntax, a person, a chemical motif) than any layer has dimensions. The \textbf{superposition hypothesis} of Elhage et al.~\cite{elhage2022} explains how that is possible: features correspond to unit directions in $\R^n$ that are not orthogonal, only nearly so, and each input activates only a few of them, so the interference between the non-orthogonal directions stays small on typical inputs. Two classical facts make the hypothesis quantitative. There is \emph{room}: the number of pairwise $\varepsilon$-almost-orthogonal unit vectors in $\R^n$ grows exponentially in $n$ (Proposition~\ref{prop:packing}). And sparse combinations of such vectors are \emph{decodable}: this is compressed sensing (Theorem~\ref{thm:cs}).
+
+The hypothesis suggests a generative model for activation vectors, and the model is where the mathematics begins.
+
+\subsection{The generative model}
+
+Throughout, $\|\cdot\|$ is the Euclidean norm on $\R^n$, $\|z\|_1=\sum_j |z_j|$, and $[m]=\{1,\dots,m\}$.
+
+\begin{definition}[Dictionary, coherence]\label{def:coherence}
+A \textbf{dictionary} is a matrix $\Phi\in\R^{n\times m}$ whose columns $v_1,\dots,v_m\in\R^n$, called \textbf{atoms} or \textbf{feature directions}, are unit vectors: $\|v_i\|=1$ for all $i\in[m]$. Its \textbf{coherence} is
+\[
+  \mu(\Phi)\;=\;\max_{1\le i<j\le m}\,\lvert\langle v_i,v_j\rangle\rvert,
+\]
+the largest inner product in absolute value between two distinct atoms. Write $U_{n,m}$ for the set of all such $\Phi$. We say $\Phi$ satisfies the \textbf{spark condition} of order $k$ if every set of at most $2k$ columns is linearly independent.
+\end{definition}
+
+Coherence measures the worst-case failure of orthogonality: $\mu=0$ means an orthonormal system (forcing $m\le n$), while superposition lives in the regime $m>n$, where $\mu>0$ is unavoidable but can be small.
+
+\begin{definition}[Superposition model]\label{def:model}
+A \textbf{superposition model} is a tuple $\mathcal{S}=(\Phi,\pi,\nu,\sigma)$ where $\Phi\in U_{n,m}$; $\pi$ is a probability distribution on subsets of $[m]$ (the \textbf{support distribution}); $\nu$ is a probability distribution on $(0,\infty)$ with finite second moment (the \textbf{coefficient law}); and $\sigma\ge 0$ (the \textbf{noise level}). A sample from $\mathcal{S}$ is generated as follows: draw $S\sim\pi$; given $S$, draw coefficients $x_i\sim\nu$ independently for $i\in S$ and set $x_i=0$ for $i\notin S$; draw $\xi\sim N(0,\sigma^2 I_n)$ independently; output
+\[
+  y \;=\; \Phi x + \xi \;=\; \sum_{i\in S} x_i\,v_i \;+\;\xi .
+\]
+The model is \textbf{$k$-sparse} if $\pi(\lvert S\rvert\le k)=1$. Three statistics of $\pi$ recur below: the \textbf{marginal rates} $\pr(i\in S)$ for $i\in[m]$; the \textbf{co-occurrence ratio}
+$r(\pi)=\max_{i\neq j}\ \pr(j\in S \mid i\in S)$;
+and the \textbf{solo-firing rates} $\pr(S=\{i\}\mid i\in S)$. (In the two conditional statistics, $i$ ranges over features with $\pr(i\in S)>0$.) We say feature $j$ is \textbf{nested} in feature $i$ if $\pr(j\in S,\ i\notin S)=0$: feature $j$ never fires without feature $i$.
+\end{definition}
+
+The coefficients are taken positive because in the systems being modeled a feature's coefficient is an intensity (``how strongly is this feature present''), and because the estimators below produce nonnegative coefficients by construction. The support distribution $\pi$ is deliberately unrestricted: correlated supports are the whole point. Nested supports are the normal case for conceptual hierarchies. In the running example of Chanin et al.~\cite{chanin2024}, one feature fires on words starting with ``s'' and another on the particular word ``short'': the second never fires without the first, so ``short'' is nested in ``starts with s''.
+
+\subsection{The geometry: how much room, and at what price}
+
+\begin{proposition}[Almost-orthogonal packing]\label{prop:packing}
+There is an absolute constant $c>0$ such that for every $\varepsilon\in(0,1)$ and every $n\ge 1$ there exist at least $\lfloor e^{c\varepsilon^2 n}\rfloor$ unit vectors in $\R^n$ with pairwise inner products at most $\varepsilon$ in absolute value.
+\end{proposition}
+
+Independent uniform random unit vectors work: the inner product of two of them concentrates within $O(n^{-1/2})$ of zero, and a union bound over pairs tolerates exponentially many vectors. So a dictionary can have exponentially many atoms at coherence $\varepsilon$. In the opposite direction, coherence cannot be arbitrarily small:
+
+\begin{theorem}[Welch bound \cite{welch1974}]\label{thm:welch}
+Every $\Phi\in U_{n,m}$ with $m>n$ satisfies
+$\mu(\Phi)^2 \ge \dfrac{m-n}{n(m-1)}$.
+\end{theorem}
+
+For $m$ large the right side approaches $1/n$: packing more than $n$ directions costs coherence at least about $n^{-1/2}$, and equality forces a very rigid configuration, an \emph{equiangular tight frame}: all pairwise inner products equal in absolute value, and $\sum_i v_iv_i^{\!\top}$ a multiple of the identity. Between the Welch floor and the packing ceiling lies the geometry available to a network.
+
+When the dictionary is \emph{known}, sparse combinations can be decoded, and the decoding survives convex relaxation. Say $\Phi$ is \textbf{restricted-isometric of order $k$ with distortion $\delta$} if $(1-\delta)\|x\|^2\le\|\Phi x\|^2\le(1+\delta)\|x\|^2$ for every $x\in\R^m$ with at most $k$ nonzero entries.
+
+\begin{theorem}[Cand\`es \cite{candes2008}; sharp constant, Cai--Zhang \cite{caizhang2014}]\label{thm:cs}
+If $\Phi$ is restricted-isometric of order $2s$ with distortion $\delta<1/\sqrt2$, then every $x\in\R^m$ with at most $s$ nonzero entries is the unique minimizer of $\ \min_z \|z\|_1$ subject to $\Phi z=\Phi x$. A matrix with independent Gaussian entries (columns normalized) has this property with high probability once $n\ge C\, s\log(m/s)$ \cite{baraniuk2008}.
+\end{theorem}
+
+Compressed sensing \cite{candes2006,donoho2006} is the reason superposition is not self-defeating: a few hundred dimensions can carry many thousands of features if only a handful fire at once. But it presumes the columns $v_1, \dots, v_m$ are handed to the decoder. In interpretability nobody hands them over; they must be \emph{learned} from samples of $y$ alone. That is dictionary learning, and it is done in practice with the following estimators.
+
+\subsection{The estimators}\label{sec:estimators}
+
+Fix a dictionary size $M\ge 1$ (not necessarily equal to $m$; practitioners typically take $M\gg n$). For $\Psi\in U_{n,M}$ with columns $u_1,\dots,u_M$, a data point $y\in\R^n$, and a penalty $\lambda>0$, define the \textbf{coding cost}
+\[
+  \ell_\lambda(y,\Psi)\;=\;\min_{z\in\R^M_{\ge0}}\ \tfrac12\,\lVert y-\Psi z\rVert^2+\lambda\lVert z\rVert_1,
+\]
+and, for the noiseless limiting case, the \textbf{constrained cost}
+\[
+  \ell_0(y,\Psi)\;=\;\inf\ \bigl\{\lVert z\rVert_1 :\ z\in\R^M_{\ge0},\ \Psi z=y\bigr\}\qquad(\inf\emptyset=+\infty).
+\]
+Given a superposition model $\mathcal{S}$ with sample $y$, the \textbf{population objectives} are
+\[
+  F_\lambda(\Psi)\;=\;\E\,\ell_\lambda(y,\Psi),
+  \qquad
+  F_0(\Psi)\;=\;\E\,\ell_0(y,\Psi),
+\]
+and the \textbf{empirical objective} $\widehat F^N_\lambda(\Psi)=\frac1N\sum_{i=1}^N \ell_\lambda(y_i,\Psi)$ for independent samples $y_1,\dots,y_N$. Minimizing $F_\lambda$ or $\widehat F^N_\lambda$ over $\Psi\in U_{n,M}$ is \textbf{$\ell^1$-penalized dictionary learning}. For fixed $\Psi$ the inner minimization is a convex program (a nonnegative lasso); its minimizers form a nonempty compact convex set, not always a single point, and we write $\hat z(y,\Psi)$ for a minimizer. Atom $j$ is \textbf{live} if, with positive probability in $y$, some minimizing code puts mass on it: $\pr\bigl(z_j>0\text{ for some minimizer }z\bigr)>0$; otherwise \textbf{dead}. For $\ell_0$ this convention is used only on samples with finite constrained cost.
+
+A \textbf{sparse autoencoder} (SAE) \cite{bricken2023,cunningham2023} replaces the inner minimization by a learned formula: the code is computed as $c(y)=\relu(Wy+b)$ for a matrix $W\in\R^{M\times n}$ and vector $b\in\R^M$ learned jointly with the dictionary, giving the \textbf{amortized objective}
+\[
+  G_\lambda(\Psi,W,b)\;=\;\E\Bigl[\tfrac12\lVert y-\Psi\,c(y)\rVert^2+\lambda\lVert c(y)\rVert_1\Bigr],\qquad c(y)=\relu(Wy+b).
+\]
+This is a one-layer learned-thresholding, or LISTA-style, amortizer. It coincides with one nonnegative iterative soft-thresholding step \cite{daubechies2004} from the zero code only under the tied relations $W=\eta\Psi^\top$ and $b=-\eta\lambda\mathbf 1$ for a step size $\eta$; the jointly learned $W,b$ above need not satisfy them. Practical variants also alter the nonlinearity, learn decoder and output biases, or replace the penalty with a hard sparsity constraint. Problem~\ref{prob:amortization} asks what is lost by replacing exact sparse coding with this learned map.
+
+All problems and conjectures below concern \emph{global minimizers} of these objectives, as required by the survey's phrase ``every minimizer.'' Whether gradient-based training finds those minimizers is a further question, deliberately excluded (see Section~\ref{sec:obstructions}).
+
+\section{The phenomenon: merging in the smallest example}\label{sec:phenomenon}
+
+Before the recovery and merging definitions of Section~\ref{sec:formulations}, watch the estimator fail---and then watch a one-parameter change repair it. Both propositions are elementary; I include full proofs because the pair of them fences in the open problem from both sides.
+
+Let $n\ge2$ and let $v_1,v_2\in\R^n$ be unit vectors with $\langle v_1,v_2\rangle=\cos\theta$, $\theta\in(0,\pi)$. Note $\|v_1+v_2\| = 2\cos(\theta/2) > 0$, and write
+\[
+  w\;=\;\frac{v_1+v_2}{\lVert v_1+v_2\rVert}
+\]
+for the unit bisector of the two feature directions.
+
+\begin{proposition}[Nesting forces merging]\label{prop:merge}
+Fix $\rho\in(0,1)$ and let the data be
+\[
+  y=\begin{cases} v_1 & \text{with probability } 1-\rho,\\ v_1+v_2 & \text{with probability } \rho \end{cases}
+\]
+(the superposition model with $\pi(\{1\})=1-\rho$, $\pi(\{1,2\})=\rho$, coefficient law $\nu=\delta_1$, and $\sigma=0$: feature $2$ is nested in feature $1$). Then over all $\Psi\in U_{n,2}$,
+\[
+  F_0(\Psi)\;\ge\;(1-\rho)+2\rho\cos(\theta/2),
+\]
+with equality if and only if the atoms of $\Psi$ are $\{v_1,\,w\}$. In particular the unique global minimizer of $F_0$ (up to permutation of atoms) is the \emph{merged} dictionary $(v_1,w)$, not the true dictionary $(v_1,v_2)$, whose value is $F_0(\Phi)=1+\rho$.
+\end{proposition}
+
+\begin{proof}
+If $z\in\R^2_{\ge0}$ satisfies $\Psi z=y$, the triangle inequality gives $\lVert y\rVert\le z_1\lVert u_1\rVert+z_2\lVert u_2\rVert=\lVert z\rVert_1$, with equality if and only if $u_j=y/\lVert y\rVert$ for every $j$ with $z_j>0$. Hence $\ell_0(y,\Psi)\ge\lVert y\rVert$, with equality if and only if some atom of $\Psi$ equals $y/\lVert y\rVert$. Taking expectations, $F_0(\Psi)\ge\E\lVert y\rVert=(1-\rho)\cdot1+\rho\cdot2\cos(\theta/2)$.
+
+The two values of $y$ occur with positive probability and point in distinct directions ($\theta>0$), so equality throughout requires one atom equal to $v_1$ and one equal to $w$; conversely the dictionary $(v_1,w)$ reconstructs both values exactly at cost $\lVert y\rVert$, achieving the bound. Any other $\Psi$ either fails to reconstruct one of the two values (making $F_0(\Psi)=\infty$) or pays strictly more than $\lVert y\rVert$ on a value of positive probability. Finally $F_0(\Phi)=(1-\rho)+2\rho$, and $2\cos(\theta/2)<2$ for $\theta>0$.
+\end{proof}
+
+Read the proof's message off the formula: the $\ell^1$ objective prices a data point at its coefficient mass, and the cheapest way to buy the point $v_1+v_2$ is a single dedicated atom at cost $\lVert v_1+v_2\rVert=2\cos(\theta/2)$, undercutting the honest two-atom representation at cost $2$. The learned dictionary has an atom at angle $\theta/2$ from \emph{each} true feature and no atom near $v_2$ at all; its coherence is $\cos(\theta/2)$, for every $\theta<2\pi/3$ strictly \emph{larger} than the true dictionary's $\lvert\cos\theta\rvert$ (at wider angles the comparison reverses). This is the failure mode Chanin et al.~\cite{chanin2024} call \textbf{feature absorption}---documented empirically in sparse autoencoders, and verified analytically in a two-feature model along a one-parameter family of solutions (their Appendix~A.2)---here in its smallest exact instance as a \emph{global} minimizer: the ``parent'' direction $v_1$ is absorbed into the atom serving the joint event, and the atom nominally tracking the parent stops firing there. Note what the hypothesis does \emph{not} contain: coherence. Merging wins at every angle $\theta$, however orthogonal the features.
+
+Now change only the support distribution.
+
+\begin{proposition}[Solo firing restores identifiability]\label{prop:recover}
+Let $a,b>0$ and $c\ge0$ with $a+b+c=1$, and let the data be $y=v_1,\ y=v_2,\ y=v_1+v_2$ with probabilities $a,b,c$ (each feature now fires alone with positive probability; coefficients and noise as in Proposition~\ref{prop:merge}). Then the unique global minimizer of $F_0$ over $U_{n,2}$, up to permutation of atoms, is the true dictionary $\Phi=(v_1,v_2)$.
+\end{proposition}
+
+\begin{proof}
+Feasibility first. If $F_0(\Psi)<\infty$ then $v_1,v_2\in\cone(u_1,u_2)=\{z_1u_1+z_2u_2:z\ge0\}$. The atoms must be linearly independent (a single ray or line cannot contain two unit vectors at angle $\theta\in(0,\pi)$), so they span a plane containing $v_1,v_2$, which is the plane $V=\mathrm{span}(v_1,v_2)$; and $v_1+v_2\in\cone(u_1,u_2)$ automatically. Work in $V$ with angular coordinates in which $v_1$ sits at angle $0$ and $v_2$ at angle $\theta$. The cone positively spanned by two linearly independent vectors is the angular sector between them, of opening less than $\pi$; for it to contain the angles $0$ and $\theta$, its generating rays must sit at angles $-s$ and $\theta+t$ with $s,t\ge0$ and $s+\theta+t<\pi$. Label $u_1$ at $-s$, $u_2$ at $\theta+t$.
+
+Since $u_1,u_2$ are linearly independent, each $y$ has a \emph{unique} representation $y=z_1u_1+z_2u_2$, so no minimization is involved: for a unit vector at angle $\varphi\in[-s,\theta+t]$, Cramer's rule gives the coefficient sum
+\[
+  K(\varphi;s,t)\;=\;\frac{\sin(\theta+t-\varphi)+\sin(s+\varphi)}{\sin(s+\theta+t)} ,
+\]
+and by homogeneity $F_0(\Psi)=a\,K(0)+b\,K(\theta)+2c\cos(\theta/2)\,K(\theta/2)$, the middle argument because $v_1+v_2$ is the unit vector at angle $\theta/2$ scaled by $2\cos(\theta/2)$. Differentiate in $s$ (the identity $\cos(s+\varphi)\sin(s+\theta+t)-\sin(s+\varphi)\cos(s+\theta+t)=\sin(\theta+t-\varphi)$ collapses the quotient rule):
+\[
+  \frac{\partial K}{\partial s}\;=\;\frac{\sin(\theta+t-\varphi)\,\bigl(1-\cos(s+\theta+t)\bigr)}{\sin^2(s+\theta+t)}\;\ge\;0,
+\]
+strictly positive whenever $\varphi<\theta+t$, since $0<s+\theta+t<\pi$. Symmetrically $\partial K/\partial t\ge0$, strictly for $\varphi>-s$. Hence $\partial F_0/\partial s\ge a\,\partial K(0)/\partial s>0$ and $\partial F_0/\partial t\ge b\,\partial K(\theta)/\partial t>0$ throughout the domain: pushing either atom outward strictly raises the cost of every event strictly inside the cone, and the events $y=v_1$ (weight $a>0$) and $y=v_2$ (weight $b>0$) are always strictly inside unless $s=0$, respectively $t=0$. The unique minimum is at $s=t=0$, i.e.\ $\Psi=\Phi$.
+\end{proof}
+
+The two propositions bracket the open problem. In the first two-feature model, nesting merges for small positive penalty; in the second, solo firing recovers in the zero-penalty constrained limit. Solo firing is an old friend under new names: it is the \emph{separability} condition of nonnegative matrix factorization \cite{donoho2003} and the \emph{anchor words} assumption of topic modeling \cite{arora2012}. These examples do not establish that support correlations alone decide identifiability for the full model: the coefficient law can change the geometry even when the support law is fixed. What remains includes positive penalty with solo firing, noise, many features with intermediate co-occurrence, dictionary sizes $M\neq m$, and finitely many samples. The problems of the next section ask how these two examples deform into a phase boundary.
+
+\section{Precise formulations}\label{sec:formulations}
+
+\subsection{Recovery, merging, splitting}
+
+\begin{definition}[Recovery]\label{def:recover}
+Let $\Phi\in U_{n,m}$ and $\Psi\in U_{n,M}$ with columns $v_i$ and $u_j$, and let $\varepsilon\in[0,1)$. Say $\Psi$ \textbf{$\varepsilon$-recovers} $\Phi$ if there is an injection $\tau:[m]\to[M]$ with
+$\langle u_{\tau(i)},v_i\rangle\ \ge\ 1-\varepsilon$ for all $i\in[m]$.
+\end{definition}
+
+Since all columns are unit vectors and codes are nonnegative, the classical ``up to permutation and scaling'' ambiguity reduces to the injection $\tau$: $0$-recovery with $M=m$ means $\Psi=\Phi$ up to permutation of columns.
+
+\begin{definition}[Merged atom, split feature]\label{def:mergesplit}
+Fix a superposition model $\mathcal S$, one of the objectives $F_\lambda$ ($\lambda>0$) or $F_0$, and $\Psi\in U_{n,M}$, with live atoms as in Section~\ref{sec:estimators}. For $\varepsilon,\delta>0$:
+\begin{enumerate}
+\item A live atom $u_j$ is an \textbf{$(\varepsilon,\delta)$-merge} of features $i\neq i'$ if there exist $\alpha,\beta\ge\delta$ with $\lVert u_j-\alpha v_i-\beta v_{i'}\rVert\le\varepsilon$, while $\langle u_j,v_i\rangle\le1-\delta$ and $\langle u_j,v_{i'}\rangle\le1-\delta$. In words: a firing atom is a merge if it lies near the positive span of two features while staying bounded away from each. (Liveness matters: a dead atom can be parked anywhere, including at a bisector, without changing the objective.)
+\item Feature $i$ is \textbf{$\delta$-split} by $\Psi$ if at least two live atoms $u_j$ satisfy $\langle u_j,v_i\rangle\ge1-\delta$.
+\end{enumerate}
+\end{definition}
+
+The merged dictionary of Proposition~\ref{prop:merge} contains a $(0,\delta)$-merge of features $1$ and $2$ for $\delta=\min\{\tfrac12,\,1-\cos(\theta/2)\}$. Splitting in the sense just defined---two live atoms claiming one atomic feature direction---is the only version expressible inside Definition~\ref{def:model}; the version practitioners observe involves features that are not single directions, and is formalized in Problem~\ref{prob:split} via a smeared model (see also the caveat in Section~\ref{sec:obstructions}).
+
+\subsection{The headline problem}
+
+\begin{problem}[Identifiability of the $\ell^1$ dictionary estimator]\label{prob:main}
+Fix $n,m,k$ and consider $k$-sparse superposition models $\mathcal S=(\Phi,\pi,\nu,\sigma)$ and the estimator $F_\lambda$ with $M=m$. Obtain necessary and sufficient bounds in terms of the coherence $\mu(\Phi)$, the sparsity $k$, the marginal rates $\pr(i\in S)$, the co-occurrence ratio $r(\pi)$, the solo-firing rates $\pr(S=\{i\}\mid i\in S)$, the coefficient law $\nu$, the noise level $\sigma$, and the penalty $\lambda$:
+\begin{enumerate}
+\item \emph{(Recovery region.)} Conditions under which every global minimizer of $F_\lambda$ over $U_{n,m}$ $\varepsilon$-recovers $\Phi$, with an explicit $\varepsilon=\varepsilon(\mu,k,\lambda,\sigma)\to0$ as $\lambda,\sigma\to0$.
+\item \emph{(Merging region.)} Conditions under which every global minimizer contains an $(\varepsilon,\delta)$-merge of some pair of features, with $\varepsilon$ explicit as in (1) and $\delta$ bounded below in terms of the pair's angle and co-occurrence. To determine \emph{which} pairs merge, allow the answer to depend on the full Gram matrix of $\Phi$ and the full support law $\pi$ (the scalar summaries above do not retain pair identities).
+\item \emph{(Sample complexity.)} In the recovery region, a bound $N$---in terms of $m$, $\varepsilon$, $\eta$, and the parameters above, necessarily including the marginal rates, since a feature the model almost never fires cannot be learned from few samples---such that with $N$ samples, every global minimizer of the empirical objective $\widehat F^N_\lambda$ $\varepsilon$-recovers $\Phi$ with probability at least $1-\eta$. Is $N$ polynomial in $m$ when the marginal rates are bounded below by an inverse polynomial in $m$?
+\end{enumerate}
+\end{problem}
+
+Propositions~\ref{prop:merge} and~\ref{prop:recover} show both regions are nonempty already at $m=2$ for the constrained estimator $F_0$, the $\lambda\to0$ limit. The next statements stake out the boundary's expected shape.
+
+\begin{conjecture}[Recovery under independent supports]\label{conj:independent}
+There exist absolute constants $c,C>0$ with $Cc<1$ and the following property. Let $m>n$, let $\Phi\in U_{n,m}$ have coherence $\mu$, let $\pi$ be the product distribution in which each $i\in[m]$ belongs to $S$ independently with probability $p>0$, let $\nu=\mathrm{Unif}[1,2]$, and let $\sigma=0$. If
+\[
+  \mu\,\bigl(pm+\log m\bigr)\;\le\;c
+  \qquad\text{and}\qquad
+  pm+\log m\;\le\;c\,\sqrt{n/\log m},
+\]
+then for every $\lambda\in(0,c)$, every global minimizer of $F_\lambda$ over $U_{n,m}$ $(C\lambda)$-recovers $\Phi$.
+\end{conjecture}
+
+This is a clean population case. For a uniformly random $\Phi$ one has $\mu=O(\sqrt{(\log m)/n})$ with high probability, so both displayed conditions reduce to $pm+\log m\lesssim\sqrt{n/\log m}$. The explicit overcompleteness condition $m>n$ prevents an unused ambient dimension from making the density bound vacuous. What makes the conjecture nontrivial is that the known guarantee for this estimator is \emph{local}: Gribonval, Jenatton, and Bach \cite{gribonval2015} prove (in the signed, noisy, finite-sample setting) that a minimum of the penalized objective exists \emph{near} $\Phi$, not that all global minima are near $\Phi$. Proving Conjecture~\ref{conj:independent} means excluding faraway global minima---merged, rotated, or otherwise---for the population objective $F_\lambda$. A different, volume-regularized $\ell^1$ criterion is globally identifiable under scattering assumptions \cite{hu2023,sun2025}.
+
+\begin{proposition}[Positive-penalty merging]\label{prop:nested}
+In the model of Proposition~\ref{prop:merge}, with $\theta\in(0,\pi/2]$ and $\rho\in(0,1)$, the unique global minimizer of $F_\lambda$ over $U_{n,2}$ for every $\lambda\in(0,1)$ is the merged dictionary $\{v_1,w\}$, up to permutation. In particular,
+\[
+  \max_{j\in\{1,2\}}\ \langle u_j, v_2\rangle\ =\ \cos(\theta/2),
+\]
+and no global minimizer $\varepsilon$-recovers $\Phi$ for any $\varepsilon<1-\cos(\theta/2)$.
+\end{proposition}
+
+\begin{proof}
+If $\Psi$ has unit columns, $z\ge0$, $r=\|y\|$, and $t=\|z\|_1$, then $\|\Psi z\|\le t$ and
+\[
+\ell_\lambda(y,\Psi)\ge
+\min_{t\ge0}\left\{\tfrac12(r-t)_+^2+\lambda t\right\}
+=\lambda r-\tfrac12\lambda^2\qquad(0<\lambda<r).
+\]
+The dictionary $\{v_1,w\}$ attains this radial bound on both data rays. Equality forces an atom on the ray of each positive-probability datum, so these two atoms are the unique minimizer. Since $\|v_1\|=1$ and $\|v_1+v_2\|\ge\sqrt2$, the argument holds for every $\lambda\in(0,1)$.
+\end{proof}
+
+\begin{remark}[Why overcompleteness is needed]
+The overcompleteness hypothesis in Conjecture~\ref{conj:independent} repairs a genuine counterexample. Without it, take $m=2$, $p=1$, $\Phi=(e_1,e_2)\subset\R^n$, and let $n$ grow. Both displayed inequalities then hold, but the slanted atoms
+\[
+u_1=(2e_1+e_2)/\sqrt5,\qquad u_2=(e_1+2e_2)/\sqrt5
+\]
+represent every $y=ae_1+be_2$, $a,b\in[1,2]$, exactly with coefficient mass $\frac{\sqrt5}{3}(a+b)$. Their population cost is at most $\sqrt5\lambda$, whereas $F_\lambda(\Phi)=3\lambda-\lambda^2$. Any dictionary that $C\lambda$-recovers $\Phi$ has cost $\lambda(3-O(\sqrt\lambda))$, so no global minimizer recovers $\Phi$ for small $\lambda$.
+\end{remark}
+
+\subsection{Splitting as quantization}
+
+Splitting---one concept shattering into several learned atoms---cannot happen in Definition~\ref{def:model} except as exactly duplicated atoms, because a true feature there \emph{is} a single direction. What practitioners observe \cite{bricken2023,chanin2024,leask2025} is better modeled by a feature that occupies a small region of directions.
+
+\begin{problem}[Two smeared features: recover, merge, or split]\label{prob:split}
+Let $n\ge3$, and for a unit vector $v$ and $\tau\in(0,\pi/2)$ let $\mathcal C(v,\tau)=\{u\in\R^n:\lVert u\rVert=1,\ \langle u,v\rangle\ge\cos\tau\}$ be the spherical cap of angular radius $\tau$ about $v$. Fix unit vectors $v_1,v_2$ at angle $\theta$, a cap radius $\tau<\theta/4$, support probabilities $\pi(\{1\})=a$, $\pi(\{2\})=b$, $\pi(\{1,2\})=c$ with $a+b+c=1$, and a dictionary size $M$. Data: draw $S\sim\pi$ and, independently for each $i\in S$, a direction $g_i$ uniform (normalized surface measure) on $\mathcal C(v_i,\tau)$; output $y=\sum_{i\in S}g_i$. For the estimator $F_\lambda$ over $U_{n,M}$, determine, as a function of $(n,\theta,\tau,\lambda,a,b,c,M)$: the number of live atoms of the global minimizers; how many of them lie in $\mathcal C(v_1,2\tau)$, how many in $\mathcal C(v_2,2\tau)$, and how many in neither cap; and the boundaries in parameter space between the three behaviors: one live atom per cap (recovery), several live atoms in one cap (splitting), and live atoms in neither cap (merging).
+\end{problem}
+
+For a single smeared feature ($b=c=0$) and $M\to\infty$ the question is a relative of quantization of a measure on the sphere, for which Zador-type asymptotics are classical \cite{grafluschgy2000}---a relative, not an instance, because the $\ell^1$ coding cost lets several atoms jointly reconstruct a point, which nearest-point quantization does not (in the $M\to\infty$ limit the joint objective also admits a convex reformulation \cite{bach2008}). Heuristically the live atoms should tile the cap; on that reading splitting, within this model, is not a failure but the estimator faithfully tiling a feature that was never one direction. Dalili and Mahdavi \cite{dalili2026} prove that multidimensional features can force many single-direction atoms and exhibit an objective-decreasing path toward a split dictionary. The coupled two-cap population problem above remains: one dictionary must quantize both caps while unmixing their co-occurrence.
+
+\subsection{Sample complexity of uniqueness for growing sparsity}
+
+A related uniqueness question deserves a standalone statement. Here the estimator plays no role: the issue is whether the classical oracle sample bounds can be made polynomial in $m$ when $k$ grows with $m$.
+
+\begin{problem}[Polynomially many samples for growing sparsity]\label{prob:samples}
+Call a dataset $Y=\{A x_1,\dots,A x_N\}\subset\R^n$, generated by a matrix $A\in\R^{n\times m}$ and $k$-sparse codes $x_i\in\R^m$, \emph{uniquely coded} if for every $B\in\R^{n\times m}$ and $k$-sparse $\bar x_1,\dots,\bar x_N$ with $B\bar x_i=Ax_i$ for all $i$, there are a permutation matrix $P$ and invertible diagonal matrix $D$ with $B=APD$ and $\bar x_i=D^{-1}P^{-1}x_i$. Let $k=k(m)\to\infty$ (say $k=\lceil m^{\alpha}\rceil$ for some $\alpha\in(0,1)$, or even $k=\lceil\log m\rceil$) and $n\ge 2k$. Do there exist $N$ bounded by a polynomial in $m$ and $k$-sparse $x_1,\dots,x_N$ such that for almost every $A$ satisfying the spark condition of order $k$, the dataset $Y$ is uniquely coded? (The spark condition---every set of at most $2k$ columns linearly independent---applies verbatim to matrices with non-unit columns, and ``almost every'' refers to Lebesgue measure on $\R^{n\times m}$.)
+\end{problem}
+
+Known: $N=(k+1)\binom{m}{k}$ generic samples suffice for a fixed $A$ \cite{aharon2006,hillar2015}, $N=k\binom{m}{k}^2$ suffice universally over all spark-condition $A$ \cite{hillar2015}, and the determination is stable under noise with $N = m(k-1)\binom{m}{k}+m$ \cite{garfinkle2019}; for \emph{fixed} $k$ these are polynomial in $m$. Two polynomial results come close when $k$ grows. Spielman, Wang, and Wright \cite{spielman2012} prove square-dictionary uniqueness against competitors controlled by \emph{row} sparsity, whereas the problem above allows every column-$k$-sparse competitor. Awasthi and Vijayaraghavan \cite{awasthi2018} prove polynomial identifiability under a restricted-isometry and triple-occurrence hypothesis, with approximate recovery and $n\gg k\,\mathrm{polylog}(m)$; this excludes both the almost-every-spark quantifier and the allowed regime $n=2k$. Thus the exact column-sparse uniqueness question above remains open, including at $k=\lceil\log m\rceil$.
+
+\subsection{The amortization gap}
+
+\begin{problem}[Does the encoder change the answer?]\label{prob:amortization}
+Fix a superposition model $\mathcal S$ and $\lambda>0$. Let $\mathcal M_F=\operatorname{argmin}_{U_{n,M}}F_\lambda$, and let $\mathcal A_G$ be the set of dictionaries $\Psi\in U_{n,M}$ for which some minimizing sequence $(\Psi_r,W_r,b_r)$ for $G_\lambda$ has $\Psi_r\to\Psi$. Compare $\mathcal M_F$ with $\mathcal A_G$.
+\begin{enumerate}
+\item Under the hypotheses of Conjecture~\ref{conj:independent}, is there an absolute constant $C'$ such that every $\Psi\in\mathcal A_G$ $(C'\lambda)$-recovers $\Phi$?
+\item Exhibit a superposition model, or prove none exists, for which---for some $\varepsilon,\delta>0$---some $\Psi\in\mathcal A_G$ contains an $(\varepsilon,\delta)$-merge while no $\Psi\in\mathcal M_F$ does (with the same $M$, $\lambda$).
+\end{enumerate}
+The compactness of $U_{n,M}$ makes $\mathcal A_G$ nonempty even when the unconstrained encoder parameters diverge. Settling attainment of $G_\lambda$ remains part of the problem.
+\end{problem}
+
+O'Neill, Gumran, and Klindt \cite{oneill2024} prove that a one-layer amortized encoder can be insufficient for accurate sparse inference. Sun, Wang, and Hu \cite{sunwanghu2026} study the resulting dictionary distortions---including absorption, splitting, dead latents, and dense latents---across amortized and semi-amortized architectures. The exact comparison between the population sets $\mathcal M_F$ and $\mathcal A_G$ remains open.
+
+\subsection{The geometry of the toy models}
+
+The survey's title for this problem promises geometry, and the geometry lives in the model where superposition was first exhibited. Elhage et al.~\cite{elhage2022} train the following autoencoder and watch its weight vectors crystallize into regular polytopes. Fix $m$ (features), $n<m$ (dimensions), and sparsity parameter $p\in(0,1)$. Let $x\in\R^m$ have independent coordinates $x_i=\zeta_i\omega_i$ with $\zeta_i\sim\mathrm{Bernoulli}(p)$ and $\omega_i\sim\mathrm{Unif}[0,1]$, and define
+\[
+  L(W,b)\;=\;\E\;\bigl\lVert x-\relu(W^{\!\top}W x+b)\bigr\rVert^2,
+  \qquad W\in\R^{n\times m},\ b\in\R^m .
+\]
+The columns $w_1,\dots,w_m$ of $W$ are the model's feature directions (not constrained to unit norm). Empirically, for $n=2$, $m=5$, and a range of $p$, the columns found by training have equal norms and consecutive angles $2\pi/5$: a regular pentagon. Elhage et al.\ observe that the one-active-feature part of the loss is a Thomson-type energy---mutually repelling points on a sphere \cite{saff1997}---and for the \emph{linear} analogue the corresponding statement is a theorem: for $m\ge n$, the minimizers of the frame potential $\sum_{i\neq j}\langle w_i,w_j\rangle^2$ over systems of $m$ unit vectors are precisely the \textbf{unit-norm tight frames}, the systems with $\sum_i w_iw_i^{\!\top}=(m/n)\,I_n$ (Benedetto--Fickus \cite{benedetto2003}). The ReLU and the bias select, among the many tight frames, the maximally spread one. Theory has reached that selection at the level of critical points: the regular $k$-gons are critical for the $n=2$ loss, with the loss in closed form \cite{chen2023}, and under a capacity-saturation hypothesis critical configurations organize into tight frames with a discrete classification \cite{ivanov2026}. No theorem yet says the pentagon \emph{wins}.
+
+\begin{conjecture}[Pentagon]\label{conj:pentagon}
+There is a nonempty open interval $I\subset(0,1)$ such that for every $p\in I$, the loss $L$ with $n=2$, $m=5$ attains its infimum, and every global minimizer $(W,b)$ has nonzero columns of equal norm $r>0$ satisfying, for some permutation $\tau$ of $[5]$,
+\[
+  \langle w_{\tau(i)},w_{\tau(j)}\rangle\;=\;r^2\cos\bigl(2\pi(i-j)/5\bigr)
+  \qquad\text{for all } i,j .
+\]
+Equivalently: up to an orthogonal transformation of $\R^2$ and relabeling, the columns form a regular pentagon.
+\end{conjecture}
+
+Every quantity in the conjecture is explicit, and the loss is a semialgebraic integral in $15$ variables (the ten entries of $W$ and the five of $b$); moving ReLU breakpoints make it piecewise rational rather than generally piecewise polynomial. What is missing is a symmetrization technique for $\relu$ energies that reaches \emph{global} minimality: the critical-point theory above \cite{chen2023,ivanov2026} rules the pentagon in as a candidate, and Cowsik, Dolev, and Infanger \cite{cowsik2024} obtain near-optimal high-sparsity scaling within a permutation-symmetric large-system ansatz. The finite competition among candidates is untouched.
+
+\section{A place to start}\label{sec:start}
+
+\begin{problem}[Starter: the exact two-feature phase diagram]\label{prob:starter-phase}
+In the setting of Propositions~\ref{prop:merge} and~\ref{prop:recover} unified---support probabilities $a,b,c\ge0$ with $a+b+c=1$ (the case $b=0$ is Proposition~\ref{prop:merge}; the case $a,b>0$ is Proposition~\ref{prop:recover}), angle $\theta$, coefficients $\equiv1$, no noise, $M=2$---compute the global minimizers of the \emph{penalized} objective $F_\lambda$ over $U_{n,2}$ exactly, as a function of $(a,b,c,\theta,\lambda)$. Output: the partition of the parameter space into recovery and merging regions in the sense of Definition~\ref{def:mergesplit}, with explicit $(\varepsilon,\delta)$, and the location of the boundary as $b$---the probability that feature $2$ fires alone---increases from $0$ with the other parameters held fixed.
+\end{problem}
+
+Everything reduces to a family of two-dimensional convex programs glued along combinatorial boundaries (which atoms are active in each event). The face $b=0$ is Proposition~\ref{prop:nested}; the nearest analyses away from that face are Chanin et al.'s two-feature family \cite{chanin2024} and Dorrell's stability conditions for local optima of the same nonnegative $\ell^1$ problem \cite{dorrell2026}. The full global phase diagram is open.
+
+\begin{problem}[Starter: the one-active-feature pentagon]\label{prob:starter-pentagon}
+Let $L_1(W,b)$ be $L$ with $x$ conditioned on having exactly one nonzero coordinate (uniform among the five, value $\mathrm{Unif}[0,1]$); the parameter $p$ drops out. Prove that $L_1$ attains its infimum and that the columns of every global minimizer form a regular pentagon, in the sense of Conjecture~\ref{conj:pentagon}.
+\end{problem}
+
+This strips the interaction between sparsity levels and leaves a pure packing energy with a $\relu$: five points on (or inside) the circle repelling through the nonlinearity. The Benedetto--Fickus argument \cite{benedetto2003}---rewrite the frame potential as a sum of squared Gram entries and characterize its critical points---is the natural template; where it breaks is where the new mathematics begins.
+
+\begin{problem}[Starter: measure the phase diagram before proving it]\label{prob:starter-numerics}
+Fix $n=64$, $m=256$, and draw the columns of $\Phi$ independently from $N(0,I_n)$ and normalize them. Fix one random permutation of $[m]$ and pair consecutive entries. For each $\gamma\in\{0,.1,\dots,1\}$, declare the first $\lfloor128\gamma\rfloor$ pairs nested: draw independent Bernoulli$(1/32)$ variables $B_i$, then replace the child indicator in each declared pair $(i,j)$ by $B_iB_j$. Draw active coefficients independently from $\mathrm{Unif}[1,2]$. For
+\[
+\lambda\in\{10^{-4},3\cdot10^{-4},10^{-3},3\cdot10^{-3},10^{-2}\},
+\qquad M\in\{128,256,512\},
+\]
+fit the centered objective $G_\lambda$ by full-batch Adam (learning rate $10^{-3}$, $\beta_1=.9$, $\beta_2=.999$, numerical stabilizer $10^{-8}$) on $2^{18}$ fixed training samples for $2\cdot10^5$ updates, from $20$ independent parameter initializations. Use $2^{16}$ fresh samples for evaluation; report Definition~\ref{def:recover} at $\varepsilon=.05$, merges at $(\varepsilon,\delta)=(.05,.1)$, and splits at $\delta=.05$. Publish the random seeds, samples, checkpoints, and bootstrap $95\%$ confidence intervals for each fraction.
+\end{problem}
+
+This compute-and-tabulate project turns ``SAEs sometimes absorb features'' into measured thresholds for Conjecture~\ref{conj:independent} and Problem~\ref{prob:starter-phase}.
+
+\section{What is known}\label{sec:known}
+
+\emph{Classical uniqueness (oracle codes, no estimator).} Aharon, Elad, and Bruckstein \cite{aharon2006} prove uniqueness up to permutation--scaling from $(k+1)\binom{m}{k}$ samples under the spark condition plus richness conditions on both factorizations. Hillar and Sommer \cite{hillar2015} remove all conditions on the competing factorization, with $(k+1)\binom{m}{k}$ probabilistic or $k\binom{m}{k}^2$ deterministic-universal samples; their engine is a combinatorial matrix-theory lemma. Garfinkle and Hillar \cite{garfinkle2019} make the determination stable under noise ($N=m(k-1)\binom{m}{k}+m$, error linear in the noise), allow overestimated dictionary sizes, and pose the polynomial-sample question of Problem~\ref{prob:samples}. In all three, the supports of the codes are either generic or combinatorially designed to be exhaustive---the opposite of correlated.
+
+\emph{Efficient algorithms (structured supports, incoherent dictionaries).} For square invertible dictionaries and Bernoulli--Gaussian codes, Spielman, Wang, and Wright \cite{spielman2012} recover exactly in polynomial time; Sun, Qu, and Wright \cite{sun2017} handle linear sparsity via a benign nonconvex landscape. For overcomplete incoherent dictionaries, alternating minimization and spectral--combinatorial methods recover under sparsity roughly $k\lesssim\sqrt n$ with polynomially many samples \cite{agarwal2013,arora2014}; sum-of-squares relaxations push to nearly linear sparsity at quasipolynomial cost \cite{barak2015}, and spectral methods reach the almost-linear regime in polynomial time \cite{novikov2023}. Awasthi and Vijayaraghavan \cite{awasthi2018} allow largely arbitrary supports supplemented by a triple-occurrence condition. These theorems require rich support structure, but not always coordinatewise independence. Exact sparse coding is NP-hard in general \cite{tillmann2015}.
+
+\emph{The $\ell^1$-penalized estimator itself.} Gribonval, Jenatton, and Bach \cite{gribonval2015} prove the local guarantee quoted in the survey: with noise, outliers, and polynomially many samples, the empirical penalized objective admits a local minimum within controlled distance of the generating dictionary, under coherence-type conditions. Global identifiability \emph{has} been proved for a different $\ell^1$-based criterion: minimizing the volume of the dictionary subject to unit $\ell^1$ norms on the rows of the code matrix identifies the dictionary under scattering conditions on the codes (Hu and Huang \cite{hu2023}, extended to overcomplete dictionaries by Sun and Huang \cite{sun2025}). Tang et al.~\cite{tang2025} characterize global solution sets for a different piecewise-biconvex family of SAE formulations. None of these results locates the population global minimizers of the normalized nonnegative objective $F_\lambda$, which is the obstacle in Conjecture~\ref{conj:independent}.
+
+\emph{The interpretability side.} Elhage et al.~\cite{elhage2022} exhibit superposition in trained toy models, its phase structure, and its polytope geometry; Chen et al.~\cite{chen2023} prove the regular $k$-gons are critical points of the $n=2$ model; Ivanov et al.~\cite{ivanov2026} derive the tight-frame organization of critical configurations under a capacity-saturation hypothesis; and Cowsik, Dolev, and Infanger \cite{cowsik2024} analyze a permutation-symmetric large-size regime. Sparse autoencoders as feature extractors are due to \cite{bricken2023,cunningham2023}. The failure modes named in the survey are documented: absorption and splitting by Chanin et al.~\cite{chanin2024}, objective-driven splitting by Dalili and Mahdavi \cite{dalili2026}, non-canonicity across dictionary sizes by Leask et al.~\cite{leask2025}, and instability across random seeds by Paulo and Belrose \cite{paulo2025}. Matryoshka autoencoders \cite{bussmann2025} are one empirical response to absorption. On the theory side, Cui, Zhang, Wang, and Wang \cite{cui2025} derive closed-form optima for a class of SAEs and show recovery fails outside extreme sparsity, while Tang et al.~\cite{tang2025} exhibit non-recovering solutions and hierarchical spurious minima in a different formulation. Chen, Sheen, Xiong, Wang, and Yang \cite{chen2025} prove recovery for a modified bias-adaptation algorithm; Dorrell \cite{dorrell2026} characterizes local optima of the nonnegative $\ell^1$ problem; O'Neill, Gumran, and Klindt \cite{oneill2024} prove a code-level amortization gap; and Sun, Wang, and Hu \cite{sunwanghu2026} study its dictionary-level effects. Problem~\ref{prob:main} asks for the missing population boundary between recovery and merging.
+
+\emph{Geometry.} The packing side is classical: exponentially many almost-orthogonal directions \cite{johnson1984}, the Welch floor \cite{welch1974}, Thomson-type energies on spheres \cite{saff1997}, and the frame-potential theorem of Benedetto and Fickus \cite{benedetto2003}, which is the proved linear shadow of Conjecture~\ref{conj:pentagon}; its nearest nonlinear analogues to date are the critical-point results of \cite{chen2023,ivanov2026}. Compressed sensing supplies the decoding half \cite{candes2006,donoho2006,candes2008,caizhang2014}.
+
+\section{Limits of the formalization}\label{sec:obstructions}
+
+Three choices above deserve to be flagged rather than smoothed over.
+
+\emph{The generative model is a hypothesis, not a fact.} The version mechanistic interpretability ultimately needs is a statement about the activations of trained transformers, the network architecture behind current large language models. Those activations are not known to be generated by any $(\Phi,\pi,\nu,\sigma)$---that is the superposition \emph{hypothesis}, with empirical support \cite{elhage2022,bricken2023} and empirical strain \cite{leask2025}. Every problem in this file is therefore conditional: it asks whether the estimator is consistent \emph{on its own model class}. That is the right first question---an estimator inconsistent on synthetic data from its own hypothesis class, as Proposition~\ref{prop:merge} shows this one is, cannot be trusted on real data---but a full answer would also need a goodness-of-fit theory: a test, with guarantees, of whether given activations are dictionary-generated at all. I do not know a satisfactory formalization of that test.
+
+\emph{Splitting resists the atomic model.} Within Definition~\ref{def:model} a feature is one direction, so ``splitting one direction into several'' can only mean duplicate atoms, which the penalized objective has no reason to produce. The smeared model of Problem~\ref{prob:split} is one formalization, and it reveals splitting as quantization of a feature that was never atomic; but caps are a modeling choice (mixtures, low-dimensional feature manifolds, and hierarchical trees are others), and a theorem about splitting will be a theorem about the chosen model. The empirical literature's ``feature splitting'' \cite{chanin2024,leask2025} does not currently determine the choice.
+
+\emph{Optimization is excluded on purpose.} The survey asks when \emph{every minimizer} recovers or merges, so the analysis above concerns global minimizers only. The further question---whether gradient descent on $G_\lambda$ reaches them---is real (Tang et al.~\cite{tang2025} show spurious minima exist to get stuck in) and untouched by everything above. Formalizing it requires committing to a dynamics, and it is a different problem, not a vaguer version of this one.
+
+With those caveats, Problem~\ref{prob:main} expands the survey question; Problems~\ref{prob:split}, \ref{prob:samples}, and \ref{prob:amortization} and Conjectures~\ref{conj:independent} and~\ref{conj:pentagon} develop neighboring directions. The two elementary examples already say something worth repeating to anyone who reads dictionaries out of neural networks: one nested two-event model provably merges for small positive penalty, while one model with solo firing provably recovers in the zero-penalty constrained limit. Everything still owed the subject is the positive-penalty boundary between them.
+
+\begin{thebibliography}{99}
+
+\bibitem{mais}
+L.~Levine,
+\emph{Math for AI Safety: An Invitation for Mathematicians},
+2026. \url{https://github.com/lionellevine/MAIS/blob/main/survey/MAIS.pdf}.
+
+
+\bibitem{agarwal2013} Agarwal, A., Anandkumar, A., and Netrapalli, P. (2013). Exact recovery of sparsely used overcomplete dictionaries. \arxiv{1309.1952}.
+
+\bibitem{aharon2006} Aharon, M., Elad, M., and Bruckstein, A. M. (2006). On the uniqueness of overcomplete dictionaries, and a practical way to retrieve them. \emph{Linear Algebra and its Applications} 416(1), 48--67.
+
+\bibitem{arora2012} Arora, S., Ge, R., and Moitra, A. (2012). Learning topic models---going beyond SVD. \emph{IEEE Symposium on Foundations of Computer Science} (FOCS) 2012. \arxiv{1204.1956}.
+
+\bibitem{arora2014} Arora, S., Ge, R., and Moitra, A. (2014). New algorithms for learning incoherent and overcomplete dictionaries. \emph{Conference on Learning Theory} (COLT) 2014. \arxiv{1308.6273}.
+
+\bibitem{awasthi2018} Awasthi, P., and Vijayaraghavan, A. (2018). Towards learning sparsely used dictionaries with arbitrary supports. \emph{IEEE Symposium on Foundations of Computer Science} (FOCS) 2018. \arxiv{1804.08603}.
+
+\bibitem{bach2008} Bach, F., Mairal, J., and Ponce, J. (2008). Convex sparse matrix factorizations. \arxiv{0812.1869}.
+
+\bibitem{barak2015} Barak, B., Kelner, J. A., and Steurer, D. (2015). Dictionary learning and tensor decomposition via the sum-of-squares method. \emph{ACM Symposium on Theory of Computing} (STOC) 2015. \arxiv{1407.1543}.
+
+\bibitem{baraniuk2008} Baraniuk, R. G., Davenport, M. A., DeVore, R. A., and Wakin, M. B. (2008). A simple proof of the restricted isometry property for random matrices. \emph{Constructive Approximation} 28, 253--263.
+
+\bibitem{benedetto2003} Benedetto, J. J., and Fickus, M. (2003). Finite normalized tight frames. \emph{Advances in Computational Mathematics} 18(2--4), 357--385.
+
+\bibitem{bricken2023} Bricken, T., et al. (2023). Towards monosemanticity: decomposing language models with dictionary learning. \emph{Transformer Circuits Thread}, Anthropic.
+
+\bibitem{bussmann2025} Bussmann, B., Nabeshima, N., Karvonen, A., and Nanda, N. (2025). Learning multi-level features with Matryoshka sparse autoencoders. \arxiv{2503.17547}.
+
+\bibitem{caizhang2014} Cai, T. T., and Zhang, A. (2014). Sparse representation of a polytope and recovery of sparse signals and low-rank matrices. \emph{IEEE Transactions on Information Theory} 60(1), 122--132. \arxiv{1306.1154}.
+
+\bibitem{candes2008} Cand\`es, E. J. (2008). The restricted isometry property and its implications for compressed sensing. \emph{Comptes Rendus Math\'ematique} 346(9--10), 589--592.
+
+\bibitem{candes2006} Cand\`es, E. J., Romberg, J., and Tao, T. (2006). Robust uncertainty principles: exact signal reconstruction from highly incomplete frequency information. \emph{IEEE Transactions on Information Theory} 52(2), 489--509.
+
+\bibitem{chanin2024} Chanin, D., Wilken-Smith, J., Dulka, T., Bhatnagar, H., Golechha, S., and Bloom, J. (2024). A is for absorption: studying feature splitting and absorption in sparse autoencoders. \arxiv{2409.14507}.
+
+\bibitem{chen2023} Chen, Z., Lau, E., Mendel, J., Wei, S., and Murfet, D. (2023). Dynamical versus Bayesian phase transitions in a toy model of superposition. \arxiv{2310.06301}.
+
+\bibitem{chen2025} Chen, S., Sheen, H., Xiong, X., Wang, T., and Yang, Z. (2025). Taming polysemanticity in LLMs: provable feature recovery via sparse autoencoders. \arxiv{2506.14002}.
+
+\bibitem{cowsik2024} Cowsik, A., Dolev, K., and Infanger, A. (2024). The Persian rug: solving toy models of superposition using large-scale symmetries. \arxiv{2410.12101}.
+
+\bibitem{cui2025} Cui, J., Zhang, Q., Wang, Y., and Wang, Y. (2025). On the limits of sparse autoencoders: a theoretical framework and reweighted remedy. \emph{International Conference on Learning Representations} (ICLR) 2026. \arxiv{2506.15963}.
+
+\bibitem{cunningham2023} Cunningham, H., Ewart, A., Riggs, L., Huben, R., and Sharkey, L. (2023). Sparse autoencoders find highly interpretable features in language models. \arxiv{2309.08600}.
+
+\bibitem{dalili2026} Dalili, M., and Mahdavi, S. (2026). Subspace-aware sparse autoencoders. \arxiv{2606.06333}.
+
+\bibitem{daubechies2004} Daubechies, I., Defrise, M., and De Mol, C. (2004). An iterative thresholding algorithm for linear inverse problems with a sparsity constraint. \emph{Communications on Pure and Applied Mathematics} 57(11), 1413--1457.
+
+\bibitem{donoho2003} Donoho, D. L., and Stodden, V. (2003). When does non-negative matrix factorization give a correct decomposition into parts? \emph{Advances in Neural Information Processing Systems} 16.
+
+\bibitem{donoho2006} Donoho, D. L. (2006). Compressed sensing. \emph{IEEE Transactions on Information Theory} 52(4), 1289--1306.
+
+\bibitem{dorrell2026} Dorrell, W. (2026). How optimality structures sparse dictionaries: a theory for understanding SAE representations. \arxiv{2606.02385}.
+
+\bibitem{elhage2022} Elhage, N., et al. (2022). Toy models of superposition. \emph{Transformer Circuits Thread}, Anthropic. \arxiv{2209.10652}.
+
+\bibitem{garfinkle2019} Garfinkle, C. J., and Hillar, C. J. (2019). On the uniqueness and stability of dictionaries for sparse representation of noisy signals. \emph{IEEE Transactions on Signal Processing} 67(23), 5884--5892. \arxiv{1606.06997}.
+
+\bibitem{grafluschgy2000} Graf, S., and Luschgy, H. (2000). \emph{Foundations of Quantization for Probability Distributions}. Lecture Notes in Mathematics 1730, Springer.
+
+\bibitem{gribonval2015} Gribonval, R., Jenatton, R., and Bach, F. (2015). Sparse and spurious: dictionary learning with noise and outliers. \emph{IEEE Transactions on Information Theory} 61(11), 6298--6319. \arxiv{1407.5155}.
+
+\bibitem{hillar2015} Hillar, C. J., and Sommer, F. T. (2015). When can dictionary learning uniquely recover sparse data from subsamples? \emph{IEEE Transactions on Information Theory} 61(11), 6290--6297. \arxiv{1106.3616}.
+
+\bibitem{hu2023} Hu, J., and Huang, K. (2023). Global identifiability of $\ell^1$-based dictionary learning via matrix volume optimization. \emph{Advances in Neural Information Processing Systems} 36, 36165--36186.
+
+\bibitem{ivanov2026} Ivanov, G., Oozeer, N., Raval, S., Pejovic, T., Upadhyay, S., and Abdullah, A. (2026). Spectral superposition: a theory of feature geometry. \arxiv{2602.02224}.
+
+\bibitem{johnson1984} Johnson, W. B., and Lindenstrauss, J. (1984). Extensions of Lipschitz mappings into a Hilbert space. \emph{Contemporary Mathematics} 26, 189--206.
+
+\bibitem{leask2025} Leask, P., Bussmann, B., Pearce, M., Bloom, J., Tigges, C., Al Moubayed, N., Sharkey, L., and Nanda, N. (2025). Sparse autoencoders do not find canonical units of analysis. \emph{International Conference on Learning Representations} (ICLR) 2025. \arxiv{2502.04878}.
+
+\bibitem{novikov2023} Novikov, A., and White, S. (2023). Dictionary learning for the almost-linear sparsity regime. \arxiv{2210.10855}.
+
+\bibitem{oneill2024} O'Neill, C., Gumran, A., and Klindt, D. (2025). Compute optimal inference and provable amortisation gap in sparse autoencoders. \emph{International Conference on Machine Learning} (ICML) 2025. \arxiv{2411.13117}.
+
+\bibitem{paulo2025} Paulo, G., and Belrose, N. (2025). Sparse autoencoders trained on the same data learn different features. \arxiv{2501.16615}.
+
+\bibitem{saff1997} Saff, E. B., and Kuijlaars, A. B. J. (1997). Distributing many points on a sphere. \emph{The Mathematical Intelligencer} 19(1), 5--11.
+
+\bibitem{spielman2012} Spielman, D. A., Wang, H., and Wright, J. (2012). Exact recovery of sparsely-used dictionaries. \emph{Conference on Learning Theory} (COLT) 2012. \arxiv{1206.5882}.
+
+\bibitem{sun2017} Sun, J., Qu, Q., and Wright, J. (2017). Complete dictionary recovery over the sphere I: overview and the geometric picture. \emph{IEEE Transactions on Information Theory} 63(2), 853--884. \arxiv{1504.06785}.
+
+\bibitem{sun2025} Sun, Y., and Huang, K. (2025). Global identifiability of overcomplete dictionary learning via $\ell^1$ and volume minimization. \emph{International Conference on Learning Representations} (ICLR) 2025.
+
+\bibitem{sunwanghu2026} Sun, Y., Wang, Z., and Hu, W. (2026). The price of amortized inference in sparse autoencoders. \emph{International Conference on Learning Representations} (ICLR) 2026.
+
+\bibitem{tang2025} Tang, Y., Saini, H., Yao, Z., Lin, Z., Liao, Y., Cui, J., Wang, Y., Du, M., and Liu, D. (2025). A unified theory of sparse dictionary learning in mechanistic interpretability: piecewise biconvexity and spurious minima. \arxiv{2512.05534}.
+
+\bibitem{tillmann2015} Tillmann, A. M. (2015). On the computational intractability of exact and approximate dictionary learning. \emph{IEEE Signal Processing Letters} 22(1), 45--49. \arxiv{1405.6664}.
+
+\bibitem{welch1974} Welch, L. R. (1974). Lower bounds on the maximum cross correlation of signals. \emph{IEEE Transactions on Information Theory} 20(3), 397--399.
+
+\end{thebibliography}
+\end{document}

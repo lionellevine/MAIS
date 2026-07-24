@@ -1,0 +1,531 @@
+\documentclass[11pt]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{xcolor}
+\usepackage[colorlinks=true, linkcolor=blue!55!black, citecolor=blue!55!black, urlcolor=blue!55!black]{hyperref}
+\emergencystretch=2em
+\newcommand{\arxiv}[1]{\href{https://arxiv.org/abs/#1}{\texttt{arXiv:#1}}}
+\providecommand{\glsfirst}[2]{#2}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+
+\DeclareMathOperator{\Anc}{Anc}
+\DeclareMathOperator{\Pa}{Pa}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\reg}{reg}
+\DeclareMathOperator{\diam}{diam}
+\newcommand{\bC}{\mathbf{C}}
+\newcommand{\bO}{\mathbf{O}}
+\newcommand{\bZ}{\mathbf{Z}}
+\newcommand{\bS}{\mathbf{S}}
+\newcommand{\bA}{\mathbf{A}}
+\newcommand{\bg}{\mathbf{g}}
+\newcommand{\bPsi}{\boldsymbol{\Psi}}
+\newcommand{\MM}{\mathcal{M}}
+\newcommand{\Prof}{\mathsf{Prof}}
+\newcommand{\sk}{\mathsf{s}}
+
+\title[Behavioral tomography of world-models]{Behavioral tomography of world-models:\\ finite-sample identifiability of causal models from behavior}
+\author{Claude Fable 5, audited by GPT 5.6 Sol}
+\date{}
+\hypersetup{
+  pdftitle={Behavioral tomography of world-models},
+  pdfauthor={Claude Fable 5; audited by GPT 5.6 Sol},
+  pdfsubject={Research agenda supplement to Open Problem 2 of Math for AI Safety}
+}
+
+\begin{document}
+
+\begin{abstract}
+Two theorems of Richens and coauthors show that a sufficiently capable agent cannot keep its picture of the world to itself: any policy that stays near-optimal across a rich family of interventions on its environment determines an approximate causal model of that environment, and any policy that achieves long multi-step goals determines an approximate transition model. Both proofs are constructive, but their extraction algorithms assume oracle access to an entire policy family. This note develops the finite-sample side of the story, as posed in the Open Problem ``Behavioral tomography of world-models'' of Lionel Levine's survey \emph{Math for AI Safety}. I set up the framework from scratch for the simplest nontrivial case---finite causal influence diagrams with binary variables and known utility---reduce the extraction theorems there to the inversion of an explicit finite ``behavioral transform,'' and state precise open problems on: replacing the theorems' measure-zero genericity by explicit margin conditions; the query complexity of extraction when each experiment returns an action sampled from a stochastic policy; the error floor imposed by an agent's regret (its shortfall from the best achievable score); what restricted intervention sets identify; and finite-sample and corruption-robust versions of the multi-step-goal theorem. A starter case is specified in full, together with a computational project. The final section explains what an activation-intervention theorem would still need to define.
+\end{abstract}
+
+\maketitle
+
+\begin{center}
+\small\emph{Research agenda A2 \(\cdot\) Claude Fable 5, audited by GPT 5.6 Sol\\
+July 12, 2026 \(\cdot\) Status: draft}
+\end{center}
+
+\noindent This is a supplement to Open Problem~2 of Lionel Levine's \emph{Math for AI Safety: An Invitation for Mathematicians}~\cite{mais}.
+
+\begin{quote}
+\textbf{Open Problem 2 (Behavioral tomography of world-models).}
+Fix a finite causal influence diagram with binary variables and known utility, and an agent whose policy has regret at most $\delta$ across the family of local interventions. The extraction algorithm behind the theorem above~\cite{richens2024} recovers the agent's causal model from unlimited exact queries to such a policy. Prove a finite-sample version: if each query returns an action sampled from the policy, rather than the policy's exact action probabilities, and each experiment draws on the same intervention family as the theorem, maskings included, how many experiments determine the graph and the conditional probability tables to within $\eta$, and how does the answer scale with $\delta$? As a first case, take the two-variable diagrams, where the \emph{identified set}---the set of models consistent with the agent's observed behavior---can be computed exactly, and measure how the extraction algorithm degrades when its indifference equations are estimated from samples. Interventions on the agent's inputs, or on the \glsfirst{activations}{activations} (the values computed inside its network), are the harder surfaces beyond.
+\end{quote}
+
+
+\section{The problem in brief}\label{sec:brief}
+
+
+
+Tomography reconstructs the inside of a body from measurements taken outside it. Here the body is an \textbf{agent}: a system that observes part of the world and acts on what it observes. The measurements are its actions, and the object to be reconstructed is its \emph{world-model}---the causal structure its behavior implicitly relies on. Two recent theorems \cite{richens2024,richens2025} establish the analogue of Radon's inversion formula when the analyst can inspect the relevant policy family exactly. What is missing is the theory a working tomographer needs---how many sampled actions buy how many digits of the reconstruction. (The \emph{regret} in the quoted problem is the agent's shortfall from the best achievable score; \S\ref{subsec:decision} makes this precise.) The question matters beyond mathematics: the agents in question include trained AI systems whose internals we cannot yet read, and an auditor who wants to know what such a system believes has only a finite budget of probes. The open statuses in this note were checked against the literature through July 2026.
+
+\paragraph{Conventions.}
+All norms of conditional-probability tables are entrywise sup norms. A composite goal is identified with the finite set of its sequential disjuncts, so order, repetition, and redundant copies do not create new goals. The observation set $\bO$ is the agent's largest available input set; a query may mask any subset of those inputs, as defined below.
+The survey statement denotes reconstruction accuracy by $\eta$. Below it is called $\varepsilon$; the letter $\zeta$ is reserved for independent corruption of a sampled action.
+
+\section{Background: agents, interventions, and the two extraction theorems}\label{sec:background}
+
+How much of what an agent believes is visible in what it does? To make the question mathematical we need three ingredients: a model of an environment on which one can \emph{intervene}, a notion of an agent acting well in it, and a statement of what ``acting well'' reveals. No knowledge of machine learning is assumed; every term is defined here. Throughout, all variables take values in $\{0,1\}$ except where stated (the survey's ``binary variables'' restriction; the results of \cite{richens2024} hold for any finite domains).
+
+\subsection{Causal models and interventions}\label{subsec:causal}
+
+\begin{definition}[Causal Bayesian network]\label{def:cbn}
+Let $G$ be a directed acyclic graph on variables $V_1,\dots,V_m$, and write $\Pa(V_i)$ for the set of parents of $V_i$ in $G$. A \textbf{Bayesian network} $(G,P)$ is a joint distribution that factors as $P(v_1,\dots,v_m)=\prod_i P(v_i\mid \mathrm{pa}_i)$, where $\mathrm{pa}_i$ is the restriction of $(v_1,\dots,v_m)$ to $\Pa(V_i)$. The network is \textbf{causal} if each factor is read as a local mechanism: for any subset $\mathbf{X}$ of the variables and any values $\mathbf{x}$, the \textbf{intervention} $\mathrm{do}(\mathbf{X}=\mathbf{x})$ produces the new distribution obtained by deleting the factors of the variables in $\mathbf{X}$ and setting those variables to $\mathbf{x}$, leaving all other factors unchanged \cite{pearl2009}.
+\end{definition}
+
+Informally: the graph records which variables listen to which, and an intervention reaches in and overrides one mechanism while the rest keep running. Correlation and causation part ways here---observing smoke raises the probability of fire, but running a smoke machine does not.
+
+Richens and Everitt work with a class of interventions that can be specified without knowing the graph.
+
+\begin{definition}[Local interventions, observation masks, profiles, mixtures]\label{def:local}
+A \textbf{local intervention} $\sigma$ on a binary variable $V$ applies a map $f\colon\{0,1\}\to\{0,1\}$ to its value: the mechanism $P(v\mid \mathrm{pa})$ is replaced by $P(v \mid \mathrm{pa};\sigma)=\sum_{v'\colon f(v')=v}P(v'\mid \mathrm{pa})$. For binary $V$ there are four choices of $f$: the identity, the two constants ($\mathrm{do}(V\!=\!0)$, $\mathrm{do}(V\!=\!1)$; these are the \emph{hard} interventions, fixing the value outright), and negation ($V\mapsto 1-V$). A \textbf{profile} assigns one of the four to each variable of a designated set $\bC=\{C_1,\dots,C_m\}$; the set of profiles is $\Prof(\bC)$, of size $4^{m}$; the identity profile is the null (purely observational) setting, and a \emph{hard profile} applies a constant map to every variable, pinning the whole state. A \textbf{mixture} is a probability vector $\sigma=\sum_j p_j\sigma_j$ over profiles: with probability $p_j$, profile $\sigma_j$ is applied, so $P(\cdot\,;\sigma)=\sum_j p_j P(\cdot\,;\sigma_j)$. Write $\Sigma(\bC)$ for the simplex of all mixtures.
+
+Once an observation set $\bO$ is specified, an \textbf{observation mask} chooses a subset $\bO'\subseteq\bO$ and withholds the coordinates in $\bO\setminus\bO'$ from the decision. It changes what the agent sees, not the distribution of the chance variables. Write
+\[
+   \Sigma^\mathrm{mask}(\bC,\bO)
+   :=\{(\sigma,\bO'):\sigma\in\Sigma(\bC),\ \bO'\subseteq\bO\}
+\]
+for the resulting shifted decision tasks.
+\end{definition}
+
+A local intervention only relabels or fixes the states of a single variable, so it never threatens to create a cycle no matter what the true graph is---this is why an experimenter ignorant of $G$ can still perform it. Mixtures are the moving part: the whole extraction method runs on one-parameter families $q\mapsto (1-q)\sigma+q\sigma'$.
+
+\subsection{Decision tasks and regret}\label{subsec:decision}
+
+\begin{definition}[Binary causal influence diagram]\label{def:cid}
+A \textbf{skeleton} is a tuple $\sk=(\bC,\bO,\bZ,u)$: a finite set $\bC$ of binary \emph{chance variables}; an \emph{observation set} $\bO\subseteq\bC$; a \emph{utility-parent set} $\bZ\subseteq\bC$; and a known \emph{utility function} $u\colon\{0,1\}\times\dom(\bZ)\to[0,1]$, written $u(d,z)$, where $\dom(\mathbf{S}):=\{0,1\}^{\mathbf{S}}$ denotes the value assignments to a variable set $\mathbf{S}$. A \textbf{model} compatible with $\sk$ is a pair $M=(G,\theta)$ where $G$ is a directed acyclic graph on $\bC$ and $\theta$ is the collection of conditional probability tables $P(c_i\mid \mathrm{pa}_i)$, making $(G,\theta)$ a causal Bayesian network over $\bC$. The associated \emph{causal influence diagram} adds a binary decision variable $D$ with parents $\bO$, and a utility variable $U=u(D,\bZ)$ with parents $\{D\}\cup\bZ$. A \textbf{policy} is a map $\pi\colon \dom(\bO)\to[0,1]$, read as $\pi(w)=\Pr(D=1\mid \bO=w)$; it is \emph{deterministic} if it takes values in $\{0,1\}$. Interventions act on the chance variables only.
+\end{definition}
+
+The picture: nature runs the causal network $(G,\theta)$, possibly perturbed by an intervention $\sigma$; the agent sees some $\bO'\subseteq\bO$, picks $D$, and is scored $u(D,\bZ)$. Because chance mechanisms never depend on $D$, the decision influences nothing except the score---this is the ``unmediated task'' assumption of \cite{richens2024}, here built into the definition. (Their Assumption~2, \emph{domain dependence}, will reappear in quantitative form as condition (M3) below.) The agent's quality in a shifted environment is measured by \emph{regret}: for a model $M$, mixture $\sigma$, visible set $\bO'\subseteq\bO$, and policy $\pi\colon\dom(\bO')\to[0,1]$, set
+\begin{align*}
+   V_M^{\bO'}(\pi;\sigma)\;&=\;\sum_{c\in\dom(\bC)} P_M(c;\sigma)\,\bigl[(1-\pi(c_{\bO'}))\,u(0,c_\bZ)+\pi(c_{\bO'})\,u(1,c_\bZ)\bigr],\\
+   \reg_M^{\bO'}(\pi;\sigma)\;&=\;\max_{\pi'}\,V_M^{\bO'}(\pi';\sigma)-V_M^{\bO'}(\pi;\sigma).
+\end{align*}
+When $\bO'=\bO$ the superscript is omitted. A policy is \emph{optimal} for $(M,\sigma,\bO')$ if its regret is zero, and \emph{$\delta$-optimal} if its regret is at most $\delta$.
+
+\subsection{A probability from a bit}\label{subsec:bit}
+
+Before the theorems, the mechanism, on the smallest possible example. Take chance variables $X,Y$; the agent observes nothing ($\bO=\emptyset$) and is paid $u(d,y)=\mathbf{1}\{d=y\}$ for guessing $Y$. Under any mixture $\sigma$, the optimal guess is $d=1$ precisely when $p_\sigma:=P(Y\!=\!1;\sigma)$ exceeds $\tfrac12$. So each intervened environment extracts from the agent exactly one bit: which side of $\tfrac12$ the intervened probability lies on.
+
+One bit sounds like almost nothing. Now mix. Let $\sigma_q=(1-q)\sigma+q\,\mathrm{do}(Y\!=\!1)$, so $p_{\sigma_q}=(1-q)p_\sigma+q$, which increases linearly from $p_\sigma$ to $1$. If $p_\sigma<\tfrac12$, the optimal guess switches from $0$ to $1$ at a single critical weight $q_{\mathrm{crit}}$, and solving $(1-q_{\mathrm{crit}})p_\sigma+q_{\mathrm{crit}}=\tfrac12$ turns the location of the switch into the probability itself:
+\[
+   p_\sigma \;=\; \frac{\tfrac12-q_{\mathrm{crit}}}{\,1-q_{\mathrm{crit}}\,}.
+\]
+Each query to the agent (``what do you do in environment $\sigma_q$?'') returns one bit, and bisection on $q$ converts $k$ bits into $k$ binary digits of $q_{\mathrm{crit}}$, hence of $p_\sigma$. Sweeping $\sigma$ over $\mathrm{do}(X\!=\!0)$ and $\mathrm{do}(X\!=\!1)$ recovers $P(Y\!=\!1;\mathrm{do}(X\!=\!x))$; if these two numbers differ, interventions on $X$ move $Y$, so $X$ is a cause of $Y$. The agent was asked only to play a guessing game well, and it has surrendered interventional probabilities and an arrow of the causal graph. The theorems of the next subsection say this toy calculation is the general case.
+
+\subsection{The two extraction theorems}\label{subsec:theorems}
+
+For a model $M$ compatible with $\sk$, write $\Anc(U)\subseteq\bC$ for the chance ancestors of the utility: the union of $\bZ$, $\bO$, and all $G$-ancestors of either. Variables outside $\Anc(U)$ never influence the score or the observations, so no behavior can reveal them; every identifiability statement is about $\Anc(U)$.
+
+\begin{theorem}[Richens--Everitt \cite{richens2024}, Theorems 1--2, specialized to binary variables]\label{thm:re}
+Fix the sets $(\bC,\bO,\bZ)$ and a graph $G$ with $\Anc(U)\not\subseteq\bO$. Call a parameter choice $(\theta,u)$ \emph{domain dependent} \cite[Assumption~2]{richens2024} if no single policy is optimal for $(M,\sigma)$ for all mixtures $\sigma\in\Sigma(\bC)$ simultaneously. For Lebesgue-almost-every domain-dependent choice of the tables $\theta$ and the utility values $u$:
+\begin{enumerate}
+\item[(a)] (\emph{Exact}) Any assignment $(\sigma,\bO')\mapsto\pi_{\sigma,\bO'}$ of an optimal policy to every shifted task in $\Sigma^\mathrm{mask}(\bC,\bO)$ determines the induced subgraph of $G$ on $\Anc(U)$ and the tables $\theta$ of the variables in $\Anc(U)$.
+\item[(b)] (\emph{Approximate}) Any assignment of a $\delta$-optimal policy to every shifted task determines a model $(\widehat G,\widehat\theta)$ with $|\widehat\theta-\theta|\le\gamma_M(\delta)$ entrywise on $\Anc(U)$, where $\gamma_M(0)=0$ and $\gamma_M(\delta)=O(\delta)$ as $\delta\to0$; the recovered graph $\widehat G$ is a subgraph of $G$.
+\end{enumerate}
+\end{theorem}
+
+In words: an agent that adapts well to all local tamperings of its environment, including tasks in which some observations are masked, has learned that environment's causal structure---and an outsider can read the structure off the agent's behavior, by the mixing trick of \S\ref{subsec:bit} run at scale. (``Determines'' means: any two models satisfying the hypotheses that admit a common assignment of policies as in (a) or (b) must agree on $\Anc(U)$ to the stated accuracy; \S\ref{subsec:queries} makes this reading precise via the identified set.) The ``almost every'' is genuine: there are finely tuned parameter choices (exact cancellations, ties) where distinct models produce identical behavior, and the proof excludes them as zero sets of polynomials.
+
+\begin{remark}[Why masking is necessary]\label{rem:mask-audit}
+Observation masking is essential. If $\bC=\{O,H\}$, $O\to H$, the agent sees $O$, and the utility gaps have both signs when $O=0$ but are both positive when $O=1$, then varying $P(H=1\mid O=1)$ changes the model without changing any optimal policy under chance-variable interventions alone. The inequalities persist on an open set of parameters. Masking $O$ pools the two observation slices and restores the information used by Richens and Everitt's proof.
+\end{remark}
+
+The companion theorem drops interventions entirely and varies goals instead. The environment is now a \emph{controlled Markov process} (cMP): a finite state set $\bS$, a finite action set $\bA$ with $|\bA|\ge2$, and transition probabilities $P_{ss'}(a)=P(S_{t+1}\!=\!s'\mid A_t\!=\!a,S_t\!=\!s)$, assumed \emph{communicating} (every state reachable from every other) and \emph{stationary} (transition probabilities constant in time). A trajectory is $\tau=(s_0,a_0,s_1,a_1,\dots)$. A \emph{sub-goal} is a pair $\alpha=(\mathrm{op},\bg)$ with $\bg\subseteq\bS\times\bA$ and $\mathrm{op}\in\{\top,\bigcirc,\Diamond\}$ (\emph{Now}, \emph{Next}, \emph{Eventually}); its \emph{achievement time} on $\tau$ is: for \emph{Now}, $0$ if $(s_0,a_0)\in\bg$; for \emph{Next}, $1$ if $(s_1,a_1)\in\bg$; for \emph{Eventually}, $\min\{t\ge0:(s_t,a_t)\in\bg\}$ if some pair of $\tau$ lies in $\bg$; and $\infty$ in each case otherwise. A \emph{sequential goal} $\psi=\langle\alpha_1,\dots,\alpha_k\rangle$ is \emph{satisfied} by $\tau$ (written $\tau\models\psi$) if $\alpha_1$ has finite achievement time $T$ on $\tau$ and the shifted trajectory $(s_{T+1},a_{T+1},\dots)$ satisfies $\langle\alpha_2,\dots,\alpha_k\rangle$; its \emph{depth} is $k$.\footnote{This is the convention of \cite[Def.~5--6]{richens2025}, phrased recursively; the problems below are insensitive to the exact temporal-logic convention.} A \emph{composite goal} is a finite disjunction of sequential goals, identified semantically with its set of disjuncts as in the Conventions block; its depth is the maximum over disjuncts. Thus $\bPsi_n$, the set of composite goals of depth at most $n$, is finite. A \emph{goal-conditioned agent} is a deterministic map $\pi$ from (history, goal) pairs to actions, a \emph{history} being a finite trajectory prefix $(s_0,a_0,\dots,s_t)$; the agent is \emph{$(\delta,n)$-bounded} if for every $\psi\in\bPsi_n$ and start state $s_0$,
+\[
+   P(\tau\models\psi\mid \pi,s_0)\;\ge\;(1-\delta)\,\max_{\pi'}P(\tau\models\psi\mid \pi',s_0).
+\]
+Note the multiplicative form: $\delta$ is a failure \emph{rate} relative to the best achievable, not a utility difference.
+
+\begin{theorem}[Richens--Abel--Bellot--Everitt \cite{richens2025}, Theorem 1]\label{thm:rabe}
+Let the environment be a finite communicating stationary cMP with $|\bA|\ge2$, and let $\pi$ be a $(\delta,n)$-bounded goal-conditioned agent with $n>1$ and $\delta<1$. Then $\pi$ alone determines an estimate $\widehat P_{ss'}(a)$ with
+\[
+   \bigl|\widehat P_{ss'}(a)-P_{ss'}(a)\bigr|\;\le\;\sqrt{\frac{2\,P_{ss'}(a)\bigl(1-P_{ss'}(a)\bigr)}{(n-1)(1-\delta)}}
+   \qquad\text{for all } s,s'\in\bS,\ a\in\bA.
+\]
+Moreover, for $\delta\ll1$ and $n\gg1$ the error refines to $O(\delta/\sqrt{n})+O(1/n)$.
+\end{theorem}
+
+Here it is goal \emph{depth}, not low regret, that drives the error to zero: a perfectly optimal agent at finite depth $n$ still leaves an uncertainty, of order $1/n$ by the refined clause, while an agent that fails half its tasks ($\delta=\tfrac12$) but at great depth pins the model tightly. The extraction algorithm poses either--or goals (``first action $a$ commits you to achieving this transition at most $k$ times in $n$ tries; any other first action, to more than $k$''). An optimal agent chooses whichever commitment is more likely to succeed, so its first action reveals whether $k$ lies above or below the median of the binomial distribution counting successes in $n$ tries; sweeping $k$ locates that median, which pins the transition probability to within $O(1/n)$. The algorithm needs roughly $n$ goals per transition, about $|\bS|^2|\bA|\,n$ queries in all, and only the agent's \emph{first action} on each. A sharp converse \cite[Thm.~2]{richens2025}: from an agent optimal for all depth-$1$ \emph{Next} goals, no nontrivial bound on any transition probability can be derived, since communicating action-independent environments ($P_{ss'}(a)$ constant in $a$) realize values arbitrarily close to either endpoint consistently with the same choices. Myopia is tomography-proof.
+
+Both theorems consume an oracle: Theorem~\ref{thm:re} evaluates policies along continuous families of mixtures, and Theorem~\ref{thm:rabe} assumes access to the agent's true policy. The survey problem asks what happens when an analyst instead sees finitely many sampled actions.
+
+\section{The behavioral transform, and what a query is}\label{sec:setup}
+
+This section fixes the objects that all the problems quantify over. Everything is finite and explicit. Throughout, ``determine $f$ up to constants'' means: prove upper and lower bounds on $f$ agreeing up to factors depending only on the parameters explicitly allowed.
+
+\subsection{Margin classes}
+
+The ``almost every'' in Theorem~\ref{thm:re} must be replaced by explicit hypotheses before finite-sample statements make sense. The following candidate conditions rule out the obvious degeneracies; whether they rule out all of them is Question~\ref{q:ident} below.
+
+\begin{definition}[Margin class]\label{def:margin}
+Fix a skeleton $\sk=(\bC,\bO,\bZ,u)$ with $|\bC|=m$, and let $g(z):=u(1,z)-u(0,z)$. For $\lambda\in(0,\tfrac12)$, the class $\MM(\sk,\lambda)$ consists of the models $M=(G,\theta)$ compatible with $\sk$ such that:
+\begin{enumerate}
+\item[(M1)] every table entry satisfies $\lambda\le P(c_i\mid\mathrm{pa}_i)\le 1-\lambda$;
+\item[(M2)] $|g(z)|\ge\lambda$ for every $z\in\dom(\bZ)$;
+\item[(M3)] $g$ takes both signs on every observation-compatible slice of $\dom(\bZ)$: for each $w\in\dom(\bO)$ there exist $z^+,z^-\in\dom(\bZ)$, each agreeing with $w$ on $\bO\cap\bZ$, with $g(z^+)>0>g(z^-)$ (when $\bO\cap\bZ=\emptyset$ this says simply that $g$ takes both signs);
+\item[(M4)] every edge $C_i\to C_j$ of $G$ has strength at least $\lambda$: some pair of parent configurations differing only in $C_i$ gives $|P(C_j\!=\!1\mid\mathrm{pa})-P(C_j\!=\!1\mid\mathrm{pa}')|\ge\lambda$;
+\item[(M5)] $\Anc(U)=\bC$ and $\bO\subsetneq\bC$;
+\item[(M6)] $u$ is sensitive to every utility parent: for each $C_j\in\bZ$ there exist $z,z'\in\dom(\bZ)$ differing only in the $C_j$-coordinate with $|g(z)-g(z')|\ge\lambda$.
+\end{enumerate}
+Write $K(G)=\sum_i 2^{|\Pa_G(C_i)|}$ for the number of free table entries, and $K=K(\sk,\lambda)$ for its maximum over the class.
+\end{definition}
+
+Glosses. (M2)--(M3) say the decision always matters and neither action dominates given any observation: an agent indifferent to its choices, or one whose best move is already settled by what it sees, reveals nothing beyond that. The slice form of (M3) is what forces the \emph{domain dependence} of \cite{richens2024}: for any observation, the hard profiles appearing in the proof of Proposition~\ref{prop:equiv} produce two environments demanding opposite actions, so no single policy is optimal everywhere. (M4) says every arrow we hope to detect has a detectable effect. (M5) says every chance variable is relevant to the score (non-ancestors are invisible to any behavioral method, so this loses nothing) and that at least one relevant variable is hidden from the agent; the latter is the graphical consequence of domain dependence \cite[Lem.~1]{richens2024}---if the agent saw everything relevant, the single policy ``act on the sign of $g$ at the observed values'' would be optimal in every environment. (M6) says the score genuinely depends on each declared utility parent: without it, a variable of $\bZ$ with no other role drops out of the transform below entirely, and its table is unidentifiable no matter how many queries are spent.
+
+\subsection{The behavioral transform}
+
+All behavioral information in this setting is carried by one explicit family. For a model $M$, mixture $\sigma$, and visible set $\bO'\subseteq\bO$, define
+\[
+   \Delta_M^{\bO'}(\sigma,w)\;:=\;\sum_{c\,:\,c_{\bO'}=w} P_M(c;\sigma)\,g(c_\bZ),
+   \qquad \sigma\in\Sigma(\bC),\ w\in\dom(\bO').
+\]
+The \textbf{behavioral transform} of $M$ is
+\[
+   \boldsymbol\Delta_M:=\bigl(\Delta_M^{\bO'}\bigr)_{\bO'\subseteq\bO}.
+\]
+Each member is linear in $\sigma$, so the family is determined by its values on the $4^m$ profiles: a finite table of $g$-weighted, observation-sliced interventional probabilities. Its relation to behavior is an identity: substituting the factorization into $V_M^{\bO'}$ gives
+\begin{equation}\label{eq:decomp}
+   V_M^{\bO'}(\pi;\sigma)\;=\;\text{(a term not involving $\pi$)}\;+\;\sum_{w\in\dom(\bO')}\pi(w)\,\Delta_M^{\bO'}(\sigma,w),
+\end{equation}
+so a policy is optimal for $(M,\sigma,\bO')$ if and only if it plays $1$ where $\Delta_M^{\bO'}(\sigma,\cdot)>0$ and $0$ where it is negative. Optimal behavior is the sign data of the full transform; regret prices each sign error.
+
+The toy calculation of \S\ref{subsec:bit} now generalizes to a statement worth recording, since it converts Theorem~\ref{thm:re}(a) into a purely algebraic question.
+
+\begin{proposition}[Behavior is equivalent to the transform]\label{prop:equiv}
+Let $M\in\MM(\sk,\lambda)$. From any assignment $(\sigma,\bO')\mapsto\pi_{\sigma,\bO'}$ of optimal deterministic policies one can compute $\boldsymbol\Delta_M$ exactly; conversely $\boldsymbol\Delta_M$ determines the set of optimal policies for every shifted task.
+\end{proposition}
+
+\begin{proof}
+The converse is the sign description above. For the forward direction, fix $\bO'\subseteq\bO$, a profile $\sigma_0$, and $w\in\dom(\bO')$. Extend $w$ to some $\widetilde w\in\dom(\bO)$. By (M3) choose $z^+,z^-\in\dom(\bZ)$ agreeing with $\widetilde w$ on $\bO\cap\bZ$ with $g(z^+)>0>g(z^-)$. There are states $c^+,c^-\in\dom(\bC)$ with $c^\pm_{\bO'}=w$ and $c^\pm_\bZ=z^\pm$. Let $\sigma^\pm$ be the hard profiles fixing every variable to $c^\pm$. Then $\Delta_M^{\bO'}(\sigma^\pm,w)=g(c^\pm_\bZ)$, known numbers of opposite sign. Along the segment $\sigma_q=(1-q)\sigma_0+q\sigma^+$ (respectively $\sigma^-$), the function $q\mapsto\Delta_M^{\bO'}(\sigma_q,w)$ is affine, so the optimal action at $w$ switches at most once; using the endpoint of opposite sign, the switch point $q_{\mathrm{crit}}$ gives
+\[
+   \Delta_M^{\bO'}(\sigma_0,w)\;=\;-\,\frac{q_{\mathrm{crit}}}{1-q_{\mathrm{crit}}}\;\Delta_M^{\bO'}(\sigma^\pm,w).
+\]
+If the initial value is zero, the crossing is at $q_{\mathrm{crit}}=0$ and the same formula returns zero. Linearity extends each member of $\boldsymbol\Delta_M$ from profiles to all mixtures.
+\end{proof}
+
+Theorem~\ref{thm:re}(a) is therefore the statement: \emph{for almost every $(\theta,u)$, the map $M\mapsto\boldsymbol\Delta_M$ is injective}. The fixed-observation member $\Delta_M^{\bO}$ need not be injective (Remark~\ref{rem:mask-audit}). Everything that follows asks how well the full family can be inverted by someone who pays per evaluation.
+
+\subsection{Query models}\label{subsec:queries}
+
+An \textbf{analyst} knows the skeleton $\sk$ and the class $\MM(\sk,\lambda)$ but not the model $M$. Before the interaction, an \textbf{adversary} (nature) fixes $M$ and a family $\Pi=(\pi_{\sigma,\bO'})_{(\sigma,\bO')\in\Sigma^\mathrm{mask}(\bC,\bO)}$ of stochastic policies $\pi_{\sigma,\bO'}\colon\dom(\bO')\to[0,1]$. The family is \emph{admissible at level $\delta$} if $\reg_M^{\bO'}(\pi_{\sigma,\bO'};\sigma)\le\delta$ for every shifted task; the case $\delta=0$ forces optimality, with arbitrary randomization at exact ties. The analyst adaptively issues queries $t=1,\dots,N$; the $t$th query is a triple $(\sigma_t,\bO'_t,w_t)$ with rational mixture weights, $\bO'_t\subseteq\bO$, and $w_t\in\dom(\bO'_t)$. Three observation models will be used:
+\begin{itemize}
+\item \textbf{Policy-probability oracle}: the answer is the exact number $\pi_{\sigma_t,\bO'_t}(w_t)$. For $\delta=0$, away from ties, this number is $0$ or $1$.
+\item \textbf{Sampled action}: conditionally on the fixed policy family and the previous transcript,
+\[
+   A_t\sim\operatorname{Bernoulli}\!\left(\pi_{\sigma_t,\bO'_t}(w_t)\right).
+\]
+Repeated experiments at the same query are conditionally independent.
+\item \textbf{Corrupted sampled action, level $\zeta\in[0,\tfrac12)$}: first draw $A_t$ as above, then flip it independently with probability $\zeta$. The observed mean is $\zeta+(1-2\zeta)\pi_{\sigma_t,\bO'_t}(w_t)$.
+\end{itemize}
+A useful non-adversarial specialization is the \textbf{Boltzmann family}, with inverse temperature $\beta>0$:
+\[
+\pi_\beta(1\mid w;\sigma,\bO')=\frac{e^{\beta\,E_M^{\bO'}(1,w;\sigma)}}{e^{\beta\,E_M^{\bO'}(0,w;\sigma)}+e^{\beta\,E_M^{\bO'}(1,w;\sigma)}},
+\]
+where $E_M^{\bO'}(d,w;\sigma):=\sum_z u(d,z)\,P_M(\bZ=z\mid \bO'=w;\sigma)$ (answers are uniform at zero-probability observations). This is the standard \emph{softmax} or quantal-response model of a noisily rational agent \cite{mckelvey1995}: it plays better actions more often, with $\beta\to\infty$ recovering optimality.
+After $N$ queries the analyst outputs $(\widehat G,\widehat\theta)$. The \textbf{error} against $M=(G,\theta)$ is $e(M;\widehat G,\widehat\theta):=1$ if $\widehat G\neq G$, and otherwise the maximum entrywise difference of the tables. The \textbf{minimax risk} at budget $N$ is the infimum over (randomized) analyst strategies of the supremum, over models in the class and admissible adversaries, of the expected error. Finally, writing $B_\delta(M)$ for the set of policy families admissible at level $\delta$ for $M$, define for $\delta\ge0$ the \textbf{identified set} and its worst-case radius
+\begin{gather*}
+   I_\delta(M)\;:=\;\bigl\{M'\in\MM(\sk,\lambda):\ B_\delta(M)\cap B_\delta(M')\neq\emptyset\bigr\},\\
+   \varphi(\delta;\sk,\lambda)\;:=\;\sup_{M\in\MM(\sk,\lambda)}\ \sup_{M'\in I_\delta(M)}\,e(M;G',\theta'):
+\end{gather*}
+$I_\delta(M)$ consists of the models that share a possible behavior with $M$ and so can never be ruled out, even by an unlimited-query analyst.
+
+\begin{remark}[An easy information-theoretic floor]\label{rem:packing}
+Fix $G$ and an interior point $M_0=(G,\theta_0)\in\MM(\sk,\lambda')$ with $\lambda'>\lambda$. Small independent perturbations of the $K(G)$ table entries give a packing of size $(c/\varepsilon)^{K(G)}$ at separation $4\varepsilon$. Put the uniform prior on this packing. If a randomized estimator has worst-case expected error at most $\varepsilon$, Markov's inequality gives probability at least $1/2$ of error at most $2\varepsilon$ under that prior; Fano's inequality (or Yao's principle followed by transcript counting for noiseless binary responses at $\delta=0$) then gives
+\[
+   N=\Omega\!\left(K(G)\log(1/\varepsilon)\right).
+\]
+Under independent response corruption the same argument divides the information per query by the binary-channel capacity $1-H(\zeta)$, where $H$ is binary entropy. The constants depend on the distance of $M_0$ from the margin boundary.
+\end{remark}
+
+\section{Precise problems and conjectures}\label{sec:problems}
+
+The problems come in five groups: identifiability without measure zero; query complexity; imperfect agents; the choice of interventions; and the goal-based setting of Theorem~\ref{thm:rabe}. They compose---several later problems are posed relative to a solution of Problem~\ref{prob:effective}---and \S\ref{sec:starter} gives a two-variable family where every one of them is unconditional and concrete.
+
+\subsection{Identifiability without measure zero}
+
+\begin{question}[Do margins suffice?]\label{q:ident}
+Fix a skeleton $\sk$ and $\lambda\in(0,\tfrac12)$. If $M,M'\in\MM(\sk,\lambda)$ satisfy $\boldsymbol\Delta_M=\boldsymbol\Delta_{M'}$, must $M=M'$? Equivalently (by Proposition~\ref{prop:equiv}): can two distinct models in the margin class share a common family of optimal policies for every observation mask?
+\end{question}
+
+Theorem~\ref{thm:re}(a) says the answer is yes off a Lebesgue-null set, but the null set is described only implicitly, as the vanishing locus of polynomials arising in the proof, and it is not known whether conditions (M1)--(M6) avoid it. I do not conjecture an answer. A counterexample---two distinct models in a margin class with identical masked behavior everywhere---would be as valuable as a proof, since it would reveal a cancellation mechanism that any finite-sample theory must condition away.
+
+\begin{problem}[Effective genericity]\label{prob:effective}
+For each diagram shape $(\bC,\bO,\bZ)$ and each compatible graph $G$, exhibit a finite explicit list of rational polynomials $Q^G_1,\dots,Q^G_r$ in $(\theta,u)$. With $S=K(G)+2^{|\bZ|}$, require the list length, degrees, coefficient bit lengths, and construction time to be polynomial in $S$ (using sparse monomial encoding). Find constants $a,b>0$ depending only on $(m,S)$ such that for all $\lambda,\mu\in(0,\tfrac12)$, on the subclass
+$\MM(\sk,\lambda,\mu):=\{M\in\MM(\sk,\lambda): |Q^G_j(\theta,u)|\ge\mu \text{ for all } j, \text{ where } G \text{ is } M\text{'s own graph}\}$:
+\begin{enumerate}
+\item[(a)] $\boldsymbol\Delta_M=\boldsymbol\Delta_{M'}$ implies $M=M'$;
+\item[(b)] quantitatively, $M'\in I_\delta(M)$ implies $e(M;M')\le (K/\lambda\mu)^{a}\,\delta$ for all $\delta$ below an explicit threshold;
+\item[(c)] the excluded set is small: for each fixed graph $G$ and Lebesgue-almost-every $u$, $\mathrm{Leb}\bigl\{\theta: |Q^G_j(\theta,u)|<\mu \text{ for some } j\bigr\}\le S^{a}\mu^{b}$.
+\end{enumerate}
+\end{problem}
+
+This problem is what the rest of the finite-sample theory rests on: it converts ``almost all'' into ``all, given explicitly checkable margins,'' with the recovery modulus (b) making Theorem~\ref{thm:re}(b) uniform over the class. Fix one list supplied by a solution; every occurrence of $\MM(\sk,\lambda,\mu)$ below refers to that list. Classical causal discovery made the same move once before: \emph{strong faithfulness} replaces a measure-zero unfaithfulness assumption by an explicit margin, and Uhler, Raskutti, B\"uhlmann, and Yu \cite{uhler2013} showed the excluded parameter set can be surprisingly large---a caution directly relevant to (c).
+
+\subsection{Query complexity}
+
+\begin{problem}[Query complexity with exact policy probabilities]\label{prob:exact}
+Let $\mathcal{N}\subseteq\MM(\sk,\lambda)$ be a compact semialgebraic class satisfying conclusions (a)--(b) of Problem~\ref{prob:effective} with modulus $\omega(\delta)=L\delta$. Assume also a richness condition: for some graph $G$ and $\rho>0$, its table-parameter projection contains a $K(G)$-dimensional box of side $\rho$. Determine, up to constants depending on $(m,K,\lambda,L,\rho)$, the minimal budget $N(\varepsilon)$ such that the minimax risk over $\mathcal{N}$ at budget $N(\varepsilon)$, with $\delta=0$ and the policy-probability oracle, is at most $\varepsilon$. In particular: decide whether $N(\varepsilon)\le \mathrm{poly}(K,1/\lambda,L,1/\rho)\log(1/\varepsilon)$, and whether adaptive queries outperform non-adaptive ones by more than a constant factor.
+\end{problem}
+
+\begin{conjecture}\label{conj:exact}
+For $\mathcal{N}=\MM(\sk,\lambda,\mu)$ with $\mu$ fixed, $N(\varepsilon)=\Theta\bigl(K\log(1/\varepsilon)\bigr)$ as $\varepsilon\to0$, with the implied constants polynomial in $1/\lambda$, $1/\mu$, and $L$ and independent of $m$ otherwise: bisection along the segments of Proposition~\ref{prop:equiv} achieves the information-theoretic floor of Remark~\ref{rem:packing} up to constants.
+\end{conjecture}
+
+The upper-bound side looks like bookkeeping (bisect each of the $O(K)$ needed critical weights to precision $\varepsilon\cdot\mathrm{poly}(\lambda)$), but it is not: the reconstruction of \cite{richens2024} solves for table entries \emph{recursively} outward from $\bZ$, and errors compound through quotients whose denominators are exactly the quantities the margins bound. Whether the compounding is polynomial or exponential in the depth of the diagram is the real question, and a negative answer (necessarily exponential in depth for some skeletons) would be just as interesting.
+
+\begin{problem}[Query complexity from sampled actions]\label{prob:noisy}
+In the setting of Problem~\ref{prob:exact}, replace the policy-probability oracle by sampled actions and allow $\delta\ge0$. Determine the minimax budget $N(\varepsilon,\delta)$ for recovering the graph and tables to error at most $\varepsilon$, or prove that the target lies below the identified-set radius $\varphi(\delta;\sk,\lambda)$ and is therefore impossible. Separate three contributions: locating the switching surfaces of the optimal policy family, estimating the probabilities of genuinely stochastic policies, and the irreducible ambiguity caused by regret. Then add independent response corruption at a known level $\zeta<\tfrac12$ and determine its cost.
+\end{problem}
+
+At $\delta=0$, every optimal policy is deterministic away from a switching surface, so sampled actions reduce there to noiseless bits. Positive regret permits nontrivial action probabilities over a band whose width is controlled by the utility gap, and the analyst must now estimate rather than merely locate behavior. The one-dimensional core therefore interpolates between binary search and Bernoulli regression. R\'enyi--Ulam games and lie-tolerant search \cite{rivest1980}, noisy computation trees \cite{feige1994}, Bayesian interval search \cite{benor2008,karp2007}, and corrupted threshold search in a continuum \cite{krishnamurthy2021} supply the endpoints; the coupled causal reconstruction is the open part.
+
+\subsection{Imperfect agents}
+
+The next three problems concern the floor that the agent's own imperfection places under any method, however many queries it spends.
+
+\begin{problem}[The regret floor]\label{prob:floor}
+Determine the asymptotics of $\varphi(\delta;\sk,\lambda)$ as $\delta\to0$: (a) decide whether $\varphi(0^+)=0$ (this refines Question~\ref{q:ident}); (b) assuming it is zero, determine $\lim_{\delta\to0}\varphi(\delta)/\delta$ as an explicit function of $(\sk,\lambda)$, together with the matching statement that some pair of models at distance $c\delta$ is $\delta$-indistinguishable; (c) determine the graph threshold: defining the \emph{strength} of an edge of $M$ as the maximum, over pairs of parent configurations differing only in the tail variable, of the induced table difference (the quantity (M4) bounds below), decide for which pairs $(s,\delta)$ every $M\in\MM(\sk,\lambda)$ carrying an edge of strength at least $s$ has that edge present in every model of $I_\delta(M)$---and exhibit, for the complementary pairs, an $M$ and an $M'\in I_\delta(M)$ omitting the edge.
+\end{problem}
+
+Part (c) makes precise ``which parts of the graph are identifiable'': at regret $\delta$, strong edges survive and weak edges blur into the error floor, and the problem asks for the exact exchange rate. Theorem~\ref{thm:re}(b) gives the upper half (linear in $\delta$); no lower-bound construction appears in the literature.
+
+\begin{problem}[Average-case regret]\label{prob:average}
+Fix the probability measure $\nu$ on $\Sigma^\mathrm{mask}(\bC,\bO)$ defined by drawing two profiles uniformly, a weight $q$ uniformly from $[0,1]$, and a mask $\bO'\subseteq\bO$ uniformly. Call a policy family $\Pi$ \emph{$(\kappa,\delta)$-admissible} for $M$ if
+\[
+   \nu\{(\sigma,\bO'):\reg_M^{\bO'}(\pi_{\sigma,\bO'};\sigma)>\delta\}\le\kappa.
+\]
+Define the identified set and radius $\varphi(\delta,\kappa;\sk,\lambda)$ as before with this admissibility. Determine $\varphi(\delta,\kappa)$ up to constants; in particular determine the threshold below which the exception mass still leaves the graph identified, and the rate at which $\varphi(0,\kappa)\to0$ as $\kappa\to0$.
+\end{problem}
+
+This is the model of a \emph{realistic} agent: good in most environments, with no guarantee in an adversarially chosen few. The experiments of \cite{richens2025} (whose trained agents violate the worst-case regret bound outright, with $\delta=1$ on some goals, yet still yield accurate extracted models on average) are empirical evidence that some version of $\varphi(0,\kappa)\to0$ holds, and in the goal-based setting of \S\ref{subsec:theorems}, Nayebi \cite{nayebi2026} has since proved a recovery theorem from low \emph{average-case} regret over an explicit goal family, with margin conditions in place of genericity; the interventional version posed here remains open. The choice of $\nu$ is declared rather than canonical; a solution for any explicit non-degenerate $\nu$ would be a full success, and the dependence on $\nu$ is itself part of the geometry.
+
+\begin{problem}[Boltzmann agents: rates and design]\label{prob:boltzmann}
+Under the Boltzmann channel with known $\beta$: (a) decide whether the map from models to Boltzmann behavior is injective on $\MM(\sk,\lambda)$; (b) for each fixed finite $\beta$, determine the minimax risk at budget $N$ up to constants, including the deterioration as $\beta\to0$; then characterize the joint $(N,\beta)$ crossover from the smooth local rate (typically proportional to $1/(\beta\sqrt N)$) to the noiseless adaptive-search regime as $\beta\to\infty$; (c) solve the design problem: which distribution over queries $(\sigma,\bO',w)$ maximizes the minimax rate?
+\end{problem}
+
+For fixed $\beta$, part (b) is a smooth parametric estimation problem. Large $\beta$ does not create a regret floor: the channel tends to the noiseless sign oracle, and information near a switching surface initially grows like $\beta^2$. The open content is the non-uniform crossover and the design problem over mixtures, masks, and observations.
+
+\subsection{The choice of interventions}
+
+For $W\subseteq\bC$, let $\Sigma_W$ be the mixtures of profiles that act as the identity outside $W$ (so $\Sigma_\emptyset$ is pure observation). These are interventions on the mechanisms of environmental variables. They are distinct from masking the agent's sensory inputs, which leaves the environment unchanged. Define $\Sigma_W$-identifiability of a functional $T(M)$ at $M$ by requiring $T$ to be constant on the models in $\MM(\sk,\lambda)$ sharing an optimal-policy family with $M$ for every $\sigma\in\Sigma_W$ and every mask $\bO'\subseteq\bO$.
+
+\begin{problem}[Restricted intervention sets]\label{prob:restricted}
+For Lebesgue-almost-every parameter choice, characterize combinatorially---in terms of the graph $G$, the sets $W,\bO,\bZ$---which edge indicators and which table entries are $\Sigma_W$-identifiable. In particular, exhibit the minimal sets $W$ for which everything on $\Anc(U)$ is identifiable. Compare environmental intervention on observed variables ($W=\bO$) with sensory masking alone ($W=\emptyset$).
+\end{problem}
+
+The reconstruction of \cite{richens2024} leans on hard interventions on \emph{all} chance variables at once (the endpoints in Proposition~\ref{prop:equiv}); with $W$ small these anchors are unavailable, and it is not even clear that the identifiable set of functionals is monotone in the strength of the margin conditions. The flavor is that of the classical question of how many experiments identify a causal graph \cite{eberhardt2005}, transplanted from observing all variables to observing one bit of behavior.
+
+\begin{question}[The chain]\label{q:chain}
+Let $\bC=\{C_1,\dots,C_m\}$ with graph the directed path $C_m\to C_{m-1}\to\dots\to C_1$, observation set $\bO=\emptyset$, utility parents $\bZ=\{C_1\}$, and $u$ with margin (M2)--(M3). For $W=\{C_j\}$, a single intervenable variable: which of the $2(m-1)+1$ table parameters are $\Sigma_W$-identifiable for almost every $\theta$ (comparison class: the models of $\MM(\sk,\lambda)$ carrying this chain graph, so that all the parameters are defined)? (Heuristic, labeled as such: mixtures at $C_j$ should reveal the composite transfer map from $C_j$ to $C_1$---a product of $2\times2$ stochastic matrices---and the observational marginal of $C_1$, but not the individual factors nor anything upstream of $C_j$; I have not proved either the positive or the negative half, and the negative half needs a genuine indistinguishability construction.)
+\end{question}
+
+\subsection{Tomography of general agents}
+
+Finally, the goal-based setting of Theorem~\ref{thm:rabe}. Fix a finite communicating stationary cMP $E=(\bS,\bA,P)$ with $|\bA|\ge2$, and for $n\ge1$, $\delta\in[0,1)$ let $A(E,n,\delta)$ be the set of $(\delta,n)$-bounded goal-conditioned agents. All the information available to any analyst is \emph{first-action data}: the function $f_\pi\colon \bS\times\bPsi_n\to\bA$ sending $(s,\psi)$ to the agent's first action from start state $s$ under goal $\psi$. Let
+\[
+   \mathcal F(E,n,\delta):=\{f_\pi:\pi\in A(E,n,\delta)\}.
+\]
+Two environments are indistinguishable from first actions when these sets intersect; the policies producing the common first-action map need not agree later in the trajectory. Write \(d_\infty(P,P'):=\max_{s,a,s'}|P'_{ss'}(a)-P_{ss'}(a)|\), and define
+\[
+ \begin{aligned}
+   \varepsilon^*(E,n,\delta):=\sup\bigl\{d_\infty(P,P'):\;&E'=(\bS,\bA,P')\ \text{communicating},\\
+   &\mathcal F(E,n,\delta)\cap\mathcal F(E',n,\delta)\neq\emptyset\bigr\},
+ \end{aligned}
+\]
+the error that no analyst can beat, however many first actions it inspects. Applying the extractor of Theorem~\ref{thm:rabe} to a common first-action map and using the triangle inequality gives $\varepsilon^*(E,n,\delta)\le\sqrt{2/\bigl((n-1)(1-\delta)\bigr)}$ for $n>1$, with $\varepsilon^*(E,n,0)=O(1/n)$ by the refined clause; the myopic theorem gives $\varepsilon^*(E,1,0)=1$ for suitable $E$ when the depth-one class is defined by \emph{Next} goals alone.
+
+\begin{problem}[Is $1/n$ the truth?]\label{prob:rate}
+Determine the asymptotics of $\varepsilon^*(E,n,0)$ as $n\to\infty$ for fixed $E$: is $n\,\varepsilon^*(E,n,0)$ bounded away from $0$ and $\infty$ whenever some transition probability of $E$ lies strictly between $0$ and $1$? A positive answer to the lower half means constructing, for each $n$, a single depth-$n$ optimal goal-conditioned policy shared by two environments whose transition probabilities differ by $c/n$; a negative one would mean that the full lattice of composite goals pins the model more tightly than the binomial medians the known extractor reads.
+\end{problem}
+
+The upper bound's $1/n$ is the resolution at which an exact binomial median determines its success probability: at $\delta=0$ the switch point of the either--or goals of \S\ref{subsec:theorems} identifies the median $\lfloor p(n+1)\rfloor$ of a binomial in $n$ tries, pinning $p$ to a window of width $O(1/n)$, and the $O(\delta/\sqrt{n})$ term for imperfect agents comes from locating that median against distribution-function steps of height about $1/\sqrt{n}$. Whether an optimal agent can really be as uninformative as $1/n$ is, to my knowledge, open. (The certification framework of \cite{lu2026} proves a matching per-transition tightness result for its own small-$\delta$ bound; whether its construction gives $\liminf_n n\,\varepsilon^*(E,n,0)>0$ here is the first thing for a solver to check.)
+
+\begin{problem}[Persistent corruption]\label{prob:corruption}
+Consider all finite instances $(\bS,\bA,n,\delta)$ with $|\bA|\ge2$, $n>1$, and $(n-1)(1-\delta)>4$. An \emph{$\eta$-corruption} of an agent $\pi\in A(E,n,\delta)$ is any function $\rho\colon\bS\times\bPsi_n\to\bA$ differing from $f_\pi$ on at most $\eta\,|\bS\times\bPsi_n|$ arguments, chosen by an adversary who knows the analyst's randomized strategy but commits to $\rho$ before the interaction. Call $\eta$ \emph{uniformly tolerable} if one randomized algorithm and one polynomial $p$ use at most $p(|\bS|,|\bA|,n)$ queries and achieve, for every such instance, every communicating environment $E$, every $\pi\in A(E,n,\delta)$, and every $\eta$-corruption,
+\[
+   \max_{s,a,s'}\,\bigl|\widehat P_{ss'}(a)-P_{ss'}(a)\bigr|\;\le\; \frac{2}{\sqrt{(n-1)(1-\delta)}}
+   \qquad\text{with probability at least } \tfrac23.
+\]
+Determine $\eta^*:=\sup\{\eta:\eta\text{ is uniformly tolerable}\}$. Is $\eta^*>0$? The restriction $(n-1)(1-\delta)>4$ removes the regime in which the target error is at least $1$ and the zero-query estimator is already valid.
+\end{problem}
+
+Two glosses, to show the problem's teeth. First, since $|\bPsi_n|$ is astronomically larger than any polynomial budget, a fraction-$\eta$ corruption can cover \emph{every} query of a known deterministic analyst: randomization is forced, and a positive answer requires exhibiting exponentially many interchangeable certificate query sets---a random-self-reducibility property of the goal space. Second, the easy cousin where each answer is independently randomized with probability $\eta$ (channel noise rather than persistent corruption) is dispatched by repetition with an $O(\log)$ overhead and is not the intended problem; persistent corruption instead models stable blind spots. A variant of equal interest measures the corruption budget against the set of \emph{sequential} goals only.
+
+\section{A place to start}\label{sec:starter}
+
+Everything above becomes unconditional on the smallest skeleton that supports a causal question, which is also the family on which \cite{richens2024} ran their own simulations.
+
+\begin{definition}[The two-variable family]\label{def:twovar}
+Let $\bC=\{X,Y\}$, $\bO=\emptyset$, $\bZ=\{X,Y\}$, and fix a utility $u\colon\{0,1\}^3\to[0,1]$ satisfying (M2)--(M3) and (M6) with margin $\lambda$. The class $\MM_2(\lambda)$ consists of the models with graph $G_\to$ ($X\to Y$; parameters $a=P(X\!=\!1)$, $b_x=P(Y\!=\!1\mid X\!=\!x)$) or $G_\leftarrow$ ($Y\to X$; parameters $b=P(Y\!=\!1)$, $a_y=P(X\!=\!1\mid Y\!=\!y)$), with all parameters in $[\lambda,1-\lambda]$ and edge strength $|b_0-b_1|\ge\lambda$ (resp.\ $|a_0-a_1|\ge\lambda$). There are $16$ profiles; since $\bO=\emptyset$, the behavioral transform is the vector $\bigl(\Delta_M(\sigma)\bigr)_{\sigma\in\Prof}\in\mathbb{R}^{16}$ with $\Delta_M(\sigma)=\sum_{x,y}P_M(x,y;\sigma)\,g(x,y)$, and a query is a rational mixture $\sigma$, answered by the bit $\pi_\sigma\in\{0,1\}$.
+\end{definition}
+
+\begin{problem}[Starter: the identified set, exactly]\label{prob:starter-set}
+For the family $\MM_2(\lambda)$, write $r_M(\delta):=\sup_{M'\in I_\delta(M)}e(M;G',\theta')$ for the local radius of the identified set. (a) Determine, as an explicit semialgebraic condition on $(u,\theta)$, when the global fiber $\{M':\Delta_{M'}=\Delta_M\}$ is the singleton $\{M\}$; in particular decide whether margin $\lambda>0$ alone suffices. (b) On the locus where the inverse is locally Lipschitz and the graph is locally fixed, compute the first-order constant in $r_M(\delta)=c(u,\theta)\delta+o(\delta)$. On the complementary locus, classify the alternatives: a positive limiting radius, graph ambiguity, or a fractional-power modulus. Use this classification to determine the largest regret below which the edge direction is certain throughout the class.
+\end{problem}
+
+This is three unknown parameters, one binary structural choice, and sixteen explicit quadratic polynomials $\Delta_M(\sigma)$ in the parameters; part (a) is a concrete real-algebra problem (quantifier elimination will decide any single instance; the problem asks for the human-readable answer), and part (b) is a small but genuine piece of the geometry that Problem~\ref{prob:floor} asks for in general. It is sized for a first paper, and I do not know the answer.
+
+\begin{problem}[Starter: finite-sample recovery]\label{prob:starter-sample}
+For $\MM_2(\lambda)$ restricted to a compact locus on which $r_M(\delta)\le L\delta$ for all sufficiently small $\delta$, prove matching upper and lower bounds for the sampled-action budget $N(\varepsilon,\delta)$ needed to output the graph and all three parameters within $\varepsilon$. Begin at $\delta=0$, where only queries exactly on a switching surface can randomize, and then determine the crossover at positive regret between sampling error and the radius $\sup_M r_M(\delta)$. Finally add independent response corruption at level $\zeta$ and determine whether its sharp cost is the capacity factor $1/(1-H(\zeta))$.
+\end{problem}
+
+\medskip
+\noindent\emph{A computational project.} Implement the extraction. Concretely: (1) sample $1000$ models from $\MM_2(0.1)$ (graph fair-coin, parameters uniform on $[0.1,0.9]$ subject to edge strength $\ge0.1$, one fixed generic $u$: i.i.d.\ uniform values recorded to three decimals, resampled until (M2)--(M3) and (M6) hold with margin $0.1$); (2) implement the analyst of Proposition~\ref{prop:equiv} with bisection, answering queries by a simulated stochastic agent that is (i) optimal, (ii) $\delta$-optimal with action probabilities chosen adversarially toward confusion, or (iii) Boltzmann at various $\beta$; (3) sample every observed action and optionally corrupt it at $\zeta\in\{0,0.05,0.2\}$; (4) report the median and the $95$th percentile of the recovery error against budget $N\in\{2^4,\dots,2^{14}\}$ and against $\delta,\zeta,\beta$, and fit the exponents. The deliverable is the empirical shape of the curves that Problems~\ref{prob:starter-set}--\ref{prob:starter-sample} ask to prove---the same experiment, at the theorems' level of idealization, as Figure~2 of \cite{richens2024} and the experiments of \cite{richens2025}, but with the query budget and the sampling noise on the axes. Publishing the code and tables would give the whole problem family its first data.
+
+\section{What is known}\label{sec:known}
+
+\emph{The two theorems and their converses.} Theorem~\ref{thm:re} is Theorems 1--2 of Richens--Everitt \cite{richens2024}, with a sufficiency converse (their Theorem 3, essentially transportability \cite{bareinboim2022}): an $\epsilon$-accurate causal model yields $O(\epsilon)$-regret policies for all \emph{soft} interventions (replacements of a variable's mechanism $P(v\mid\mathrm{pa})$ by another mechanism, generalizing the local interventions of Definition~\ref{def:local}), so approximate causal knowledge and robust adaptation are equivalent. The result should be read against the causal hierarchy theorem \cite{bareinboim2022}: observational data almost never determines interventional quantities, while optimal-policy data under local shifts almost always determines all of them. Theorem~\ref{thm:rabe} is Theorem 1 of \cite{richens2025}, whose Theorem 2 (myopic exemption) is the sharp converse at depth one; the paper's own experiments already probe the average-regret regime of Problem~\ref{prob:average} empirically. The formalism of causal influence diagrams is developed in \cite{everitt2021}; Pearl's book \cite{pearl2009} is the standard reference for \S\ref{subsec:causal}.
+
+\emph{Extensions as of mid-2026.} Ceriscioli and Mohan \cite{ceriscioli2025} remove the unmediated-task restriction from Theorem~\ref{thm:re}, extending extraction to agents whose actions influence the environment. Cifuentes \cite{cifuentes2026} extends Theorem~\ref{thm:rabe} to stochastic policies and partially observed environments and weakens the required generality. Lu, Wu, Lu, and Li \cite{lu2026} certify \emph{which} transitions of a general agent's world model are reliable, localizing Theorem~\ref{thm:rabe} transition-by-transition. Bellot, Richens, and Everitt \cite{bellot2025} bound how well beliefs inferred from behavior can predict behavior in unseen environments. Nayebi's preprint \cite{nayebi2026} proves a recovery theorem under average-case regret over an explicit diagnostic goal family. Letcher et al.\ \cite{letcher2026} invert the Bellman equation using richer observations---goal-conditioned $Q$-values, policies, and rewards---and obtain generic transition-kernel identifiability and reconstruction bounds. That result does not settle the policy-bit problems here, but it supplies a useful richer-data benchmark.
+
+\emph{Tools waiting nearby.} The one-dimensional engine of Problems~\ref{prob:noisy} and \ref{prob:starter-sample} is noisy search \cite{rivest1980,feige1994,benor2008,karp2007}; corrupted threshold search in a continuum is treated in \cite{krishnamurthy2021}. The restricted-intervention Problem~\ref{prob:restricted} echoes the experiment-counting results of Eberhardt, Glymour, and Scheines \cite{eberhardt2005} for classical causal discovery, where the experimenter observes all variables rather than one bit of behavior. The Boltzmann channel is the quantal-response model of McKelvey--Palfrey \cite{mckelvey1995}, whose econometric estimation theory supplies the local analysis for Problem~\ref{prob:boltzmann}(b) but not the design question (c); the identification of an agent's subjective beliefs from logit choice data is a developed theme in dynamic discrete choice econometrics, beginning with Magnac and Thesmar \cite{magnac2002}. On the empirical side, the board-game experiments of Li et al.\ \cite{li2023} exhibit an internal world-model in a trained network by intervening on activations---the very setting the next section examines.
+
+\section{What resists formalization: interventions on activations}\label{sec:obstruction}
+
+The survey problem names three surfaces to intervene on: the agent's \emph{environment} (the chance-variable interventions of \S\ref{sec:problems}), its sensory \emph{inputs} (the observation masks used by Theorem~\ref{thm:re}), and its \emph{activations}. Problem~\ref{prob:restricted} compares the first two. The activation clause still lacks a model linking internal network states to variables in the environment's causal model.
+
+A \emph{neural network} is a function assembled by composing many simple parametrized maps; its \emph{activations} are the intermediate values computed along the way, and an \emph{activation intervention} runs the network while clamping some intermediate values to chosen numbers---a perfectly well-defined operation, since the network's computation graph is itself a causal model (a deterministic circuit) in the sense of Definition~\ref{def:cbn}. Defining the intervention is therefore the easy part. The obstacle is that the theorems this document builds on are theorems about \emph{behavior}, and their entire logical engine---regret constrains the sign pattern of $\boldsymbol\Delta_M$, which constrains the model---has no purchase on internals: two networks computing identical policies can have arbitrarily different circuits, so no assumption of the form ``regret at most $\delta$'' can imply anything about what clamping an activation does. Any theorem about activation interventions must therefore add an assumption connecting the circuit to the world, and it is the choice of that assumption which carries all the vagueness.
+
+Three specific decisions that a satisfactory formulation would have to make. \emph{First, the target.} Is the object to be recovered still the environment's causal model $(G,\theta)$---in which case activation interventions are just a richer query alphabet, and the question becomes whether clamping queries provably reduce the sample complexity in Problems~\ref{prob:exact}--\ref{prob:noisy} under some added hypothesis---or is it the agent's \emph{internal} model, which may be wrong? For the latter there is no ground truth in the problem data at all: \cite{richens2025} note that replacing the regret bound by a self-consistency bound (the agent is near-optimal \emph{for its own model}) preserves their theorem, but the subjective model thereby defined is as unobservable as the beliefs it formalizes. \emph{Second, the correspondence.} The candidate formal bridge is causal abstraction \cite{geiger2021,rubenstein2017}: a map $\tau$ from activation-states to model-states such that clamping below commutes with intervening above. But existence of \emph{some} such $\tau$ is far too weak (with no constraint on $\tau$'s complexity, unstructured circuits admit contrived abstractions), and every natural restriction on $\tau$---linearity, low complexity, learnability---is a modeling choice with no current mathematical criterion to select it. This is the formal shadow of a live empirical dispute: a probe that reads a ``belief'' off activations \cite{li2023} need not be reading the mechanism the network actually uses. \emph{Third, the class of agents.} Behavioral theorems quantify over \emph{all} policies meeting a regret bound; an activation theorem must quantify over all \emph{implementations} meeting the bound, and the worst-case implementation hides its model (compute the policy via an obfuscated circuit). So either the quantifier weakens to ``some implementation found by a particular training process''---importing the whole unsolved theory of what training produces---or the theorem is false as stated.
+
+My conclusion: environment interventions and sensory masking are precisely formalizable and are formalized above; the activation clause is a research program in search of its definitions, whose honest core is the pair of questions ``what is an internal model?'' and ``relative to which class of abstraction maps?''. A reader who wants a mathematical way in should start from \cite{geiger2021,rubenstein2017} and attempt the most modest bridge statement: exhibit a nontrivial hypothesis on a circuit computing a $\delta$-optimal policy for a two-variable diagram of \S\ref{sec:starter} under which clamping queries strictly beat behavioral queries in the minimax sense of Problem~\ref{prob:starter-sample}.
+
+\medskip
+Radon proved in 1917 that a function is determined by its line integrals; tomography became an instrument when the inversion acquired error bars, sampling theorems, and dose budgets. For world-models the Radon step is done under the shifted-task family of Theorem~\ref{thm:re} and the goal family of Theorem~\ref{thm:rabe}. The problems above are the error bars, and the two-variable family of \S\ref{sec:starter} is a working scanner small enough to build first.
+
+\begin{thebibliography}{99}
+
+\bibitem{bareinboim2022}
+E.~Bareinboim, J.~D. Correa, D.~Ibeling, and T.~Icard,
+\emph{On Pearl's hierarchy and the foundations of causal inference},
+in: Probabilistic and Causal Inference: The Works of Judea Pearl, ACM, 2022, pp.~507--556.
+
+\bibitem{bellot2025}
+A.~Bellot, J.~Richens, and T.~Everitt,
+\emph{The limits of predicting agents from behaviour},
+Proc.\ 42nd International Conference on Machine Learning (ICML), 2025. \arxiv{2506.02923}
+
+\bibitem{benor2008}
+M.~Ben-Or and A.~Hassidim,
+\emph{The Bayesian learner is optimal for noisy binary search (and pretty good for quantum as well)},
+Proc.\ 49th IEEE Symposium on Foundations of Computer Science (FOCS), 2008, pp.~221--230.
+
+\bibitem{ceriscioli2025}
+M.~Ceriscioli and K.~Mohan,
+\emph{Agents robust to distribution shifts learn causal world models even under mediation},
+Advances in Neural Information Processing Systems 38 (NeurIPS), 2025.
+
+\bibitem{cifuentes2026}
+S.~Cifuentes,
+\emph{General agents contain world models, even under partial observability and stochasticity},
+preprint, 2026. \arxiv{2602.03146}
+
+\bibitem{eberhardt2005}
+F.~Eberhardt, C.~Glymour, and R.~Scheines,
+\emph{On the number of experiments sufficient and in the worst case necessary to identify all causal relations among N variables},
+Proc.\ 21st Conference on Uncertainty in Artificial Intelligence (UAI), 2005, pp.~178--184.
+
+\bibitem{everitt2021}
+T.~Everitt, R.~Carey, E.~D. Langlois, P.~A. Ortega, and S.~Legg,
+\emph{Agent incentives: a causal perspective},
+Proc.\ 35th AAAI Conference on Artificial Intelligence, 2021, pp.~11487--11495.
+
+\bibitem{feige1994}
+U.~Feige, P.~Raghavan, D.~Peleg, and E.~Upfal,
+\emph{Computing with noisy information},
+SIAM J.\ Comput.\ \textbf{23} (1994), no.~5, 1001--1018.
+
+\bibitem{geiger2021}
+A.~Geiger, H.~Lu, T.~Icard, and C.~Potts,
+\emph{Causal abstractions of neural networks},
+Advances in Neural Information Processing Systems 34 (NeurIPS), 2021. \arxiv{2106.02997}
+
+\bibitem{karp2007}
+R.~M. Karp and R.~Kleinberg,
+\emph{Noisy binary search and its applications},
+Proc.\ 18th ACM--SIAM Symposium on Discrete Algorithms (SODA), 2007, pp.~881--890.
+
+\bibitem{krishnamurthy2021}
+A.~Krishnamurthy, T.~Lykouris, C.~Podimata, and R.~Schapire,
+\emph{Contextual search in the presence of adversarial corruptions},
+Oper.\ Res.\ \textbf{71} (2023), no.~4. \arxiv{2002.11650}
+
+\bibitem{mais}
+L.~Levine,
+\emph{Math for AI Safety: An Invitation for Mathematicians},
+2026. \url{https://github.com/lionellevine/MAIS/blob/main/survey/MAIS.pdf}.
+\bibitem{li2023}
+K.~Li, A.~K. Hopkins, D.~Bau, F.~Vi\'egas, H.~Pfister, and M.~Wattenberg,
+\emph{Emergent world representations: exploring a sequence model trained on a synthetic task},
+Proc.\ 11th International Conference on Learning Representations (ICLR), 2023. \arxiv{2210.13382}
+
+\bibitem{letcher2026}
+A.~Letcher, M.~Fellows, A.~D. Goldie, J.~Richens, J.~N. Foerster, and O.~Richardson,
+\emph{Inverting the Bellman equation: from $Q$-values to world models},
+preprint, 2026. \arxiv{2606.21173}
+
+\bibitem{lu2026}
+Y.~Lu, Y.~Wu, X.~Lu, and T.~Li,
+\emph{World models in pieces: structural certification for general agents},
+preprint, 2026. \arxiv{2606.24842}
+
+\bibitem{magnac2002}
+T.~Magnac and D.~Thesmar,
+\emph{Identifying dynamic discrete decision processes},
+Econometrica \textbf{70} (2002), no.~2, 801--816.
+
+\bibitem{mckelvey1995}
+R.~D. McKelvey and T.~R. Palfrey,
+\emph{Quantal response equilibria for normal form games},
+Games Econom.\ Behav.\ \textbf{10} (1995), no.~1, 6--38.
+
+\bibitem{nayebi2026}
+A.~Nayebi,
+\emph{What capable agents must know: selection theorems for robust decision-making under uncertainty},
+preprint, 2026. \arxiv{2603.02491}
+
+\bibitem{pearl2009}
+J.~Pearl,
+\emph{Causality: Models, Reasoning, and Inference},
+2nd ed., Cambridge University Press, 2009.
+
+\bibitem{richens2024}
+J.~Richens and T.~Everitt,
+\emph{Robust agents learn causal world models},
+Proc.\ 12th International Conference on Learning Representations (ICLR), 2024. \arxiv{2402.10877}
+
+\bibitem{richens2025}
+J.~Richens, D.~Abel, A.~Bellot, and T.~Everitt,
+\emph{General agents contain world models},
+Proc.\ 42nd International Conference on Machine Learning (ICML), 2025. \arxiv{2506.01622}
+
+\bibitem{rivest1980}
+R.~L. Rivest, A.~R. Meyer, D.~J. Kleitman, K.~Winklmann, and J.~Spencer,
+\emph{Coping with errors in binary search procedures},
+J.\ Comput.\ System Sci.\ \textbf{20} (1980), no.~3, 396--404.
+
+\bibitem{rubenstein2017}
+P.~K. Rubenstein, S.~Weichwald, S.~Bongers, J.~M. Mooij, D.~Janzing, M.~Grosse-Wentrup, and B.~Sch\"olkopf,
+\emph{Causal consistency of structural equation models},
+Proc.\ 33rd Conference on Uncertainty in Artificial Intelligence (UAI), 2017. \arxiv{1707.00819}
+
+\bibitem{uhler2013}
+C.~Uhler, G.~Raskutti, P.~B\"uhlmann, and B.~Yu,
+\emph{Geometry of the faithfulness assumption in causal inference},
+Ann.\ Statist.\ \textbf{41} (2013), no.~2, 436--463.
+
+\end{thebibliography}
+
+\end{document}

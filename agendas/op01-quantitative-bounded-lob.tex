@@ -1,0 +1,727 @@
+\documentclass[11pt]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{xcolor}
+\usepackage[colorlinks=true, linkcolor=blue!55!black, citecolor=blue!55!black, urlcolor=blue!55!black]{hyperref}
+\emergencystretch=1.5em
+\newcommand{\arxiv}[1]{\href{https://arxiv.org/abs/#1}{\texttt{arXiv:#1}}}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\PA}{\mathsf{PA}}
+\newcommand{\PAbin}{\mathsf{PA}_{\mathrm{bin}}}
+\newcommand{\GL}{\mathsf{GL}}
+\newcommand{\Lang}{\mathrm{Lang}}
+\newcommand{\Con}{\operatorname{Con}}
+\newcommand{\FB}{\mathrm{FairBot}}
+\newcommand{\gn}[1]{\ulcorner #1 \urcorner}
+\newcommand{\num}[1]{\overline{#1}}
+\newcommand{\Bud}{\mathcal{B}}
+\newcommand{\leSstar}{\mathrel{\leq_S^{*}}}
+
+\title[Quantitative bounded L\"ob]{Quantitative bounded L\"ob:\\ proof-length overheads in L\"ob's theorem\\ and L\"obian cooperation}
+\author{Claude Fable 5, audited by GPT 5.6 Sol}
+\date{}
+\hypersetup{
+  pdftitle={Quantitative bounded Lob: proof-length overheads and Lobian cooperation},
+  pdfauthor={Claude Fable 5; audited by GPT 5.6 Sol},
+  pdfsubject={Research agenda supplement to Open Problem 1 of Math for AI Safety}
+}
+
+\begin{document}
+
+\begin{abstract}
+L\"ob's theorem converts a proof of ``if $P$ is provable then $P$'' into a proof of $P$. The conversion is explicit, so it has a cost. This companion to Lionel Levine's survey \emph{Math for AI Safety} asks for the least proof-length overhead and for quantitative thresholds in bounded FairBot cooperation. It fixes a symbol-counting proof system, proves that the ordinary L\"ob overhead is a computable function, and isolates the extra hypothesis needed in the resource-bounded theorem: the proof system must verify the inequalities used to enlarge each proof budget. Budgets are therefore given by canonical search-free terms, with a certificate formulation available for more general functions. The resulting problems ask for the growth of the ordinary overhead, an internal bound on the expansion function, the logarithmic L\"ob window, explicit bounded-FairBot thresholds, a bounded L\"ob axiom, and a bounded Payor lemma. The unrestricted graph-based formulation admits proof-search-dependent counterexamples; the repaired formulation keeps the quantitative program while making its intensional dependence explicit.
+\end{abstract}
+
+\maketitle
+
+\begin{center}
+\small\emph{Research agenda A1 \(\cdot\) Claude Fable 5, audited by GPT 5.6 Sol\\
+July 12, 2026 \(\cdot\) Status: draft}
+\end{center}
+
+\noindent This is a supplement to Open Problem~1 of Lionel Levine's \emph{Math for AI Safety: An Invitation for Mathematicians}~\cite{mais}.
+
+\begin{quote}
+\textbf{Open Problem 1 (Quantitative bounded L\"ob).}
+Fix a proof system $S$, a G\"odel coding, and the provability predicate $\Box^S$; write $S\vdash_{\le k}Q$ for an $S$-proof of $Q$ of at most $k$ symbols. Determine the least overhead $F_S$ for which
+\[
+   S\vdash_{\le k}(\Box^S P\to P)
+   \quad\text{implies}\quad
+   S\vdash_{\le F_S(k,|P|)} P,
+\]
+where $|P|$ is the length of the sentence $P$: given a $k$-symbol proof of the hypothesis of L\"ob's theorem, how many symbols can the shortest proof of its conclusion require? A polynomial upper bound for one standard system, with explicit constants, would turn the L\"obian argument from a possibility theorem into a budget. The first instance with a game attached: Critch's theorem~\cite{critch2016} gives a finite threshold $\hat k$ above which two copies of $\mathrm{FairBot}_k$ provably cooperate, assuming the proof system can certify the cost of noticing its own bounded proofs; verify that hypothesis, with constants, for a specific system and coding. A first computation, before any asymptotics: implement bounded proof search in a weak system for two explicitly supplied agents, and tabulate the smallest $k$ at which cooperation appears. Over a family of such agent pairs, does $\hat k$ grow polynomially in the agents' description length?
+\end{quote}
+
+
+\section{The problem in brief}
+\label{sec:brief}
+
+
+
+In plain terms: L\"ob's theorem \cite{lob1955} says that if a formal system proves ``whatever I prove is true'' about a particular sentence $P$---that is, if it proves $\Box P\to P$---then it already proves $P$. The standard proof is an explicit construction, so its cost is meaningful. Critch \cite{critch2016} formulated a version for bounded proofs and applied it to source-reading agents in a one-shot Prisoner's Dilemma. Under the representation convention used in this file, the argument also needs internal proofs of its budget comparisons; Theorem~\ref{thm:pbl} states that repaired form. Its key quantities remain qualitative: the admissible budgets, the threshold $\hat k$, and the expansion function of the proof system. Quantifying them, and proving unavoidable lower bounds, is the problem.
+
+This file is self-contained given a first course in logic: I assume the standard apparatus (G\"odel numbering, $\Sigma_1$-completeness, representability of computable functions), gloss the specialized pieces as they arise, and define everything particular to the problem from scratch, for a mathematician who has not read the survey and knows nothing about machine learning or AI safety. (Almost nothing here is about machine learning; the subject is proof length, provability logic, and a game.) The status statements below were checked against the literature in July 2026.
+
+\section{Background: proofs measured in symbols}
+\label{sec:background}
+
+How much does self-reference cost? G\"odel's and L\"ob's theorems are usually told as stories about what formal systems can and cannot do. Told quantitatively, they become stories about budgets: every ``$S$ proves $\varphi$'' acquires a price tag in symbols, and the classical constructions become inequalities between price tags. This section sets up the accounting.
+
+\subsection{Proof systems and lengths}
+\label{sec:systems}
+
+Fix a first-order theory $S$ presented as a proof system: a finite alphabet $\Sigma_S$, a set of formulas (finite strings over $\Sigma_S$), and a notion of \emph{proof}: a finite string over $\Sigma_S$, checkable by a primitive recursive predicate, with a designated conclusion. Write
+\[
+S \vdash \varphi, \qquad S \vdash_{\le k} \varphi
+\]
+for ``$\varphi$ has an $S$-proof'' and ``$\varphi$ has an $S$-proof of at most $k$ symbols.'' The unit matters: \emph{all lengths are counted in symbols} (the size of the proof as a text file), not in lines (a three-line proof with an astronomically long line is not short) and not in the running time of any proof search. Let
+\[
+\ell_S(\varphi) \;:=\; \min\{\,\text{length in symbols of an $S$-proof of } \varphi\,\} \in \mathbb{N} \cup \{\infty\},
+\]
+and let $|\varphi|$ denote the length of the formula $\varphi$ in symbols. Let $\Lang(S)$ denote the formulas of $S$ and $\Lang_1(S)$ those with at most one free variable.
+
+Following Critch \cite{critch2016}, call the system $S$ \textbf{efficient} if:
+\begin{enumerate}
+\item $S$ is a consistent, recursively axiomatized extension of Peano Arithmetic $\PA$, so that every computable function $f$ is representable by a graph predicate $\Gamma_f$ (I adopt Critch's convention of writing $f(x)$ inside formulas as shorthand for the expansion in terms of $\Gamma_f$);
+\item numerals are efficient: each $k \in \mathbb{N}$ has a closed term $\num{k}$ with $|\num{k}| \le C\log(k+2)$ (binary numerals, rather than $SS\cdots S0$);
+\item proofs may introduce \emph{abbreviations} (a line defining a fresh symbol to stand for a fixed string, which may itself contain previously defined abbreviation symbols, and lines expanding it), so that a long expression used many times is paid for once and definitions may be nested.
+\end{enumerate}
+A \textbf{plain} system satisfies (1) and (2) but has no abbreviation rule; there each proof contains its conclusion verbatim as its last line, so $\ell_S(\varphi) \ge |\varphi|$.
+
+Here is the concrete default used below. Let $\PAbin$ be Peano arithmetic in Enderton's Hilbert calculus \cite{enderton2001}, written in fully parenthesized prefix notation over a fixed finite alphabet. The numeral $\num{k}$ is built from the binary constructors $x\mapsto 2x$ and $x\mapsto 2x+1$. A proof file is a sequence of tagged records for an axiom instance, modus ponens, generalization, or an abbreviation definition. An abbreviation has the form \texttt{def $u$ := $\tau$}, where $u$ is fresh, its scope is the remainder of the file, and $\tau$ may use earlier abbreviations; names are the letter \texttt{u} followed by a self-delimiting binary integer, with every character charged. The checker expands definitions in order and verifies the resulting Enderton proof, whose last expanded formula is the conclusion. G\"odel codes are the base-$|\Sigma_S|$ codes of proof files in this grammar, and $\mathrm{ProofLength}$ counts their characters. These choices fix the identifier cost, expansion semantics, checker, and coding that enter every function below. Other concrete systems pose parallel questions, with different answers.
+
+\subsection{Coding, boxes, and bounded boxes}
+\label{sec:coding}
+
+Fix a standard G\"odel numbering $\#\colon \Lang(S) \to \mathbb{N}$ and write $\gn{\varphi} := \num{\#\varphi}$, a closed term denoting the code of $\varphi$; note $|\gn{\varphi}| \le C(|\varphi|+1)$, since $\#\varphi \le |\Sigma_S|^{O(|\varphi|)}$ and numerals are binary. Fix a $\Delta_1$ proof predicate $\mathrm{Bew}(m,y)$ (``$m$ codes an $S$-proof of the sentence coded by $y$'') and a $\Delta_1$ function $\mathrm{ProofLength}(m)$ giving the length \emph{in symbols of the written proof} (not of its code). Define, as formulas of $\Lang(S)$,
+\[
+\begin{aligned}
+\Box \varphi
+  &\;:=\; \exists m\, \mathrm{Bew}(m, \gn{\varphi}),\\
+\Box_k \varphi
+  &\;:=\; \exists m\, \bigl(\mathrm{Bew}(m, \gn{\varphi})
+       \wedge \mathrm{ProofLength}(m) \le k\bigr).
+\end{aligned}
+\]
+In words: $\Box\varphi$ says ``$\varphi$ is provable in $S$,'' and $\Box_k \varphi$ says ``$\varphi$ has an $S$-proof of at most $k$ symbols.'' The subscript $k$ may be a numeral or a free variable; when $p \in \Lang_1(S)$ is a formula with parameter $k$, the expression $\Box_{f(k)}\, p(k)$ (with $f$ computable) abbreviates, via Critch's evaluation convention, the formula with free variable $k$ asserting that the \emph{instance} $p(\num{k})$ has a proof of at most $f(k)$ symbols. Note $|\Box_k\varphi| \le C(|\varphi| + \log(k+2) + 1)$ when $k$ is a numeral: bounded provability of $\varphi$ is itself a short sentence.
+
+Three pieces of bookkeeping, and one definition, are used throughout; the first two are Critch's. \emph{Implication distribution}: there is a constant $c_S$ with
+\[
+S \vdash \forall a\,\forall b\;\bigl(\Box_a(\varphi \to \psi) \to (\Box_b \varphi \to \Box_{a+b+c_S}\, \psi)\bigr)
+\]
+for all $\varphi,\psi$; gluing a proof of an implication to a proof of its antecedent costs a constant, thanks to abbreviations. \emph{Quantifier distribution}: there is $C_S$ such that $S \vdash_{\le N} \forall k\, \varphi(k)$ implies $S \vdash \forall k\, \Box_{C_S + 2N + \log k}\, \varphi(k)$; specializing a proved universal statement to the numeral $\num{k}$ costs about the numeral. \emph{Provable monotonicity}, immediate from the definition of $\Box_k$: $S \vdash \forall a\,\forall b\,\bigl((a \le b \wedge \Box_a\varphi) \to \Box_b\varphi\bigr)$, since a proof of at most $a$ symbols is a proof of at most $b$ symbols. Finally:
+
+\begin{definition}[Expansion function]
+\label{def:expansion}
+A computable $\mathcal{E}\colon \mathbb{N} \to \mathbb{N}$ is an \textbf{expansion function} for $S$ if it satisfies \emph{bounded necessitation}---$S \vdash_{\le m} \varphi$ implies $S \vdash_{\le \mathcal{E}(m)} \Box_m \varphi$---and \emph{bounded inner necessitation}---$S \vdash \Box_m \varphi \to \Box_{\mathcal{E}(m)} \Box_m \varphi$ for all $\varphi$ and $m$. Let $\mathcal{E}_S$ denote the pointwise least such function.
+\end{definition}
+
+In words: $\mathcal{E}$ prices the act of \emph{noticing a proof}. If you hold an $m$-symbol proof of $\varphi$ in your hand, how many symbols does it take to prove the sentence ``$\varphi$ has an $m$-symbol proof''? The least such price, in the worst case over $\varphi$, is $\mathcal{E}_S(m)$.
+
+Why does the pointwise least expansion function exist, and why is it computable? Both conditions constrain each value $\mathcal{E}(m)$ separately, and the set of admissible values at a given $m$ is upward closed: a larger budget preserves bounded necessitation trivially, and preserves bounded inner necessitation by the provable monotonicity of $\Box_a$ in $a$. The set is also nonempty, and here bounded inner necessitation needs a word, since it quantifies over \emph{all} $\varphi$. For the finitely many $\varphi$ with $\ell_S(\varphi) \le m$, the sentence $\Box_m\varphi$ is true and checkable below a fixed bound, so $S$ proves it; taking $\mathcal{E}(m)$ at least the largest of these finitely many shortest proof lengths satisfies bounded necessitation, and since $S$ also proves $\Box_e\Box_m\varphi$ for all sufficiently large $e$, bounded inner necessitation for these $\varphi$ follows by weakening. Every other $\varphi$ imposes no constraint at $m$: when $\varphi$ has no proof of at most $m$ symbols, $S$ proves $\neg\Box_m\varphi$ by checking the finitely many strings of length at most $m$ (the finite-check device used again in Proposition~\ref{prop:failure}(1) below), so the implication holds vacuously. Finally, whether a given value is admissible at $m$ reduces, using the consistency of $S$, to finitely many checks of sentences of the form $\Box_e\psi$, each decidable by inspecting the finitely many strings of length at most $e$; so the least admissible value $\mathcal{E}_S(m)$ is computable.
+
+Critch estimates that $\mathcal{E} \in O(m)$ ``seems reasonable to expect'' for proof systems engineered for easy checking. Problem~\ref{prob:expansion} asks for such a bound in the concrete system fixed here.
+
+\subsection{Conventions}
+\label{sec:conventions}
+
+The resource-bounded statements need more than the standard values of a computable function: they need a presentation whose arithmetic $S$ can verify. From here on, $\mathcal{E}$ denotes a chosen nondecreasing expansion function with a graph that $S$ proves total and single-valued. Implication distribution, bounded inner necessitation, and quantifier distribution are assumed in their uniform free-variable forms for this representation. A standing per-system certificate consists of a $\Bud$-term $E^\sharp$ and an $S$-proof of
+\[
+S\vdash \forall m\;\bigl(\mathcal{E}(m)\le E^\sharp(m)\bigr).
+\]
+Establishing such a certificate for $\PAbin$ is part of Problem~\ref{prob:expansion}, not a theorem assumed without proof.
+
+Write $\lambda(k):=|\num{k}|+1$ for the numeral-length function. The \textbf{budget algebra} $\Bud$ is the search-free term algebra generated by constants, $k$, and $\lambda(k)$, and closed under addition, multiplication, composition, and $x\mapsto 2^x$. Each term carries the canonical graph obtained from these defining equations. Thus $S$ proves its totality and monotonicity by induction on the term. Unless a statement says otherwise, every budget in this file is a $\Bud$-term with this graph. For fixed positive integers $a,b$, the canonical logarithmic budget
+\[
+\lambda_{a/b}(k):=\left\lfloor\frac{a\lambda(k)}{b}\right\rfloor
+\]
+is also allowed when it is named explicitly; this harmless derived form is kept separate because rational scaling and the floor operation are not generators of $\Bud$.
+
+For represented functions $u,v$, write $u\leSstar v$ if some standard $K$ satisfies
+\[
+S\vdash\forall k>K\;\bigl(u(k)\le v(k)\bigr).
+\]
+A represented budget $f$ is \textbf{internally regular} if its graph is provably total and single-valued and, for every standard integer $b\ge1$,
+\[
+\mathcal{E}(2\lambda)+b\lambda\leSstar f.
+\]
+In words: $f$ is internally regular if $S$ itself proves, for every fixed multiple $b$ of the numeral length, that $f$ eventually exceeds the cost of noticing a proof of length $2\lambda$ plus that multiple. This is the internal counterpart of Critch's external hypothesis that $f$ grows faster than $\mathcal{E}$ composed with a logarithm.
+Budgets outside $\Bud$ remain admissible when supplied with the corresponding internal certificates. This certificate formulation is more general; the point of $\Bud$ is to generate the routine certificates from syntax once the comparison conjecture below and the per-system bound on $\mathcal E$ are proved.
+
+\subsection{L\"ob's theorem}
+\label{sec:lob}
+
+\begin{theorem}[L\"ob \cite{lob1955}]
+\label{thm:lob}
+For any sentence $P$, if $S \vdash \Box P \to P$ then $S \vdash P$.
+\end{theorem}
+
+The hypothesis is an instance of \emph{reflection}: ``if I prove $P$, then $P$ is true.'' L\"ob's theorem says a sound-looking humility is impossible to certify selectively: the system can vouch for its own proofs of $P$ only when it can outright prove $P$. The special case $P = \bot$ is G\"odel's second incompleteness theorem \cite{godel1931}: if $S$ proves its own consistency $\Con(S) := \neg\Box\bot$, i.e.\ $\Box\bot \to \bot$, then $S$ proves $\bot$.
+
+The standard proof runs through the diagonal lemma: there is a sentence $\Psi$ (``if this sentence is provable, then $P$'') with $S \vdash \Psi \leftrightarrow (\Box\Psi \to P)$; from the hypothesis $\Box P \to P$ and the derivability conditions (namely: $S \vdash \varphi$ implies $S \vdash \Box\varphi$; $S \vdash \Box(\varphi \to \psi) \to (\Box\varphi \to \Box\psi)$; and $S \vdash \Box\varphi \to \Box\Box\varphi$) one proves $\Box\Psi \to P$, hence $\Psi$, hence (noticing that proof) $\Box \Psi$, hence $P$. Every step is an explicit construction. Section~\ref{sec:overhead} audits its cost.
+
+\subsection{The client: program games and FairBot}
+\label{sec:games}
+
+The quantitative question earns its keep in game theory, so I define the game. The \emph{Prisoner's Dilemma} is the two-player game with actions $\mathsf{C}$ (cooperate) and $\mathsf{D}$ (defect) and payoffs
+\[
+\begin{aligned}
+(\mathsf{C},\mathsf{C})&\mapsto(2,2),&
+(\mathsf{C},\mathsf{D})&\mapsto(0,3),\\
+(\mathsf{D},\mathsf{C})&\mapsto(3,0),&
+(\mathsf{D},\mathsf{D})&\mapsto(1,1),
+\end{aligned}
+\]
+the first coordinate going to player 1. Whatever the opponent does, defecting gains one unit and costs the opponent two; so between opaque players, one-shot, mutual defection is the unique Nash equilibrium. In a \emph{program game} \cite{tennenholtz2004, howard1988, mcafee1984}, each player is an algorithm handed the other's source code before choosing its action. This is the realistic model for interactions between software agents---and AI systems are software agents---since programs, unlike people, can exhibit their source cheaply.
+
+Transparency changes the analysis. Critch's bounded agent is
+\[
+\begin{aligned}
+\FB_k(\mathrm{Opp}):\quad
+&\text{search all $S$-proofs of at most $k$ symbols}\\
+&\text{for a proof that }\mathrm{Opp}(\FB_k)=\mathsf C;\\
+&\text{if found, play $\mathsf C$; otherwise, play $\mathsf D$,}
+\end{aligned}
+\]
+where the self-reference in the search target is implemented by Kleene's recursion theorem: for every computable $F$ there is a program $e$ that computes $F(e,\cdot)$, so a program can, without circularity, quote and use its own source code (\emph{quining}). $\FB_k$ is a genuine terminating program. It is \emph{unexploitable}: assuming $S$ proves only true statements about the players' outputs, $\FB_k$ never plays $\mathsf{C}$ against an opponent who plays $\mathsf{D}$ against it. The natural guess is that two copies deadlock, each waiting for the other to prove cooperation first. They do not:
+
+\begin{theorem}[Bounded FairBot, under a certified expansion bound; after Critch \cite{critch2016}]
+\label{thm:fairbot}
+Let $S$ satisfy the conventions above, and suppose the canonical identity budget $f(k)=k$ is internally regular. Then there is $\hat{k}$ such that $\FB_k(\FB_k) = \mathsf{C}$ for all $k > \hat{k}$.
+\end{theorem}
+
+Here $g \prec f$ (equivalently $f \succ g$) means that $f$ eventually dominates every constant multiple of $g$. Critch's published hypothesis is the external comparison $k\succ\mathcal{E}\mathcal{O}(\log k)$. The hypothesis above is its internal counterpart: $S$ must prove the comparisons used by the cooperation proof. Problem~\ref{prob:expansion} asks for the per-system bound that would establish this for $\PAbin$. The unbounded precursor is due to Bar\'asz et al.\ \cite{barasz2014}.
+
+\begin{theorem}[Repaired parametric bounded L\"ob; after Critch \cite{critch2016}]
+\label{thm:pbl}
+Let $p \in \Lang_1(S)$, and let $f,g,h$ be represented computable functions with graphs that $S$ proves total and single-valued. Let $d(k)$ be the represented bookkeeping overhead in Critch's fixed-point construction. Suppose
+\[
+g+h+d\leSstar f,\qquad \mathcal{E}\circ g\leSstar h,
+\qquad A+\lambda\leSstar g
+\]
+for every standard constant $A$. If, for some standard $K_0$,
+\[
+S \vdash \forall k>K_0\,\bigl(\Box_{f(k)}\, p(k) \to p(k)\bigr),
+\]
+then there exists $\hat{k}$ such that
+\[
+S \vdash \forall k > \hat{k}\;\, p(k).
+\]
+In particular, the conclusion holds whenever $f$ is internally regular.
+\end{theorem}
+
+The proof is Critch's fixed-point argument with each enlargement of a bounded box licensed by the displayed certificate. For the final sentence, take $g=2\lambda$ and $h=\mathcal{E}\circ g$; the fixed syntactic overhead satisfies $d\leSstar b_0\lambda$ for a standard $b_0$, so internal regularity supplies all three comparisons. Theorem~\ref{thm:fairbot} is the instance $p(k):=[\FB_k(\FB_k)=\mathsf C]$ and $f(k)=k$.
+
+\begin{remark}[Why internal certificates are needed]
+\label{rem:pbl-audit}
+The unrestricted graph-based version is false under the representation conventions used here. A budget can equal a rapidly growing function at every standard input while its graph branches to zero if a bounded proof of contradiction exists; $S$ then proves the reflection premise for $p(k)=\bot$. Provable totality and single-valuedness alone do not exclude this construction. The certificate hypotheses above rule out the hidden zero branch.
+\end{remark}
+
+The remaining quantitative questions are the cost of the certificates, the threshold $\hat k$, and the expansion function itself. For $\Bud$-budgets, Conjecture~\ref{conj:comparison} would generate the comparison certificates uniformly from the term; for a budget outside $\Bud$, their proofs and proof lengths are part of the input data.
+
+\section{The overhead function \texorpdfstring{$F$}{F}}
+\label{sec:overhead}
+
+The overhead $F$ is a specific function of two natural numbers, well defined and computable; the task is to determine its growth rate.
+
+\begin{definition}[Overhead function]
+\label{def:F}
+For an efficient proof system $S$ and $k, n \in \mathbb{N}$, let
+\[
+\begin{aligned}
+F_S(k,n):=\max\bigl\{\,\ell_S(P):\;&P\text{ a sentence of }\Lang(S),\\
+&|P|\le n,\quad \ell_S(\Box P\to P)\le k\,\bigr\},
+\end{aligned}
+\]
+with $\max \emptyset := 0$.
+\end{definition}
+
+In words: among all sentences of length at most $n$ whose reflection instance $\Box P \to P$ has a proof of at most $k$ symbols, $F_S(k,n)$ is the length of the hardest one to prove outright. Among functions nondecreasing in each argument, this is precisely the least one for which the survey's displayed implication holds uniformly, so ``determine the least overhead'' is well posed:
+
+\begin{proposition}
+\label{prop:welldefined}
+$F_S$ is a well-defined, total computable function, nondecreasing in each argument, and it is pointwise least among the functions $F$, nondecreasing in each argument, such that $S \vdash_{\le k} (\Box P \to P)$ implies $S \vdash_{\le F(k,|P|)} P$ for all sentences $P$ and all $k$.
+\end{proposition}
+
+\begin{proof}
+Fix $(k,n)$. There are finitely many strings of length $\le n$ over $\Sigma_S$, hence finitely many candidate sentences $P$; for each, whether $\ell_S(\Box P \to P) \le k$ is decidable by checking the finitely many strings of length $\le k$ against the (primitive recursive) proof-checking predicate. For each $P$ that qualifies, L\"ob's theorem (Theorem~\ref{thm:lob}) gives $S \vdash P$, so a search through proofs in order of length terminates and computes $\ell_S(P) < \infty$. Thus the maximum is over a finite set of finite values, computable as described. Monotonicity is immediate (enlarging $k$ or $n$ enlarges the set). For minimality, let $F$ be nondecreasing in each argument and satisfy the implication; then for each $P$ counted in the maximum defining $F_S(k,n)$ we have $F(k,n) \ge F(k,|P|) \ge \ell_S(P)$, so $F(k,n) \ge F_S(k,n)$. (The restriction to nondecreasing $F$ is needed: the implication constrains $F$ only at pairs of the form $(k,|P|)$, so the pointwise least $F$ satisfying it alone need not be monotone.)
+\end{proof}
+
+So $F_S$ exists; the mystery is how fast it grows, since computability puts no ceiling on growth. One direction is cheap:
+
+\begin{lemma}
+\label{lem:cheap}
+There is a constant $C_1 = C_1(S)$ with $\ell_S(\Box P \to P) \le \ell_S(P) + C_1(|P|+1)$ for every provable sentence $P$.
+\end{lemma}
+
+\begin{proof}
+To a shortest proof of $P$, append the propositional axiom instance $P \to (\Box P \to P)$ (an instance of $A \to (B \to A)$, of length at most $2|P| + |\Box P| + O(1) \le C(|P|+1)$, since $|\Box P| \le C(|P|+1)$ by Section~\ref{sec:coding}) and one application of modus ponens, whose conclusion line has length $|\Box P \to P| \le C(|P|+1)$.
+\end{proof}
+
+Together with L\"ob's theorem, which says the two hypothesis classes coincide---$S \vdash \Box P \to P$ if and only if $S \vdash P$---Lemma~\ref{lem:cheap} recasts the whole question as one about \emph{speedup}. Proving the reflection instance is never much harder than proving the sentence; $F_S$ measures how much \emph{easier} it can be. Equivalently: how much can L\"ob's rule, ``to prove $P$, prove $\Box P \to P$ instead,'' shorten proofs?
+
+\begin{problem}[Determine the overhead]
+\label{prob:determineF}
+Determine the asymptotic growth of $F_{\PAbin}(k,n)$, up to constant factors in $k$ and $n$. (The growth is joint: for fixed $k$ only finitely many sentences $P$ satisfy $\ell_S(\Box P \to P) \le k$, and for fixed $n$ only finitely many satisfy $|P| \le n$, so $F_{\PAbin}$ is eventually constant in each argument separately; Conjecture~\ref{conj:poly} below states the expected joint answer.) The same question may be asked for every efficient proof system.
+\end{problem}
+
+What should the answer be? Audit the standard proof of L\"ob's theorem, given a $k$-symbol proof $\pi$ of $\Box P \to P$ with $|P| \le n$. The audit needs a price for diagonalization. Fix once and for all a constant $C_0 = C_0(S)$ large enough that the standard diagonal construction assigns to every $\Phi \in \Lang_1(S)$ a fixed point $\Psi$ with $S \vdash \Psi \leftrightarrow \Phi(\gn{\Psi})$ and $|\Psi| \le C_0(|\Phi|+1)$; such a $C_0$ exists because the construction substitutes into a template of length $O(|\Phi|)$ one binary numeral of length $O(|\Phi|)$. Write $d_S(n)$ for the least $d$ such that every formula $\Phi \in \Lang_1(S)$ with $|\Phi| \le n$ has a fixed point $\Psi$ with $|\Psi| \le C_0(n+1)$ and $S \vdash_{\le d} \Psi \leftrightarrow \Phi(\gn{\Psi})$. (Like everything in this section, $d_S$ depends on conventions, here the choice of $C_0$; fix any one.) The ledger, with every step an explicit construction:
+\begin{enumerate}
+\item Diagonalize $\Phi(x) := (\exists m\,\mathrm{Bew}(m,x) \to P)$ to get $\Psi$ with $S \vdash \Psi \leftrightarrow (\Box\Psi \to P)$: cost $d_S(O(n))$.
+\item Derive $S \vdash \Box\Psi \to (\Box\Box\Psi \to \Box P)$ from the fixed point via internalized modus ponens: cost polynomial in $n$ plus one \emph{internalization} (the act priced by $\mathcal{E}_S$) of a proof of length $O(d_S(O(n)))$.
+\item Add $S \vdash \Box\Psi \to \Box\Box\Psi$ (formalized $\Sigma_1$-completeness for the $\Sigma_1$ sentence $\Box\Psi$; polynomial-length proofs by the techniques of Pudl\'ak \cite{pudlak1998}): cost $\mathrm{poly}(n)$.
+\item Chain with $\pi$: $S \vdash \Box\Psi \to P$, then the fixed point gives $S \vdash \Psi$; running total $N = k + d_S(O(n)) + \mathrm{poly}(n)$ plus the internalization costs.
+\item Notice the proof of $\Psi$: $S \vdash \Box\Psi$, at the price of one internalization of an $N$-symbol proof; modus ponens with step (4) yields $S \vdash P$.
+\end{enumerate}
+The bookkeeping is heuristic (I am not aware of any published proof carrying it out for a concrete system; writing one is Starter~\ref{start:constants} below), but its shape is clear: the dominant term is one internalization of the assembled proof, so
+\[
+F_S(k,n) \;\lesssim\; \mathcal{E}_S\bigl(k + d_S(O(n)) + \mathrm{poly}(n)\bigr) + k + d_S(O(n)) + \mathrm{poly}(n),
+\]
+where $\mathcal{E}_S$ and $d_S$ are the two system constants of the story. If both are polynomial (and standard techniques \cite{pudlak1998} should give polynomial bounds for standard systems), then so is $F$.
+
+\begin{conjecture}[Polynomial overhead]
+\label{conj:poly}
+There are constants $C, c$ (depending on the system) with
+\[
+F_{\PAbin}(k,n) \;\le\; C\,(k+n)^{c} \quad \text{for all } k, n.
+\]
+In the strong form: $F_{\PAbin}(k,n) \le C\,(k + n^{c})$, i.e.\ the premise length enters linearly. The strong form would follow from the ledger above together with a linear expansion function ($\mathcal{E}_{\PAbin}(m) = O(m)$) and polynomial $d_S$.
+\end{conjecture}
+
+A first lower-bound target is already delicate. Lemma~\ref{lem:cheap} shows $F_S(k,n) \ge \ell_S(P)$ for any $P$ with $|P| \le n$ and $\ell_S(P) \le k - C_1(n+1)$, but whether sentences of length $\le n$ with shortest proofs \emph{just under} $k$ exist for given $(k,n)$ is itself a question about the spectrum of shortest proof lengths. The first requested example asks whether L\"ob's rule shortens a proof at all:
+
+\begin{question}[Lower bounds]
+\label{q:lower}
+\hspace{1em}
+\begin{enumerate}
+\item Exhibit $\delta > 0$ and a sequence of sentences $P_i$ with $\ell_S(\Box P_i \to P_i) \to \infty$ and
+\[
+\ell_S(P_i) \;\ge\; (1+\delta)\,\ell_S(\Box P_i \to P_i) + C_1(|P_i|+1),
+\]
+beating the trivial toll of Lemma~\ref{lem:cheap}; that is, exhibit any genuine speedup from L\"ob's rule. (Here $S = \PAbin$, or any efficient system of your choice.)
+\item Decide Conjecture~\ref{conj:poly}: is $F_{\PAbin}(k,n)$ bounded by a fixed polynomial in $k+n$, or does it grow faster than every polynomial along some sequence $(k_i, n_i)$?
+\end{enumerate}
+\end{question}
+
+Thus the present bounds reduce to the trivial lower regime and the heuristic upper ledger. The nearest proved results are Pudl\'ak's, for the G\"odel corner of the problem; see Section~\ref{sec:known}.
+
+The two system constants deserve their own problem. Both are well defined: $\mathcal{E}_S$ by the discussion following Definition~\ref{def:expansion}, and $d_S$ because there are finitely many $\Phi$ with $|\Phi| \le n$, each has a fixed point $\Psi$ of the required length by the choice of $C_0$, and each equivalence $\Psi \leftrightarrow \Phi(\gn{\Psi})$ is provable, so a search through proofs in order of length terminates as in Proposition~\ref{prop:welldefined}.
+
+\begin{problem}[System constants]
+\label{prob:expansion}
+For $S = \PAbin$: determine $\mathcal{E}_S$ and $d_S$ up to constant factors. In particular, decide whether $\mathcal{E}_S(m) = O(m)$, as Critch's engineering estimate suggests, or whether internalization has an inherent superlinear cost; and determine the least degree of $d_S$ for the standard diagonal construction and for any construction.
+\end{problem}
+
+\section{Quantifying the parametric theorem}
+\label{sec:parametric}
+
+Now the bounded boxes. The first missing piece is elementary asymptotic arithmetic for the budget language.
+
+\begin{conjecture}[Comparison of budget terms]
+\label{conj:comparison}
+For any $\Bud$-terms $t_1,t_2$, if $t_1(k)\le t_2(k)$ for all sufficiently large standard $k$, then $t_1\leSstar t_2$. Moreover, a threshold and an $S$-proof are computable from the two terms.
+\end{conjecture}
+
+The heuristic is the usual comparison of exp--log terms. Normalize the two expressions, compare their outermost growth scales, and reduce equality of scales to lower levels; every surviving step is an elementary inequality formalizable in arithmetic. What is missing is a structural proof for this exact algebra. Search or case operators cannot be added: bounded proof search recreates the counterexample of Remark~\ref{rem:pbl-audit}. With the standing bound $\mathcal E\le E^\sharp$, the conjecture turns every true crossover needed by Theorem~\ref{thm:pbl} into an internal certificate.
+
+The second point is why the theorem is \emph{parametric}: the naive single-sentence analogue with a bounded box is false. For any fixed budget $j$, the system $S$ proves $\neg\Box_j(0=1)$ by checking the finitely many strings of at most $j$ symbols, hence proves $\Box_j(0=1) \to (0=1)$ vacuously; yet $S \nvdash 0=1$. Proposition~\ref{prop:failure} below strengthens this parametrically: provably bounded budget terms are inadmissible too.
+
+\begin{definition}
+\label{def:pblproperty}
+For a represented budget $f$ with its declared graph, say \textbf{PBL holds for $(S,f)$} if for every $p \in \Lang_1(S)$: whenever $S \vdash \forall k\,(\Box_{f(k)}\,p(k) \to p(k))$, there exists $\hat{k}$ with $S \vdash \forall k > \hat{k}\;p(k)$.
+\end{definition}
+
+Theorem~\ref{thm:pbl} says PBL holds for every internally regular presentation. Assuming Conjecture~\ref{conj:comparison}, this includes each $\Bud$-term whose standard growth dominates $E^\sharp(2\lambda)+b\lambda$ for every constant $b$. Below that, PBL can fail:
+
+\begin{proposition}[Failure below the window]
+\label{prop:failure}
+Let $S$ be efficient.
+\begin{enumerate}
+\item If $f$ is computable and provably bounded ($S \vdash \forall k\,(f(k) \le \num{c})$ for some $c$), then PBL fails for $(S,f)$.
+\item Suppose $S$ is plain (no abbreviation rule), with an arithmetization for which $S$ proves that every proof is at least as long as its conclusion and that $|\num{k}| \ge \nu(k)$ for a representable $\nu$. If $f$ is computable and $S \vdash \forall k\,(f(k) < \nu(k))$ (for standard binary numerals, any provably sub-logarithmic $f$), then PBL fails for $(S,f)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Take $p(k) := (0=1)$. The set of strings over $\Sigma_S$ of length at most $c$ is finite; for each, $S$ proves the true $\Delta_1$ fact that it is not a proof of $0=1$, and $S$ proves that every proof of length $\le c$ is coded below a fixed bound, so by $\Sigma_0$-completeness $S \vdash \neg\Box_{\num{c}}(0=1)$. With $S \vdash \forall k\,(f(k) \le \num{c})$ and the provable monotonicity of $\Box_a$ in $a$, this gives $S \vdash \forall k\,\neg\Box_{f(k)}(0=1)$, so the PBL hypothesis $S \vdash \forall k\,(\Box_{f(k)}(0=1) \to (0=1))$ holds vacuously. The conclusion $S \vdash \forall k > \hat{k}\,(0=1)$ would make $S$ inconsistent.
+
+(2) Take $p(k) := \neg(k=k)$. The instance $p(\num{k})$ contains the numeral $\num{k}$ twice, so $|p(\num{k})| \ge \nu(k)$, and in a plain system every proof of $p(\num{k})$ has at least that many symbols; both facts are $S$-provable by hypothesis. With $S \vdash \forall k\,(f(k) < \nu(k))$ we get $S \vdash \forall k\,\neg\Box_{f(k)}\,p(k)$: the budget cannot even pay for writing the conclusion down. So the hypothesis again holds vacuously, while the conclusion $S \vdash \forall k>\hat{k}\,\neg(k=k)$ contradicts $S \vdash \forall k\,(k = k)$ and consistency.
+\end{proof}
+
+\begin{remark}[The abbreviation wrinkle]
+\label{rem:abbrev}
+Part (2) genuinely uses plainness. With abbreviation rules, a numeral can be compressed: for $k = 2^{2^m}$, repeated squaring defines $\num{k}$ in $\Theta(m)$ definition lines. The fresh names over a finite alphabet cost $\Theta(m\log m)$ symbols in total, hence
+\[
+\Theta(\log\log k\cdot\log\log\log k),
+\]
+still far below $\log k$. Thus proofs of $p(\num{k})$ shorter than $\log k$ may exist for compressible $k$, and the vacuity argument breaks. For unbounded $f$ in a system with abbreviations, proving $\forall k\,\neg\Box_{f(k)}p(k)$ requires consistency-like strength: already $\forall k\,\neg\Box_{f(k)}\bot$ implies $\Con(S)$ when $f$ is provably unbounded. Compression is part of the problem.
+\end{remark}
+
+Between Proposition~\ref{prop:failure} and Theorem~\ref{thm:pbl} lies the \textbf{L\"ob window}: canonical budgets above the provably bounded terms but below internal regularity. If $\mathcal{E}_S$ has a certified linear bound, the window is the logarithmic scale.
+
+\begin{question}[The L\"ob window]
+\label{q:window}
+For $S=\PAbin$, does PBL hold for the canonical numeral-length budget $f=\lambda$? For the canonical budgets $\lambda_{a/b}$ with fixed $0<a<b$? More ambitiously, characterize the $\Bud$-terms $f$ for which PBL holds. The graph is part of each term, so this is a property of a finite syntactic object rather than of an extensional function with many presentations.
+\end{question}
+
+Next, the threshold. The repaired proof is effective once its three internal comparisons are supplied: where $f$ absorbs the fixed-point bookkeeping, where $h$ absorbs $\mathcal E\circ g$, and where $g$ absorbs numeral length. For a $\Bud$-term, Conjecture~\ref{conj:comparison} would generate these proofs and their moduli from the term itself.
+
+\begin{problem}[Effective parametric bounded L\"ob]
+\label{prob:effective}
+Fix $S$ with the standing expansion certificate, and assume Conjecture~\ref{conj:comparison}. Given $p\in\Lang_1(S)$, an internally regular $\Bud$-term $f$, and an $S$-proof of $\forall k\,(\Box_{f(k)}p(k)\to p(k))$ of length $L$, give explicit bounds. Writing $C_S$ for the fixed constants of the proof system, require
+\[
+\begin{aligned}
+\hat{k}
+  &\;\le\; K\bigl(L,|p|,|f|_{\Bud},C_S\bigr),\\
+\ell_S\bigl(\forall k>\hat{k}\;p(k)\bigr)
+  &\;\le\; \Lambda\bigl(L,|p|,|f|_{\Bud},C_S\bigr),
+\end{aligned}
+\]
+and determine how small $K$ and $\Lambda$ can be made. In particular, for $f(k)=k$ and a certified linear expansion bound, can both be polynomial in $L+|p|$?
+\end{problem}
+
+\begin{remark}[Why external growth is insufficient]
+Without the canonical-term or certificate convention, the problem has a negative answer. A proof-search-dependent budget can have a computable external domination modulus and a finite proof of the premise for $p(k)=\bot$, while no threshold exists. The term convention removes that presentation; certificate lengths for a general budget must instead be charged explicitly.
+\end{remark}
+
+The motivating instance deserves separate billing. Fix $S=\PAbin$, a concrete programming language and arithmetization, and let $\FB_k$ be the program of Section~\ref{sec:games}, with $\delta$ the length of its $k$-uniform generator. Define
+\[
+\hat{k}^{*} \;:=\; \min\{\, K \;:\; \FB_k(\FB_k) = \mathsf{C} \text{ for all } k \ge K \,\} \;\in\; \mathbb{N} \cup \{\infty\},
+\]
+with $\min\emptyset := \infty$. Theorem~\ref{thm:fairbot} would give $\hat{k}^{*} < \infty$, but its hypothesis on $\mathcal{E}_{\PAbin}$ is unproved (Problem~\ref{prob:expansion}), so finiteness itself is part of the next problem.
+
+\begin{problem}[The FairBot threshold]
+\label{prob:fairbot}
+Prove the standing expansion certificate for one standard system and encoding, deduce $\hat{k}^{*}<\infty$, and give a certified numerical interval containing the exact threshold. Compute the threshold if feasible.
+\end{problem}
+
+\begin{question}
+\label{q:polyfairbot}
+Fix a canonical $\Bud$-term implementation of $G$. A \emph{uniform agent family} is one generator program taking $k$ as input. For a pair of such families $(A,B)$, let $r(A,B)$ be the least $K$ such that $A_k(B_k)=B_k(A_k)=\mathsf C$ for all $k\ge K$. Let $r_G(\ell,L)$ be the maximum of $r(A,B)$ over pairs whose two generators have at most $\ell$ symbols and whose uniform $G$-fairness implications have proofs of at most $L$ symbols, with maximum of the empty set equal to $0$.
+
+Once the repaired cooperation theorem applies, $r_G(\ell,L)$ is finite because only finitely many generators and certificate proofs meet these bounds. Give an effective upper bound, and decide whether it is polynomial in $\ell+L$ under polynomial bounds on $\mathcal E_S$ and $d_S$. Compare the published condition $G(\ell)\succ\mathcal E(O(\ell))$ with the stronger proof-internal inequality in the earlier arXiv argument; in either form, use internal certificates rather than external growth alone.
+\end{question}
+
+Critch, Dennis, and Russell \cite{cdr2022} observe that proof \emph{search} need not be the bottleneck: an agent can front-load the known proof, so that verifying L\"obian cooperation takes well under a second of computer time. Measuring $\hat{k}^{*}$ in a real proof assistant is therefore a feasible experiment, not a thought experiment; see Starter~\ref{start:machine}.
+
+I close the section with a small unconditional payoff of the parametric theorem: a reflection scheme that $S$ endorses instance by instance but can never endorse uniformly. Write $\Con_k := \neg\Box_k \bot$, the statement ``no contradiction has a proof of at most $k$ symbols.''
+
+\begin{proposition}[Bounded reflection is $\omega$-incomplete]
+\label{prop:omega}
+Let $S$ satisfy the conventions above, and let $f$ be internally regular. Then:
+\begin{enumerate}
+\item for every fixed $k$, \; $S \vdash \Box_{f(k)}\Con_k \to \Con_k$; \quad but
+\item $S \nvdash \forall k\,\bigl(\Box_{f(k)}\Con_k \to \Con_k\bigr)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) For each fixed $k$, the sentence $\Con_k$ is a true statement whose failure would be witnessed below a fixed bound, so $S$ proves it by $\Sigma_0$-completeness (checking the finitely many candidate strings); weakening yields the implication.
+
+(2) Suppose otherwise. The formula $p(k):=\Con_k=\neg\Box_k\bot$ lies in $\Lang_1(S)$, so Theorem~\ref{thm:pbl} gives $\hat{k}$ with $S\vdash\forall k>\hat{k}\,\Con_k$. Reasoning inside $S$, any proof of $\bot$ has some length $m$, hence is covered by $\Box_{\max(m,\hat{k}+1)}\bot$, contradicting the tail of finite consistency statements. Thus $S$ would prove $\Con(S)$, contrary to G\"odel's second incompleteness theorem \cite{godel1931}.
+\end{proof}
+
+\begin{remark}[Why internal regularity is needed]
+Part (2) fails for arbitrary computation graphs satisfying only external growth. A proof-search-dependent budget makes the uniform implication provable by branching on bounded proof search. Internal regularity is the hypothesis that restores the proposition.
+\end{remark}
+
+In words: $S$ will vouch, one $k$ at a time, that short proofs of its own short-scale consistency can be trusted; asked to vouch for all scales at once, it must refuse, on pain of proving its own consistency. Statements of this finite-domain shape (provable instances, unprovable uniformizations, with proof-length bounds attached) are the subject of Pudl\'ak's program \cite{pudlak2017}, which is the closest existing body of quantitative results (Section~\ref{sec:known}).
+
+\section{Beyond the rule: the L\"ob axiom, bounded \texorpdfstring{$\GL$}{GL}, and Payor}
+\label{sec:beyond}
+
+L\"ob's theorem has two strengths. The \emph{rule} (from $\vdash \Box P \to P$ infer $\vdash P$) is what Sections~\ref{sec:overhead}--\ref{sec:parametric} quantified. The \emph{axiom} is its internalization: $S \vdash \Box(\Box P \to P) \to \Box P$, one box deeper. G\"odel--L\"ob provability logic $\GL$ (propositional logic with a modality $\Box$, the distribution axiom $\Box(A \to B) \to (\Box A \to \Box B)$, which alone gives the base modal logic $K$, the L\"ob axiom $\Box(\Box A \to A) \to \Box A$, and the necessitation rule ``from $\vdash A$ infer $\vdash \Box A$'') captures \emph{exactly} the propositional laws of provability: Solovay \cite{solovay1976} proved that $\GL \vdash \varphi$ if and only if every arithmetical realization of $\varphi$ is a theorem of $\PA$. Critch conjectures that all of $\GL$ survives the introduction of budgets \cite{critch2016}. Making that conjecture precise requires a bounded L\"ob \emph{axiom} first.
+
+\begin{problem}[Internal bounded L\"ob]
+\label{prob:internal}
+Fix an efficient $S$. Determine for which triples of $\Bud$-terms $(a,b,c)$, and more generally which triples of internally certified represented budgets, it holds that for every $p\in\Lang_1(S)$ there is $\hat{k}$ with
+\[
+S \vdash \forall k > \hat{k}\;\Bigl(\Box_{b(k)}\bigl(\Box_{a(k)}\,p(k) \to p(k)\bigr) \;\to\; \Box_{c(k)}\,p(k)\Bigr).
+\]
+Restrict first to $\Bud$-terms satisfying $\lambda\leSstar b$, so the outer box is not a fixed finite search. Prove that some triple of polynomials works for $\PAbin$, and for given $(a,b)$ characterize the admissible $c$. (The admissible $c$ need not have a least element pointwise; for polynomial $c$, determine the least admissible degree.)
+\end{problem}
+
+\begin{remark}[A constant-instance obstruction]
+A bounded outer budget does not make every triple admissible. Take $p=\bot$, $a=c=0$, and let $b$ be the length of a fixed proof of $\Box_0\bot\to\bot$. The antecedent is then provable while the consequent is refutable. The lower bound on $b$ above removes this constant-instance obstruction.
+\end{remark}
+
+This is the statement Theorem~\ref{thm:pbl} would become if its implication moved inside the box, and it is what a bounded $\GL$ needs as its L\"ob axiom. Enumerate the box occurrences of a modal formula $\varphi$ as $1,\dots,s$. A \textbf{budget schedule} is a tuple $c=(c_1,\dots,c_s)$ of positive integers. Given a \textbf{realization} $\rho$ assigning each atom a formula in $\Lang_1(S)$, define $\varphi^{\rho,c}(k)$ by structural recursion: atoms go to their realizations, connectives commute, and the $j$-th box receives the canonical $\Bud$-budget $k^{c_j}$.
+
+\begin{conjecture}[Bounded $\GL$, soundness form]
+\label{conj:boundedGL}
+Let $S$ satisfy the conventions above, with a polynomial $\Bud$-term bound $E^\sharp$ on $\mathcal E$ and a polynomial bound on $d_S$. For every modal formula $\varphi$ with $\GL\vdash\varphi$ there is a budget schedule $c$ (depending on $S$ and $\varphi$ only) such that for every realization $\rho$ there is $\hat{k}$ with
+\[
+S \vdash \forall k > \hat{k}\;\; \varphi^{\rho,c}(k).
+\]
+\end{conjecture}
+
+In words: every law of provability logic remains a law when every ``provable'' is replaced by ``provable within $k^{c_j}$ symbols,'' for exponents chosen once per law, uniformly in the subject matter and for all sufficiently large $k$. Heuristically the conjecture reduces to Problem~\ref{prob:internal}: induct on a $\GL$-derivation of $\varphi$; the distribution axiom $K$ and the axiom $\Box A \to \Box\Box A$ (a theorem of $\GL$, called axiom $4$) are Critch's implication distribution and bounded inner necessitation; necessitation is bounded necessitation plus quantifier distribution; modus ponens composes schedules, at the cost of a polarity-respecting harmonization of budgets (raise budgets at box occurrences under an even number of negations, lower at the others, using provable monotonicity of $\Box_a$ in $a$); and the L\"ob axiom case is exactly Problem~\ref{prob:internal}. I expect the harmonization bookkeeping to be fiddly and the L\"ob axiom case to be the real content. The converse direction, a bounded analogue of Solovay's completeness theorem, resists even precise formulation; see Section~\ref{sec:resisted} and Question~\ref{q:solovay}.
+
+There is also a rival to L\"ob. A post by Critch \cite{critchpayor2023} records a lemma due to James Payor: if $S\vdash\Box(\Box\varphi\to\varphi)\to\varphi$, then $S\vdash\varphi$. The four-line proof uses neither the diagonal lemma nor inner necessitation. From $\varphi\to(\Box\varphi\to\varphi)$, necessitation and distribution give $\Box\varphi\to\Box(\Box\varphi\to\varphi)$; the hypothesis gives $\Box\varphi\to\varphi$; necessitating that theorem triggers the hypothesis once more. Thus $d_S$ and the inner-necessitation half of $\mathcal E_S$ disappear from the first bookkeeping pass.
+
+Payor's handshake also has a bounded agent, the analogue of $\FB_k$. Following his construction, define
+\[
+\begin{aligned}
+\mathrm{PB}_k(\mathrm{Opp}):\quad
+&\text{search all $S$-proofs of at most $k$ symbols}\\
+&\text{for a proof of }\Box_k c\to c;\\
+&\text{if found, play $\mathsf C$; otherwise, play $\mathsf D$,}
+\end{aligned}
+\]
+where $c$ is the sentence $[\mathrm{PB}_k(\mathrm{Opp}) = \mathsf{C} \,\wedge\, \mathrm{Opp}(\mathrm{PB}_k) = \mathsf{C}]$ (``we both cooperate''), the references to the agent's own source code again implemented by Kleene's recursion theorem. So where $\FB_k$ demands a proof of the opponent's cooperation, $\mathrm{PB}_k$ demands a proof that provable mutual cooperation implies mutual cooperation.
+
+\begin{problem}[Parametric bounded Payor]
+\label{prob:payor}
+Let $S$ satisfy the conventions above. Determine internal comparison conditions on represented budgets $f,g$ under which, for every $p\in\Lang_1(S)$,
+\begin{multline*}
+S \vdash \forall k\,\Bigl(
+  \Box_{g(k)}\bigl(\Box_{f(k)}p(k)\to p(k)\bigr)\to p(k)
+\Bigr)\\
+\Longrightarrow\quad
+\exists\,\hat{k}:\ S\vdash\forall k>\hat{k}\;p(k),
+\end{multline*}
+with explicit $\hat{k}$. In particular, test whether the certificates $b\lambda\leSstar g$ and $f+b\lambda\leSstar g$ for every standard $b$ suffice. Then prove that two copies of $\mathrm{PB}_k$ cooperate above an explicit threshold $\hat{k}^{*}_{\mathrm P}$, and compare it with $\hat{k}^{*}$ in a common system and encoding.
+\end{problem}
+
+The proof should use only bounded necessitation, quantifier distribution, and implication distribution. Payor's lemma removes the diagonal sentence from the proof, not the quine from the agent: agents still refer to their own source code by Kleene's recursion theorem. The same quantitative question extends to groups of agents.
+
+\section{A place to start}
+\label{sec:start}
+
+Each of the following is small enough for a first paper and pointed enough to matter.
+
+\begin{enumerate}
+\item \textbf{Compare the budget terms} (Starter for Conjecture~\ref{conj:comparison}).
+Normalize $\Bud$-terms and prove, by induction on their exponential height, that every true eventual comparison has an $S$-provable modulus. Start with the polynomial subalgebra, then allow one exponential layer. The proof must fail visibly if a case or search operator is added.
+
+\item \textbf{L\"ob's theorem with explicit constants} (Starter for Problems~\ref{prob:determineF} and \ref{prob:expansion}).\label{start:constants}
+Carry out the ledger of Section~\ref{sec:overhead} for $\PAbin$: prove the derivability conditions and formalized $\Sigma_1$-completeness with explicit symbol-count bounds (the techniques are in Pudl\'ak \cite{pudlak1986, pudlak1998}), bound $d_S$ and $\mathcal{E}_S$ by explicit polynomials, and conclude an explicit $C,c$ with $F_{\PAbin}(k,n)\le C(k+n)^c$. The same calculation should produce the standing represented bound on $\mathcal E$ needed by Theorems~\ref{thm:fairbot} and \ref{thm:pbl}.
+
+\item \textbf{A bounded Payor lemma} (Starter for Problem~\ref{prob:payor}).
+State and prove the parametric bounded Payor lemma with explicit budgets and threshold, and tabulate the comparison against Theorem~\ref{thm:pbl}: which hypothesis shapes, which windows, which thresholds. A short, self-contained note; the four-line unbounded proof is the map.
+
+\item \textbf{Measure the FairBot threshold} (Starter for Problems~\ref{prob:effective} and \ref{prob:fairbot}).\label{start:machine}
+Implement a small proof system with symbol counting (or instrument an existing mechanization of provability logic, e.g.\ the HOL Light formalization of $\GL$ \cite{maggesi2023}, or the Kripke-semantics evaluator for modal agents accompanying \cite{barasz2014}), implement $\FB_k$ with the proof front-loaded as in \cite{cdr2022}, and tabulate the least cooperating budget as the system and encoding vary. A benchmark paper: compute, tabulate, and report the curves. Even crude data would locate $\hat{k}^{*}$ between the trivial bounds for the first time.
+
+\item \textbf{The logarithmic boundary} (Starter for Question~\ref{q:window}).
+Decide PBL for the canonical pair $(\PAbin,\lambda)$. Proposition~\ref{prop:failure}(2) is the model for a failure proof but is blocked by the abbreviation wrinkle; Theorem~\ref{thm:pbl} is the model for success but requires a larger internally regular budget.
+\end{enumerate}
+
+\section{What is known}
+\label{sec:known}
+
+\textbf{The unbounded theory is complete.} L\"ob proved Theorem~\ref{thm:lob} in 1955 \cite{lob1955}, answering a question of Henkin; the case $P = \bot$ is G\"odel's second incompleteness theorem \cite{godel1931}. Solovay \cite{solovay1976} identified the modal logic $\GL$ as exactly the logic of provability; Boolos \cite{boolos1993} is the standard reference. All of this is qualitative: no proof lengths appear.
+
+\textbf{The G\"odel corner has quantitative bounds.} For the finite consistency statements $\Con_S(n) := \neg\Box_n\bot$ (the $\Con_n$ of Section~\ref{sec:parametric}, now with the theory displayed), Friedman \cite{friedman1979} and Pudl\'ak \cite{pudlak1986} proved, for a large class of theories including $\PA$: there is $\varepsilon > 0$ such that every $S$-proof of $\Con_S(n)$ has more than $n^{\varepsilon}$ symbols, and there is $c$ such that $S \vdash_{\le n^c} \Con_S(n)$. Thus the bounded shadow of G\"odel's second theorem lies between two polynomials, leaving an exponent gap (for calculi with Rosser's C-rule the lower bound improves to $\Omega(n/\log^2 n)$, by a 1987 result of Pudl\'ak reported in \cite{pudlak2017}, and the polynomial gap still stands). Pudl\'ak's conjecture $\mathrm{CON}^{N+}$ \cite{pudlak2017} asserts that for theories $S, T$ in his class, if $T$ proves $\Con(S)$ then the $S$-proofs of $\Con_T(n)$ are not polynomially bounded; its central instance, made pivotal by his Proposition~3.2, is $T = S + \Con(S)$: conjecturally, $S$ has no polynomial-length proofs of $\Con_{S+\Con(S)}(n)$. The engine of the Friedman--Pudl\'ak lower bounds is Parikh's self-referential sentence ``I have no proof of at most $n$ symbols'' \cite{parikh1971}. These are the nearest proved relatives of Problem~\ref{prob:determineF}: quantitative bounds for the one instance of L\"ob's setup ($P = \bot$) where the hypothesis is unprovable. Pudl\'ak's survey \cite{pudlak2017} frames a whole program of ``incompleteness in the finite domain,'' of which Proposition~\ref{prop:omega} is one more specimen. His Handbook chapter \cite{pudlak1998} contains the length-tracked derivability conditions that Starter~\ref{start:constants} needs.
+
+\textbf{Speedup is a real phenomenon.} G\"odel \cite{godel1936} stated, without proof and with length measured in number of lines rather than symbols, that passing to a stronger system can shorten proofs by any computable factor; the line-count statement was proved by Buss \cite{buss1994}. Ehrenfeucht--Mycielski \cite{ehrenfeucht1971} proved unbounded symbol-length speedup after adding an axiom $\alpha$, under the hypothesis that $T+\neg\alpha$ is undecidable. For a consistent recursively axiomatized extension of $\PA$ and an unprovable $\alpha$, the intended application satisfies this hypothesis. Closest to Question~\ref{q:lower}, which asks about a rule inside one system, is Parikh \cite{parikh1971} (see also \cite{buss1999}): there are $\PA$-theorems $A$ for which $\Box A$ has a short proof while every proof of $A$ is longer by any prescribed primitive recursive gap. This does not settle the L\"ob-rule question, because a short proof of $\Box A\to A$ would combine with the short proof of $\Box A$ to give a short proof of $A$.
+
+\textbf{The bounded argument needs internal arithmetic.} Critch \cite{critch2016} tracked symbol counts through the parametric fixed-point proof and its cooperation application, with budgets and thresholds left asymptotic. Under the conventions of this file, the repaired Theorem~\ref{thm:pbl} records the internal comparisons that proof consumes. The unbounded modal-agent theory is Bar\'asz, Christiano, Fallenstein, Herreshoff, LaVictoire, and Yudkowsky \cite{barasz2014}. Critch, Dennis, and Russell \cite{cdr2022} apply the parametric method to institution design and explain how to front-load the cooperation proof; Critch also asks for a Quinean proof of L\"ob's theorem \cite{critch2022quine}, whose constants could differ. The Payor lemma is recorded in Critch's post \cite{critchpayor2023}. On the mechanization side, $\GL$ has been formalized in HOL Light \cite{maggesi2023}; Duclaux et al.\ \cite{duclaux2026} formalize proof-based open-source games in Lean and track abstract witness characters, while axiomatizing the bounded semantics and proof oracle rather than instantiating a concrete arithmetic checker. These are starting points for Starter~\ref{start:machine}, not substitutes for the certificate demanded here.
+
+\textbf{Three neighboring literatures measure something else.} The \emph{provability logic of bounded arithmetic} (Berarducci--Verbrugge \cite{berarducci1993}) studies the ordinary unbounded $\Box$ of computationally weak theories such as $S^1_2$; the boundedness lives in the theory, not in the proof lengths, and its modal analysis illustrates the difficulty of Conjecture~\ref{conj:boundedGL}'s completeness half. Artemov's logic of proofs \cite{artemov2001} replaces $\Box\varphi$ by explicit proof terms $t{:}\varphi$ with operations; it tracks proof \emph{structure} rather than proof \emph{length} and realizes $\mathsf{S4}$ rather than $\GL$. Closest of all is the \emph{witness-comparison} literature that grew out of Rosser sentences: Guaspari and Solovay \cite{guaspari1979} extend $\GL$ by modalities comparing proofs (``$\varphi$ has a proof preceding any proof of $\psi$'') and prove arithmetical completeness for the resulting logic, with \v{S}vejdar \cite{svejdar1983} continuing the analysis; de Jongh--Montagna \cite{dejongh1989} and Carbone--Montagna \cite{carbone1990} do the same for \emph{speedup}, with a second modality for ``provable with a much shorter proof,'' where much shorter means shorter by any prescribed recursive factor. As precedent that a modal logic of comparative proof length can admit a Solovay-style completeness theorem, these are the nearest relatives of Conjecture~\ref{conj:boundedGL} and Question~\ref{q:solovay}; but they compare proofs against each other, by position or by recursive gap, never against a fixed symbol budget. None of the three answers any question in this file, but all supply techniques.
+
+The solved and repaired items are marked where they occur; the dated status statement in Section~\ref{sec:brief} applies to the numbered problems that remain.
+
+\section{What resisted, and why}
+\label{sec:resisted}
+
+The ordinary overhead in the survey survives formalization intact: Definition~\ref{def:F} is the least overhead, and the unit is symbols. The bounded-agent half needs the presentation and certificate data of Section~\ref{sec:conventions}. Two further choices remain.
+
+\emph{First, $F$ is not an invariant.} The overhead function depends on the proof calculus, the numeral system, the abbreviation discipline, and the G\"odel coding: Proposition~\ref{prop:failure}(2) versus Remark~\ref{rem:abbrev} shows the dependence is not cosmetic, since the availability of compression changes which budget functions are even admissible. The classical remedy in proof complexity is to work up to polynomial simulation:
+
+\begin{problem}[Robustness]
+\label{prob:robust}
+Suppose $S$ and $S'$ prove the same theory. Specify polynomial-size translations of formulas and proofs in both directions, together with polynomial-size $S$- and $S'$-proofs that each translated bounded-provability predicate agrees with the source predicate at the translated budget. Under these hypotheses, prove that $F_S$ and $F_{S'}$ are polynomially related:
+\[
+F_S(k,n)\le p\bigl(F_{S'}(q(k),q(n)),k,n\bigr)
+\]
+for some polynomials $p,q$, and symmetrically. Or exhibit polynomially simulating systems for which no such alignment of the bounded boxes exists.
+\end{problem}
+
+Until Problem~\ref{prob:robust} is settled, ``determine the least overhead $F$'' should be read per system, with $\PAbin$ as the declared default; and the sub-polynomial structure of $F$ (Question~\ref{q:window}, the constants in Problem~\ref{prob:fairbot}) is convention-laden by nature. I regard this as a feature of the problem rather than a defect of the formulation: the original statement's phrase ``in one standard proof system'' makes the same choice.
+
+\emph{Second, bounded completeness needs a formulation.} Conjecture~\ref{conj:boundedGL} is only the soundness half of a bounded provability logic. The completeness half should say: if $\GL \nvdash \varphi$, then no budget schedule makes $\varphi$ a bounded law. But the quantifiers can be placed in several inequivalent ways:
+
+\begin{question}[Toward bounded Solovay]
+\label{q:solovay}
+Suppose $\GL \nvdash \varphi$. Is it true that for every budget schedule $c$ there is a realization $\rho$ such that $S \nvdash \forall k>\hat{k}\;\varphi^{\rho,c}(k)$ for every $\hat{k}$?
+\end{question}
+
+I flag rather than endorse this formulation. It hard-wires three choices, each debatable: budgets of the shape $k^{c_j}$ (why not $\mathcal{E}$-composed budgets, or budgets depending on the realization's length?); a single shared parameter $k$ (Critch's robust-cooperation theorem already needs two, $m$ and $n$, one per agent); and ``for every schedule, some realization fails'' rather than the stronger Solovay-style ``one realization defeats all schedules,'' which his self-referential construction would have to survive length accounting to deliver. A satisfactory bounded provability logic must justify these choices. Here the formulation itself is part of the problem (the overhead $F$, by contrast, is now a definite function of definite arguments).
+
+Everything else is now a matter of proving inequalities between price tags. The cheapest way in: take Starter~\ref{start:constants}, a fixed Hilbert calculus, and a large sheet of paper, and find out what one act of self-reference actually costs.
+
+\begin{thebibliography}{99}
+
+\bibitem{mais}
+L.~Levine,
+\emph{Math for AI Safety: An Invitation for Mathematicians},
+2026. \url{https://github.com/lionellevine/MAIS/blob/main/survey/MAIS.pdf}.
+
+
+\bibitem{artemov2001}
+S.~Artemov,
+\emph{Explicit provability and constructive semantics},
+Bulletin of Symbolic Logic \textbf{7} (2001), no.~1, 1--36.
+
+\bibitem{barasz2014}
+M.~Bar\'asz, P.~Christiano, B.~Fallenstein, M.~Herreshoff, P.~LaVictoire, and E.~Yudkowsky,
+\emph{Robust cooperation in the Prisoner's Dilemma: program equilibrium via provability logic},
+2014. \arxiv{1401.5577}
+
+\bibitem{berarducci1993}
+A.~Berarducci and R.~Verbrugge,
+\emph{On the provability logic of bounded arithmetic},
+Annals of Pure and Applied Logic \textbf{61} (1993), 75--93.
+
+\bibitem{boolos1993}
+G.~Boolos,
+\emph{The Logic of Provability},
+Cambridge University Press, 1993.
+
+\bibitem{buss1994}
+S.~R. Buss,
+\emph{On G\"odel's theorems on lengths of proofs I: number of lines and speedup for arithmetics},
+Journal of Symbolic Logic \textbf{59} (1994), no.~3, 737--756.
+
+\bibitem{buss1999}
+S.~R. Buss,
+\emph{Bounded arithmetic, proof complexity and two papers of Parikh},
+Annals of Pure and Applied Logic \textbf{96} (1999), 43--55.
+
+\bibitem{carbone1990}
+A.~Carbone and F.~Montagna,
+\emph{Much shorter proofs: a bimodal investigation},
+Zeitschrift f\"ur mathematische Logik und Grundlagen der Mathematik \textbf{36} (1990), 47--66.
+
+\bibitem{critch2016}
+A.~Critch,
+\emph{A parametric, resource-bounded generalization of L\"ob's theorem, and a robust cooperation criterion for open-source game theory},
+Journal of Symbolic Logic \textbf{84} (2019), no.~4, 1368--1381. \arxiv{1602.04184}
+
+\bibitem{critch2022quine}
+A.~Critch,
+\emph{Open technical problem: a Quinean proof of L\"ob's theorem, for an easier cartoon guide},
+AI Alignment Forum, November 2022.
+\url{https://www.alignmentforum.org/posts/rrpnEDpLPxsmmsLzs/}
+
+\bibitem{cdr2022}
+A.~Critch, M.~Dennis, and S.~Russell,
+\emph{Cooperative and uncooperative institution designs: surprises and problems in open-source game theory},
+2022. \arxiv{2208.07006}
+
+\bibitem{dejongh1989}
+D.~H.~J. de~Jongh and F.~Montagna,
+\emph{Much shorter proofs},
+Zeitschrift f\"ur mathematische Logik und Grundlagen der Mathematik \textbf{35} (1989), 247--260.
+
+\bibitem{duclaux2026}
+G.~Duclaux, M.~Formenti, L.~Cobben, B.~Sch\"olkopf, and Z.~Jin,
+\emph{Proving your way to cooperation: formalizing proof-based open source game theory in Lean},
+AI for Math Workshop, 2026.
+
+\bibitem{ehrenfeucht1971}
+A.~Ehrenfeucht and J.~Mycielski,
+\emph{Abbreviating proofs by adding new axioms},
+Bulletin of the American Mathematical Society \textbf{77} (1971), 366--367.
+
+\bibitem{enderton2001}
+H.~B. Enderton,
+\emph{A Mathematical Introduction to Logic},
+2nd ed., Academic Press, 2001.
+
+\bibitem{friedman1979}
+H.~Friedman,
+\emph{On the consistency, completeness, and correctness problems},
+unpublished manuscript, Ohio State University, 1979. (See \cite{pudlak2017} for an account.)
+
+\bibitem{godel1931}
+K.~G\"odel,
+\emph{\"Uber formal unentscheidbare S\"atze der Principia Mathematica und verwandter Systeme I},
+Monatshefte f\"ur Mathematik und Physik \textbf{38} (1931), 173--198.
+
+\bibitem{godel1936}
+K.~G\"odel,
+\emph{\"Uber die L\"ange von Beweisen},
+Ergebnisse eines mathematischen Kolloquiums \textbf{7} (1936), 23--24.
+
+\bibitem{guaspari1979}
+D.~Guaspari and R.~M. Solovay,
+\emph{Rosser sentences},
+Annals of Mathematical Logic \textbf{16} (1979), no.~1, 81--99.
+
+\bibitem{howard1988}
+J.~V. Howard,
+\emph{Cooperation in the Prisoner's Dilemma},
+Theory and Decision \textbf{24} (1988), no.~3, 203--213.
+
+\bibitem{lob1955}
+M.~H. L\"ob,
+\emph{Solution of a problem of Leon Henkin},
+Journal of Symbolic Logic \textbf{20} (1955), no.~2, 115--118.
+
+\bibitem{maggesi2023}
+M.~Maggesi and C.~Perini Brogi,
+\emph{Mechanising G\"odel--L\"ob provability logic in HOL Light},
+Journal of Automated Reasoning \textbf{67} (2023), article 29.
+
+\bibitem{mcafee1984}
+R.~P. McAfee,
+\emph{Effective computability in economic decisions},
+working paper, University of Western Ontario, 1984.
+
+\bibitem{parikh1971}
+R.~Parikh,
+\emph{Existence and feasibility in arithmetic},
+Journal of Symbolic Logic \textbf{36} (1971), no.~3, 494--508.
+
+\bibitem{critchpayor2023}
+A.~Critch,
+\emph{Modal fixpoint cooperation without L\"ob's theorem},
+LessWrong, February 2023. (The central lemma is credited there to James Payor.)
+\url{https://www.lesswrong.com/posts/2WpPRrqrFQa6n2x3W/}
+
+\bibitem{pudlak1986}
+P.~Pudl\'ak,
+\emph{On the length of proofs of finitistic consistency statements in first order theories},
+in: Logic Colloquium '84 (J.~B. Paris, A.~J. Wilkie, G.~M. Wilmers, eds.), North-Holland, 1986, pp.~165--196.
+
+\bibitem{pudlak1998}
+P.~Pudl\'ak,
+\emph{The lengths of proofs},
+in: Handbook of Proof Theory (S.~R. Buss, ed.), Studies in Logic and the Foundations of Mathematics \textbf{137}, Elsevier, 1998, pp.~547--637.
+
+\bibitem{pudlak2017}
+P.~Pudl\'ak,
+\emph{Incompleteness in the finite domain},
+Bulletin of Symbolic Logic \textbf{23} (2017), no.~4, 405--441. \arxiv{1601.01487}
+
+\bibitem{solovay1976}
+R.~M. Solovay,
+\emph{Provability interpretations of modal logic},
+Israel Journal of Mathematics \textbf{25} (1976), 287--304.
+
+\bibitem{svejdar1983}
+V.~\v{S}vejdar,
+\emph{Modal analysis of generalized Rosser sentences},
+Journal of Symbolic Logic \textbf{48} (1983), no.~4, 986--999.
+
+\bibitem{tennenholtz2004}
+M.~Tennenholtz,
+\emph{Program equilibrium},
+Games and Economic Behavior \textbf{49} (2004), no.~2, 363--373.
+
+\end{thebibliography}
+
+\end{document}
