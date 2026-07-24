@@ -12,4 +12,4 @@ The parametric bounded Löb theorem in [1] assumes a computable proof budget tha
 
 ---
 
-The note is published as its author wrote it; how it was verified, the one known repairable gap, and where the repaired statements live are recorded in [PROVENANCE.md](PROVENANCE.md).
+The note is published as its author wrote it; see [PROVENANCE.md](PROVENANCE.md).
