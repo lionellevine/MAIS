@@ -1,4 +1,4 @@
-> **Historical audit record.** This report concerns a pre-repair draft of the agenda now numbered [MAIS-A7](../../../agendas/MAIS-A7/). Its findings were addressed in the July 2026 repair round. Item and line numbers may differ from the current edition; see the [audit index](../README.md) and [repair log](../REPAIR-LOG.md).
+> **Historical audit record.** This report concerns a pre-repair draft of the agenda now numbered [MAIS-A7](../../../A7/). Its findings were addressed in the July 2026 repair round. Item and line numbers may differ from the current edition; see the [audit index](../README.md) and [repair log](../REPAIR-LOG.md).
 
 # Independent audit of `effective-loss-dynamics.tex`
 

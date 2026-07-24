@@ -1,4 +1,4 @@
-> **Historical audit record.** This report concerns a pre-repair draft of the agenda now numbered [MAIS-A1](../../../agendas/MAIS-A1/). Its findings were addressed in the July 2026 repair round. Item and line numbers may differ from the current edition; see the [audit index](../README.md) and [repair log](../REPAIR-LOG.md). A narrow passage applying one finding to an external publication has been omitted pending verification with that publication's author.
+> **Historical audit record.** This report concerns a pre-repair draft of the agenda now numbered [MAIS-A1](../../../A1/). Its findings were addressed in the July 2026 repair round. Item and line numbers may differ from the current edition; see the [audit index](../README.md) and [repair log](../REPAIR-LOG.md). A narrow passage applying one finding to an external publication has been omitted pending verification with that publication's author.
 
 # Audit report: `open problems/quantitative-bounded-lob.tex`
 

@@ -1,4 +1,4 @@
-> **Historical scoped-verification record.** This report rechecks content-destructive verdicts about a pre-repair draft of [MAIS-A4](../../../agendas/MAIS-A4/); it is not a second audit of the current edition. Item and line numbers may differ. See the [audit index](../README.md) and [repair log](../REPAIR-LOG.md).
+> **Historical scoped-verification record.** This report rechecks content-destructive verdicts about a pre-repair draft of [MAIS-A4](../../../A4/); it is not a second audit of the current edition. Item and line numbers may differ. See the [audit index](../README.md) and [repair log](../REPAIR-LOG.md).
 
 # Verification report: `training-for-interpretability-codex-report.md`
 

@@ -52,7 +52,7 @@ The agendas define their machine-learning terms; the background column names the
 
 ## Provenance
 
-Each agenda records its own provenance in a `PROVENANCE.md` beside its source, since different agendas may come to be in different ways. The original eight, MAIS-A1–A8, share one story: an experiment in AI-written mathematics — written by **Claude Fable 5** (Anthropic) under Lionel Levine's direction, adversarially reviewed, and independently audited by **GPT 5.6 Sol** (OpenAI). The [July 2026 audit record](../audit/2026-07/) publishes the reports, the repair disposition, and the limits of those AI review passes. No human has verified every line, and the bylines are meant to say so plainly.
+Each agenda records its own provenance in a `PROVENANCE.md` beside its source, since different agendas may come to be in different ways. The original eight, MAIS-A1–A8, share one story: an experiment in AI-written mathematics — written by **Claude Fable 5** (Anthropic) under Lionel Levine's direction, adversarially reviewed, and independently audited by **GPT 5.6 Sol** (OpenAI). The [July 2026 audit record](audit/2026-07/) publishes the reports, the repair disposition, and the limits of those AI review passes. No human has verified every line, and the bylines are meant to say so plainly.
 
 ## Rebuilding
 

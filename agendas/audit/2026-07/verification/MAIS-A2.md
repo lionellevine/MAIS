@@ -1,4 +1,4 @@
-> **Historical scoped-verification record.** This report rechecks one content-destructive verdict about a pre-repair draft of [MAIS-A2](../../../agendas/MAIS-A2/); it is not a second audit of the current edition. Item and line numbers may differ. See the [audit index](../README.md) and [repair log](../REPAIR-LOG.md).
+> **Historical scoped-verification record.** This report rechecks one content-destructive verdict about a pre-repair draft of [MAIS-A2](../../../A2/); it is not a second audit of the current edition. Item and line numbers may differ. See the [audit index](../README.md) and [repair log](../REPAIR-LOG.md).
 
 # Verification report: behavioral-tomography.tex, Theorem 2.4 verdict
 

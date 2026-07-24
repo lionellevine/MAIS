@@ -18,7 +18,7 @@ The anticipated path is **problem → agenda → paper → publication**. Not ev
 
 The first eight problems, [**MAIS-O1–O8**](open-problems/README.md#mais-o1), are stated in the invitation paper and expanded by [MAIS-A1–A8](agendas/). Here MAIS-A1 expands MAIS-O1, and so on through MAIS-A8 and MAIS-O8. This relationship is recorded explicitly; matching numbers do not imply a general rule. [MAIS-O9](open-problems/MAIS-O9.md), on Conway's Life, is the first standalone exposition. The [open-problem index](open-problems/README.md) is the full registry, and the [agenda guide](agendas/README.md#where-to-start) offers a first foothold in each research direction.
 
-The first eight agendas were written and reviewed with AI systems under Lionel Levine's direction. Their [audit record](audit/2026-07/) states what was checked, what was repaired, and what the review does not guarantee.
+The first eight agendas were written and reviewed with AI systems under Lionel Levine's direction. Their [audit record](agendas/audit/2026-07/) states what was checked, what was repaired, and what the review does not guarantee.
 
 ## Contributing
 
