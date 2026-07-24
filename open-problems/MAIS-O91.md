@@ -2,7 +2,7 @@
 
 *Open problem MAIS-O91 · posed in [MAIS-A8](../agendas/A8/MAIS-A8.pdf) as [Problem 7.4](../agendas/A8/MAIS-A8.tex#L478) · Status: open.*
 
-*Safety: generalization — goal misgeneralization · proxy goals · training dynamics · simplicity bias. Mathematics: computational · probability. Difficulty: ★ starter.*
+*Safety: generalization — goal misgeneralization · proxy goals · training dynamics · simplicity bias. Mathematics: computational · probability. Difficulty: ★ starter · empirical.*
 
 Every open problem in the coin-line agenda asks for a number a laptop can estimate: the probability, over random initialization, that a trained policy walks away from a displaced coin. Nobody has computed the table.
 

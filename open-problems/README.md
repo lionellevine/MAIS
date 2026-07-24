@@ -7,7 +7,7 @@ Every open problem receives a permanent MAIS-On identifier when it enters the co
 > **Pre-launch identifier reset (July 2026).** A preliminary registry treated the survey headlines and their agenda formulations as separate entries. Before launch, the registry was rebuilt around mathematical identity: MAIS-O1–O8 now follow the eight headline problems into MAIS-A1–A8, MAIS-O9 names the standalone Conway problem, and the remaining distinct problems are numbered below. The current ledger is authoritative.
 
 Every problem below is stated as open as of July 2026. When one is resolved, its row will say so. Progress reports and corrections: [open an issue](https://github.com/lionellevine/MAIS/issues/new/choose).
-★ is an estimated difficulty — ★ a starter (a computation, tabulation, or fully specified first case), ★★ a research project of paper scope, ★★★ likely to need a new idea. Tags and ratings are editorial; dispute them in an issue.
+★ is an estimated difficulty — ★ a starter (a computation, tabulation, or fully specified first case), ★★ a research project of paper scope, ★★★ likely to need a new idea. A few problems ask for a computation or measurement rather than a proof; those are marked *empirical*. Tags and ratings are editorial; dispute them in an issue.
 
 | # | Problem | Safety | Mathematics | ★ |
 |---|---------|--------|-------------|---|
@@ -53,7 +53,7 @@ Every problem below is stated as open as of July 2026. When one is resolved, its
 | <a id="mais-o40"></a>MAIS-O40 | [Regular pentagon as global minimizer of a ReLU autoencoder](MAIS-O40.md) | interpretability | optimization, harmonic analysis | ★★★ |
 | <a id="mais-o41"></a>MAIS-O41 | [Two-feature phase diagram for ℓ¹ dictionary learning](MAIS-O41.md) | interpretability | optimization, convex geometry | ★ |
 | <a id="mais-o42"></a>MAIS-O42 | [Pentagon optimality for a pure ReLU packing energy](MAIS-O42.md) | interpretability | optimization, harmonic analysis | ★★ |
-| <a id="mais-o43"></a>MAIS-O43 | [Measure the sparse-autoencoder recovery–merging phase diagram](MAIS-O43.md) | interpretability | computational, statistics | ★ |
+| <a id="mais-o43"></a>MAIS-O43 | [Measure the sparse-autoencoder recovery–merging phase diagram](MAIS-O43.md) | interpretability | computational, statistics | ★ *empirical* |
 | <a id="mais-o44"></a>MAIS-O44 | [Does penalizing average interference lower worst-case coherence?](MAIS-O44.md) | interpretability | optimization, harmonic analysis, probability | ★★ |
 | <a id="mais-o45"></a>MAIS-O45 | [Does penalizing interference make features recoverable by dictionary learning?](MAIS-O45.md) | interpretability | statistics, optimization, probability | ★★ |
 | <a id="mais-o46"></a>MAIS-O46 | [Does lower coherence imply better dictionary recovery?](MAIS-O46.md) | interpretability | statistics, harmonic analysis | ★★ |
@@ -71,7 +71,7 @@ Every problem below is stated as open as of July 2026. When one is resolved, its
 | <a id="mais-o58"></a>MAIS-O58 | [Exchangeability of learned frequencies beyond multiplicative symmetry](MAIS-O58.md) | interpretability | probability, harmonic analysis, dynamical systems | ★★★ |
 | <a id="mais-o59"></a>MAIS-O59 | [Two neurons learning mod-5 addition: which frequencies win?](MAIS-O59.md) | interpretability | dynamical systems, probability, harmonic analysis | ★★ |
 | <a id="mais-o60"></a>MAIS-O60 | [Does a single ReLU neuron align to one frequency?](MAIS-O60.md) | interpretability | dynamical systems, probability, harmonic analysis | ★★ |
-| <a id="mais-o61"></a>MAIS-O61 | [Pilot measurement of representation selection in small trained networks](MAIS-O61.md) | interpretability | computational, statistics | ★ |
+| <a id="mais-o61"></a>MAIS-O61 | [Pilot measurement of representation selection in small trained networks](MAIS-O61.md) | interpretability | computational, statistics | ★ *empirical* |
 | <a id="mais-o62"></a>MAIS-O62 | [Minimal network width for exact modular addition](MAIS-O62.md) | interpretability, generalization | complexity theory, algebraic geometry, harmonic analysis | ★★ |
 | <a id="mais-o63"></a>MAIS-O63 | [Learning coefficients of modular addition](MAIS-O63.md) | interpretability, generalization | algebraic geometry, statistics | ★★★ |
 | <a id="mais-o64"></a>MAIS-O64 | [Marginal cost of width for modular-addition networks](MAIS-O64.md) | interpretability, generalization | algebraic geometry, statistics | ★★★ |
@@ -101,4 +101,4 @@ Every problem below is stated as open as of July 2026. When one is resolved, its
 | <a id="mais-o88"></a>MAIS-O88 | [Misgeneralization versus diversity for reinforcement learning](MAIS-O88.md) | generalization | probability, dynamical systems | ★★★ |
 | <a id="mais-o89"></a>MAIS-O89 | [Boundary-state residual of max-margin gradient descent](MAIS-O89.md) | generalization | optimization, dynamical systems | ★ |
 | <a id="mais-o90"></a>MAIS-O90 | [Does finite-width training inherit the kernel flow's selection?](MAIS-O90.md) | generalization | probability, optimization | ★★ |
-| <a id="mais-o91"></a>MAIS-O91 | [Numerical atlas of misgeneralization across widths and diversity](MAIS-O91.md) | generalization | computational, probability | ★ |
+| <a id="mais-o91"></a>MAIS-O91 | [Numerical atlas of misgeneralization across widths and diversity](MAIS-O91.md) | generalization | computational, probability | ★ *empirical* |

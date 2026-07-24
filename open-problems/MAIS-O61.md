@@ -2,7 +2,7 @@
 
 *Open problem MAIS-O61 · posed in [MAIS-A5](../agendas/A5/MAIS-A5.pdf) as [Problem 6.3](../agendas/A5/MAIS-A5.tex#L323) · Status: open.*
 
-*Safety: interpretability — mechanistic interpretability · training dynamics · universality of circuits · black-box evaluation. Mathematics: computational · statistics. Difficulty: ★ starter.*
+*Safety: interpretability — mechanistic interpretability · training dynamics · universality of circuits · black-box evaluation. Mathematics: computational · statistics. Difficulty: ★ starter · empirical.*
 
 Which irreducible representations a trained network uses varies by random seed, and the published data on that variation amount to a handful of seeds at a couple of configurations. Before anyone proves a selection theorem — or even conjectures the right constants — someone should measure the law. This problem is a fully specified experiment: run it, and the field gets its first reproducible estimate of the selection distribution at small scale.
 
