@@ -1,0 +1,552 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem*{critchtheorem}{Theorem}
+\newtheorem*{critchcooperation}{Theorem}
+\newtheorem*{repairedtheorem}{Repaired PBL theorem}
+\newtheorem*{simplerepair}{Simplified PBL repair}
+\newtheorem*{repairedcooperation}{Repaired robust-cooperation theorem}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Sth}{\mathsf{S}}
+\newcommand{\Con}{\mathsf{Con}}
+\newcommand{\botf}{\bot}
+\newcommand{\elln}{\ell}
+\newcommand{\Boxb}[1]{\mathord{\Box}_{#1}}
+\newcommand{\leSstar}{\mathrel{\leq_{\Sth}^{*}}}
+\newcommand{\Coop}{\mathsf{Cooperate}}
+\newcommand{\Defect}{\mathsf{Defect}}
+\newcommand{\Len}{\mathsf{LengthOf}}
+\newcommand{\CritchPBLRef}{\cite[Theorem~4.2]{Critch}}
+\newcommand{\CritchCooperationRef}{\cite[Theorem~5.1]{Critch}}
+
+\title{A refutation and a repair of Critch's PBL theorem, with an application to program cooperation}
+\author{GPT-5.6 Sol}
+\date{July 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+The parametric bounded L\"ob theorem in~\cite{Critch} assumes a computable proof budget that grows sufficiently quickly in the standard model.  Its proof, however, requires the base theory itself to verify several eventual inequalities between represented functions.  Under the paper's permissive convention for representing computable functions, that inference fails.  We construct a rapidly growing budget whose formal definition branches on the existence of a bounded proof of contradiction.  It satisfies the external growth hypothesis while making bounded reflection provable for the constant-false formula, so the theorem is false as stated.  We recover the argument by requiring internal certificates for every comparison used to enlarge a proof bound.  The same extensional--intensional mismatch affects the robust-cooperation result: an extensionally ordinary but diagonally implemented FairBot budget produces fair agents that always defect against themselves.  Internally verified resource inequalities yield a corrected cooperation theorem.
+\end{abstract}
+
+\section{Introduction}\label{sec:introduction}
+
+This note was written by GPT-5.6 Sol during a July 2026 audit of the open problems in Lionel Levine's preprint \emph{Math for AI Safety: An Invitation for Mathematicians}~\cite{Levine}.  Levine's Open Problem~1 asks for quantitative bounds in the resource-bounded L\"ob theorem and bounded-FairBot application of~\cite{Critch}.  Before seeking sharper bounds, however, one must separate two kinds of claim: an inequality may hold for every sufficiently large standard input without the underlying formal theory being able to prove that it holds uniformly.  The published arguments cross that boundary without an adequate hypothesis.  We use \emph{PBL} for \emph{parametric bounded L\"ob}.
+
+Critch~\cite{Critch} fixes a first-order proof system $S$ and writes $L_S(1)$ for its formulas with one free variable.  The notation $\vdash$ means provability in $S$, while $\Box_b\varphi$ says that $\varphi$ has an $S$-proof using at most $b$ characters.  A computable proof-expansion function $e$ controls the cost of bounded necessitation and inner necessitation.  The relation $u\succ v$ means that $u$ eventually dominates every constant multiple of $v$.  In particular, $f(k)\succ e(O(\lg k))$ is an external statement about standard numerical values; it is not itself a theorem of $S$.  The first published result is reproduced below.
+
+\begin{critchtheorem}[Parametric bounded L\"ob, \CritchPBLRef]
+Let $p[k]\in L_S(1)$ be a formula with a single unquantified variable $k$, and suppose that $f:\N\to\N$ is computable and satisfies $f(k)\succ e(O(\lg(k)))$. Then there is a threshold $\widehat{k}\in\N$, depending on $p[k]$, such that
+\[
+  \vdash (\forall k)\bigl(\Boxb{f(k)}(p[k])\to p[k]\bigr)
+  \quad\Longrightarrow\quad
+  \vdash (\forall k>\widehat{k})(p[k]).
+\]
+\end{critchtheorem}
+
+The rest of the paper proceeds as follows.
+
+\paragraph{\hyperref[sec:pbl-refutation]{Section~\ref*{sec:pbl-refutation}: the PBL refutation.}}
+The external growth hypothesis controls the standard values of the proof budget, whereas the proof needs $S$ to verify three eventual comparisons uniformly.  We isolate this mismatch and give a direct counterexample: the budget grows rapidly at every standard input, but its formal definition switches to zero if a suitably short proof of contradiction is found.  This makes the bounded-reflection premise provable even for the constant-false formula.
+
+\paragraph{\hyperref[sec:pbl-repair]{Section~\ref*{sec:pbl-repair}: the PBL repair.}}
+We recover the fixed-point argument by naming its exact proof-overhead functions and requiring $S$-proofs of the three comparisons used to enlarge bounded-provability subscripts.  We then package those comparisons into a simpler sufficient restriction on the allowed representations of $f$.  These internal certificates, rather than representability or provable totality alone, are the decisive additional hypotheses.
+
+\paragraph{\hyperref[sec:cooperation]{Section~\ref*{sec:cooperation}: robust cooperation.}}
+The application concerns $G$-fair agents: roughly, agents that cooperate whenever they can find a sufficiently short proof that their opponent cooperates.  The published result analyzed in that section is the following.
+
+\begin{critchcooperation}[Robust cooperation, \CritchCooperationRef]
+Suppose that
+\begin{itemize}[leftmargin=1.8em]
+  \item $e(k)$, the proof expansion function of our proof system as defined in Section~4, satisfies $e(O(\lg(k)))\prec k$, and
+  \item $G(\ell)$ is any nondecreasing function satisfying $G(\ell)\succ e(O(\ell))$.
+\end{itemize}
+Then, for any $G$-fair agents $A_k$ and $B_k$, there exists some $r\gg 0$ such that for all $m,n>r$,
+\[
+  A_m(B_n)=B_n(A_m)=\Coop.
+\]
+\end{critchcooperation}
+
+Its proof requires the same kind of internally verified comparison that is missing from the PBL theorem.  We give a diagonal implementation of $G$ that has ordinary standard values but produces $G$-fair agents that defect against themselves, and we repair the cooperation argument by making its resource comparisons explicit.  (As usual, soundness is assumed when passing from theorems of $S$ to claims about actual program outputs.)
+
+\section{The published PBL theorem is false as stated}\label{sec:pbl-refutation}
+
+Section~2.4 of~\cite{Critch} permits a computable function $u:\N\to\N$ to be used through a graph formula $\Gamma_u(x,y)$ satisfying only
+\begin{equation}\label{eq:numeralwise}
+  \text{for every standard }n\in\N,\qquad
+  S\vdash \forall y\,
+  \bigl(\Gamma_u(\overline n,y)\leftrightarrow y=\overline{u(n)}\bigr).
+\end{equation}
+The quantifier over $n$ in~\eqref{eq:numeralwise} is metatheoretic: it describes a separate proof for each standard numeral.  It does not imply the single uniform statement
+\[
+  S\vdash\forall x\,\exists!y\,\Gamma_u(x,y).
+\]
+Even adding totality and uniqueness does not turn an externally true eventual inequality into a uniform theorem of $S$.
+
+To see exactly where the stronger claim is needed, track the proof bounds in the published argument.  The parameterized fixed point $\psi[k]$, bounded necessitation, quantifier distribution, and two applications of implication distribution give, for a particular represented overhead $d(k)=O(\lg k)$,
+\begin{equation}\label{eq:pre44}
+S\vdash\forall k\,
+\left[
+\Boxb{g(k)}\psi[k]
+\to
+\left(
+\Boxb{h(k)}\Boxb{g(k)}\psi[k]
+\to
+\Boxb{g(k)+h(k)+d(k)}p[k]
+\right)
+\right].
+\end{equation}
+The next step requires a standard threshold $K_1$ and the internal certificate
+\begin{equation}\label{eq:req1}
+  S\vdash\forall k>K_1\,
+  \bigl(g(k)+h(k)+d(k)\leq f(k)\bigr).
+\end{equation}
+Bounded inner necessitation gives
+\[
+S\vdash\forall k\,
+\left(
+\Boxb{g(k)}\psi[k]
+\to
+\Boxb{e(g(k))}\Boxb{g(k)}\psi[k]
+\right),
+\]
+To enlarge this inner proof bound, the argument needs a second certificate:
+\begin{equation}\label{eq:req2}
+  S\vdash\forall k>K_2\,
+  \bigl(e(g(k))\leq h(k)\bigr).
+\end{equation}
+Finally, bounded necessitation and quantifier distribution produce the bound $C+2N+\elln(k)$, where $C$ is the quantifier-distribution constant and $N$ is the length of the preceding proof.  The last enlargement requires
+\begin{equation}\label{eq:req3}
+  S\vdash\forall k>K_3\,
+  \bigl(C+2N+\elln(k)\leq g(k)\bigr).
+\end{equation}
+The asymptotic hypotheses make these three inequalities true beyond standard thresholds.  They do not supply the uniform $S$-proofs~\eqref{eq:req1}--\eqref{eq:req3} for all graph representations allowed by the paper.
+
+This gap yields a counterexample even if the chosen graph is required to be provably total and single-valued.  We first record a convenient way to meet that stronger requirement.
+
+\begin{lemma}[Provably totalizing a computable graph]\label{lem:totalgraph}
+Let $S$ extend Peano Arithmetic, and let $U:\N\to\N$ be total computable.  There is a graph formula $\Gamma_U^{\dagger}(x,y)$ such that
+\[
+  S\vdash\forall x\,\exists!y\,\Gamma_U^{\dagger}(x,y)
+\]
+and, for every standard $n$,
+\[
+  S\vdash\forall y\,
+  \bigl(\Gamma_U^{\dagger}(\overline n,y)
+  \leftrightarrow y=\overline{U(n)}\bigr).
+\]
+\end{lemma}
+
+\begin{proof}
+Fix a deterministic machine computing $U$, and let $T_U(x,t,y)$ say that it halts on input $x$ at exactly time $t$ with output $y$.  Put
+\[
+\begin{split}
+\Gamma_U^{\dagger}(x,y):={}&
+\exists t\Bigl(T_U(x,t,y)\wedge
+  \forall s<t\,\forall z\,\neg T_U(x,s,z)\Bigr)\\
+&\vee\Bigl(y=0\wedge\neg\exists t\,\exists z\,T_U(x,t,z)\Bigr).
+\end{split}
+\]
+The second branch is a fallback value for inputs on which no halting computation exists internally.  Classical excluded middle, determinism, and least-number induction therefore prove totality and uniqueness in $S$.  For each standard input, the actual finite halting computation is verifiable in $S$; the first branch then has value $U(n)$, and the fallback branch is excluded.
+\end{proof}
+
+\begin{proposition}[Refutation of \CritchPBLRef]\label{prop:failure}
+Let $S$ be a consistent, effectively axiomatized extension of Peano Arithmetic with a standard primitive-recursive proof predicate.  Assume, as in the note following \CritchPBLRef, that $\Boxb{0}\varphi$ is uniformly false.  Then there are a computable $f:\N\to\N$, a graph for $f$ that $S$ proves total and single-valued, and a formula $p[k]\in L_S(1)$ such that
+\begin{enumerate}[label=\textup{(\roman*)},leftmargin=2.1em]
+  \item externally, $f(k)\succ e(O(\lg k))$;
+  \item $S\vdash\forall k\,\bigl(\Boxb{f(k)}p[k]\to p[k]\bigr)$;
+  \item the conclusion of \CritchPBLRef{} is false.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Let
+\[
+  E^{\max}(k):=\max_{0\leq j\leq k}e(j),
+  \qquad
+  F(k):=(k+1)^2\bigl(E^{\max}(k)+1\bigr).
+\]
+If $r(k)=O(\lg k)$, then $r(k)\leq k$ eventually, so $e(r(k))\leq E^{\max}(k)$ eventually.  Hence $F(k)\succ e(O(\lg k))$.
+
+Apply Lemma~\ref{lem:totalgraph} to $F$.  In the resulting definitional extension, set
+\[
+  q(k):=\neg\Boxb{F(k)}\botf,
+  \qquad
+  f(k):=
+  \begin{cases}
+    F(k),&q(k),\\
+    0,&\neg q(k).
+  \end{cases}
+\]
+Equivalently, take the graph
+\[
+  \Gamma_f(k,y):=
+  \bigl(q(k)\wedge\Gamma_F^{\dagger}(k,y)\bigr)
+  \vee
+  \bigl(\neg q(k)\wedge y=0\bigr).
+\]
+This graph is provably total and single-valued.  Because $S$ is consistent, $q(n)$ is true for every standard $n$.  Thus $f(n)=F(n)$ at every standard input, and part~(i) follows.
+
+Now take $p[k]:=\botf$.  The key point is that $S$ can prove the bounded-reflection premise without proving its own consistency.  It reasons by cases.  Under $q(k)$, we have $f(k)=F(k)$ and $\neg\Boxb{f(k)}\botf$.  Under $\neg q(k)$, we have $f(k)=0$, and bounded provability with budget zero is false by assumption.  Hence
+\[
+  S\vdash\forall k\,
+  \bigl(\Boxb{f(k)}\botf\to\botf\bigr),
+\]
+which is part~(ii).  The conclusion of \CritchPBLRef{} would give
+\[
+  S\vdash\forall k>\widehat{k}\,\botf
+\]
+for some standard $\widehat{k}$, contradicting the consistency of $S$.  This proves part~(iii).
+\end{proof}
+
+\begin{remark}[What the counterexample shows]
+The construction is explicit relative to $S$, its proof coding, and $e$, just as the theorem in \CritchPBLRef{} is parameterized by those data.  It also shows why provable totality and single-valuedness are not enough: the missing ingredient is an internal proof of each comparison used to enlarge a proof bound.
+\end{remark}
+
+\begin{remark}[Dependence on the graph convention]
+Proposition~\ref{prop:failure} uses the literal class of graph representations permitted by the paper.  A theorem based instead on a canonical assignment $f\mapsto\Gamma_f$ would need to state that convention and prove that it supplies the required uniform comparisons.
+\end{remark}
+
+\section{A repaired PBL theorem}\label{sec:pbl-repair}
+
+The repair promotes the three missing comparisons to explicit hypotheses.  Assume that each graph formula below is provably total and single-valued in $S$, so that it may be treated as a function symbol in a definitional extension.  For represented functions $u,v:\N\to\N$, write
+\[
+  u\leSstar v
+\]
+when there is a standard threshold $K$ for which
+\[
+  S\vdash\forall k>K\,\bigl(u(k)\leq v(k)\bigr).
+\]
+
+Fix $p[k]$ and an auxiliary budget $g$.  Tracking the proof transformations in the fixed-point argument of~\cite{Critch} produces the represented overhead $d(k)=O(\lg k)$ from~\eqref{eq:pre44}.  Here $d$ is this particular function, with its chosen representation, rather than an unspecified member of $O(\lg k)$.
+
+\begin{repairedtheorem}
+Let $p[k]\in L_S(1)$, and let $f,g,h:\N\to\N$ be represented computable functions with provably total and single-valued graphs.  Suppose:
+\begin{enumerate}[label=\textup{(\arabic*)},leftmargin=2.2em]
+  \item for some standard $K_0$,
+  \[
+    S\vdash\forall k>K_0\,
+    \bigl(\Boxb{f(k)}p[k]\to p[k]\bigr);
+  \]
+  \item $g+h+d\leSstar f$;
+  \item $e\circ g\leSstar h$;
+  \item for every standard constant $A$, $A+\elln\leSstar g$.
+\end{enumerate}
+Then there is a standard $\widehat{k}$ such that
+\[
+  S\vdash\forall k>\widehat{k}\,p[k].
+\]
+\end{repairedtheorem}
+
+\begin{proof}
+The parameterized fixed-point lemma gives a formula $\psi[k]$ such that
+\begin{equation}\label{eq:fixedpoint}
+  S\vdash\forall k\,
+  \Bigl(\psi[k]\leftrightarrow
+  \bigl(\Boxb{g(k)}\psi[k]\to p[k]\bigr)\Bigr).
+\end{equation}
+The proof transformations already recorded in~\eqref{eq:pre44}, together with assumption~(2), bounded-provability monotonicity, and assumption~(1), yield on a provable tail
+\begin{equation}\label{eq:repair44}
+S\vdash
+\left[
+\Boxb{g(k)}\psi[k]
+\to
+\left(
+\Boxb{h(k)}\Boxb{g(k)}\psi[k]
+\to p[k]
+\right)
+\right],
+\end{equation}
+which is the justified counterpart of equation~(4.4) in~\cite{Critch}.
+
+Bounded inner necessitation gives
+\[
+S\vdash\forall k\,
+\left(
+\Boxb{g(k)}\psi[k]
+\to
+\Boxb{e(g(k))}\Boxb{g(k)}\psi[k]
+\right).
+\]
+Assumption~(3) and monotonicity give on a provable tail
+\begin{equation}\label{eq:repair45}
+S\vdash
+\left(
+\Boxb{g(k)}\psi[k]
+\to
+\Boxb{h(k)}\Boxb{g(k)}\psi[k]
+\right),
+\end{equation}
+which repairs equation~(4.5) of~\cite{Critch}.  Combining~\eqref{eq:repair44} and~\eqref{eq:repair45} gives equation~(4.6) there on a tail:
+\begin{equation}\label{eq:repair46}
+  S\vdash \Boxb{g(k)}\psi[k]\to p[k].
+\end{equation}
+Together with~\eqref{eq:fixedpoint}, this gives an $S$-proof of $\forall k>K\,\psi[k]$ for some standard $K$.  Let $N$ be the length of that proof.
+
+Bounded necessitation followed by quantifier distribution gives
+\[
+  S\vdash\forall k>K\,
+  \Boxb{C+2N+\elln(k)}\psi[k].
+\]
+Apply assumption~(4) with $A=C+2N$.  Monotonicity gives $\Boxb{g(k)}\psi[k]$ on a further provable tail, repairing equation~(4.7) of~\cite{Critch}.  Equation~\eqref{eq:repair46} then yields $p[k]$ uniformly on that tail.
+\end{proof}
+
+There is a simpler, slightly stronger way to state the repair.  Put
+\[
+  \lambda(k):=\elln(k)+1.
+\]
+Call a represented proof budget $f$ \emph{internally regular} if its graph is provably total and single-valued in $S$ and, for every standard integer $b\geq 1$, there is a standard $K_b$ such that
+\begin{equation}\label{eq:regularbudget}
+  S\vdash\forall k>K_b\,
+  \bigl(e(2\lambda(k))+b\lambda(k)\leq f(k)\bigr).
+\end{equation}
+This is a restriction on the chosen representation of $f$, not merely on the function's standard values.
+
+\begin{simplerepair}
+Let $p[k]\in L_S(1)$, and let $f$ be an internally regular proof budget.  If, for some standard $K_0$,
+\[
+  S\vdash\forall k>K_0\,
+  \bigl(\Boxb{f(k)}p[k]\to p[k]\bigr),
+\]
+then there is a standard $\widehat{k}$ such that
+\[
+  S\vdash\forall k>\widehat{k}\,p[k].
+\]
+\end{simplerepair}
+
+\begin{proof}
+Set $g(k)=2\lambda(k)$ and $h(k)=e(g(k))$.  Because $d$ is the exact overhead of a fixed finite list of syntactic transformations, the same length bookkeeping gives a standard $b_0$ such that
+\[
+  d\leSstar b_0\lambda.
+\]
+Internal regularity with $b=b_0+2$ therefore gives
+\[
+  g+h+d\leSstar f,
+\]
+while $e\circ g=h$ holds by definition.  Finally, elementary numeral-length arithmetic gives $A+\elln\leSstar 2\lambda=g$ for every standard constant $A$.  The repaired PBL theorem now applies.
+\end{proof}
+
+\paragraph{Why the repair blocks Proposition~\ref{prop:failure}.}
+For the budget in Proposition~\ref{prop:failure}, either assumption~(2) of the general repair or condition~\eqref{eq:regularbudget} would eliminate the zero branch on a tail.  That is precisely the uniform finite-consistency information hidden by the construction.  Notice that no restriction stated only in terms of standard values can have this effect: the counterexample computes the same standard function $F$ as its ordinary rapidly growing branch.  The restriction must therefore apply to the chosen representation of $f$, as internal regularity does.
+
+\section{The robust-cooperation theorem}\label{sec:cooperation}
+
+The cooperation application uses a syntactic fairness condition.  An agent $A_k$ is $G$-fair when, for every opponent $\mathsf{Opp}$, $S$ proves
+\[
+  \Boxb{k+G(\Len(\mathsf{Opp}))}
+  \bigl(\mathsf{Opp}(A_k)=\Coop\bigr)
+  \longrightarrow
+  \bigl(A_k(\mathsf{Opp})=\Coop\bigr).
+\]
+In words, if $A_k$ can find a sufficiently short proof that its opponent cooperates, then it cooperates as well.  For convenience, we repeat the published theorem from the introduction.
+
+\begin{critchcooperation}[Robust cooperation, \CritchCooperationRef]
+Suppose that
+\begin{itemize}[leftmargin=1.8em]
+  \item $e(k)$, the proof expansion function of our proof system as defined in Section~4, satisfies $e(O(\lg(k)))\prec k$, and
+  \item $G(\ell)$ is any nondecreasing function satisfying $G(\ell)\succ e(O(\ell))$.
+\end{itemize}
+Then, for any $G$-fair agents $A_k$ and $B_k$, there exists some $r\gg 0$ such that for all $m,n>r$,
+\[
+  A_m(B_n)=B_n(A_m)=\Coop.
+\]
+\end{critchcooperation}
+
+The substantive issue is that the proof turns external comparisons into uniform theorems when it enlarges the proof bounds in the cooperation argument; it then invokes the faulty PBL theorem.  (As usual, we assume $S$ is sound for the terminating computations under discussion.)  The diagonal construction below shows that this is not merely a missing proof step: on the literal, implementation-sensitive reading, the semantic conclusion is false.
+
+\subsection{The published robust-cooperation theorem is false as stated}
+
+\begin{proposition}[Refutation of \CritchCooperationRef]\label{prop:coopfailure}
+Fix a sound, effectively axiomatized arithmetic proof system $S$ satisfying the setup of~\cite{Critch} and the first growth hypothesis of \CritchCooperationRef.  Then, under the literal combination of the graph-representation convention and the program-level use of $G$ as a subroutine in~\cite{Critch}, there are
+\begin{enumerate}[label=\textup{(\roman*)},leftmargin=2.1em]
+  \item a nondecreasing computable function $G$ satisfying $G(\ell)\succ e(O(\ell))$, and
+  \item a total $G$-fair agent family $A_k$
+\end{enumerate}
+such that
+\[
+  A_k(A_k)=\Defect
+  \qquad\text{for every standard }k.
+\]
+Taking $B_k=A_k$ refutes \CritchCooperationRef.
+\end{proposition}
+
+\begin{proof}
+\textbf{1. Choose an ordinary external budget.}
+Let $F(\ell)=2^\ell$.  The first hypothesis of \CritchCooperationRef{} says $e(O(\lg k))\prec k$.  Substituting $k=2^\ell$ shows
+\[
+  e(O(\ell))\prec F(\ell).
+\]
+Thus $F$ has more than enough external growth for the role of $G$.
+
+\medskip
+\noindent
+\textbf{2. Implement it diagonally.}
+The parameterized recursion theorem and inert source-code padding permit a simultaneous construction of the agents and their common budget subroutine.  For each $k$, let $A_k$ be the FairBot of~\cite{Critch}, using a common subroutine $G$.  Among the infinitely many padded sources for this program, choose one for which the concrete proof-search target
+\[
+  P_k:=\bigl(A_k(A_k)=\Coop\bigr)
+\]
+has more than $k$ characters in the fixed proof syntax of~\cite{Critch}.  This is possible because the padded sources have distinct G\"odel codes and therefore distinct numeral terms.  Over a finite proof alphabet, their lengths are unbounded, so an appropriate source can be found effectively.  Make these choices successively so that the exact source lengths
+\[
+  L_k:=\Len(A_k)
+\]
+form a strictly increasing computable sequence.  Its range is then decidable, with a computable inverse on that range.  Program the common subroutine $G$ as follows:
+\[
+G(\ell):=
+\begin{cases}
+0,
+ &\begin{array}{l}
+   \ell=L_k\text{ for some }k,\text{ and an }S\text{-proof of }P_k\\[-2pt]
+   \text{of length at most }k+F(\ell)\text{ is found},
+  \end{array}\\[10pt]
+F(\ell),&\text{otherwise.}
+\end{cases}
+\tag{5.9}\label{eq:diagG}
+\]
+Both the range test for $(L_k)$ and the proof searches in~\eqref{eq:diagG} are bounded.  The recursion theorem resolves the apparent circularity: $G$ may refer to the source code of the agents that call it, while padding supplies the required source lengths.  Once the fixed program indices are inserted as constants, every runtime operation may be chosen primitive recursive.  The resulting $G$ and $A_k$ are therefore total programs whose behavior is formalizable in $S$.  This particular graph for $G$ is allowed by the paper's representation convention.
+
+The program $A_k$ computes
+\[
+  B=k+G(\Len(\mathsf{Opp})),
+\]
+searches all strings of length at most $B$ for an $S$-proof of $\mathsf{Opp}(A_k)=\Coop$, and cooperates exactly when one is found.  This is precisely the operational condition required for $G$-fairness.
+
+\medskip
+\noindent
+\textbf{3. Show that every self-play defects.}
+Fix $k$.  If $G(L_k)=F(L_k)$, the second branch of~\eqref{eq:diagG} says that there is no proof of $P_k$ of length at most $k+F(L_k)$.  This is exactly the proof bound used by $A_k$ against itself, so $A_k$ defects.
+
+If $G(L_k)=0$, the actual self-play proof bound is $k$.  But every proof of $P_k$ must contain its conclusion, directly or in the definition of an abbreviation, and $P_k$ has more than $k$ characters.  Hence no proof of $P_k$ has length at most $k$, and again $A_k$ defects.  Thus $P_k$ is false in either branch.
+
+Soundness now closes the diagonal argument.  Since $P_k$ is false, $S$ has no proof of it.  The first branch of~\eqref{eq:diagG} therefore never occurs at a standard input $L_k$; at nonspecial inputs the definition already returns $F$.  Consequently
+\[
+  G(\ell)=F(\ell)=2^\ell
+\]
+for every standard $\ell$.  Externally, then, $G$ is nondecreasing and satisfies the required growth condition, while the $G$-fair agents $A_k$ defect against themselves for every $k$.
+\end{proof}
+
+\begin{remark}[Why this is the same defect]
+The standard function computed by $G$ is simply $2^\ell$.  Cooperation fails because of the chosen implementation: $S$ cannot uniformly replace the diagonal program by the extensionally equal simple function.  The cooperation theorem therefore depends not only on the standard growth of $G$, but also on what $S$ can prove about the implementation used by the agents and the bounded-provability formulas.
+\end{remark}
+
+\subsection{A repaired robust-cooperation theorem}
+
+The repair makes explicit both the proof bound extracted from a hypothetical proof of mutual cooperation and the inequalities needed to fit that bound inside each agent's search budget.  Following the notation of~\cite{Critch}, let
+\[
+\begin{aligned}
+  a(m)&:=G(\Len(A_m)), &
+  b(n)&:=G(\Len(B_n)),\\
+  \alpha[m,n]&:=\bigl(A_m(B_n)=\Coop\bigr), &
+  \beta[n,m]&:=\bigl(B_n(A_m)=\Coop\bigr),
+\end{aligned}
+\]
+and set
+\[
+  p[k]:=(\forall m>k)(\forall n>k)
+  \bigl(\alpha[m,n]\wedge\beta[n,m]\bigr).
+\]
+Let $C$ be the quantifier-distribution constant.  Starting from a proof of $p[k]$ bounded by $f(k)$, two quantifier-distribution steps followed by conjunction elimination give the exact represented bound
+\begin{equation}\label{eq:Delta}
+  \Delta_f(k,m,n)
+  :=3C+4f(k)+2\elln(m)+\elln(n)+c_{\wedge},
+\end{equation}
+where $c_{\wedge}$ is the fixed cost of the final projection.  Unlike an asymptotic estimate, this concrete bound can appear in a formula proved by $S$.
+
+\begin{repairedcooperation}
+Assume $S$ is sound for the terminating program computations under discussion.  Let $A_k$ and $B_k$ be $G$-fair, with their fairness implications available as uniform theorems in the free variables $m,n$.  Suppose the chosen graphs of all functions below are provably total and single-valued in $S$, and suppose there is a represented function $f$ such that:
+\begin{enumerate}[label=\textup{(\arabic*)},leftmargin=2.2em]
+  \item for some standard $K$, $S$ proves that whenever $k>K$ and $m,n>k$,
+  \begin{equation}\label{eq:coopfit}
+  \Delta_f(k,m,n)\leq n+a(m)
+  \quad\text{and}\quad
+  \Delta_f(k,m,n)\leq m+b(n);
+  \end{equation}
+  \item $f$ satisfies hypotheses~\textup{(2)--(4)} of the repaired PBL theorem for the formula $p[k]$: there are represented $g,h$ and the exact PBL overhead $d$ such that
+  \[
+    g+h+d\leSstar f,
+    \qquad
+    e\circ g\leSstar h,
+    \qquad
+    A+\elln\leSstar g
+  \]
+  for every standard constant $A$.
+\end{enumerate}
+Then there is a standard $\widehat{k}$ such that
+\[
+  S\vdash\forall k>\widehat{k}\,p[k].
+\]
+Consequently, for some standard $r$ and all $m,n>r$,
+\[
+  A_m(B_n)=B_n(A_m)=\Coop.
+\]
+\end{repairedcooperation}
+
+\begin{proof}
+Starting from $\Boxb{f(k)}p[k]$, the proof transformations encoded in $\Delta_f$ yield, for all $m,n>k$,
+\[
+  \Boxb{\Delta_f(k,m,n)}\alpha[m,n]
+  \quad\text{and}\quad
+  \Boxb{\Delta_f(k,m,n)}\beta[n,m].
+\]
+The internally proved inequalities~\eqref{eq:coopfit} and bounded-provability monotonicity enlarge these bounds to $n+a(m)$ and $m+b(n)$.  The two $G$-fairness implications then yield $\alpha[m,n]$ and $\beta[n,m]$.  Hence, on a provable tail,
+\[
+  S\vdash \Boxb{f(k)}p[k]\to p[k].
+\]
+Hypothesis~(2) allows the repaired PBL theorem to be applied, giving $S\vdash\forall k>\widehat{k}\,p[k]$.  Soundness for the output statements converts this uniform theorem into the asserted external cooperation.
+\end{proof}
+
+\paragraph{A convenient sufficient condition.}
+One compact way to verify~\eqref{eq:coopfit} is to prove in $S$, on a common tail, that $f$ is nondecreasing and
+\[
+  \elln(t)\leq f(t),
+  \qquad
+  6f(t)\leq a(t),b(t),
+  \qquad
+  3C+c_{\wedge}+\elln(t)\leq t,
+  \qquad
+  3C+c_{\wedge}+2\elln(t)\leq t.
+\]
+The bound $6f(t)\leq a(t),b(t)$ may in turn follow from internally proved source-length estimates, monotonicity of $G$, and a suitable growth estimate for $G$.  The three repaired-PBL inequalities must then be checked for explicit choices of $f,g,h$.  External asymptotic versions of these facts are not enough.
+
+% The conclusion is retained for possible later use but omitted from the paper.
+\iffalse
+\subsection{Conclusion}
+
+The repair changes the formal generality of both results.  The published statements are extensional: they purport to depend only on the standard functions $f$ and $G$ and their asymptotic growth.  The repaired statements are intensional as well: they depend on what the chosen representations and implementations allow $S$ to prove about the relevant resource bounds.  Propositions~\ref{prop:failure} and~\ref{prop:coopfailure} show that representability or provable totality alone cannot erase this distinction.
+
+The bounded-L\"ob mechanism and its cooperation application nevertheless survive for ordinary explicit implementations once their arithmetic is certified.  For polynomial or exponential budgets, standard numeral-length functions, and a proof system with a formally verified expansion estimate, the added obligations should usually reduce to concrete inequalities in weak arithmetic.  Those inequalities must still be checked for the actual proof coding, source-length convention, and program implementations.
+
+For Levine's Open Problem~1, the natural quantitative data therefore include not only the external growth rates and eventual thresholds, but also the formal certificates of the resource inequalities and, in a fully quantitative treatment, the lengths of those certificates.  The corrected formulation asks how large a proof budget must be relative to both computational growth and the cost of proving that the budget is large enough.
+\fi
+
+\begin{thebibliography}{9}
+
+\bibitem{Critch}
+Andrew Critch,
+\emph{A parametric, resource-bounded generalization of L\"ob's theorem, and a robust cooperation criterion for open-source game theory},
+The Journal of Symbolic Logic \textbf{84} (2019), no.~4, 1368--1381.
+\href{https://doi.org/10.1017/jsl.2017.42}{doi:10.1017/jsl.2017.42}.
+Preprint: \url{https://arxiv.org/abs/1602.04184}.
+
+\bibitem{Levine}
+Lionel Levine,
+\emph{Math for AI Safety: An Invitation for Mathematicians},
+preprint, July 2026.
+\url{https://lionellevine.github.io/MAIS.pdf}.
+
+\end{thebibliography}
+
+\end{document}
