@@ -2,11 +2,11 @@
 
 [**Lionel Levine**](https://lionellevine.github.io/) (Cornell University)
 
-This is the home of [*Math for AI Safety: An Invitation for Mathematicians*](papers/MAIS-survey/MAIS-revised.pdf).
+This is the home of [*Math for AI Safety: An Invitation for Mathematicians*](papers/P1/MAIS-P1.pdf).
 
 ## What's here?
 
-Beyond the [survey](papers/MAIS-survey/MAIS-revised.pdf) itself, this repo hosts three kinds of pre-publication research:
+Beyond the [invitation paper](papers/P1/MAIS-P1.pdf), this repo hosts three kinds of pre-publication research:
 
 | | Kind | What it is |
 |---|------|------------|
@@ -14,9 +14,9 @@ Beyond the [survey](papers/MAIS-survey/MAIS-revised.pdf) itself, this repo hosts
 | 2 | **Agendas** — [`agendas/`](agendas/) | A cluster of related open problems and partial progress on resolving them |
 | 3 | **Papers** — [`papers/`](papers/) | A paper in progress |
 
-The intended life cycle is **1 → 2 → 3**: open problems get incorporated into agendas, and a maturing agenda spins off papers.
+The intended life cycle is **1 → 2 → 3 → publication**: open problems get incorporated into agendas, and a maturing agenda spins off papers.
 
-Each document carries a unique permanent number — $O_n$ for open problems, $A_n$ for agendas, $P_n$ for papers — so a reference like [MAIS O1](open/steering-life.md) stays valid even if the title changes.
+Each document carries a unique permanent identifier — **MAIS-On** for open problems, **MAIS-An** for agendas, **MAIS-Pn** for papers — so a reference like [MAIS-O1](open/steering-life.md) or [MAIS-A4](agendas/op04-training-for-interpretability.pdf) stays valid even if the title changes.
 
 ## Contributing
 
