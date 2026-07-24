@@ -6,16 +6,18 @@ Each agenda has a unique permanent identifier of the form MAIS-An where n is a n
 
 Got your own agenda? [Open an issue](https://github.com/lionellevine/MAIS/issues/new/choose) to propose including it here!
 
+Each agenda's folder is its landing page, with the abstract and links — like an arXiv abstract page.
+
 | # | Expands | Mathematical home | Agenda | Source | PDF | Status |
 |---|---------|-------------------|--------|--------|-----|--------|
-| MAIS-A1 | [MAIS-O1](../open-problems/MAIS-O1.md) | Logic and proof complexity | Quantitative bounded Löb | [TeX](A1/MAIS-A1.tex) | [PDF](A1/MAIS-A1.pdf) | Draft · July 12, 2026 |
-| MAIS-A2 | [MAIS-O2](../open-problems/MAIS-O2.md) | Probability, causality, and statistics | Behavioral tomography of world-models | [TeX](A2/MAIS-A2.tex) | [PDF](A2/MAIS-A2.pdf) | Draft · July 12, 2026 |
-| MAIS-A3 | [MAIS-O3](../open-problems/MAIS-O3.md) | Sparse recovery and geometry | The geometry and identifiability of superposition | [TeX](A3/MAIS-A3.tex) | [PDF](A3/MAIS-A3.pdf) | Draft · July 12, 2026 |
-| MAIS-A4 | [MAIS-O4](../open-problems/MAIS-O4.md) | Frame theory and optimization | Training for interpretability | [TeX](A4/MAIS-A4.tex) | [PDF](A4/MAIS-A4.pdf) | Draft · July 12, 2026 |
-| MAIS-A5 | [MAIS-O5](../open-problems/MAIS-O5.md) | Representation theory and dynamics | Which irreducible representations does training select? | [TeX](A5/MAIS-A5.tex) | [PDF](A5/MAIS-A5.pdf) | Draft · July 12, 2026 |
-| MAIS-A6 | [MAIS-O6](../open-problems/MAIS-O6.md) | Singular learning and algebraic geometry | Does geometric simplicity force a legible mechanism? | [TeX](A6/MAIS-A6.tex) | [PDF](A6/MAIS-A6.pdf) | Draft · July 12, 2026 |
-| MAIS-A7 | [MAIS-O7](../open-problems/MAIS-O7.md) | Stochastic dynamics and singular geometry | Effective loss and learning dynamics | [TeX](A7/MAIS-A7.tex) | [PDF](A7/MAIS-A7.pdf) | Draft · July 13, 2026 |
-| MAIS-A8 | [MAIS-O8](../open-problems/MAIS-O8.md) | Optimization and learning theory | A predictive theory of out-of-distribution generalization | [TeX](A8/MAIS-A8.tex) | [PDF](A8/MAIS-A8.pdf) | Draft · July 16, 2026 |
+| MAIS-A1 | [MAIS-O1](../open-problems/MAIS-O1.md) | Logic and proof complexity | [Quantitative bounded Löb](A1/) | [TeX](A1/MAIS-A1.tex) | [PDF](A1/MAIS-A1.pdf) | Draft · July 12, 2026 |
+| MAIS-A2 | [MAIS-O2](../open-problems/MAIS-O2.md) | Probability, causality, and statistics | [Behavioral tomography of world-models](A2/) | [TeX](A2/MAIS-A2.tex) | [PDF](A2/MAIS-A2.pdf) | Draft · July 12, 2026 |
+| MAIS-A3 | [MAIS-O3](../open-problems/MAIS-O3.md) | Sparse recovery and geometry | [The geometry and identifiability of superposition](A3/) | [TeX](A3/MAIS-A3.tex) | [PDF](A3/MAIS-A3.pdf) | Draft · July 12, 2026 |
+| MAIS-A4 | [MAIS-O4](../open-problems/MAIS-O4.md) | Frame theory and optimization | [Training for interpretability](A4/) | [TeX](A4/MAIS-A4.tex) | [PDF](A4/MAIS-A4.pdf) | Draft · July 12, 2026 |
+| MAIS-A5 | [MAIS-O5](../open-problems/MAIS-O5.md) | Representation theory and dynamics | [Which irreducible representations does training select?](A5/) | [TeX](A5/MAIS-A5.tex) | [PDF](A5/MAIS-A5.pdf) | Draft · July 12, 2026 |
+| MAIS-A6 | [MAIS-O6](../open-problems/MAIS-O6.md) | Singular learning and algebraic geometry | [Does geometric simplicity force a legible mechanism?](A6/) | [TeX](A6/MAIS-A6.tex) | [PDF](A6/MAIS-A6.pdf) | Draft · July 12, 2026 |
+| MAIS-A7 | [MAIS-O7](../open-problems/MAIS-O7.md) | Stochastic dynamics and singular geometry | [Effective loss and learning dynamics](A7/) | [TeX](A7/MAIS-A7.tex) | [PDF](A7/MAIS-A7.pdf) | Draft · July 13, 2026 |
+| MAIS-A8 | [MAIS-O8](../open-problems/MAIS-O8.md) | Optimization and learning theory | [A predictive theory of out-of-distribution generalization](A8/) | [TeX](A8/MAIS-A8.tex) | [PDF](A8/MAIS-A8.pdf) | Draft · July 16, 2026 |
 
 ## What each agenda contains
 
