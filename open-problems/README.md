@@ -1,12 +1,14 @@
 # Open problems
 
-Short expositions of single open problems. Each page opens with its AI safety motivation, gives enough context to understand the statement, then states the problem as precise mathematics — with a link into the [research agenda](../agendas/) that carries its full context.
+Each open problem here opens with its AI safety motivation, gives enough context to understand the statement, then states the problem as precise mathematics — with a link into the [research agenda](../agendas/) that carries its full context.
 
-The first eight are the headline problems of the [invitation paper](../papers/P1/MAIS-P1.pdf), each expanded by an agenda; the rest are sharper questions posed inside those agendas, together with the standalone [Conway's Life problem](MAIS-O9.md). Everything below is open as of July 2026; when a problem is resolved, its row will say so. Progress reports and corrections: [open an issue](https://github.com/lionellevine/MAIS/issues/new/choose).
+All of them are open as of July 2026; when a problem is resolved, its row will say so. Have you solved one of them? Have a promising line of attack? Or want to correct a problem statement? [Open an issue](https://github.com/lionellevine/MAIS/issues/new/choose).
 
-Many of these problems sit deliberately on the easier side, to give people an entry point — which means a language model may get you a long way on some of them. That is a feature, not a bug: the goal is to advance AI safety, not to curate problems that resist automation. Use whatever tools help, hold the result to the ordinary standard of proof, and say what you used when you post it.
+Note: Some of these problems sit deliberately on the easier side, to give mathematicians an entry point into AI safety. That means AI may get you most of the way to a solution. I see this as a feature, not a bug: the goal is to advance AI safety, not to curate problems that resist automation.
 
-★ estimates difficulty: ★ a starter you could begin today, ★★ a research project of paper scope, ★★★ likely to need a new idea. *Empirical* marks the few problems whose deliverable is a computation or measurement rather than a proof. Tags and ratings are editorial.
+Stars indicate difficulty: ★ a starter you could begin today, ★★ a research project of paper scope, ★★★ likely to need a new idea.
+
+Problems whose deliverable is a computation rather than a proof are tagged *empirical*.
 
 | # | Problem | Safety | Mathematics | ★ |
 |---|---------|--------|-------------|---|
