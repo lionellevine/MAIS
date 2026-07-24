@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "To cite a specific document, use its permanent identifier (MAIS-O1, MAIS-A4, MAIS-P1, ...) together with this repository reference."
+title: "Math for AI Safety"
+authors:
+  - family-names: Levine
+    given-names: Lionel
+    affiliation: Cornell University
+repository-code: "https://github.com/lionellevine/MAIS"
+url: "https://github.com/lionellevine/MAIS"
+license: CC-BY-4.0
