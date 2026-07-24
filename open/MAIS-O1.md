@@ -1,6 +1,6 @@
 # Steering Conway's Life from a small seed
 
-*Open problem O1 · Lionel Levine · July 2026 · Status: open, as far as a literature check shows.*
+*Open problem MAIS-O1 · Lionel Levine · July 2026 · Status: open, as far as a literature check shows.*
 
 Can a small controller reliably steer a vast system to a desired global state, despite noise it cannot remove and rival processes it did not design? This is an abstraction of a core difficulty of AI alignment: goal-directed control of a complex world from limited leverage, with the difficulty concentrated where it is in practice — robustness and competition. Conway's Game of Life offers the simplest medium I know in which to pose the question precisely, and there it becomes a concrete problem in probability and theoretical computer science.
 
