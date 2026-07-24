@@ -4,6 +4,8 @@ Short expositions of single open problems. Each page opens with its AI safety mo
 
 The first eight are the headline problems of the [invitation paper](../papers/P1/MAIS-P1.pdf), each expanded by an agenda; the rest are sharper questions posed inside those agendas, together with the standalone [Conway's Life problem](MAIS-O9.md). Everything below is open as of July 2026; when a problem is resolved, its row will say so. Progress reports and corrections: [open an issue](https://github.com/lionellevine/MAIS/issues/new/choose).
 
+Many of these problems sit deliberately on the easier side, to give people an entry point — which means a language model may get you a long way on some of them. That is a feature, not a bug: the goal is to advance AI safety, not to curate problems that resist automation. Use whatever tools help, hold the result to the ordinary standard of proof, and say what you used when you post it.
+
 ★ estimates difficulty: ★ a starter you could begin today, ★★ a research project of paper scope, ★★★ likely to need a new idea. *Empirical* marks the few problems whose deliverable is a computation or measurement rather than a proof. Tags and ratings are editorial.
 
 | # | Problem | Safety | Mathematics | ★ |
