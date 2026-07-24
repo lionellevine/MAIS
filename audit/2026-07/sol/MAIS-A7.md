@@ -52,7 +52,7 @@ First, the equation
 
 does not define $n_k$ without a branch and an existence condition. On $n>1$, $n/\log n$ has minimum $e$ at $n=e$. If the right-hand side is below $e$, there is no real solution; if it exceeds $e$, there are two. The intended large branch should be specified, for example using the $W_{-1}$ branch of Lambert $W$, and the regime in which Watanabe's large-$n$ expansion is valid must exclude the small root. Integer sample sizes add a further harmless rounding choice, but do not fix the missing branch.
 
-Second, for a fixed target spectrum all $n_k$ are fixed finite constants. Therefore a sequence $n\to\infty$ satisfying the exclusion in part (a) is eventually beyond every crossover, $k^*(n)=r$, and
+Second, for a fixed target spectrum all $n_k$ are fixed finite constants. Therefore a sequence $n\to\infty$ satisfying the exclusion in part (a) is eventually beyond every crossover, $k^\ast (n)=r$, and
 
 \[
 \min_k|n-n_k|\ge c\sqrt{n\log n}
@@ -116,7 +116,7 @@ The sentence says that if parameters are nonidentifiable or Fisher information d
 p(x\mid w)=N(w^2,1),\qquad q=N(0,1).
 \]
 
-Its KL loss is $K(w)=w^4/2$, its Fisher information is $4w^2$ and hence degenerates at the truth, and $p(\cdot\mid w)=p(\cdot\mid -w)$. Nevertheless $W_0=\{0\}$ is isolated. Singular zero sets may be positive-dimensional, nonreduced, isolated, or mixtures of these; singularity alone does not force dimension.
+Its KL loss is $K(w)=w^4/2$, its Fisher information is $4w^2$ and hence degenerates at the truth, and $p(\cdot\mid w)=p(\cdot\mid -w)$. Nevertheless $W_0=\lbrace 0\rbrace $ is isolated. Singular zero sets may be positive-dimensional, nonreduced, isolated, or mixtures of these; singularity alone does not force dimension.
 
 ### 8. Theorem 2.3 omits hypotheses needed by the cited Watanabe theorem
 

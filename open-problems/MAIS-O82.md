@@ -10,7 +10,7 @@ The agenda builds a one-dimensional coin world with the degeneracy built in: sta
 
 **Conjecture ([MAIS-A8, Conjecture 5.2](../agendas/A8/MAIS-A8.tex#L280)).** For every $\sigma>0$, $L\ge4$, and sufficiently small $\eta>0$,
 
-$$\lim_{m\to\infty}\;\liminf_{k\to\infty}\;q_0(k;m,\sigma,L,\eta)\;=\;1.$$
+$$\lim_{m\to\infty}\ \liminf_{k\to\infty}\ q_0(k;m,\sigma,L,\eta)\ =\ 1.$$
 
 In words: at zero training diversity, an infinitely wide two-layer network provably walks away from the coin. Kernel-regime and mean-field analogues are proved in the agenda under their own normalizations, so the conjecture asks for the missing finite-parameterization case. For the environment's exact definition and the solved linear chapter, see [MAIS-A8](../agendas/A8/MAIS-A8.pdf).
 

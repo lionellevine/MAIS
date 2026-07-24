@@ -8,9 +8,9 @@ Between the optimal agent (noiseless bits) and the adversarially $\delta$-subopt
 
 The framework is a binary causal influence diagram: models $M=(G,\theta)$ in a margin class $\mathcal{M}(\mathsf{s},\lambda)$, queried through shifted tasks $(\sigma,\mathbf{O}')$ — a mixture $\sigma$ of local interventions and an observation mask — at observations $w$. The **Boltzmann family** at inverse temperature $\beta>0$ answers with an action drawn from
 
-$$\pi_\beta(1\mid w;\sigma,\mathbf{O}')=\frac{e^{\beta\,E_M^{\mathbf{O}'}(1,w;\sigma)}}{e^{\beta\,E_M^{\mathbf{O}'}(0,w;\sigma)}+e^{\beta\,E_M^{\mathbf{O}'}(1,w;\sigma)}},$$
+$$\pi_\beta(1\mid w;\sigma,\mathbf{O}')=\frac{e^{\beta\ E_M^{\mathbf{O}'}(1,w;\sigma)}}{e^{\beta\ E_M^{\mathbf{O}'}(0,w;\sigma)}+e^{\beta\ E_M^{\mathbf{O}'}(1,w;\sigma)}},$$
 
-where $E_M^{\mathbf{O}'}(d,w;\sigma):=\sum_z u(d,z)\,P_M(\mathbf{Z}=z\mid \mathbf{O}'=w;\sigma)$ is the expected utility of action $d$; as $\beta\to\infty$ this recovers optimal play. The minimax risk at budget $N$ is the best worst-case expected error in graph and tables over the class after $N$ sampled actions.
+where $E_M^{\mathbf{O}'}(d,w;\sigma):=\sum_z u(d,z)\ P_M(\mathbf{Z}=z\mid \mathbf{O}'=w;\sigma)$ is the expected utility of action $d$; as $\beta\to\infty$ this recovers optimal play. The minimax risk at budget $N$ is the best worst-case expected error in graph and tables over the class after $N$ sampled actions.
 
 **Problem ([MAIS-A2, Problem 4.8](../agendas/A2/MAIS-A2.tex#L315)).** Under the Boltzmann channel with known $\beta$: (a) decide whether the map from models to Boltzmann behavior is injective on $\mathcal{M}(\mathsf{s},\lambda)$; (b) for each fixed finite $\beta$, determine the minimax risk at budget $N$ up to constants, including the deterioration as $\beta\to0$; then characterize the joint $(N,\beta)$ crossover from the smooth local rate (typically proportional to $1/(\beta\sqrt N)$) to the noiseless adaptive-search regime as $\beta\to\infty$; (c) solve the design problem: which distribution over queries $(\sigma,\mathbf{O}',w)$ maximizes the minimax rate?
 

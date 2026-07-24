@@ -8,7 +8,7 @@ Löb's theorem converts a proof of "if $P$ is provable then $P$" into a proof of
 
 Fix a proof system $S$: a consistent, recursively axiomatized extension of Peano arithmetic with binary numerals and an abbreviation rule (*efficient*, in Critch's sense). Write $S\vdash_{\le k}\varphi$ for "$\varphi$ has an $S$-proof of at most $k$ symbols," $\ell_S(\varphi)$ for the least length in symbols of an $S$-proof of $\varphi$, $|\varphi|$ for the length of the formula $\varphi$, and $\Box P$ for the arithmetized statement "$P$ is provable in $S$." The concrete default $\mathsf{PA}_{\mathrm{bin}}$ is Peano arithmetic in Enderton's Hilbert calculus with binary numerals and a priced abbreviation mechanism. The agenda's Definition 3.1 sets
 
-$$F_S(k,n) := \max\bigl\{\,\ell_S(P) :\ P \text{ a sentence of } \mathrm{Lang}(S),\ |P|\le n,\ \ell_S(\Box P\to P)\le k\,\bigr\}, \qquad \max\emptyset := 0.$$
+$$F_S(k,n) := \max\bigl\lbrace \ \ell_S(P) :\ P \text{ a sentence of } \mathrm{Lang}(S),\ |P|\le n,\ \ell_S(\Box P\to P)\le k\ \bigr\rbrace , \qquad \max\emptyset := 0.$$
 
 In words: among all sentences of length at most $n$ whose reflection instance $\Box P \to P$ has a proof of at most $k$ symbols, $F_S(k,n)$ is the length of the hardest one to prove outright. Löb's theorem makes every such $P$ provable, so $F_S$ is a well-defined, total computable function, and it is the pointwise least monotone overhead for which $S\vdash_{\le k}(\Box P\to P)$ implies $S\vdash_{\le F_S(k,|P|)}P$ (agenda, Proposition 3.2). Computability puts no ceiling on growth.
 

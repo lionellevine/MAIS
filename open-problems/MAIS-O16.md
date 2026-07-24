@@ -12,10 +12,10 @@ $$\mathrm{FairBot}_k(\mathrm{Opp}):\ \text{search all proofs of at most } k \tex
 
 where the self-reference is implemented by Kleene's recursion theorem. The natural guess is that two copies deadlock, each waiting for the other to prove cooperation first. They do not: Critch's theorem gives a finite threshold $\hat{k}$ above which $\mathrm{FairBot}_k(\mathrm{FairBot}_k)=\mathsf{C}$ — provided the proof system can certify the growth of its own proof-search overhead, a hypothesis never verified for any concrete system. Fixing a standard system and encoding, define
 
-$$\hat{k}^{*} := \min\{\, K : \mathrm{FairBot}_k(\mathrm{FairBot}_k) = \mathsf{C} \text{ for all } k \ge K \,\} \in \mathbb{N} \cup \{\infty\}.$$
+$$\hat{k}^{\ast } := \min\lbrace \  K : \mathrm{FairBot}_k(\mathrm{FairBot}_k) = \mathsf{C} \text{ for all } k \ge K \ \rbrace  \in \mathbb{N} \cup \lbrace \infty\rbrace .$$
 
-**Problem ([MAIS-A1, Problem 4.8](../agendas/A1/MAIS-A1.tex#L405)).** Prove the standing expansion certificate for one standard system and encoding, deduce $\hat{k}^{*}<\infty$, and give a certified numerical interval containing the exact threshold. Compute the threshold if feasible.
+**Problem ([MAIS-A1, Problem 4.8](../agendas/A1/MAIS-A1.tex#L405)).** Prove the standing expansion certificate for one standard system and encoding, deduce $\hat{k}^{\ast }<\infty$, and give a certified numerical interval containing the exact threshold. Compute the threshold if feasible.
 
-Proof *search* need not be the bottleneck: an agent can front-load the known proof, so that verifying Löbian cooperation takes well under a second of computer time. Measuring $\hat{k}^{*}$ in a real proof assistant is a feasible experiment, not a thought experiment. For the proof-system conventions and the certified-budget formalism, see [MAIS-A1](../agendas/A1/MAIS-A1.pdf).
+Proof *search* need not be the bottleneck: an agent can front-load the known proof, so that verifying Löbian cooperation takes well under a second of computer time. Measuring $\hat{k}^{\ast }$ in a real proof assistant is a feasible experiment, not a thought experiment. For the proof-system conventions and the certified-budget formalism, see [MAIS-A1](../agendas/A1/MAIS-A1.pdf).
 
 *Related: [MAIS-O1](MAIS-O1.md) (the Löb overhead this threshold depends on) · [MAIS-O17](MAIS-O17.md) (thresholds over families of agents) · [MAIS-O20](MAIS-O20.md) (a bounded Payor lemma).*

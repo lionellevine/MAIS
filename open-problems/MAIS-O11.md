@@ -12,7 +12,7 @@ Work in an efficient proof system $S$ (a consistent, recursively axiomatized ext
 
 1. Exhibit $\delta > 0$ and a sequence of sentences $P_i$ with $\ell_S(\Box P_i \to P_i) \to \infty$ and
 
-   $$\ell_S(P_i) \;\ge\; (1+\delta)\,\ell_S(\Box P_i \to P_i) + C_1(|P_i|+1),$$
+   $$\ell_S(P_i) \ \ge\  (1+\delta)\ \ell_S(\Box P_i \to P_i) + C_1(|P_i|+1),$$
 
    beating the trivial toll of the lemma above; that is, exhibit any genuine speedup from Löb's rule. (Here $S = \mathsf{PA}_{\mathrm{bin}}$, or any efficient system of your choice.)
 2. Decide Conjecture 3.5 ([MAIS-O10](MAIS-O10.md)): is $F_{\mathsf{PA}_{\mathrm{bin}}}(k,n)$ bounded by a fixed polynomial in $k+n$, or does it grow faster than every polynomial along some sequence $(k_i, n_i)$?

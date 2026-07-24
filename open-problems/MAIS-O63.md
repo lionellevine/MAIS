@@ -11,7 +11,7 @@ Modular addition is the test case. For odd $p$ and width $H$, the network $f_w(a
 **Problem ([MAIS-A6, Problem 4.5](../agendas/A6/MAIS-A6.tex#L294)).** Fix an odd integer $p\ge3$ and an integer $H\ge 2p-1$.
 
 - (a) Determine $\lambda(w^F_H)$ and $m(w^F_H)$.
-- (b) For each $R\ge R_p$, determine $\lambda_{\min}(p,H;R)=\min\{\lambda(w): w\in W_0(p,H),\ \lVert w\rVert\le R\}$, the set of local multiplicities among the minimizers, and whether the answer depends on $R$.
+- (b) For each $R\ge R_p$, determine $\lambda_{\min}(p,H;R)=\min\lbrace \lambda(w): w\in W_0(p,H),\ \lVert w\rVert\le R\rbrace $, the set of local multiplicities among the minimizers, and whether the answer depends on $R$.
 
 A closed form in $(p,H)$ is the goal; upper and lower bounds that pin down the growth in either variable would already be progress. Part (b) is the safety-relevant quantity: the points attaining $\lambda_{\min}$ are where the posterior settles, so a formula for the minimizers is a prediction of which implementation of modular addition Bayesian learning prefers. For the definition of the local coefficient and what is known near the non-degenerate regime, see [MAIS-A6](../agendas/A6/MAIS-A6.pdf).
 

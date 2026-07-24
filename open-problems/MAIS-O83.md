@@ -6,11 +6,11 @@
 
 Both infinite-width limits of the coin-line network walk away from a displaced coin: the kernel flow provably drives the off-distribution probe logit to $+\infty$, and the mean-field limit — the margin maximizer, granted weak convergence of the representing measures — is positive there. Does anything at finite width prefer to collect the coin instead?
 
-The setting is the agenda's coin line: an agent at position $p$ and a coin at position $c$ on $\{0,\dots,L\}$, with the coin always at the right end during training, so that "move right" (the proxy) and "go to the coin" (the intended goal) both fit the training data perfectly. The **standard family** is the two-layer ReLU network $f_\theta(x)=\sum_{j=1}^m a_j\varphi(u_j\cdot x)$ on the encoding $x_{\mathrm a}(p,c)=(1,p,c)$, with $a_j\sim N(0,\sigma^2)$, $u_j\sim N(0,\sigma^2 I_3)$, trained by gradient descent with fixed step $\eta$ on the logistic loss for the intended action (backpropagation convention $\varphi'(0)=0$, so each initialization $\theta_0$ determines a unique trajectory $\theta_k$). At the probe state $s^{*}=(\lceil L/2\rceil,0)$ the coin lies at the left end and the two policies disagree; a negative logit there means the trained network steps toward the coin.
+The setting is the agenda's coin line: an agent at position $p$ and a coin at position $c$ on $\lbrace 0,\dots,L\rbrace $, with the coin always at the right end during training, so that "move right" (the proxy) and "go to the coin" (the intended goal) both fit the training data perfectly. The **standard family** is the two-layer ReLU network $f_\theta(x)=\sum_{j=1}^m a_j\varphi(u_j\cdot x)$ on the encoding $x_{\mathrm a}(p,c)=(1,p,c)$, with $a_j\sim N(0,\sigma^2)$, $u_j\sim N(0,\sigma^2 I_3)$, trained by gradient descent with fixed step $\eta$ on the logistic loss for the intended action (backpropagation convention $\varphi'(0)=0$, so each initialization $\theta_0$ determines a unique trajectory $\theta_k$). At the probe state $s^{\ast }=(\lceil L/2\rceil,0)$ the coin lies at the left end and the two policies disagree; a negative logit there means the trained network steps toward the coin.
 
 **Question ([MAIS-A8, Question 5.5](../agendas/A8/MAIS-A8.tex#L335)).** Do there exist $L\ge4$, $m$, $\sigma>0$, and a sufficiently small step size $\eta>0$ with
 
-$$\limsup_{k\to\infty}\;\mathbb P_{\theta_0}\bigl(f_{\theta_k}(x_{\mathrm a}(s^{*}))<0\bigr)\;>\;\tfrac12$$
+$$\limsup_{k\to\infty}\ \mathbb P_{\theta_0}\bigl(f_{\theta_k}(x_{\mathrm a}(s^{\ast }))<0\bigr)\ >\ \tfrac12$$
 
 — a member of the standard family at which the trained network walks strictly toward the displaced coin with probability better than one half?
 

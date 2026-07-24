@@ -12,12 +12,12 @@ The documents in this repo aim to follow these guidelines, and contributions (se
 3. **Open with a question or an image**: sections open with a conceptual question or evocative image, one paragraph of context, then the precise setup. Avoid "In this paper we prove X" — let the result emerge from the motivation.
 4. **Examples are the heart.** Build each section around a crucial example or counterexample; big general theories are afterthoughts based on small but profound insights.
 5. **Show the phenomenon before the theorem**: raw data, a table, a picture. Zoom out until the regularity is unmistakable, and let the reader conjecture before you state.
-   - ✗ "We now define the crossout strategy and prove it is optimal." ✓ [Ethiopian Dinner] The dinner $D=\{(1,2),(2,3),(3,1)\}$ comes first: greedy Alice ends with 4, patient Alice "can finish up with $(3,1)$ for dessert and a total score of 5" — the reader feels the puzzle before any strategy is named.
+   - ✗ "We now define the crossout strategy and prove it is optimal." ✓ [Ethiopian Dinner] The dinner $D=\lbrace (1,2),(2,3),(3,1)\rbrace $ comes first: greedy Alice ends with 4, patient Alice "can finish up with $(3,1)$ for dessert and a total score of 5" — the reader feels the puzzle before any strategy is named.
 6. **Contrast and mystery**: state two things that ought to agree, reveal they differ, explain why. ("Perhaps it is this determinism that prevents the sandpile from approximating the circular symmetry…? Not so.")
 7. **Toy case first**, even if the toy case is already known.
    - ✓ [MAIS intro] Before the abstract five-stage pipeline, one concrete instance: "consider the problem of building a tool for proving inequalities in a proof assistant" — every stage and every failure mode is illustrated on it.
 8. **Prefer the direct formulation to the fancy one.**
-   - ✗ "The learning coefficient $\lambda$ appears as the leading pole of the zeta function $\zeta(s)=\int|L(\theta)-L_0|^s\,d\theta$." ✓ "The learning coefficient measures volume growth: the volume of the set of parameters within $\varepsilon$ of the minimal loss scales like $\varepsilon^\lambda$."
+   - ✗ "The learning coefficient $\lambda$ appears as the leading pole of the zeta function $\zeta(s)=\int|L(\theta)-L_0|^s\ d\theta$." ✓ "The learning coefficient measures volume growth: the volume of the set of parameters within $\varepsilon$ of the minimal loss scales like $\varepsilon^\lambda$."
 
 ## Structure
 

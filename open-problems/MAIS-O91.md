@@ -12,7 +12,7 @@ The quantities, from the agenda: on a line of length $L$, with the coin at the r
 
 $$q_\varepsilon(k;m,\sigma,L,\eta)\quad\text{and}\quad q^{\mathrm{RL}}_\varepsilon(k;m,\sigma,L,\eta)$$
 
-over a grid of $(\varepsilon,m,\sigma,\eta)$ at $L\in\{4,8,16\}$, together with the Gaussian conditional probability $Q(L)$ of the Bayesian-sampler question. Publish the atlas either way.
+over a grid of $(\varepsilon,m,\sigma,\eta)$ at $L\in\lbrace 4,8,16\rbrace $, together with the Gaussian conditional probability $Q(L)$ of the Bayesian-sampler question. Publish the atlas either way.
 
 The atlas would show where the conjectured proxy selection holds, where the crossover to the intended goal happens as $\varepsilon$ grows, whether cloning and reinforcement learning part ways at small $\varepsilon$, and whether the Gaussian posterior tracks training — data against which every conjecture in the agenda can be checked before anyone proves it. For the exact conventions (the deterministic backpropagation rule, the probe, the training distributions), see [MAIS-A8](../agendas/A8/MAIS-A8.pdf).
 

@@ -6,11 +6,11 @@
 
 Take a double-well landscape where one well is not a point but a singular set, and the pass between the wells is an ordinary Morse saddle. The classical Eyring–Kramers formula gives the mean crossing time with a constant prefactor; this conjecture says the singular well contributes a power of the temperature, with exponent read off from Watanabe's learning coefficient.
 
-The setting is that of [MAIS-O73](MAIS-O73.md): a real-analytic $L\colon \mathbb{T}^d \to [0,\infty)$ whose zero set is $W_0 = K_A \sqcup K_B$, two disjoint compact connected components with local data $(\lambda_A, m_A)$ and $(\lambda_B, m_B)$ (minimal local learning coefficient, then maximal multiplicity, over each component — so the well mass under the Gibbs measure $e^{-L/\varepsilon}$ has order $\varepsilon^{\lambda_A} (\log\tfrac1\varepsilon)^{m_A-1}$); the communication height $h$ is the min-max of $L$ over paths from $K_A$ to $K_B$; the process $X$ is Langevin, $dX_t = -\nabla L(X_t)\,dt + \sqrt{2\varepsilon}\,dB_t$; and $\tau_B$ is the hitting time of a $\rho$-neighborhood of $K_B$, started from $x$ in the gradient-flow basin of $K_A$.
+The setting is that of [MAIS-O73](MAIS-O73.md): a real-analytic $L\colon \mathbb{T}^d \to [0,\infty)$ whose zero set is $W_0 = K_A \sqcup K_B$, two disjoint compact connected components with local data $(\lambda_A, m_A)$ and $(\lambda_B, m_B)$ (minimal local learning coefficient, then maximal multiplicity, over each component — so the well mass under the Gibbs measure $e^{-L/\varepsilon}$ has order $\varepsilon^{\lambda_A} (\log\tfrac1\varepsilon)^{m_A-1}$); the communication height $h$ is the min-max of $L$ over paths from $K_A$ to $K_B$; the process $X$ is Langevin, $dX_t = -\nabla L(X_t)\ dt + \sqrt{2\varepsilon}\ dB_t$; and $\tau_B$ is the hitting time of a $\rho$-neighborhood of $K_B$, started from $x$ in the gradient-flow basin of $K_A$.
 
 **Conjecture ([MAIS-A7, Conjecture 3.5](../agendas/A7/MAIS-A7.tex#L263)).** In the setting of [MAIS-A7, Problem 3.4](../agendas/A7/MAIS-A7.tex#L247), suppose additionally that the infimum $h$ is attained at a single nondegenerate index-one critical point $z^\ast$ (a Morse saddle). Then
 
-$$\mathbb{E}_x[\tau_B] = C\, \varepsilon^{\lambda_A - d/2} \bigl( \log \tfrac1\varepsilon \bigr)^{m_A - 1} e^{h/\varepsilon}\, (1 + o(1)),$$
+$$\mathbb{E}_x[\tau_B] = C\  \varepsilon^{\lambda_A - d/2} \bigl( \log \tfrac1\varepsilon \bigr)^{m_A - 1} e^{h/\varepsilon}\  (1 + o(1)),$$
 
 where $C > 0$ is explicit in the leading coefficient of the volume asymptotics of $L$ at $K_A$ and the Hessian data of $L$ at $z^\ast$.
 

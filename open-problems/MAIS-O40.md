@@ -8,13 +8,13 @@ Train a tiny autoencoder to squeeze five sparse features through two dimensions,
 
 The model: fix $m$ features, $n<m$ dimensions, and a sparsity parameter $p\in(0,1)$. Let $x\in\mathbb{R}^m$ have independent coordinates $x_i=\zeta_i\omega_i$ with $\zeta_i\sim\mathrm{Bernoulli}(p)$ and $\omega_i\sim\mathrm{Unif}[0,1]$, and define
 
-$$L(W,b)\;=\;\mathbb{E}\;\bigl\lVert x-\mathrm{ReLU}(W^{\top}W x+b)\bigr\rVert^2, \qquad W\in\mathbb{R}^{n\times m},\ b\in\mathbb{R}^m,$$
+$$L(W,b)\ =\ \mathbb{E}\ \bigl\lVert x-\mathrm{ReLU}(W^{\top}W x+b)\bigr\rVert^2, \qquad W\in\mathbb{R}^{n\times m},\ b\in\mathbb{R}^m,$$
 
 with $\mathrm{ReLU}(t)=\max(t,0)$ applied coordinatewise. The columns $w_1,\dots,w_m$ of $W$ are the model's feature directions, not constrained to unit norm. For the linear analogue the answer is a theorem of Benedetto and Fickus: for $m\ge n$, the minimizers of the frame potential $\sum_{i\neq j}\langle w_i,w_j\rangle^2$ over systems of $m$ unit vectors are precisely the unit-norm tight frames, the systems with $\sum_i w_iw_i^{\top}$ a multiple of the identity. The ReLU and the bias select, among the many tight frames, the maximally spread one — empirically.
 
 **Conjecture ([MAIS-A3, Conjecture 4.10](../agendas/A3/MAIS-A3.tex#L317)).** There is a nonempty open interval $I\subset(0,1)$ such that for every $p\in I$, the loss $L$ with $n=2$, $m=5$ attains its infimum, and every global minimizer $(W,b)$ has nonzero columns of equal norm $r>0$ satisfying, for some permutation $\tau$ of $[5]$,
 
-$$\langle w_{\tau(i)},w_{\tau(j)}\rangle\;=\;r^2\cos\bigl(2\pi(i-j)/5\bigr) \qquad\text{for all } i,j.$$
+$$\langle w_{\tau(i)},w_{\tau(j)}\rangle\ =\ r^2\cos\bigl(2\pi(i-j)/5\bigr) \qquad\text{for all } i,j.$$
 
 Equivalently: up to an orthogonal transformation of $\mathbb{R}^2$ and relabeling, the columns form a regular pentagon.
 

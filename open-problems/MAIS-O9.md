@@ -18,16 +18,16 @@ The numerical reliability threshold is illustrative; Flint suggests $99\%$, whil
 
 - Board side $N_0=10^{30}$, seed side $M_0=10^{20}$, and observation time $T_0=10^{60}=N_0^2$.
 - Board $\Lambda=(\mathbb Z/N_0\mathbb Z)^2$ (torus; or an $N_0\times N_0$ grid with dead boundary — note which, since a dead boundary hands the controller free "walls").
-- Seed region $S$: an $M_0\times M_0$ upper-left corner; the controller picks $\sigma\in\{0,1\}^S$ without seeing the remainder.
-- Remainder $\xi\in\{0,1\}^{\Lambda\setminus S}$: i.i.d. $\mathrm{Bernoulli}(\tfrac12)$.
+- Seed region $S$: an $M_0\times M_0$ upper-left corner; the controller picks $\sigma\in\lbrace 0,1\rbrace ^S$ without seeing the remainder.
+- Remainder $\xi\in\lbrace 0,1\rbrace ^{\Lambda\setminus S}$: i.i.d. $\mathrm{Bernoulli}(\tfrac12)$.
 - Dynamics: synchronous Life, $\omega_t=\mathrm{Life}^t(\omega)$.
 - Target $\mathcal T$: a **macroscopic** predicate rather than exact cell equality. For example, partition the board into a large but fixed grid of macropixels, label them by a low-complexity smiley-face bitmap, and require all but a small fraction to lie on the correct side of two separated density thresholds.
 
 **Question (overwhelmingly reliable control).** Does there exist a seed $\sigma$ such that
 
 $$
-\Pr_\xi\!\left[\mathrm{Life}^{T_0}(\sigma\cup\xi)\models\mathcal T\right]
-\ge 1-10^{-100}\,?
+\Pr_\xi\left[\mathrm{Life}^{T_0}(\sigma\cup\xi)\models\mathcal T\right]
+\ge 1-10^{-100}\ ?
 $$
 
 The exponent $2$ in $T_0=N_0^2$ is not a known threshold. Locality gives an order-$N_0$ lower bound for affecting the far side of the board, and the observed relaxation of random Life does not supply a diffusive $N_0^2$ scale. A massively parallel expanding front might finish in nearly linear time, while a constructor that writes cells one at a time might need order $N_0^2$; best to regard $N_0^2$ as Flint's generous fixed horizon. Flint asks what the board looks like **at** time $T_0$, so a fast solution must hold its work, or delay the unveiling, until then. The easier variant asks only for some $t\le T_0$ at which the target appears; a stronger one asks that it then persist for a long interval.
@@ -68,12 +68,12 @@ At Flint's fixed parameters, yes: an infectious Turing machine can overwrite the
 Here is a more ambitious asymptotic afterthought. Fix a coarse-grained smiley target $\mathcal T_N$ and a choice of boundary condition, and let $\xi$ be i.i.d. $\mathrm{Bernoulli}(\tfrac12)$ off the seed. I conjecture that for every $0<\varepsilon<1$, $0<\delta<2\varepsilon$, and $\eta>0$, for all sufficiently large $N$ there is a seed $\sigma_N$ (depending also on $\varepsilon,\delta,\eta$) in an $\lfloor N^\varepsilon\rfloor\times\lfloor N^\varepsilon\rfloor$ corner such that
 
 $$
-\Pr\!\left[
+\Pr\left[
 \mathrm{Life}^{\lceil N^{1+\eta}\rceil}
 (\sigma_N\cup\xi)
 \models\mathcal T_N
 \right]
-\ge 1-\exp\!\left(-N^{2\varepsilon-\delta}\right).
+\ge 1-\exp\left(-N^{2\varepsilon-\delta}\right).
 $$
 
 The time budget, $N^{1+\eta}$ for every fixed $\eta>0$, is nearly linear — a sharper guess than the generous $N_0^2$ above, with room only for a small polynomial overhead from propagation and repair. The failure exponent is just below the number $N^{2\varepsilon}$ of controlled bits, allowing the machine and its redundancy to grow with the world. This scaling suppresses an accidental copy of a comparably large, fully specified seed: even after a union bound over $N^2$ possible locations, its probability is $\exp(-\Theta(N^{2\varepsilon}))$.

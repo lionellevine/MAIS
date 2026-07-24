@@ -10,7 +10,7 @@ The obstacle is that $F_S$ mentions provability *inside* the arithmetic: the bou
 
 **Problem ([MAIS-A1, Problem 8.1](../agendas/A1/MAIS-A1.tex#L544)).** Suppose $S$ and $S'$ prove the same theory. Specify polynomial-size translations of formulas and proofs in both directions, together with polynomial-size $S$- and $S'$-proofs that each translated bounded-provability predicate agrees with the source predicate at the translated budget. Under these hypotheses, prove that $F_S$ and $F_{S'}$ are polynomially related:
 
-$$F_S(k,n) \le p\bigl(F_{S'}(q(k), q(n)),\, k,\, n\bigr)$$
+$$F_S(k,n) \le p\bigl(F_{S'}(q(k), q(n)),\  k,\  n\bigr)$$
 
 for some polynomials $p, q$, and symmetrically. Or exhibit polynomially simulating systems for which no such alignment of the bounded boxes exists.
 

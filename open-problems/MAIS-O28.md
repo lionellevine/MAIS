@@ -10,7 +10,7 @@ The framework is a binary causal influence diagram: models $M=(G,\theta)$ in a m
 
 **Problem ([MAIS-A2, Problem 4.7](../agendas/A2/MAIS-A2.tex#L305)).** Fix the probability measure $\nu$ on the shifted tasks defined by drawing two profiles uniformly, a weight $q$ uniformly from $[0,1]$, and a mask $\mathbf{O}'\subseteq\mathbf{O}$ uniformly. Call a policy family $\Pi$ *$(\kappa,\delta)$-admissible* for $M$ if
 
-$$\nu\{(\sigma,\mathbf{O}'):\mathrm{reg}_M^{\mathbf{O}'}(\pi_{\sigma,\mathbf{O}'};\sigma)>\delta\}\le\kappa.$$
+$$\nu\lbrace (\sigma,\mathbf{O}'):\mathrm{reg}_M^{\mathbf{O}'}(\pi_{\sigma,\mathbf{O}'};\sigma)>\delta\rbrace \le\kappa.$$
 
 Define the identified set and radius $\varphi(\delta,\kappa;\mathsf{s},\lambda)$ as before with this admissibility. Determine $\varphi(\delta,\kappa)$ up to constants; in particular determine the threshold below which the exception mass still leaves the graph identified, and the rate at which $\varphi(0,\kappa)\to0$ as $\kappa\to0$.
 

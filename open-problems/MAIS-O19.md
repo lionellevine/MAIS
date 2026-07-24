@@ -10,7 +10,7 @@ Fix an efficient proof system $S$ satisfying the agenda's conventions (default $
 
 **Conjecture ([MAIS-A1, Conjecture 5.3](../agendas/A1/MAIS-A1.tex#L462)).** Let $S$ satisfy the conventions above, with a polynomial $\mathcal{B}$-term bound $E^\sharp$ on $\mathcal{E}$ and a polynomial bound on $d_S$. For every modal formula $\varphi$ with $\mathsf{GL} \vdash \varphi$ there is a budget schedule $c$ (depending on $S$ and $\varphi$ only) such that for every realization $\rho$ there is $\hat{k}$ with
 
-$$S \vdash \forall k > \hat{k}\;\; \varphi^{\rho,c}(k).$$
+$$S \vdash \forall k > \hat{k}\ \  \varphi^{\rho,c}(k).$$
 
 In words: every law of provability logic remains a law when every "provable" is replaced by "provable within $k^{c_j}$ symbols," for exponents chosen once per law, uniformly in the subject matter and for all sufficiently large $k$. The expected proof inducts on a $\mathsf{GL}$-derivation — distribution and the axiom $\Box A \to \Box\Box A$ are Critch's bookkeeping lemmas, modus ponens composes schedules after a polarity-respecting harmonization of budgets — and the Löb axiom case, [MAIS-O18](MAIS-O18.md), is the real content. For the conventions and the harmonization sketch, see [MAIS-A1](../agendas/A1/MAIS-A1.pdf).
 

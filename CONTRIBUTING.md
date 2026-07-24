@@ -63,6 +63,8 @@ d(x,y) = \begin{cases} 0 & \text{if } x = y, \\ 1 & \text{otherwise.} \end{cases
 
 Inside a table, a bare `|` reads as a column divider, so write `\vert` (e.g. `$\vert x \vert$` for $\vert x \vert$). And a literal dollar sign is `\$`.
 
+One more trap: GitHub applies Markdown's backslash-punctuation escapes *inside* math, silently deleting the backslash from `\{`, `\}`, `\|`, `\,`, `\;` and letting a bare `*` open italics. Write `\lbrace`, `\rbrace`, `\Vert`, `\ ` (backslash-space), and `\ast` instead, and put any display containing `\\` line breaks in a fenced ` ```math ` block, where these escapes do not apply.
+
 ## License
 
 Everything here is under [CC BY 4.0](LICENSE). By contributing, you agree that your contribution is released under the same license.
