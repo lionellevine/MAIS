@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O27 · posed in [MAIS-A2](../agendas/A2/) as [Problem 4.6](../agendas/A2/MAIS-A2.tex#L299) · Status: open.*
 
-*Safety: interpretability — world-model extraction · eliciting latent knowledge · black-box evaluation · bounded rationality. Mathematics: statistics · probability. Difficulty: ★★★ hard.*
+*Tags: interpretability · world-model extraction · eliciting latent knowledge · black-box evaluation · bounded rationality · statistics · probability. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 An analyst reading a causal model out of an agent's behavior faces two costs of different kinds: sampling error, which more queries repair, and the agent's own imperfection, which no budget repairs. A policy family of regret $\delta$ can be shared by distinct models, and the analyst can never tell those models apart. This problem asks for the exact size of that irreducible ambiguity.
 

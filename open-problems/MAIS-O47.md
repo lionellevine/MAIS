@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O47 · posed in [MAIS-A4](../agendas/A4/) as [Problem 5.7](../agendas/A4/MAIS-A4.tex#L423) · Status: open.*
 
-*Safety: interpretability — training for interpretability · superposition · universality of circuits. Mathematics: optimization · convex geometry. Difficulty: ★★★ hard.*
+*Tags: interpretability · training for interpretability · superposition · universality of circuits · optimization · convex geometry. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 If two independent training runs find genuinely different optima, two auditors will report different features. Stability of interpretation is thus a uniqueness question: is the optimum a single orbit of the problem's symmetries?
 

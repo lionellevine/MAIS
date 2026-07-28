@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O35 · posed in [MAIS-A2](../agendas/A2/) as [Problem 5.3](../agendas/A2/MAIS-A2.tex#L381) · Status: open.*
 
-*Safety: interpretability — world-model extraction · eliciting latent knowledge · black-box evaluation. Mathematics: statistics · probability. Difficulty: ★ starter.*
+*Tags: interpretability · world-model extraction · eliciting latent knowledge · black-box evaluation · statistics · probability. Difficulty: ★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Radon's inversion formula became tomography when it acquired error bars and dose budgets. For world-model extraction — reading a causal model out of an agent's near-optimal behavior — the inversion step is a theorem of Richens and Everitt, and the two-variable environment is a scanner small enough to build first: how many sampled actions determine whether $X$ causes $Y$ or $Y$ causes $X$, and to how many digits?
 

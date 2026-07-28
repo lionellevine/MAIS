@@ -2,6 +2,10 @@
 
 *Open problem MAIS-O9 · Lionel Levine · July 2026 · Status: open, as far as a literature check shows.*
 
+*Tags: control · probability · dynamical systems · complexity theory. Difficulty: ★★★.*
+
+*Audited by: Claude 5 Fable.*
+
 Can a small controller reliably steer a vast system to a desired global state, despite noise it cannot remove and rival processes it did not design? This is an abstraction of a core difficulty of AI alignment: goal-directed control of a complex world from limited leverage, with the difficulty concentrated where it is in practice — robustness and competition. Conway's Game of Life offers the simplest medium I know in which to pose the question precisely, and there it becomes a concrete problem in probability and theoretical computer science.
 
 The problem originated on LessWrong. Alex Flint's [*Agency in Conway's Game of Life*](https://www.lesswrong.com/posts/3SG4WbNPoP8fsuZgs/agency-in-conway-s-game-of-life) (2021) posed the **control question**: on a $10^{30}\times 10^{30}$ Life board, initialized at random except for a $10^{20}\times 10^{20}$ corner that you control, can you choose the corner so that after $10^{60}$ steps the whole board resembles a giant smiley face? Flint proposed the **AI hypothesis**: any pattern that solves the control question does so, essentially, by being an AI.

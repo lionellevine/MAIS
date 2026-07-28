@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O48 · posed in [MAIS-A4](../agendas/A4/) as [Problem 5.8](../agendas/A4/MAIS-A4.tex#L437) · Status: open.*
 
-*Safety: interpretability — training for interpretability · monosemanticity. Mathematics: optimization · probability. Difficulty: ★★ project.*
+*Tags: interpretability · training for interpretability · monosemanticity · optimization · probability. Difficulty: ★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 A hidden neuron that reads a single feature can be labeled; one that mixes several cannot. What does it cost, in task loss, to demand that every neuron be almost pure — and does the first little bit of impurity buy anything at all?
 

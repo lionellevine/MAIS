@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O28 · posed in [MAIS-A2](../agendas/A2/) as [Problem 4.7](../agendas/A2/MAIS-A2.tex#L305) · Status: open.*
 
-*Safety: interpretability — world-model extraction · eliciting latent knowledge · black-box evaluation · bounded rationality. Mathematics: probability · statistics. Difficulty: ★★ project.*
+*Tags: interpretability · world-model extraction · eliciting latent knowledge · black-box evaluation · bounded rationality · probability · statistics. Difficulty: ★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 The extraction theorems assume an agent that is near-optimal in *every* tampered environment. Trained agents are not like that: in the experiments of Richens, Abel, Bellot, and Everitt, the agents fail some tasks outright, violating any worst-case regret bound — yet the models extracted from their behavior are accurate. The theory behind that observation does not yet exist in the interventional setting. What does identifiability look like when the agent is merely good on average?
 

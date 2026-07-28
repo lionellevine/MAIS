@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O13 · posed in [MAIS-A1](../agendas/A1/) as [Conjecture 4.1](../agendas/A1/MAIS-A1.tex#L332) · Status: open.*
 
-*Safety: cooperative AI, agent foundations — Löbian cooperation · proof-based agents · bounded rationality. Mathematics: logic. Difficulty: ★★ project.*
+*Tags: cooperative AI · agent foundations · Löbian cooperation · proof-based agents · bounded rationality · logic. Difficulty: ★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 The bounded Löb argument enlarges a proof budget at every step, and each enlargement must be licensed by an internal proof that one budget term eventually exceeds another. Can Peano arithmetic always supply that license? The conjecture says yes: for the budget terms that actually occur, true eventual comparisons are provable, with a computable threshold.
 

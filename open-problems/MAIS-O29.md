@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O29 · posed in [MAIS-A2](../agendas/A2/) as [Problem 4.8](../agendas/A2/MAIS-A2.tex#L315) · Status: open.*
 
-*Safety: interpretability — world-model extraction · eliciting latent knowledge · black-box evaluation · bounded rationality. Mathematics: statistics · optimization. Difficulty: ★★ project.*
+*Tags: interpretability · world-model extraction · eliciting latent knowledge · black-box evaluation · bounded rationality · statistics · optimization. Difficulty: ★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Between the optimal agent (noiseless bits) and the adversarially $\delta$-suboptimal agent (irreducible ambiguity) sits the standard model of a noisily rational one: the Boltzmann, or quantal-response, agent, which plays better actions exponentially more often. Extracting a causal model from its sampled actions is a smooth statistics problem rather than an adversarial one — and it comes with a design question: which experiments should the analyst run?
 

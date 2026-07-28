@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O78 · posed in [MAIS-A7](../agendas/A7/) as [Problem 3.11](../agendas/A7/MAIS-A7.tex#L402) · Status: open.*
 
-*Safety: generalization — singular learning theory · training dynamics · developmental interpretability. Mathematics: statistics · probability. Difficulty: ★★★ hard.*
+*Tags: generalization · singular learning theory · training dynamics · developmental interpretability · statistics · probability. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Two staircases describe learning in the two-layer linear network $L(A,B) = \tfrac12 \Vert  BA - \Phi \Vert _F^2$, and they are graded by different variables. Gradient flow $\tau \dot A = -\partial_A L$, $\tau \dot B = -\partial_B L$ from a small aligned initialization of scale $u_0$ learns the singular modes of $\Phi$ one at a time, mode $k$ switching on at $t_k = \tfrac{\tau}{2 s_k} \log \tfrac{s_k}{u_0}$ (Saxe–McClelland–Ganguli); the Bayesian posterior, as the sample size $n$ grows, walks down a free-energy ladder whose rungs trade the rank-$k$ loss $L_k = \tfrac12 \sum_{\alpha > k} s_\alpha^2$ against the Aoyagi–Watanabe learning coefficient $\lambda_k^{\mathrm{AW}}$. Is there a dictionary between training time and sample size that carries one staircase to the other?
 

@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O64 · posed in [MAIS-A6](../agendas/A6/) as [Conjecture 4.7](../agendas/A6/MAIS-A6.tex#L333) · Status: open.*
 
-*Safety: interpretability, generalization — singular learning theory · developmental interpretability · grokking. Mathematics: algebraic geometry · statistics. Difficulty: ★★★ hard.*
+*Tags: interpretability · generalization · singular learning theory · developmental interpretability · grokking · algebraic geometry · statistics. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 What does one idle neuron cost, as learning theory counts cost? Parameter counting charges half the parameter count, $3p/2$ per unit; singular geometry charges less, and the discount measures how strongly Bayesian learning prefers degenerate networks — the same preference conjectured to select legible mechanisms in [MAIS-O6](MAIS-O6.md).
 

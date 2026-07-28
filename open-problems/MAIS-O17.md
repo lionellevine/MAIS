@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O17 · posed in [MAIS-A1](../agendas/A1/) as [Question 4.9](../agendas/A1/MAIS-A1.tex#L410) · Status: open.*
 
-*Safety: cooperative AI — open-source game theory · program equilibrium · Löbian cooperation · bounded rationality. Mathematics: logic · complexity theory. Difficulty: ★★ project.*
+*Tags: cooperative AI · open-source game theory · program equilibrium · Löbian cooperation · bounded rationality · logic · complexity theory. Difficulty: ★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Two copies of Critch's $\mathrm{FairBot}_k$ cooperate in the Prisoner's Dilemma once the proof budget $k$ passes a threshold. That is one point of a landscape: over *all* pairs of transparent agents of bounded description length, how fast does the cooperation threshold grow?
 

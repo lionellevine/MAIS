@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O21 · posed in [MAIS-A1](../agendas/A1/) as [Problem 8.1](../agendas/A1/MAIS-A1.tex#L544) · Status: open.*
 
-*Safety: cooperative AI, agent foundations — Löbian cooperation · proof-based agents · bounded rationality. Mathematics: logic · complexity theory. Difficulty: ★★ project.*
+*Tags: cooperative AI · agent foundations · Löbian cooperation · proof-based agents · bounded rationality · logic · complexity theory. Difficulty: ★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 The Löb overhead $F_S(k,n)$ — the least proof length of the hardest-to-prove sentence $P$ of length at most $n$ whose reflection instance $\Box P \to P$ has a proof of at most $k$ symbols — depends on the proof calculus, the numeral system, the abbreviation discipline, and the Gödel coding. The dependence is not cosmetic: whether numerals can be compressed changes which proof budgets are even admissible in the bounded Löb theorem. Proof complexity's classical remedy is to work up to polynomial simulation. Does the remedy apply here?
 

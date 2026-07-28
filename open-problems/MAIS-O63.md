@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O63 · posed in [MAIS-A6](../agendas/A6/) as [Problem 4.5](../agendas/A6/MAIS-A6.tex#L294) · Status: open.*
 
-*Safety: interpretability, generalization — singular learning theory · developmental interpretability · grokking. Mathematics: algebraic geometry · statistics. Difficulty: ★★★ hard.*
+*Tags: interpretability · generalization · singular learning theory · developmental interpretability · grokking · algebraic geometry · statistics. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Singular learning theory predicts where a Bayesian learner's posterior settles: on the parameters of smallest **learning coefficient** $\lambda$, a volume-growth exponent — the volume of parameters within $\varepsilon$ of the minimal loss near $w$ scales like $\varepsilon^{\lambda(w)}$ times $(\log\frac{1}{\varepsilon})^{m(w)-1}$, where the integer $m(w)$ is the multiplicity. If $\lambda$ can be computed for a real task, it predicts *which algorithm* a trained network implements, before training it. No such computation exists for any task whose learned mechanism is known.
 

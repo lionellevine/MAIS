@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O76 · posed in [MAIS-A7](../agendas/A7/) as [Problem 3.8](../agendas/A7/MAIS-A7.tex#L317) · Status: open.*
 
-*Safety: generalization — training dynamics · singular learning theory · simplicity bias. Mathematics: probability · algebraic geometry. Difficulty: ★★★ hard.*
+*Tags: generalization · training dynamics · singular learning theory · simplicity bias · probability · algebraic geometry. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 What does stochastic gradient descent do after it reaches zero loss? Over a *smooth* manifold of minimizers the answer is a theorem: Li, Wang, and Arora, adapting Katzenberger (1991), prove that if the set of minimizers is a compact $C^\infty$ manifold on which the Hessian rank is constant and equal to the codimension, then SGD with learning rate $\eta$, run for $\lfloor t/\eta^2 \rfloor$ steps, converges as $\eta \to 0$ to a diffusion *on* the manifold; for label noise (fresh independent noise added to the regression targets at each step, which makes the noise covariance proportional to the Hessian near the zero set) the limit is, up to time constants, the gradient flow on the manifold of $\tfrac14 \mathrm{tr}\  \nabla^2 L$. SGD slides along the optimal set toward flatter points. The constant-rank hypothesis excludes precisely the singularities where the strata of the optimal set meet — which is where the selection happens. The problem extends the limit theorem across them, with matrix factorization as the concrete instance.
 

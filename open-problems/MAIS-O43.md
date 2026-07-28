@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O43 · posed in [MAIS-A3](../agendas/A3/) as [Problem 5.3](../agendas/A3/MAIS-A3.tex#L342) · Status: open.*
 
-*Safety: interpretability — sparse autoencoders · mechanistic interpretability · superposition. Mathematics: computational · statistics. Difficulty: ★ starter · empirical.*
+*Tags: interpretability · sparse autoencoders · mechanistic interpretability · superposition · computational · statistics · empirical. Difficulty: ★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Where, quantitatively, does a sparse autoencoder stop recovering features and start absorbing them? The theory of that boundary is open ([MAIS-O3](MAIS-O3.md), [MAIS-O36](MAIS-O36.md)); this problem specifies an experiment — synthetic data with a tunable fraction of nested feature pairs — that measures it first. Everything is pinned down: seeds, sample counts, optimizer, thresholds.
 

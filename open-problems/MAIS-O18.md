@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O18 · posed in [MAIS-A1](../agendas/A1/) as [Problem 5.1](../agendas/A1/MAIS-A1.tex#L447) · Status: open.*
 
-*Safety: cooperative AI, agent foundations — Löbian cooperation · proof-based agents · bounded rationality. Mathematics: logic. Difficulty: ★★★ hard.*
+*Tags: cooperative AI · agent foundations · Löbian cooperation · proof-based agents · bounded rationality · logic. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Löb's theorem has two strengths. The *rule* — from $\vdash \Box P \to P$ infer $\vdash P$ — is what the parametric bounded theorem quantifies. The *axiom* is its internalization, $\Box(\Box P \to P) \to \Box P$, one box deeper; it is what a bounded provability logic would need as its Löb axiom. Which proof budgets make the bounded axiom hold?
 

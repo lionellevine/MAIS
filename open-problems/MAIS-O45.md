@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O45 · posed in [MAIS-A4](../agendas/A4/) as [Problem 5.5](../agendas/A4/MAIS-A4.tex#L394) · Status: open.*
 
-*Safety: interpretability — training for interpretability · sparse autoencoders · superposition · mechanistic interpretability. Mathematics: statistics · optimization · probability. Difficulty: ★★ project.*
+*Tags: interpretability · training for interpretability · sparse autoencoders · superposition · mechanistic interpretability · statistics · optimization · probability. Difficulty: ★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Coherence is a property of the weights; the post-hoc interpreter never sees the weights. She sees only activations, and runs a dictionary-learning estimator on them. Does training with an interference penalty actually help her?
 

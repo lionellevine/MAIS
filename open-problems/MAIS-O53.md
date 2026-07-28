@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O53 · posed in [MAIS-A5](../agendas/A5/) as [Conjecture 5.3](../agendas/A5/MAIS-A5.tex#L263) · Status: open.*
 
-*Safety: interpretability — mechanistic interpretability · training dynamics · universality of circuits · monosemanticity. Mathematics: probability · representation theory · dynamical systems. Difficulty: ★★★ hard.*
+*Tags: interpretability · mechanistic interpretability · training dynamics · universality of circuits · monosemanticity · probability · representation theory · dynamical systems. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 In networks trained on group multiplication, individual neurons commit: in Nanda et al.'s mod-113 network, 84.6% of neurons have at least 85% of their weight energy on a single Fourier frequency, and Chughtai et al.'s nonabelian networks cluster neuron-by-neuron around single irreducible representations. As the width grows, does the fraction of neurons committed to each irreducible converge — a law of large numbers for how training allocates its neurons among the irreducibles of $G$?
 

@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O40 · posed in [MAIS-A3](../agendas/A3/) as [Conjecture 4.10](../agendas/A3/MAIS-A3.tex#L317) · Status: open.*
 
-*Safety: interpretability — superposition · mechanistic interpretability. Mathematics: optimization · harmonic analysis. Difficulty: ★★★ hard.*
+*Tags: interpretability · superposition · mechanistic interpretability · optimization · harmonic analysis. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Train a tiny autoencoder to squeeze five sparse features through two dimensions, and its five weight vectors crystallize into a regular pentagon. This is the experiment of Elhage et al. in which superposition was first exhibited, and the pentagon is its emblem. No theorem yet says the pentagon wins.
 

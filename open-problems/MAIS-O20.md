@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O20 · posed in [MAIS-A1](../agendas/A1/) as [Problem 5.4](../agendas/A1/MAIS-A1.tex#L485) · Status: open.*
 
-*Safety: cooperative AI, agent foundations — Löbian cooperation · open-source game theory · program equilibrium · proof-based agents · bounded rationality. Mathematics: logic. Difficulty: ★★ project.*
+*Tags: cooperative AI · agent foundations · Löbian cooperation · open-source game theory · program equilibrium · proof-based agents · bounded rationality · logic. Difficulty: ★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Löb's theorem has a rival. Payor's lemma says: if $S \vdash \Box(\Box\varphi \to \varphi) \to \varphi$, then $S \vdash \varphi$ — and its four-line proof uses neither the diagonal lemma nor inner necessitation. In the bounded setting those absences are savings: the diagonalization cost $d_S$ and the inner-necessitation half of the expansion cost $\mathcal{E}_S$ drop out of the bookkeeping. Does the cheaper route give a smaller cooperation threshold?
 

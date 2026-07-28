@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O89 · posed in [MAIS-A8](../agendas/A8/) as [Problem 7.1](../agendas/A8/MAIS-A8.tex#L461) · Status: open.*
 
-*Safety: generalization — goal misgeneralization · training dynamics. Mathematics: optimization · dynamical systems. Difficulty: ★ starter.*
+*Tags: generalization · goal misgeneralization · training dynamics · optimization · dynamical systems. Difficulty: ★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 The max-margin direction predicts a trained linear classifier only to leading order, and the bounded residual it leaves behind is usually beneath notice. On the coin line the residual controls half the test return.
 

@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O66 · posed in [MAIS-A6](../agendas/A6/) as [Conjecture 5.3](../agendas/A6/MAIS-A6.tex#L437) · Status: open.*
 
-*Safety: interpretability, generalization — singular learning theory · developmental interpretability. Mathematics: algebraic geometry · statistics. Difficulty: ★★★ hard.*
+*Tags: interpretability · generalization · singular learning theory · developmental interpretability · algebraic geometry · statistics. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 For reduced-rank regression, the learning coefficient depends on the truth only through one integer, the rank — which is why a closed form exists at all. For a one-head attention model, the analog of "the truth has rank $r$" is "the truth is a smaller transformer," and the honest first question is whether a generic-teacher value of the learning coefficient exists at all.
 

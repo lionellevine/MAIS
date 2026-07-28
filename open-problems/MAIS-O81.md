@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O81 · posed in [MAIS-A7](../agendas/A7/) as [Problem 6.1](../agendas/A7/MAIS-A7.tex#L544) · Status: open.*
 
-*Safety: generalization — singular learning theory · developmental interpretability. Mathematics: statistics · algebraic geometry. Difficulty: ★★★ hard.*
+*Tags: generalization · singular learning theory · developmental interpretability · statistics · algebraic geometry. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 The Bayesian free-energy ladder assigns a region around a critical set at loss $L_C$ with learning coefficient $\lambda_C$ the free energy $n L_C + \lambda_C \log n$ at sample size $n$. This is a theorem when the rungs are minimizers at the same loss, and conditional already when they are local minimizers at distinct positive levels; the rungs of the dynamical staircase are saddles, and transcribing the ladder to saddles is the step everyone takes informally. It is not innocent. For a Morse saddle $z$ in dimension $2$, $L = L(z) + \tfrac{\mu}{2}(x^2 - y^2)$, the Gibbs mass of a $\delta$-ball at inverse temperature $\beta$ (the population proxy for sample size $n$) satisfies
 

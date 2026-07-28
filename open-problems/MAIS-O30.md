@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O30 · posed in [MAIS-A2](../agendas/A2/) as [Problem 4.9](../agendas/A2/MAIS-A2.tex#L325) · Status: open.*
 
-*Safety: interpretability — world-model extraction · eliciting latent knowledge · black-box evaluation. Mathematics: combinatorics · probability. Difficulty: ★★★ hard.*
+*Tags: interpretability · world-model extraction · eliciting latent knowledge · black-box evaluation · combinatorics · probability. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 The known algorithm for extracting a causal model from an agent's behavior anchors itself with hard interventions on *every* environment variable at once. A real experimenter can usually tamper with only a few. Which arrows of the graph, and which probability tables, can still be read off the agent's behavior when the intervenable set shrinks?
 

@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O67 · posed in [MAIS-A6](../agendas/A6/) as [Problem 5.4](../agendas/A6/MAIS-A6.tex#L441) · Status: open.*
 
-*Safety: interpretability, generalization — singular learning theory · developmental interpretability. Mathematics: algebraic geometry · statistics. Difficulty: ★★★ hard.*
+*Tags: interpretability · generalization · singular learning theory · developmental interpretability · algebraic geometry · statistics. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Exact learning coefficients are known for linear networks of every depth, but for attention — the layer the transformer is built from — not a single teacher-student value has been computed. This problem asks for the first one: the attention analog of the Aoyagi–Watanabe formula, in which the coefficient of reduced-rank regression depends on the truth only through its rank.
 

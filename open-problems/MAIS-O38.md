@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O38 · posed in [MAIS-A3](../agendas/A3/) as [Problem 4.8](../agendas/A3/MAIS-A3.tex#L289) · Status: open.*
 
-*Safety: interpretability — superposition · mechanistic interpretability. Mathematics: combinatorics · statistics. Difficulty: ★★★ hard.*
+*Tags: interpretability · superposition · mechanistic interpretability · combinatorics · statistics. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 How many samples must a dictionary-learning dataset contain before only one dictionary can explain it? If the concepts read out of a network are to be trusted, the factorization behind them should be pinned down by the data. The classical uniqueness theorems answer with sample counts containing $\binom{m}{k}$ — polynomial in the number of features $m$ for fixed sparsity $k$, but exploding as soon as $k$ grows with $m$, which is the regime superposition lives in. No estimator appears here; the question is purely about when the factorization is determined at all.
 

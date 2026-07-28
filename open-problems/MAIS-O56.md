@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O56 · posed in [MAIS-A5](../agendas/A5/) as [Conjecture 5.6](../agendas/A5/MAIS-A5.tex#L288) · Status: open.*
 
-*Safety: interpretability — mechanistic interpretability · training dynamics · universality of circuits. Mathematics: dynamical systems · representation theory · optimization. Difficulty: ★★★ hard.*
+*Tags: interpretability · mechanistic interpretability · training dynamics · universality of circuits · dynamical systems · representation theory · optimization. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 A network trained to multiply in $S_3$ has four possible answers to "which irreducible representations are visible in your outputs?": the subsets of $\lbrace \mathrm{sgn}, \mathrm{std}\rbrace $, where $\mathrm{sgn}$ is the sign representation and $\mathrm{std}$ the 2-dimensional standard one. The conjecture: run training to convergence, then let the weight decay tend to zero, and the answer is the full set $\lbrace \mathrm{sgn}, \mathrm{std}\rbrace $ with probability one — deterministic selection in the limit, where at fixed decay even the existence of the limiting law is open ([MAIS-O55](MAIS-O55.md)).
 

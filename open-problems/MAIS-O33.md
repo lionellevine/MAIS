@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O33 · posed in [MAIS-A2](../agendas/A2/) as [Problem 4.12](../agendas/A2/MAIS-A2.tex#L356) · Status: open.*
 
-*Safety: interpretability — world-model extraction · eliciting latent knowledge · black-box evaluation. Mathematics: complexity theory · combinatorics · probability. Difficulty: ★★★ hard.*
+*Tags: interpretability · world-model extraction · eliciting latent knowledge · black-box evaluation · complexity theory · combinatorics · probability. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 An agent whose behavior reveals its world-model may have stable blind spots: a fixed fraction of (state, goal) pairs on which its answers are arbitrary — the same wrong answers every time, not fresh noise. Channel noise is dispatched by repetition at logarithmic cost; persistent corruption cannot be, since re-asking a corrupted question returns the same lie. How large a corrupted fraction can goal-based model extraction survive?
 

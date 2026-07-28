@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O10 · posed in [MAIS-A1](../agendas/A1/) as [Conjecture 3.5](../agendas/A1/MAIS-A1.tex#L294) · Status: open.*
 
-*Safety: cooperative AI, agent foundations — Löbian cooperation · proof-based agents · bounded rationality. Mathematics: logic · complexity theory. Difficulty: ★★ project.*
+*Tags: cooperative AI · agent foundations · Löbian cooperation · proof-based agents · bounded rationality · logic · complexity theory. Difficulty: ★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 How much can proving $\Box P \to P$ save over proving $P$ directly? If the answer is "only polynomially much," then every proof budget in the Löbian cooperation story — the thresholds at which source-reading agents establish each other's cooperation — becomes polynomially effective. This page states the expected answer; deciding it is the problem.
 

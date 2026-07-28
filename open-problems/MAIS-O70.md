@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O70 · posed in [MAIS-A6](../agendas/A6/) as [Problem 6.3](../agendas/A6/MAIS-A6.tex#L490) · Status: open.*
 
-*Safety: interpretability, generalization — singular learning theory · developmental interpretability. Mathematics: algebraic geometry · statistics. Difficulty: ★★ project.*
+*Tags: interpretability · generalization · singular learning theory · developmental interpretability · algebraic geometry · statistics. Difficulty: ★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 The one singular model family solved completely — reduced-rank regression — was solved globally: Aoyagi and Watanabe computed the minimum of the local learning coefficient over the whole set of exact fits, as a closed form in four integers. But the estimators now used on neural networks are local, evaluated at a point, and the pointwise values on this benchmark family have never been tabulated. The benchmark is missing its own answer key.
 

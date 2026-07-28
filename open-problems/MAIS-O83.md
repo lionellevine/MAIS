@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O83 · posed in [MAIS-A8](../agendas/A8/) as [Question 5.5](../agendas/A8/MAIS-A8.tex#L335) · Status: open.*
 
-*Safety: generalization — goal misgeneralization · proxy goals · simplicity bias. Mathematics: probability · optimization. Difficulty: ★★★ hard.*
+*Tags: generalization · goal misgeneralization · proxy goals · simplicity bias · probability · optimization. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Both infinite-width limits of the coin-line network walk away from a displaced coin: the kernel flow provably drives the off-distribution probe logit to $+\infty$, and the mean-field limit — the margin maximizer, granted weak convergence of the representing measures — is positive there. Does anything at finite width prefer to collect the coin instead?
 

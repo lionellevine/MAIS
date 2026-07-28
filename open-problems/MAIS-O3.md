@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O3 · headline problem 3 of the survey [MAIS-P1](../papers/P1/) · canonically formalized in [MAIS-A3](../agendas/A3/) as [Problem 4.3](../agendas/A3/MAIS-A3.tex#L226) · Status: open.*
 
-*Safety: interpretability — sparse autoencoders · mechanistic interpretability · superposition. Mathematics: statistics · optimization · probability. Difficulty: ★★★ hard.*
+*Tags: interpretability · sparse autoencoders · mechanistic interpretability · superposition · statistics · optimization · probability. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 The working tool for reading concepts out of a neural network is the sparse autoencoder, an $\ell^1$-penalized dictionary learner. Every safety audit built on it inherits the answer to a mathematical question: when does the estimator return the network's true feature directions, and when does it return artifacts — two co-occurring concepts fused into one direction? Classical dictionary-learning theory answers only for independently occurring features, and real concepts co-occur.
 

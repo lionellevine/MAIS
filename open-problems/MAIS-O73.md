@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O73 · posed in [MAIS-A7](../agendas/A7/) as [Problem 3.4](../agendas/A7/MAIS-A7.tex#L247) · Status: open.*
 
-*Safety: generalization — singular learning theory · training dynamics · developmental interpretability. Mathematics: probability · algebraic geometry. Difficulty: ★★★ hard.*
+*Tags: generalization · singular learning theory · training dynamics · developmental interpretability · probability · algebraic geometry. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 How long does noisy training take to escape a flat valley? For a Morse landscape the classical Eyring–Kramers formula answers with a constant prefactor times $e^{h/\varepsilon}$, where $h$ is the barrier height. Neural-network losses are not Morse: their zero sets are positive-dimensional and singular, and the problem below asks for the signature of that extra flatness — a polynomial-in-$\varepsilon$ correction governed by the same algebro-geometric invariant that controls Bayesian generalization.
 

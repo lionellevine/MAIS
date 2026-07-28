@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O11 · posed in [MAIS-A1](../agendas/A1/) as [Question 3.6](../agendas/A1/MAIS-A1.tex#L305) · Status: open.*
 
-*Safety: cooperative AI, agent foundations — Löbian cooperation · proof-based agents · bounded rationality. Mathematics: logic · complexity theory. Difficulty: ★★★ hard.*
+*Tags: cooperative AI · agent foundations · Löbian cooperation · proof-based agents · bounded rationality · logic · complexity theory. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Löb's rule says: to prove $P$, prove $\Box P \to P$ instead. Does the detour ever save a single symbol? Not one example is known — and without lower bounds, the proof budgets in Löbian cooperation rest on heuristics alone.
 

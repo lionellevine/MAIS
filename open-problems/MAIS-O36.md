@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O36 · posed in [MAIS-A3](../agendas/A3/) as [Conjecture 4.4](../agendas/A3/MAIS-A3.tex#L237) · Status: open.*
 
-*Safety: interpretability — sparse autoencoders · mechanistic interpretability · superposition. Mathematics: probability · optimization · statistics. Difficulty: ★★★ hard.*
+*Tags: interpretability · sparse autoencoders · mechanistic interpretability · superposition · probability · optimization · statistics. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 When a sparse autoencoder converges, is the dictionary it finds the one that generated the data? The known guarantee for the $\ell^1$-penalized estimator is local: Gribonval, Jenatton, and Bach proved that a minimum exists *near* the true dictionary, leaving open whether a merged or rotated dictionary far away scores even better. This conjecture asserts that in the cleanest population case — features firing independently, dictionary incoherent — no such faraway global minimizer exists.
 

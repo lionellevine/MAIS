@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O26 · posed in [MAIS-A2](../agendas/A2/) as [Conjecture 4.4](../agendas/A2/MAIS-A2.tex#L283) · Status: open.*
 
-*Safety: interpretability — world-model extraction · eliciting latent knowledge · black-box evaluation. Mathematics: complexity theory · statistics. Difficulty: ★★ project.*
+*Tags: interpretability · world-model extraction · eliciting latent knowledge · black-box evaluation · complexity theory · statistics. Difficulty: ★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 How many yes-or-no questions does it take to read a causal model out of an optimal agent's behavior? Information theory sets the floor: a model with $K$ free table entries, each to be recovered to accuracy $\varepsilon$, costs $\Omega(K\log(1/\varepsilon))$ queries by a packing argument (the agenda's Remark 3.3). The natural algorithm bisects: each query asks for the agent's action in a mixture of two intervened environments, the action switches at a critical mixing weight, and the weight encodes an interventional probability. The conjecture is that this simple scheme is optimal up to constants.
 

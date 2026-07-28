@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O2 · headline problem 2 of the survey [MAIS-P1](../papers/P1/) · canonically formalized in [MAIS-A2](../agendas/A2/) as [Problem 4.5](../agendas/A2/MAIS-A2.tex#L289) · Status: open.*
 
-*Safety: interpretability — world-model extraction · eliciting latent knowledge · black-box evaluation. Mathematics: statistics · probability · complexity theory. Difficulty: ★★ project.*
+*Tags: interpretability · world-model extraction · eliciting latent knowledge · black-box evaluation · statistics · probability · complexity theory. Difficulty: ★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Tomography reconstructs the inside of a body from measurements taken outside it. Here the body is an agent, the measurements are its actions, and the object to reconstruct is the causal model its behavior relies on. Richens and Everitt proved the analogue of Radon's inversion formula: a policy family that stays near-optimal across all local interventions on its environment determines an approximate causal model of that environment. Their extraction algorithm consumes an oracle for the entire policy family, but an auditor probing a trained AI system gets finitely many sampled actions. Missing is what a working tomographer needs: how many sampled actions buy how many digits of the reconstruction.
 

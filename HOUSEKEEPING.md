@@ -15,6 +15,7 @@ Conventions that keep this repository consistent. Readers don't need this page; 
 - Each agenda and paper folder is its landing page: a `README.md` with title, byline, abstract, and links, like an arXiv abstract page. Links elsewhere in the repository point to landing pages, not directly to PDFs — except links explicitly labeled "PDF".
 - Each agenda and paper records its origin in a `PROVENANCE.md` beside its source.
 - Every document opens with a status line: kind + number · author · date · status.
+- Each open-problem page follows its status line with two metadata lines: a flat tag list with star difficulty (`*Tags: … · …. Difficulty: ★★.*` — one merged list, no category labels; ★ a starter, ★★ a research project, ★★★ likely to need a new idea; *empirical* tags a computational deliverable) and a credit line (`*Authored by: … · Audited by: ….*`).
 
 ## Building
 

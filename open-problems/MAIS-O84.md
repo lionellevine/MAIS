@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O84 · posed in [MAIS-A8](../agendas/A8/) as [Problem 5.7](../agendas/A8/MAIS-A8.tex#L351) and [Problem 7.2](../agendas/A8/MAIS-A8.tex#L465) · Status: open.*
 
-*Safety: generalization — goal misgeneralization · proxy goals · training dynamics. Mathematics: dynamical systems · optimization · probability. Difficulty: ★★★ hard.*
+*Tags: generalization · goal misgeneralization · proxy goals · training dynamics · dynamical systems · optimization · probability. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Randomizing the coin's position in as little as 2% of training levels largely cured Langosco et al.'s coin collector of running past a displaced coin. Why 2%? In the max-margin theory the diversity level $\varepsilon$ is absent from the endpoint: for every $\varepsilon>0$ the limiting linear classifier is the intended goal. The empirical phenomenon must therefore live at finite time — in how long the rare corrective examples take to overturn the proxy.
 

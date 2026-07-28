@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O71 · posed in [MAIS-A6](../agendas/A6/) as [Question 9.2](../agendas/A6/MAIS-A6.tex#L544) · Status: open.*
 
-*Safety: interpretability, generalization — singular learning theory · developmental interpretability. Mathematics: algebraic geometry · probability · statistics. Difficulty: ★★★ hard.*
+*Tags: interpretability · generalization · singular learning theory · developmental interpretability · algebraic geometry · probability · statistics. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Watanabe's free energy expansion — the theorem that makes the learning coefficient govern generalization — assumes the population loss is real-analytic. The ReLU activation $\max(t,0)$ is not, and the standard workaround fails outside toy settings: on a finite input set the parameter space splits into finitely many cells where the loss is polynomial, but for a continuous input distribution there is no finite activation partition. Does the expansion survive?
 

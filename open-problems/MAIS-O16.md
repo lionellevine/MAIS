@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O16 · posed in [MAIS-A1](../agendas/A1/) as [Problem 4.8](../agendas/A1/MAIS-A1.tex#L405) · Status: open.*
 
-*Safety: cooperative AI — open-source game theory · program equilibrium · Löbian cooperation. Mathematics: logic · computational. Difficulty: ★★ project.*
+*Tags: cooperative AI · open-source game theory · program equilibrium · Löbian cooperation · logic · computational. Difficulty: ★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 AI systems are software agents, and programs, unlike people, can exhibit their source code cheaply. Whether transparent agents can cooperate where opaque ones defect is a basic question of cooperative AI — and in the simplest case it has been reduced to a single unknown number.
 

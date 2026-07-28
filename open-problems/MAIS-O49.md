@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O49 · posed in [MAIS-A4](../agendas/A4/) as [Problem 5.9](../agendas/A4/MAIS-A4.tex#L459) · Status: open.*
 
-*Safety: interpretability — training for interpretability · mechanistic interpretability · superposition. Mathematics: optimization · probability · combinatorics. Difficulty: ★★ project.*
+*Tags: interpretability · training for interpretability · mechanistic interpretability · superposition · optimization · probability · combinatorics. Difficulty: ★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 A network in which each feature is wired to a single neuron is legible by inspection: every activation coordinate is an explicit signed combination of named features. Gao et al. found empirically that training transformers with almost all weights zeroed buys interpretable circuits at a measured capability cost. In the toy model, that cost can be asked for exactly.
 

@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O62 · posed in [MAIS-A6](../agendas/A6/) as [Question 4.3](../agendas/A6/MAIS-A6.tex#L282) · Status: open.*
 
-*Safety: interpretability, generalization — singular learning theory · grokking · mechanistic interpretability. Mathematics: complexity theory · algebraic geometry · harmonic analysis. Difficulty: ★★ project.*
+*Tags: interpretability · generalization · singular learning theory · grokking · mechanistic interpretability · complexity theory · algebraic geometry · harmonic analysis. Difficulty: ★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 How many hidden neurons does a quadratic network need to compute addition mod $p$ exactly? The answer sets the stage for every geometric question about this model — the singular variety whose learning coefficients [MAIS-O6](MAIS-O6.md) asks about is empty below the minimal width — and the bounds in hand leave a factor-of-two range.
 

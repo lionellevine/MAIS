@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O19 · posed in [MAIS-A1](../agendas/A1/) as [Conjecture 5.3](../agendas/A1/MAIS-A1.tex#L462) · Status: open.*
 
-*Safety: cooperative AI, agent foundations — Löbian cooperation · proof-based agents · bounded rationality. Mathematics: logic. Difficulty: ★★★ hard.*
+*Tags: cooperative AI · agent foundations · Löbian cooperation · proof-based agents · bounded rationality · logic. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Solovay proved that Gödel–Löb logic $\mathsf{GL}$ — propositional modal logic with the distribution axiom $\Box(A \to B) \to (\Box A \to \Box B)$, the Löb axiom $\Box(\Box A \to A) \to \Box A$, and the necessitation rule — captures exactly the propositional laws of provability in Peano arithmetic. Do those laws survive when every "provable" becomes "provable within $k^c$ symbols"? Critch conjectured they do; making the conjecture precise already takes some care.
 

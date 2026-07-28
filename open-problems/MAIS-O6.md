@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O6 · headline problem 6 of the survey [MAIS-P1](../papers/P1/) · canonically formalized in [MAIS-A6](../agendas/A6/) as [Conjecture 4.9](../agendas/A6/MAIS-A6.tex#L352) · Status: open.*
 
-*Safety: interpretability, generalization — singular learning theory · mechanistic interpretability · developmental interpretability · grokking · simplicity bias. Mathematics: algebraic geometry · harmonic analysis. Difficulty: ★★★ hard.*
+*Tags: interpretability · generalization · singular learning theory · mechanistic interpretability · developmental interpretability · grokking · simplicity bias · algebraic geometry · harmonic analysis. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 A small network trained to add residues mod $p$, when reverse-engineered, turns out to be running a discrete Fourier algorithm: each hidden neuron carries a single frequency. Is that mechanism an accident of training, or is it forced by the geometry of the loss? Singular learning theory says Bayesian learning settles on the exact fits of smallest local learning coefficient, so the question becomes a theorem-or-counterexample: whether the most singular exact fits are the Fourier ones.
 

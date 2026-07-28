@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O37 · posed in [MAIS-A3](../agendas/A3/) as [Problem 4.7](../agendas/A3/MAIS-A3.tex#L279) · Status: open.*
 
-*Safety: interpretability — sparse autoencoders · mechanistic interpretability · superposition. Mathematics: optimization · probability · convex geometry. Difficulty: ★★★ hard.*
+*Tags: interpretability · sparse autoencoders · mechanistic interpretability · superposition · optimization · probability · convex geometry. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 When a sparse autoencoder reports several atoms for one concept, has it failed, or has it faithfully tiled a feature that was never a single direction? Practitioners call the phenomenon feature splitting, but in the standard generative model a feature *is* one direction, so splitting cannot even be stated there. This problem smears each feature over a spherical cap and asks for the full phase diagram: recovery, splitting, and merging in one two-feature model.
 

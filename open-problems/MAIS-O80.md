@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O80 · posed in [MAIS-A7](../agendas/A7/) as [Problem 3.14](../agendas/A7/MAIS-A7.tex#L481) · Status: open.*
 
-*Safety: generalization — training dynamics · singular learning theory · developmental interpretability. Mathematics: algebraic geometry · combinatorics. Difficulty: ★★★ hard.*
+*Tags: generalization · training dynamics · singular learning theory · developmental interpretability · algebraic geometry · combinatorics. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Two bookkeepings claim to govern stagewise learning, and they live on different objects. For a target $f\colon \lbrace -1,1\rbrace ^d \to \mathbb{R}$, expand in the Fourier–Walsh basis $f = \sum_{S \subseteq [d]} \hat f(S) \chi_S$ with $\chi_S(x) = \prod_{i \in S} x_i$, let $\mathcal{S}(f) = \lbrace  S : \hat f(S) \neq 0 \rbrace $ be the support, and define the **leap**
 

@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O55 · posed in [MAIS-A5](../agendas/A5/) as [Problem 5.5](../agendas/A5/MAIS-A5.tex#L280) · Status: open.*
 
-*Safety: interpretability — mechanistic interpretability · training dynamics · universality of circuits · monosemanticity. Mathematics: dynamical systems · representation theory · probability. Difficulty: ★★★ hard.*
+*Tags: interpretability · mechanistic interpretability · training dynamics · universality of circuits · monosemanticity · dynamical systems · representation theory · probability. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 The smallest nonabelian group keeps the whole selection question on one line: $S_3$ has two nontrivial irreducible representations, the sign $\mathrm{sgn}$ (dimension 1) and the standard $\mathrm{std}$ (dimension 2, the only faithful one), so a trained network's visible representations form one of just four subsets of $\lbrace \mathrm{sgn}, \mathrm{std}\rbrace $. Which subset does training choose, and does every neuron commit to a single representation?
 

@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O14 · posed in [MAIS-A1](../agendas/A1/) as [Question 4.5](../agendas/A1/MAIS-A1.tex#L374) · Status: open.*
 
-*Safety: cooperative AI, agent foundations — Löbian cooperation · proof-based agents · bounded rationality. Mathematics: logic. Difficulty: ★★★ hard.*
+*Tags: cooperative AI · agent foundations · Löbian cooperation · proof-based agents · bounded rationality · logic. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 For which proof budgets does the parametric bounded Löb theorem hold? Above a certain growth rate it is a theorem; below, it provably fails; between the two lies an undecided logarithmic window — the scale at which a budget can just afford to write down the numeral of its own parameter.
 

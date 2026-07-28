@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O44 · posed in [MAIS-A4](../agendas/A4/) as [Problem 5.4](../agendas/A4/MAIS-A4.tex#L373) · Status: open.*
 
-*Safety: interpretability — training for interpretability · superposition. Mathematics: optimization · harmonic analysis · probability. Difficulty: ★★ project.*
+*Tags: interpretability · training for interpretability · superposition · optimization · harmonic analysis · probability. Difficulty: ★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 That a regularizer reduces the penalized quantity is a two-line fact about real numbers, true for every loss and every penalty. The mathematical content of "regularize for interpretability" lies in the distance between the penalty available to gradient-based training — a smooth average — and the quantity the interpreter cares about, a max.
 

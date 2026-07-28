@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O86 · posed in [MAIS-A8](../agendas/A8/) as [Question 5.10](../agendas/A8/MAIS-A8.tex#L391) · Status: open.*
 
-*Safety: generalization — goal misgeneralization · proxy goals · simplicity bias · singular learning theory. Mathematics: probability · statistics. Difficulty: ★★★ hard.*
+*Tags: generalization · goal misgeneralization · proxy goals · simplicity bias · singular learning theory · probability · statistics. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Two candidate theories predict what a trained network does off-distribution: the implicit bias of gradient descent, and the Bayesian posterior of the infinite-width Gaussian process prior. On the coin line both make a prediction about the same single number — the probability that the trained agent walks away from a displaced coin — so the theories can be made to disagree, or agree, in a box.
 

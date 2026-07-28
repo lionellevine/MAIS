@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O68 · posed in [MAIS-A6](../agendas/A6/) as [Problem 5.5](../agendas/A6/MAIS-A6.tex#L451) · Status: open.*
 
-*Safety: interpretability, generalization — singular learning theory · developmental interpretability. Mathematics: algebraic geometry · statistics · computational. Difficulty: ★★ project.*
+*Tags: interpretability · generalization · singular learning theory · developmental interpretability · algebraic geometry · statistics · computational. Difficulty: ★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Of all the attention variants, which is closest to the one singular model family that has been solved completely? Drop the softmax from a one-head attention layer and the population loss becomes an explicit polynomial of degree ten — the nearest attention analog of reduced-rank regression, and the variant most likely to fall to existing technology: Newton polyhedra and computer algebra.
 

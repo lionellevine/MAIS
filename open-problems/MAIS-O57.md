@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O57 · posed in [MAIS-A5](../agendas/A5/) as [Problem 5.7](../agendas/A5/MAIS-A5.tex#L296) · Status: open.*
 
-*Safety: interpretability — mechanistic interpretability · universality of circuits · training dynamics. Mathematics: probability · dynamical systems · representation theory. Difficulty: ★★★ hard.*
+*Tags: interpretability · mechanistic interpretability · universality of circuits · training dynamics · probability · dynamical systems · representation theory. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Chughtai, Chan, and Nanda trained the same width-128 network on multiplication in $S_5$ from four random seeds and read off the irreducible representations visible in its outputs: two seeds gave {sign, standard}, one added a 5-dimensional representation, one added standard⊗sign and a 5-dimensional. Is that variation genuine randomness in the limiting ensemble, or a finite-training artifact that longer runs would wash out? No symmetry can force the variation: the outer automorphism group of $S_5$ is trivial, so no automorphism identifies one candidate outcome with another.
 

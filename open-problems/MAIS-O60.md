@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O60 · posed in [MAIS-A5](../agendas/A5/) as [Problem 6.2](../agendas/A5/MAIS-A5.tex#L319) · Status: open.*
 
-*Safety: interpretability — mechanistic interpretability · training dynamics · monosemanticity. Mathematics: dynamical systems · probability · harmonic analysis. Difficulty: ★★ project.*
+*Tags: interpretability · mechanistic interpretability · training dynamics · monosemanticity · dynamical systems · probability · harmonic analysis. Difficulty: ★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Strip the network down to a single rectifier neuron on addition mod $p$. Trained wide networks on this task end up with neurons each committed to one Fourier frequency; here the question is isolated in one neuron: started from a unit-scale Gaussian, does its direction converge, and is the limit a single frequency?
 

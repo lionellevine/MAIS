@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O32 · posed in [MAIS-A2](../agendas/A2/) as [Problem 4.11](../agendas/A2/MAIS-A2.tex#L350) · Status: open.*
 
-*Safety: interpretability — world-model extraction · eliciting latent knowledge · black-box evaluation. Mathematics: probability · combinatorics. Difficulty: ★★ project.*
+*Tags: interpretability · world-model extraction · eliciting latent knowledge · black-box evaluation · probability · combinatorics. Difficulty: ★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 A theorem of Richens, Abel, Bellot, and Everitt extracts an environment's transition probabilities from an agent that achieves multi-step goals, using no interventions at all: an optimal agent's *first action*, on goals of the form "achieve this transition at most $k$ times in $n$ tries, or else more than $k$ times," reveals binomial medians, and sweeping $k$ pins each transition probability to a window of width $O(1/n)$, where $n$ is the depth of the goals the agent can handle. Is $1/n$ the true resolution limit of goal-based tomography, or an artifact of reading only binomial medians?
 

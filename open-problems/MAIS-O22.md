@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O22 · posed in [MAIS-A1](../agendas/A1/) as [Question 8.2](../agendas/A1/MAIS-A1.tex#L557) · Status: open.*
 
-*Safety: cooperative AI, agent foundations — Löbian cooperation · proof-based agents · bounded rationality. Mathematics: logic. Difficulty: ★★★ hard.*
+*Tags: cooperative AI · agent foundations · Löbian cooperation · proof-based agents · bounded rationality · logic. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Solovay's theorem says Gödel–Löb logic $\mathsf{GL}$ proves a modal formula if and only if every arithmetical realization of it is a theorem of Peano arithmetic. The bounded soundness conjecture ([MAIS-O19](MAIS-O19.md)) is one half of a bounded analogue: every $\mathsf{GL}$-law should remain a law when each box is read as "provable within $k^{c_j}$ symbols." The completeness half should say that non-laws stay non-laws under every choice of budgets — but the quantifiers can be placed in several inequivalent ways, and choosing among them is part of the problem.
 

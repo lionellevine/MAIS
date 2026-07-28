@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O87 · posed in [MAIS-A8](../agendas/A8/) as [Question 6.2](../agendas/A8/MAIS-A8.tex#L443) · Status: open.*
 
-*Safety: generalization — goal misgeneralization · proxy goals · training dynamics. Mathematics: dynamical systems · probability. Difficulty: ★★ project.*
+*Tags: generalization · goal misgeneralization · proxy goals · training dynamics · dynamical systems · probability. Difficulty: ★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Reinforcement learning changes the coin problem in one essential way: the training data become endogenous, since the states an agent experiences depend on the policy it currently has. A policy that has already committed to "move right" receives corrective signal from a left-lying coin only on episodes where it happens to random-walk left far enough to collect it, an event whose probability the proxy itself drives toward zero. Misgeneralization protects itself. Is the protection strong enough to last forever?
 

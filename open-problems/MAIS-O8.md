@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O8 · headline problem 8 of the survey [MAIS-P1](../papers/P1/) · canonically formalized in [MAIS-A8](../agendas/A8/) as [Problem 5.1](../agendas/A8/MAIS-A8.tex#L267) · Status: open.*
 
-*Safety: generalization — goal misgeneralization · proxy goals · simplicity bias · training dynamics. Mathematics: probability · optimization · dynamical systems. Difficulty: ★★★ hard.*
+*Tags: generalization · goal misgeneralization · proxy goals · simplicity bias · training dynamics · probability · optimization · dynamical systems. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 In 2022, Langosco et al. trained a reinforcement-learning agent to collect a coin in a side-scrolling video game. In every training level the coin sat at the far right end; when the experimenters moved it, the agent ran right past it to the end of the level. It had learned "move right," not "get the coin" — two policies that agree on every training level, so the data could not distinguish them. Yet training reliably produced one and not the other. Something chose, and it was not the data.
 

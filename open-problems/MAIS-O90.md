@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O90 · posed in [MAIS-A8](../agendas/A8/) as [Problem 7.3](../agendas/A8/MAIS-A8.tex#L469) · Status: open.*
 
-*Safety: generalization — goal misgeneralization · proxy goals · training dynamics. Mathematics: probability · optimization. Difficulty: ★★ project.*
+*Tags: generalization · goal misgeneralization · proxy goals · training dynamics · probability · optimization. Difficulty: ★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 In the kernel limit the verdict on the coin line is proved: the zero-diversity kernel gradient flow drives the off-distribution probe logit to $+\infty$, so the infinite-width lazy network walks away from a displaced coin. The finite-width statement is open, and it is the one the selection problem actually needs.
 

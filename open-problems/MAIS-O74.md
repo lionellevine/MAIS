@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O74 · posed in [MAIS-A7](../agendas/A7/) as [Conjecture 3.5](../agendas/A7/MAIS-A7.tex#L263) · Status: open.*
 
-*Safety: generalization — singular learning theory · training dynamics. Mathematics: probability · algebraic geometry. Difficulty: ★★ project.*
+*Tags: generalization · singular learning theory · training dynamics · probability · algebraic geometry. Difficulty: ★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Take a double-well landscape where one well is not a point but a singular set, and the pass between the wells is an ordinary Morse saddle. The classical Eyring–Kramers formula gives the mean crossing time with a constant prefactor; this conjecture says the singular well contributes a power of the temperature, with exponent read off from Watanabe's learning coefficient.
 

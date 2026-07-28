@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O5 · headline problem 5 of the survey [MAIS-P1](../papers/P1/) · canonically formalized in [MAIS-A5](../agendas/A5/) as [Problem 5.1](../agendas/A5/MAIS-A5.tex#L234) · Status: open.*
 
-*Safety: interpretability — mechanistic interpretability · universality of circuits · training dynamics. Mathematics: dynamical systems · probability · representation theory. Difficulty: ★★★ hard.*
+*Tags: interpretability · mechanistic interpretability · universality of circuits · training dynamics · dynamical systems · probability · representation theory. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Train a small network to multiply in $S_5$ and read off which irreducible representations its weights use. Chughtai, Chan, and Nanda did this four times from four random initializations and got four answers: {sign, standard, standard⊗sign, a 5-dimensional}; {sign, standard}; {sign, standard, the other 5-dimensional}; {sign, standard}. The algorithm family is universal — logits are positive combinations of characters $\chi_\rho(abc^{-1})$, peaked at the correct product — but the instance is chosen by the seed. Interpretability findings transfer across training runs only to the extent that this choice is predictable, so the problem asks for its law.
 

@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O24 · posed in [MAIS-A2](../agendas/A2/) as [Problem 4.2](../agendas/A2/MAIS-A2.tex#L265) · Status: open.*
 
-*Safety: interpretability — world-model extraction · eliciting latent knowledge · black-box evaluation. Mathematics: algebraic geometry · probability · complexity theory. Difficulty: ★★ project.*
+*Tags: interpretability · world-model extraction · eliciting latent knowledge · black-box evaluation · algebraic geometry · probability · complexity theory. Difficulty: ★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 The theorem behind behavioral world-model extraction — near-optimal adaptation to all local interventions determines the agent's causal model — holds for almost every parameter choice, with the exceptions described only as the vanishing locus of polynomials arising in the proof. Finite-sample statements need more: an explicit, efficiently checkable hypothesis in place of "almost every." This problem asks for the polynomials by name.
 

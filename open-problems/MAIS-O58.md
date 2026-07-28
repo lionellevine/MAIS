@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O58 · posed in [MAIS-A5](../agendas/A5/) as [Question 5.8](../agendas/A5/MAIS-A5.tex#L305) · Status: open.*
 
-*Safety: interpretability — mechanistic interpretability · training dynamics · universality of circuits. Mathematics: probability · harmonic analysis · dynamical systems. Difficulty: ★★★ hard.*
+*Tags: interpretability · mechanistic interpretability · training dynamics · universality of circuits · probability · harmonic analysis · dynamical systems. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 When a network learns addition mod $p$, it expresses its outputs through a sparse random set of the $(p-1)/2$ Fourier frequencies. One symmetry of that random set is a theorem: the automorphisms of $C_p$ act on frequencies by $\zeta \mapsto t\zeta$ for $t \in (\mathbb{Z}/p\mathbb{Z})^\times$, the training ensemble is invariant under them, and they act transitively, so every frequency is learned with the same probability. But multiplication does not act transitively on *pairs* or on $k$-element sets of frequencies. Could training prefer multiplicatively structured sets, say geometric progressions $\lbrace \zeta, 2\zeta, 4\zeta, \dots\rbrace $?
 

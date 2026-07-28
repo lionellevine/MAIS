@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O39 · posed in [MAIS-A3](../agendas/A3/) as [Problem 4.9](../agendas/A3/MAIS-A3.tex#L297) · Status: open.*
 
-*Safety: interpretability — sparse autoencoders · mechanistic interpretability · superposition. Mathematics: optimization · statistics. Difficulty: ★★★ hard.*
+*Tags: interpretability · sparse autoencoders · mechanistic interpretability · superposition · optimization · statistics. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 A sparse autoencoder never solves the sparse-coding program it is named for. Instead of computing the optimal code for each data point, it applies one learned affine-plus-ReLU map — cheap, but not optimal. O'Neill, Gumran, and Klindt proved this shortcut can produce inaccurate *codes*; whether it moves the minimizing *dictionary*, the object interpretability actually reads off, is open.
 

@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O88 · posed in [MAIS-A8](../agendas/A8/) as [Problem 6.3](../agendas/A8/MAIS-A8.tex#L447) · Status: open.*
 
-*Safety: generalization — goal misgeneralization · proxy goals · training dynamics. Mathematics: probability · dynamical systems. Difficulty: ★★★ hard.*
+*Tags: generalization · goal misgeneralization · proxy goals · training dynamics · probability · dynamical systems. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Langosco et al. plotted how often their trained coin collector ignores a displaced coin against the percentage of training levels with a randomized coin, and found the failure rate falls steeply: about 2% diversity largely restores the intended behavior. The coin line is small enough to ask for that curve as a theorem.
 

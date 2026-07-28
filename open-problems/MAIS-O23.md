@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O23 · posed in [MAIS-A2](../agendas/A2/) as [Question 4.1](../agendas/A2/MAIS-A2.tex#L259) · Status: open.*
 
-*Safety: interpretability — world-model extraction · eliciting latent knowledge · black-box evaluation. Mathematics: algebraic geometry · probability. Difficulty: ★★★ hard.*
+*Tags: interpretability · world-model extraction · eliciting latent knowledge · black-box evaluation · algebraic geometry · probability. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 If two agents act optimally in every locally tampered version of an environment, masked observations included, must they hold the same causal model of it? Richens and Everitt answered yes for Lebesgue-almost-every parameter choice, and world-model extraction from behavior rests on this. But the exceptional null set is described only implicitly, as the vanishing locus of polynomials arising in their proof, and an auditor cannot check membership in an unnamed null set.
 

@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O50 · posed in [MAIS-A4](../agendas/A4/) as [Question 5.10](../agendas/A4/MAIS-A4.tex#L482) · Status: open.*
 
-*Safety: interpretability, generalization — training dynamics · training for interpretability · monosemanticity · superposition · simplicity bias. Mathematics: dynamical systems · probability · optimization. Difficulty: ★★★ hard.*
+*Tags: interpretability · generalization · training dynamics · training for interpretability · monosemanticity · superposition · simplicity bias · dynamical systems · probability · optimization. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 When a task has both a legible optimum and a scrambled one at the same loss, the network we get is decided not by minimization but by the optimizer. What law does gradient flow from random weights induce on the set of minima?
 

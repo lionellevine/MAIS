@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O42 · posed in [MAIS-A3](../agendas/A3/) as [Problem 5.2](../agendas/A3/MAIS-A3.tex#L336) · Status: open.*
 
-*Safety: interpretability — superposition · mechanistic interpretability. Mathematics: optimization · harmonic analysis. Difficulty: ★★ project.*
+*Tags: interpretability · superposition · mechanistic interpretability · optimization · harmonic analysis. Difficulty: ★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Five points on or inside a circle, repelling one another through a ReLU: prove the regular pentagon wins. This is the pentagon conjecture for the superposition toy model ([MAIS-O40](MAIS-O40.md)) with the interaction between sparsity levels stripped away, leaving a pure packing energy.
 

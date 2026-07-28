@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O82 · posed in [MAIS-A8](../agendas/A8/) as [Conjecture 5.2](../agendas/A8/MAIS-A8.tex#L280) · Status: open.*
 
-*Safety: generalization — goal misgeneralization · proxy goals · simplicity bias. Mathematics: probability · optimization. Difficulty: ★★★ hard.*
+*Tags: generalization · goal misgeneralization · proxy goals · simplicity bias · probability · optimization. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 An agent trained to collect a coin that always sat at the right end of its levels learned "move right," not "get the coin" — two rules that agree on every training level and disagree the moment the coin moves. Predicting *which* of two training-indistinguishable policies gradient descent selects is the mathematical core of goal misgeneralization.
 

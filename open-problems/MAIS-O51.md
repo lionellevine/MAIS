@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O51 · posed in [MAIS-A4](../agendas/A4/) as [Example 6.1](../agendas/A4/MAIS-A4.tex#L504) · Status: open.*
 
-*Safety: interpretability — training for interpretability · superposition. Mathematics: optimization · probability. Difficulty: ★ starter.*
+*Tags: interpretability · training for interpretability · superposition · optimization · probability. Difficulty: ★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Two features, one dimension: the smallest network that must choose what to forget. Elhage et al. solved the unregularized case; nobody has analyzed it with the interference penalty that "training for interpretability" would actually add.
 

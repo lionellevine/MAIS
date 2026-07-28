@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O59 · posed in [MAIS-A5](../agendas/A5/) as [Problem 6.1](../agendas/A5/MAIS-A5.tex#L313) · Status: open.*
 
-*Safety: interpretability — mechanistic interpretability · training dynamics · universality of circuits · monosemanticity. Mathematics: dynamical systems · probability · harmonic analysis. Difficulty: ★★ project.*
+*Tags: interpretability · mechanistic interpretability · training dynamics · universality of circuits · monosemanticity · dynamical systems · probability · harmonic analysis. Difficulty: ★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Addition mod 5 has two Fourier frequencies; give the network exactly two quadratic neurons, and the competition between representations for a finite supply of neurons appears in its smallest form. The whole system is an explicit polynomial ODE on $\mathbb{R}^{30}$ with Gaussian initial data — small enough to attack directly, and the smallest open case of the headline selection problem [MAIS-O5](MAIS-O5.md).
 

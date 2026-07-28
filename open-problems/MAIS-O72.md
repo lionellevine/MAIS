@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O72 · posed in [MAIS-A7](../agendas/A7/) as [Question 3.1](../agendas/A7/MAIS-A7.tex#L215) · Status: open.*
 
-*Safety: generalization — singular learning theory · developmental interpretability. Mathematics: algebraic geometry. Difficulty: ★★★ hard.*
+*Tags: generalization · singular learning theory · developmental interpretability · algebraic geometry. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Singular learning theory predicts that Bayesian learning selects, among the zero-loss parameters of a network, the flattest ones — those of smallest learning coefficient. Any theorem about "effective dynamics on the strata" of the optimal set presupposes that the level sets of the learning coefficient are honest geometric objects. Are they?
 

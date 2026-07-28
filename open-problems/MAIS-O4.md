@@ -2,7 +2,9 @@
 
 *Open problem MAIS-O4 · headline problem 4 of the survey [MAIS-P1](../papers/P1/) · canonically formalized in [MAIS-A4](../agendas/A4/) as [Problem 5.1](../agendas/A4/MAIS-A4.tex#L322) · Status: open.*
 
-*Safety: interpretability — training for interpretability · superposition. Mathematics: optimization · convex geometry · probability. Difficulty: ★★★ hard.*
+*Tags: interpretability · training for interpretability · superposition · optimization · convex geometry · probability. Difficulty: ★★★.*
+
+*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 A network asked to store more features than it has dimensions must let them interfere. Post-hoc interpretability deciphers whatever storage scheme training happened to invent; the complementary problem is to train networks whose features are legible in the first place, and to know what that legibility costs in performance.
 
