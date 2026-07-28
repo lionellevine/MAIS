@@ -18,6 +18,11 @@ Each document carries a unique permanent identifier — **MAIS-On** for open pro
 
 The [open-problem index](open-problems/README.md) is the full registry, and the [agenda guide](agendas/README.md#where-to-start) offers a first foothold in each research direction. Conventions for numbering, structure, and building live in [HOUSEKEEPING.md](HOUSEKEEPING.md).
 
+## Getting started in AI safety
+
+- [AI-Safety for Mathematicians](https://mathforaisafety.org) — a starting point for professional mathematicians who want to engage with AI safety, maintained by Jacob Tsimerman.
+- [The Alignment Project](https://alignmentproject.aisi.gov.uk/research-agenda) — the research agenda of a UK AISI–led coalition funding alignment research; several of its priority areas are mathematical.
+
 ## Contributing
 
 Contributions of every size are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md).
