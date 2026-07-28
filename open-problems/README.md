@@ -1,14 +1,12 @@
 # Math for AI Safety: Master list of open problems
 
-Each open problem here opens with its AI safety motivation, gives enough context to understand the statement, then states the problem as precise mathematics — with a link into the [research agenda](../agendas/) that carries its full context.
+Each open problem here opens with its AI safety motivation, with a link into the [research agenda](../agendas/) that carries its full context.
 
-All of them are open as of July 2026; when a problem is resolved, its row will say so. Have you solved one of them? Have a promising line of attack? Or want to correct a problem statement? [Open an issue](https://github.com/lionellevine/MAIS/issues/new/choose).
+All problems listed here are open as of July 2026; when a problem is resolved, its row will say so. Have you solved one of them? Have a promising line of attack? Want to correct a problem statement? [Open an issue](https://github.com/lionellevine/MAIS/issues/new/choose).
 
 Note: Some of these problems sit deliberately on the easier side, to give mathematicians an entry point into AI safety. That means AI may get you most of the way to a solution. I see this as a feature, not a bug: the goal is to advance AI safety, not to curate problems that resist automation.
 
-Stars indicate difficulty: ★ a starter you could begin today, ★★ a research project of paper scope, ★★★ likely to need a new idea.
-
-Problems whose deliverable is a computation rather than a proof are tagged *empirical*.
+Stars indicate estimated difficulty. Problems whose deliverable is a computation rather than a proof are tagged *empirical*.
 
 | # | Problem | Safety | Mathematics | ★ |
 |---|---------|--------|-------------|---|
