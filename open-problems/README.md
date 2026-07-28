@@ -1,4 +1,4 @@
-# Open problems
+# Math for AI Safety: Master list of open problems
 
 Each open problem here opens with its AI safety motivation, gives enough context to understand the statement, then states the problem as precise mathematics — with a link into the [research agenda](../agendas/) that carries its full context.
 
