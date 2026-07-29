@@ -1,6 +1,6 @@
 # Learning coefficients on the matrix factorization fiber and saddles
 
-*Open problem MAIS-O77 · posed in [MAIS-A7](../agendas/A7/) as [Problem 3.9](../agendas/A7/MAIS-A7.tex#L358) · Status: open.*
+*Open problem MAIS-O77 · posed in [MAIS-A7](../agendas/A7/) as [Problem 3.9](../agendas/A7/MAIS-A7.tex#L359) · Status: open.*
 
 *Tags: generalization · singular learning theory · developmental interpretability · algebraic geometry. Difficulty: ★★.*
 
@@ -14,11 +14,23 @@ $$\mathrm{vol}\bigl\lbrace  w \in B_\delta(w^\ast) : |L(w) - L(w^\ast)| < \varep
 
 At a local minimum this is the local learning coefficient of Lau et al. ([arXiv:2308.12108](https://arxiv.org/abs/2308.12108)), Watanabe's real log canonical threshold; at a saddle the two-sided absolute value is one of several inequivalent choices, deliberately fixed here.
 
-**Problem ([MAIS-A7, Problem 3.9](../agendas/A7/MAIS-A7.tex#L358); λ-stratification of the fiber and its saddles).** For the loss $L(A,B) = \tfrac12 \Vert  BA - \Phi \Vert _F^2$ with $H > r$:
+One entry of the table is classical: Aoyagi and Watanabe (2005) computed the minimal value of $\lambda$ over the fiber, the learning coefficient of reduced rank regression, by a resolution of singularities carried out by hand. When $N + r \le M + H$, $M + r \le N + H$, and $H + r \le M + N$,
+
+$$\lambda = \frac{2(H+r)(M+N) - (M-N)^2 - (H+r)^2 + [\,M{+}H{+}N{+}r\ \text{odd}\,]}{8}$$
+
+(the bracket contributing $1$ when its condition holds), with $m = 2$ if $M+H+N+r$ is odd and $m = 1$ if even; the three remaining cases give simpler quadratic values with $m = 1$. These global values are attained at the most degenerate points of the fiber, so the minimal stratum in part (a) means the stratum on which $\lambda$ attains this minimum.
+
+**Problem ([MAIS-A7, Problem 3.9](../agendas/A7/MAIS-A7.tex#L359); λ-stratification of the fiber and its saddles).** For the loss $L(A,B) = \tfrac12 \Vert  BA - \Phi \Vert _F^2$ with $H > r$:
 
 - **(a)** Compute the local invariants $(\lambda(w), m(w))$ at every point $w \in F_\Phi$, and identify the minimal stratum. Determine whether the invariants depend only on the pair $(\mathrm{rank}\  A, \mathrm{rank}\  B)$. The minimal value is the Aoyagi–Watanabe theorem (the learning coefficient of reduced rank regression). There is partial progress: Lehalleur and Rimányi ([arXiv:2411.19920](https://arxiv.org/abs/2411.19920)) determine the components and codimensions of such fibers at any depth and compute the threshold of the zero-target fiber, and Lau et al. give closed-form local values at parameters of each product rank as ground truth for their estimator. These results do not determine the dependence on the two ranks separately, the edge cases, or any of part (b). Aoyagi's recursive blow-ups are the natural tool.
 - **(b)** Compute the two-sided invariants $(\lambda(w), m(w))$ at every point of each saddle set $C_k$, $0 \le k < r$.
 
 The table is what the rest of the agenda consumes: the SGD limit theorem ([MAIS-O76](MAIS-O76.md)) and the time–sample dictionary ([MAIS-O78](MAIS-O78.md)) both take it as input, and part (b) is the substance of the opposing-staircases conjecture, which asserts that $\lambda_k = \inf_{C_k} \lambda$ strictly increases along the saddle chain while the loss decreases. A weekend's preliminary: run the estimator of Lau et al. along a simulated staircase and check numerically before proving. See [MAIS-A7](../agendas/A7/), Sections 2.4 and 3.5.
+
+## References
+
+- Aoyagi, M., and Watanabe, S. (2005). Stochastic complexities of reduced rank regression in Bayesian estimation. *Neural Networks* 18(7), 924–933.
+- Lehalleur, S. P., and Rimányi, R. (2024). Geometry of fibers of the multiplication map of deep linear neural networks. [arXiv:2411.19920](https://arxiv.org/abs/2411.19920).
+- Lau, E., Furman, Z., Wang, G., Murfet, D., and Wei, S. (2023). The local learning coefficient: a singularity-aware complexity measure. [arXiv:2308.12108](https://arxiv.org/abs/2308.12108).
 
 *Related: [MAIS-O7](MAIS-O7.md) (opposing staircases, whose invariants this problem computes) · [MAIS-O70](MAIS-O70.md) (local learning coefficients of reduced-rank regression, the same object from the estimation side) · [MAIS-O76](MAIS-O76.md) (the SGD diffusion on this fiber) · [MAIS-O78](MAIS-O78.md) (the dictionary that consumes the table).*

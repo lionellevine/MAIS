@@ -1,6 +1,6 @@
 # Free energy asymptotics for continuous-input ReLU networks
 
-*Open problem MAIS-O71 · posed in [MAIS-A6](../agendas/A6/) as [Question 9.2](../agendas/A6/MAIS-A6.tex#L544) · Status: open.*
+*Open problem MAIS-O71 · posed in [MAIS-A6](../agendas/A6/) as [Question 9.2](../agendas/A6/MAIS-A6.tex#L545) · Status: open.*
 
 *Tags: interpretability · generalization · singular learning theory · developmental interpretability · algebraic geometry · probability · statistics. Difficulty: ★★★.*
 
@@ -10,7 +10,7 @@ Watanabe's free energy expansion — the theorem that makes the learning coeffic
 
 The setup. Given $n$ i.i.d. examples from a truth, the **free energy** is $F_n = -\log \int_W \prod_{i=1}^n p(Y_i \mid X_i, w)\ \varphi(w)\ dw$, and $S_n = -\frac1n \sum_i \log q(Y_i \mid X_i)$ is the empirical entropy of the truth. The **population loss** $K(w)$ is the average over inputs of the KL divergence from the truth to the model; for the Gaussian model below, $K(w) = \tfrac12\ \mathbb{E}_x\bigl(f_w(x) - f_{w^0}(x)\bigr)^2$. For real-analytic $K$, Watanabe proved $F_n = nS_n + \lambda \log n - (m-1)\log\log n + O_p(1)$, where the pair $(\lambda, m)$ is also the volume-growth exponent and log-power of the almost-true parameter set $\lbrace K \le \varepsilon\rbrace $. The question asks for the same conclusion for a ReLU network with continuous inputs, where $K$ is only subanalytic.
 
-**Question ([MAIS-A6, Question 9.2](../agendas/A6/MAIS-A6.tex#L544)).** Fix $r, H \ge 1$ and
+**Question ([MAIS-A6, Question 9.2](../agendas/A6/MAIS-A6.tex#L545)).** Fix $r, H \ge 1$ and
 
 $$f_w(x) = c + \sum_{j=1}^{H} v_j \max(a_j \cdot x + b_j,\  0), \qquad x \in [-1,1]^r,$$
 
@@ -23,5 +23,11 @@ and
 $$F_n = n S_n + \lambda \log n - (m-1)\log\log n + O_p(1).$$
 
 Both displays are part of the claim: the volume asymptotics (which subanalytic integration theory of Lion–Rolin makes plausible) and, harder, that the same pair $(\lambda, m)$ controls the free energy once the ReLU breakpoints range over a continuum. The finite-input reduction, which this question is designed to outgrow, is agenda Remark 9.1; known free-energy upper bounds for deep ReLU networks (Nagayasu–Watanabe) do not give the expansion. Background on the analytic theory is in [MAIS-A6](../agendas/A6/).
+
+## References
+
+- S. Watanabe, *Algebraic Geometry and Statistical Learning Theory*, Cambridge University Press, 2009.
+- J.-M. Lion and J.-P. Rolin, *Intégration des fonctions sous-analytiques et volumes des sous-ensembles sous-analytiques*, Annales de l'Institut Fourier 48 (1998), no. 3, 755–767.
+- S. Nagayasu and S. Watanabe, *Bayesian free energy of deep ReLU neural network in overparametrized cases*, 2023. [arXiv:2303.15739](https://arxiv.org/abs/2303.15739)
 
 *Related: [MAIS-O72](MAIS-O72.md) (foundational structure of learning-coefficient strata) · [MAIS-O81](MAIS-O81.md) (whether a saddle has a well-defined free energy) · [MAIS-O63](MAIS-O63.md) (the analytic test case this question extends beyond).*

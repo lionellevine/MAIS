@@ -1,6 +1,6 @@
 # Loss frontier for neuron-feature alignment under a bottleneck
 
-*Open problem MAIS-O48 · posed in [MAIS-A4](../agendas/A4/) as [Problem 5.8](../agendas/A4/MAIS-A4.tex#L437) · Status: open.*
+*Open problem MAIS-O48 · posed in [MAIS-A4](../agendas/A4/) as [Problem 5.8](../agendas/A4/MAIS-A4.tex#L438) · Status: open.*
 
 *Tags: interpretability · training for interpretability · monosemanticity · optimization · probability. Difficulty: ★★.*
 
@@ -10,7 +10,7 @@ A hidden neuron that reads a single feature can be labeled; one that mixes sever
 
 The model is a two-layer autoencoder whose ReLU hidden layer makes the neuron basis privileged. Data $x\in\mathbb{R}^m$ has independent coordinates, each zero with probability $S$ and otherwise uniform on $[0,1]$. Parameters are $\theta=(W,\beta,V,c)$ with $W\in\mathbb{R}^{k\times m}$, $\beta\in\mathbb{R}^k$, $V\in\mathbb{R}^{m\times k}$, $c\in\mathbb{R}^m$; the network is $g_\theta(x)=\mathrm{ReLU}\bigl(V\ \mathrm{ReLU}(Wx+\beta)+c\bigr)$ with loss $L'_{m,k,S}(\theta)=\mathbb{E}\ \Vert x-g_\theta(x)\Vert _2^2$. Neuron $j$ has input row $W_{j\cdot}$ and **alignment** $M_j(W)=\max_i W_{ji}^2/\Vert W_{j\cdot}\Vert _2^2$, the fraction of its input weight on its favorite feature; the **monosemanticity index** $M(\theta)$ is the minimum of $M_j$ over nonzero rows ($M=1$ if $W=0$). The agenda proves that when neurons are plentiful ($k\ge m$) the loss is blind to $M$ — perfectly aligned and maximally scrambled networks both reach loss zero — so the question with content is the bottlenecked case $k<m$, where the fully aligned value is exactly $(m-k)\ v(S)$ with $v(S)=(1-S)(1+3S)/12$ the cost of ignoring one feature.
 
-**Problem ([MAIS-A4, Problem 5.8](../agendas/A4/MAIS-A4.tex#L437)).** For $k<m$, $S\in(0,1)$, $\delta\in[0,1]$, define
+**Problem ([MAIS-A4, Problem 5.8](../agendas/A4/MAIS-A4.tex#L438)).** For $k<m$, $S\in(0,1)$, $\delta\in[0,1]$, define
 
 $$P'_{m,k,S}(\delta) \ =\  \inf\bigl\lbrace \ L'_{m,k,S}(\theta)\ :\ M(\theta)\ge 1-\delta\ \bigr\rbrace ,$$
 
@@ -19,6 +19,12 @@ so that $P'_{m,k,S}(0)=(m-k)\ v(S)$.
 1. Determine $\delta^\ast (m,k,S)=\inf\lbrace \delta\in[0,1] : P'_{m,k,S}(\delta)<P'_{m,k,S}(0)\rbrace $, with the convention $\delta^\ast =1$ when the set is empty. Is $\delta^\ast =0$ for all $S$ close to $1$ (any polysemanticity budget helps), or is there a threshold?
 2. Jermyn et al. observe monosemantic and polysemantic local minima in a related architecture with randomly projected inputs and a linear unbiased output layer. For the architecture above, exhibit $(m,k,S)$ and two local minima of $L'_{m,k,S}$ with $M=1$ and $M\le\tfrac12$ respectively, whose losses differ by less than $v(S)/10$.
 
-In words: $P'(\delta)$ is the best loss achievable when every neuron must put at least a $1-\delta$ fraction of its squared input weight on one feature, and $\delta^\ast $ is the impurity threshold at which relaxing purity first beats the fully aligned optimum. Part (2) asks for nearby monosemantic and polysemantic local minima in this specific architecture, the situation in which training dynamics, not loss values, decide legibility. The plentiful-regime propositions and the bottleneck computation are in [MAIS-A4](../agendas/A4/).
+In words: $P'(\delta)$ is the best loss achievable when every neuron must put at least a $1-\delta$ fraction of its squared input weight on one feature, and $\delta^\ast $ is the impurity threshold at which relaxing purity first beats the fully aligned optimum. The reference in part (2) is to Jermyn, Schiefer, and Hubinger, *Engineering monosemanticity in toy models* ([arXiv:2211.09169](https://arxiv.org/abs/2211.09169)), whose architecture differs in that the sparse features are first passed through a random projection and the output layer is linear with no output bias; there both monosemantic and polysemantic local minima occur, and they engineer monosemanticity by steering which kind training finds. Part (2) asks for nearby monosemantic and polysemantic local minima in this specific architecture, the situation in which training dynamics, not loss values, decide legibility. The closest theory so far, a rate–distortion–polysemanticity tradeoff proved by Mencattini, Montagna, and Locatello for a post-hoc sparse autoencoder with a linear decoder, does not determine the frontier $P'_{m,k,S}$ of the jointly trained ReLU-output network here. The plentiful-regime propositions and the bottleneck computation are in [MAIS-A4](../agendas/A4/).
+
+## References
+
+- Jermyn, A. S., Schiefer, N., and Hubinger, E. (2022). Engineering monosemanticity in toy models. [arXiv:2211.09169](https://arxiv.org/abs/2211.09169)
+- Mencattini, I., Montagna, F., and Locatello, F. (2026). The rate–distortion–polysemanticity tradeoff in sparse autoencoders. [arXiv:2605.14694](https://arxiv.org/abs/2605.14694)
+- Elhage, N., et al. (2022). Toy models of superposition. *Transformer Circuits Thread*. [arXiv:2209.10652](https://arxiv.org/abs/2209.10652)
 
 *Related: [MAIS-O4](MAIS-O4.md) (the analogous frontier with coherence in place of alignment) · [MAIS-O50](MAIS-O50.md) (part 3 asks what gradient flow selects for $M$) · [MAIS-O49](MAIS-O49.md) (wiring sparsity, a sibling legibility constraint) · [MAIS-O60](MAIS-O60.md) (single-neuron alignment in a different model organism).*
