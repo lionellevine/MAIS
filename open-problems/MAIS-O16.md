@@ -12,7 +12,7 @@ In a **program game**, each player is an algorithm handed the other's source cod
 
 $$\mathrm{FairBot}_k(\mathrm{Opp}):\ \text{search all proofs of at most } k \text{ symbols for a proof that } \mathrm{Opp}(\mathrm{FairBot}_k)=\mathsf{C};\ \text{if found, play } \mathsf{C}; \text{ otherwise play } \mathsf{D},$$
 
-where the self-reference is implemented by Kleene's recursion theorem. The natural guess is that two copies deadlock, each waiting for the other to prove cooperation first. They do not: the unbounded FairBot of Barász, Christiano, Fallenstein, Herreshoff, LaVictoire, and Yudkowsky [[BCFH+14]](https://arxiv.org/abs/1401.5577) cooperates with its copy by Löb's theorem, and Critch's theorem [[C19]](../references/C19.md) gives a finite threshold $\hat{k}$ above which $\mathrm{FairBot}_k(\mathrm{FairBot}_k)=\mathsf{C}$ — provided the proof system can certify the growth of its own proof-search overhead, a hypothesis never verified for any concrete system.
+where the self-reference is implemented by Kleene's recursion theorem. The natural guess is that two copies deadlock, each waiting for the other to prove cooperation first. They do not: the unbounded FairBot of Barász, Christiano, Fallenstein, Herreshoff, LaVictoire, and Yudkowsky [[BCFH+14]](../references/BCFH+14.md) cooperates with its copy by Löb's theorem, and Critch's theorem [[C19]](../references/C19.md) gives a finite threshold $\hat{k}$ above which $\mathrm{FairBot}_k(\mathrm{FairBot}_k)=\mathsf{C}$ — provided the proof system can certify the growth of its own proof-search overhead, a hypothesis never verified for any concrete system.
 
 What must be certified, in brief: the **expansion function** of a proof system measures the overhead of noticing its own bounded proofs — how long a proof of "$\varphi$ has a proof of at most $m$ symbols" must be, given a proof of $\varphi$ within $m$ symbols — and the **standing expansion certificate** is a single in-system proof of an explicit budget bound on that overhead. Fixing a standard system and encoding, define
 
@@ -27,7 +27,7 @@ Proof *search* need not be the bottleneck: Critch, Dennis, and Russell [[CDR22]]
 ## References
 
 - [[C19]](../references/C19.md) A. Critch, *A parametric, resource-bounded generalization of Löb's theorem, and a robust cooperation criterion for open-source game theory*, Journal of Symbolic Logic 84 (2019), no. 4, 1368–1381. [arXiv:1602.04184](https://arxiv.org/abs/1602.04184)
-- [BCFH+14] M. Barász, P. Christiano, B. Fallenstein, M. Herreshoff, P. LaVictoire, and E. Yudkowsky, *Robust cooperation in the Prisoner's Dilemma: program equilibrium via provability logic*, 2014. [arXiv:1401.5577](https://arxiv.org/abs/1401.5577)
+- [[BCFH+14]](../references/BCFH+14.md) M. Barász, P. Christiano, B. Fallenstein, M. Herreshoff, P. LaVictoire, and E. Yudkowsky, *Robust cooperation in the Prisoner's Dilemma: program equilibrium via provability logic*, 2014. [arXiv:1401.5577](https://arxiv.org/abs/1401.5577)
 - [CDR22] A. Critch, M. Dennis, and S. Russell, *Cooperative and uncooperative institution designs: surprises and problems in open-source game theory*, 2022. [arXiv:2208.07006](https://arxiv.org/abs/2208.07006)
 
 *Related: [MAIS-O1](MAIS-O1.md) (the Löb overhead this threshold depends on) · [MAIS-O17](MAIS-O17.md) (thresholds over families of agents) · [MAIS-O20](MAIS-O20.md) (a bounded Payor lemma).*

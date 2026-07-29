@@ -24,7 +24,7 @@ The off-zero start in part (c) is forced: at a point of $W_0$ both the drift and
 
 ## References
 
-- [BEGK04] A. Bovier, M. Eckhoff, V. Gayrard, M. Klein, *Metastability in reversible diffusion processes I: sharp asymptotics for capacities and exit times*, J. Eur. Math. Soc. 6 (2004), 399–424.
+- [[BEGK04]](../references/BEGK04.md) A. Bovier, M. Eckhoff, V. Gayrard, M. Klein, *Metastability in reversible diffusion processes I: sharp asymptotics for capacities and exit times*, J. Eur. Math. Soc. 6 (2004), 399–424.
 - [W23] S. Wojtowytsch, *Stochastic gradient descent with noise of machine learning type. Part II: continuous time analysis*, J. Nonlinear Sci. 33 (2023), Paper No. 45. [arXiv:2106.02588](https://arxiv.org/abs/2106.02588)
 - [[W09]](../references/W09.md) S. Watanabe, *Algebraic Geometry and Statistical Learning Theory*, Cambridge Monographs on Applied and Computational Mathematics 25, Cambridge University Press, 2009.
 

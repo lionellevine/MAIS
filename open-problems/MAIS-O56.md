@@ -6,7 +6,7 @@
 
 *Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
-How far a mechanistic interpretation of one trained network carries to another depends on whether training selects the same circuits each time. For networks trained on group multiplication, Chughtai, Chan, and Nanda [[CCN23]](https://arxiv.org/abs/2302.03025) found universality in the weak sense only: the trained circuits are built from irreducible characters of the group, but *which* irreducibles appear varies from one random seed to the next.
+How far a mechanistic interpretation of one trained network carries to another depends on whether training selects the same circuits each time. For networks trained on group multiplication, Chughtai, Chan, and Nanda [[CCN23]](../references/CCN23.md) found universality in the weak sense only: the trained circuits are built from irreducible characters of the group, but *which* irreducibles appear varies from one random seed to the next.
 
 A network trained to multiply in $S_3$ has four possible answers to "which irreducible representations are visible in your outputs?": the subsets of $\lbrace \mathrm{sgn}, \mathrm{std}\rbrace $, where $\mathrm{sgn}$ is the sign representation and $\mathrm{std}$ the 2-dimensional standard one. The conjecture: run training to convergence, then let the weight decay tend to zero, and the answer is the full set $\lbrace \mathrm{sgn}, \mathrm{std}\rbrace $ with probability one — deterministic selection in the limit, where at fixed decay even the existence of the limiting law is open ([MAIS-O55](MAIS-O55.md)).
 
@@ -20,7 +20,7 @@ The motivation is a theorem one norm away. Morwani, Edelman, Oncescu, Zhao, and 
 
 ## References
 
-- [CCN23] B. Chughtai, L. Chan, and N. Nanda, *A toy model of universality: reverse engineering how networks learn group operations*, ICML 2023. [arXiv:2302.03025](https://arxiv.org/abs/2302.03025)
+- [[CCN23]](../references/CCN23.md) B. Chughtai, L. Chan, and N. Nanda, *A toy model of universality: reverse engineering how networks learn group operations*, ICML 2023. [arXiv:2302.03025](https://arxiv.org/abs/2302.03025)
 - [[MEOZK24]](../references/MEOZK24.md) D. Morwani, B. L. Edelman, C.-A. Oncescu, R. Zhao, and S. Kakade, *Feature emergence via margin maximization: case studies in algebraic tasks*, ICLR 2024. [arXiv:2311.07568](https://arxiv.org/abs/2311.07568)
 - [WLLM19] C. Wei, J. D. Lee, Q. Liu, and T. Ma, *Regularization matters: generalization and optimization of neural nets v.s. their induced kernel*, NeurIPS 2019. [arXiv:1810.05369](https://arxiv.org/abs/1810.05369)
 

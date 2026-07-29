@@ -20,7 +20,7 @@ The heuristic is a ratio: the well mass is $\varepsilon^{\lambda_A} (\log\tfrac1
 
 ## References
 
-- [BEGK04] A. Bovier, M. Eckhoff, V. Gayrard, and M. Klein, *Metastability in reversible diffusion processes I: sharp asymptotics for capacities and exit times*, J. Eur. Math. Soc. 6 (2004), 399–424.
+- [[BEGK04]](../references/BEGK04.md) A. Bovier, M. Eckhoff, V. Gayrard, and M. Klein, *Metastability in reversible diffusion processes I: sharp asymptotics for capacities and exit times*, J. Eur. Math. Soc. 6 (2004), 399–424.
 - [[W09]](../references/W09.md) S. Watanabe, *Algebraic Geometry and Statistical Learning Theory*, Cambridge University Press, 2009.
 - [Del26] L. Delande, *Sharp spectral gap for some degenerate Witten Laplacians*, Ann. Henri Poincaré (2026). [arXiv:2410.21899](https://arxiv.org/abs/2410.21899)
 

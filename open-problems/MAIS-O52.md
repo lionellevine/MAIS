@@ -16,13 +16,13 @@ $$\limsup_{p \to \infty} \  \limsup_{t \to \infty} \  \frac{\mathbb{E}\  N_\delt
 
 is it zero (*sparse* regime, as observed experimentally) or positive (*dense* regime, as in the $\ell_{2,3}$ maximum-margin model and quadratic experiments of Morwani et al.)? In the sparse case, determine the growth rate of $\limsup_t \mathbb{E} N_\delta$ in $p$. (Posed per measurable selection of Clarke trajectories; whether the answer depends on the selection is part of the problem.)
 
-The empirical record is too thin even to conjecture the growth rate: essentially $N_{0.05} \approx 5$ at $p = 113$ for the transformer of Nanda et al. [[NCLSS23]](../references/NCLSS23.md), and 3–15 key frequencies across the networks of Chughtai et al. [[CCN23]](https://arxiv.org/abs/2302.03025). A coset-based heuristic of McCracken et al. [[MMLPL25]](https://arxiv.org/abs/2505.18266) suggests order $\log p$ features for deeper networks; whether shallow trained networks track any such rate is open. For the ensemble conventions and the surrounding results, see [MAIS-A5](../agendas/A5/).
+The empirical record is too thin even to conjecture the growth rate: essentially $N_{0.05} \approx 5$ at $p = 113$ for the transformer of Nanda et al. [[NCLSS23]](../references/NCLSS23.md), and 3–15 key frequencies across the networks of Chughtai et al. [[CCN23]](../references/CCN23.md). A coset-based heuristic of McCracken et al. [[MMLPL25]](https://arxiv.org/abs/2505.18266) suggests order $\log p$ features for deeper networks; whether shallow trained networks track any such rate is open. For the ensemble conventions and the surrounding results, see [MAIS-A5](../agendas/A5/).
 
 ## References
 
 - [[MEOZK24]](../references/MEOZK24.md) D. Morwani, B. L. Edelman, C.-A. Oncescu, R. Zhao, and S. Kakade, *Feature emergence via margin maximization: case studies in algebraic tasks*, ICLR 2024. [arXiv:2311.07568](https://arxiv.org/abs/2311.07568)
 - [[NCLSS23]](../references/NCLSS23.md) N. Nanda, L. Chan, T. Lieberum, J. Smith, and J. Steinhardt, *Progress measures for grokking via mechanistic interpretability*, ICLR 2023. [arXiv:2301.05217](https://arxiv.org/abs/2301.05217)
-- [CCN23] B. Chughtai, L. Chan, and N. Nanda, *A toy model of universality: reverse engineering how networks learn group operations*, ICML 2023. [arXiv:2302.03025](https://arxiv.org/abs/2302.03025)
+- [[CCN23]](../references/CCN23.md) B. Chughtai, L. Chan, and N. Nanda, *A toy model of universality: reverse engineering how networks learn group operations*, ICML 2023. [arXiv:2302.03025](https://arxiv.org/abs/2302.03025)
 - [MMLPL25] G. McCracken, G. Moisescu-Pareja, V. Letourneau, D. Precup, and J. Love, *Uncovering a universal abstract algorithm for modular addition in neural networks*, preprint, 2025. [arXiv:2505.18266](https://arxiv.org/abs/2505.18266)
 
 *Related: [MAIS-O5](MAIS-O5.md) (the full selection law this counts) · [MAIS-O58](MAIS-O58.md) (which $k$-sets of frequencies, not how many) · [MAIS-O61](MAIS-O61.md) (measure the counts at small $p$).*

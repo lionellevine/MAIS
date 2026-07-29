@@ -22,7 +22,7 @@ A concrete route in: carry out the ledger for $\mathsf{PA}_{\mathrm{bin}}$ with 
 
 ## References
 
-- [P98] P. Pudlák, *The lengths of proofs*, in: Handbook of Proof Theory (S. R. Buss, ed.), Elsevier, 1998, pp. 547–637.
+- [[P98]](../references/P98.md) P. Pudlák, *The lengths of proofs*, in: Handbook of Proof Theory (S. R. Buss, ed.), Elsevier, 1998, pp. 547–637.
 - [[C19]](../references/C19.md) A. Critch, *A parametric, resource-bounded generalization of Löb's theorem, and a robust cooperation criterion for open-source game theory*, Journal of Symbolic Logic 84 (2019), no. 4, 1368–1381. [arXiv:1602.04184](https://arxiv.org/abs/1602.04184)
 
 *Related: [MAIS-O1](MAIS-O1.md) (the overhead function this conjecture answers) · [MAIS-O12](MAIS-O12.md) (the constants $\mathcal{E}_S$ and $d_S$ the strong form needs) · [MAIS-O11](MAIS-O11.md) (the lower-bound counterpart).*

@@ -6,7 +6,7 @@
 
 *Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
-When a sparse autoencoder converges, is the dictionary it finds the one that generated the data? The known guarantee for the $\ell^1$-penalized estimator is local: Gribonval, Jenatton, and Bach [[GJB15]](https://arxiv.org/abs/1407.5155) proved that a minimum exists *near* the true dictionary, leaving open whether a merged or rotated dictionary far away scores even better. This conjecture asserts that in the cleanest population case — features firing independently, dictionary incoherent — no such faraway global minimizer exists.
+When a sparse autoencoder converges, is the dictionary it finds the one that generated the data? The known guarantee for the $\ell^1$-penalized estimator is local: Gribonval, Jenatton, and Bach [[GJB15]](../references/GJB15.md) proved that a minimum exists *near* the true dictionary, leaving open whether a merged or rotated dictionary far away scores even better. This conjecture asserts that in the cleanest population case — features firing independently, dictionary incoherent — no such faraway global minimizer exists.
 
 The model: data $y=\Phi x+\xi$, where $\Phi$ belongs to $U_{n,m}$, the set of $n\times m$ matrices with unit columns $v_1,\dots,v_m$, with coherence $\mu(\Phi)=\max_{i\neq j}\lvert\langle v_i,v_j\rangle\rvert$; the support $S\subseteq[m]$ of the nonnegative code $x$ has law $\pi$; the nonzero coefficients are drawn independently from a law $\nu$ on $(0,\infty)$; and $\xi$ is Gaussian noise of level $\sigma\ge0$. The estimator minimizes the population objective $F_\lambda(\Psi)=\mathbb{E}\ \min_{z\ge0}\bigl[\tfrac12\lVert y-\Psi z\rVert^2+\lambda\lVert z\rVert_1\bigr]$ over $\Psi\in U_{n,m}$ with columns $u_1,\dots,u_m$. Say $\Psi$ **$\varepsilon$-recovers** $\Phi$ if some injection $\tau$ has $\langle u_{\tau(i)},v_i\rangle\ge1-\varepsilon$ for all $i$.
 
@@ -22,7 +22,7 @@ For the full model, the local-minimum literature, and the globally identifiable 
 
 ## References
 
-- [GJB15] R. Gribonval, R. Jenatton, and F. Bach, *Sparse and spurious: dictionary learning with noise and outliers*, IEEE Transactions on Information Theory 61 (2015), 6298–6319. [arXiv:1407.5155](https://arxiv.org/abs/1407.5155)
+- [[GJB15]](../references/GJB15.md) R. Gribonval, R. Jenatton, and F. Bach, *Sparse and spurious: dictionary learning with noise and outliers*, IEEE Transactions on Information Theory 61 (2015), 6298–6319. [arXiv:1407.5155](https://arxiv.org/abs/1407.5155)
 - [HH23] J. Hu and K. Huang, *Global identifiability of $\ell^1$-based dictionary learning via matrix volume optimization*, Advances in Neural Information Processing Systems 36 (2023), 36165–36186.
 - [SH25] Y. Sun and K. Huang, *Global identifiability of overcomplete dictionary learning via $\ell^1$ and volume minimization*, International Conference on Learning Representations (ICLR) 2025.
 

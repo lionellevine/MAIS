@@ -6,7 +6,7 @@
 
 *Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
-When a sparse autoencoder reports several atoms for one concept, has it failed, or has it faithfully tiled a feature that was never a single direction? Practitioners call the phenomenon feature splitting (Chanin et al. [[CWDB+24]](https://arxiv.org/abs/2409.14507)), but in the standard generative model a feature *is* one direction, so splitting cannot even be stated there. This problem smears each feature over a spherical cap and asks for the full phase diagram: recovery, splitting, and merging in one two-feature model.
+When a sparse autoencoder reports several atoms for one concept, has it failed, or has it faithfully tiled a feature that was never a single direction? Practitioners call the phenomenon feature splitting (Chanin et al. [[CWDB+24]](../references/CWDB+24.md)), but in the standard generative model a feature *is* one direction, so splitting cannot even be stated there. This problem smears each feature over a spherical cap and asks for the full phase diagram: recovery, splitting, and merging in one two-feature model.
 
 The estimator is $\ell^1$-penalized dictionary learning: over dictionaries $\Psi\in U_{n,M}$ ($n\times M$ matrices with unit columns), minimize the population objective $F_\lambda(\Psi)=\mathbb{E}\ \min_{z\ge0}\bigl[\tfrac12\lVert y-\Psi z\rVert^2+\lambda\lVert z\rVert_1\bigr]$. An atom of $\Psi$ is **live** if, with positive probability in $y$, some minimizing code puts mass on it; a dead atom can be parked anywhere without changing the objective, so only live atoms count.
 
@@ -18,6 +18,6 @@ For a single smeared feature ($b=c=0$) and $M\to\infty$, the question is a relat
 
 - [GL00] S. Graf and H. Luschgy, *Foundations of Quantization for Probability Distributions*, Lecture Notes in Mathematics 1730, Springer, 2000.
 - [DM26] S. A. Dalili and M. Mahdavi, *Subspace-Aware Sparse Autoencoders for Effective Mechanistic Interpretability*, preprint, 2026. [arXiv:2606.06333](https://arxiv.org/abs/2606.06333)
-- [CWDB+24] D. Chanin, J. Wilken-Smith, T. Dulka, H. Bhatnagar, S. Golechha, and J. Bloom, *A is for absorption: studying feature splitting and absorption in sparse autoencoders*, preprint, 2024. [arXiv:2409.14507](https://arxiv.org/abs/2409.14507)
+- [[CWDB+24]](../references/CWDB+24.md) D. Chanin, J. Wilken-Smith, T. Dulka, H. Bhatnagar, S. Golechha, and J. Bloom, *A is for absorption: studying feature splitting and absorption in sparse autoencoders*, preprint, 2024. [arXiv:2409.14507](https://arxiv.org/abs/2409.14507)
 
 *Related: [MAIS-O3](MAIS-O3.md) (the headline problem, where features are atomic) · [MAIS-O41](MAIS-O41.md) (the atomic two-feature phase diagram) · [MAIS-O43](MAIS-O43.md) (splits measured numerically).*

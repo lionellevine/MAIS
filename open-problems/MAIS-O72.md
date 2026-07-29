@@ -25,7 +25,7 @@ Part of the frontier picture is now known: Lehalleur and Rimányi ([[LR24]](http
 
 ## References
 
-- [AW05] M. Aoyagi, S. Watanabe, *Stochastic complexities of reduced rank regression in Bayesian estimation*, Neural Networks **18** (2005), 924–933.
+- [[AW05]](../references/AW05.md) M. Aoyagi, S. Watanabe, *Stochastic complexities of reduced rank regression in Bayesian estimation*, Neural Networks **18** (2005), 924–933.
 - [L17] S. Lin, *Ideal-theoretic strategies for asymptotic approximation of marginal likelihood integrals*, J. Algebraic Stat. **8** (2017), 22–55.
 - [LR24] S. P. Lehalleur, R. Rimányi, *Geometry of fibers of the multiplication map of deep linear neural networks*, 2024. [arXiv:2411.19920](https://arxiv.org/abs/2411.19920)
 - [[W09]](../references/W09.md) S. Watanabe, *Algebraic Geometry and Statistical Learning Theory*, Cambridge University Press, 2009.

@@ -18,12 +18,12 @@ $$\hat{k} \ \le\  K\bigl(L, |p|, |f|_{\mathcal{B}}, C_S\bigr), \qquad \ell_S\big
 
 and determine how small $K$ and $\Lambda$ can be made. In particular, for $f(k) = k$ and a certified linear expansion bound, can both be polynomial in $L + |p|$?
 
-The first bound caps the threshold; the second caps the length of the proof that certifies everything beyond it. A polynomial answer for $f(k) = k$ would make the cooperation threshold for the FairBot agents of Barász et al. [[BCFH+14]](https://arxiv.org/abs/1401.5577) effectively computable rather than merely finite. For the repaired theorem and the certificate formalism in full, see [MAIS-A1](../agendas/A1/); for the refutation and repair, [MAIS-P2](../papers/P2/).
+The first bound caps the threshold; the second caps the length of the proof that certifies everything beyond it. A polynomial answer for $f(k) = k$ would make the cooperation threshold for the FairBot agents of Barász et al. [[BCFH+14]](../references/BCFH+14.md) effectively computable rather than merely finite. For the repaired theorem and the certificate formalism in full, see [MAIS-A1](../agendas/A1/); for the refutation and repair, [MAIS-P2](../papers/P2/).
 
 ## References
 
 - [[C19]](../references/C19.md) A. Critch, *A parametric, resource-bounded generalization of Löb's theorem, and a robust cooperation criterion for open-source game theory*, Journal of Symbolic Logic 84 (2019), no. 4, 1368–1381. [arXiv:1602.04184](https://arxiv.org/abs/1602.04184)
 - [S26] GPT 5.6 Sol, *A refutation and a repair of Critch's PBL theorem, with an application to program cooperation*, research note [MAIS-P2](../papers/P2/), July 2026.
-- [BCFH+14] M. Barász, P. Christiano, B. Fallenstein, M. Herreshoff, P. LaVictoire, and E. Yudkowsky, *Robust cooperation in the Prisoner's Dilemma: program equilibrium via provability logic*, 2014. [arXiv:1401.5577](https://arxiv.org/abs/1401.5577)
+- [[BCFH+14]](../references/BCFH+14.md) M. Barász, P. Christiano, B. Fallenstein, M. Herreshoff, P. LaVictoire, and E. Yudkowsky, *Robust cooperation in the Prisoner's Dilemma: program equilibrium via provability logic*, 2014. [arXiv:1401.5577](https://arxiv.org/abs/1401.5577)
 
 *Related: [MAIS-O13](MAIS-O13.md) (the assumed comparison conjecture) · [MAIS-O16](MAIS-O16.md) (the instance with a game attached) · [MAIS-O17](MAIS-O17.md) (thresholds uniform over agent families) · [MAIS-O12](MAIS-O12.md) (the expansion certificate itself).*

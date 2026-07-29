@@ -24,6 +24,6 @@ Until this is settled, "stratified by learning coefficient" is fully meaningful 
 
 - [[W09]](../references/W09.md) S. Watanabe, *Algebraic Geometry and Statistical Learning Theory*, Cambridge Monographs on Applied and Computational Mathematics 25, Cambridge University Press, 2009.
 - [[LFWMW23]](../references/LFWMW23.md) E. Lau, Z. Furman, G. Wang, D. Murfet, S. Wei, *The local learning coefficient: a singularity-aware complexity measure*, 2023. [arXiv:2308.12108](https://arxiv.org/abs/2308.12108)
-- [AW05] M. Aoyagi, S. Watanabe, *Stochastic complexities of reduced rank regression in Bayesian estimation*, Neural Networks 18 (2005), 924–933.
+- [[AW05]](../references/AW05.md) M. Aoyagi, S. Watanabe, *Stochastic complexities of reduced rank regression in Bayesian estimation*, Neural Networks 18 (2005), 924–933.
 
 *Related: [MAIS-O78](MAIS-O78.md) (the time–sample dictionary whose part (a) presupposes this expansion) · [MAIS-O79](MAIS-O79.md) (the effective-loss window where the same rim term appears) · [MAIS-O77](MAIS-O77.md) (the two-sided invariants that a successful $\Lambda$ should reproduce).*

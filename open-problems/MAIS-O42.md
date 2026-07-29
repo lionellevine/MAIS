@@ -16,12 +16,12 @@ With one active coordinate the squared error splits into a diagonal term that tu
 
 The natural template is the frame-potential theorem of Benedetto and Fickus [BF03], the linear shadow of the conjecture: among $m\ge n$ unit vectors in $\mathbb{R}^n$, the minimizers of the frame potential $\sum_{i\neq j}\langle w_i,w_j\rangle^2$ are precisely the tight frames — systems with $\sum_i w_iw_i^{\top}$ proportional to the identity. Five unit vectors in the plane form many tight frames, the pentagon among them, so the linear theorem stops short of selecting it; that selection is the work left to the ReLU and the bias. The Benedetto–Fickus proof rewrites the energy as a sum of squared Gram entries and characterizes its critical points. The ReLU breaks that rewriting — the energy is piecewise rational rather than polynomial — and where the template breaks is where the new mathematics begins.
 
-Partial progress: Chen, Lau, Mendel, Wei, and Murfet [[CLMWM23]](https://arxiv.org/abs/2310.06301) prove that the regular $k$-gons are critical points of the two-dimensional toy model, ruling the pentagon in as a candidate; global minimality is open, here and in the full model. For the closed-form loss at the regular $k$-gons and the surrounding critical-point theory, see [MAIS-A3](../agendas/A3/).
+Partial progress: Chen, Lau, Mendel, Wei, and Murfet [[CLMWM23]](../references/CLMWM23.md) prove that the regular $k$-gons are critical points of the two-dimensional toy model, ruling the pentagon in as a candidate; global minimality is open, here and in the full model. For the closed-form loss at the regular $k$-gons and the surrounding critical-point theory, see [MAIS-A3](../agendas/A3/).
 
 ## References
 
-- [BF03] J. J. Benedetto and M. Fickus, *Finite normalized tight frames*, Adv. Comput. Math. **18** (2003), 357–385.
+- [[BF03]](../references/BF03.md) J. J. Benedetto and M. Fickus, *Finite normalized tight frames*, Adv. Comput. Math. **18** (2003), 357–385.
 - [[EHOS+22]](../references/EHOS+22.md) N. Elhage et al., *Toy models of superposition*, Transformer Circuits Thread, Anthropic, 2022. [arXiv:2209.10652](https://arxiv.org/abs/2209.10652)
-- [CLMWM23] Z. Chen, E. Lau, J. Mendel, S. Wei, and D. Murfet, *Dynamical versus Bayesian phase transitions in a toy model of superposition*, 2023. [arXiv:2310.06301](https://arxiv.org/abs/2310.06301)
+- [[CLMWM23]](../references/CLMWM23.md) Z. Chen, E. Lau, J. Mendel, S. Wei, and D. Murfet, *Dynamical versus Bayesian phase transitions in a toy model of superposition*, 2023. [arXiv:2310.06301](https://arxiv.org/abs/2310.06301)
 
 *Related: [MAIS-O40](MAIS-O40.md) (the full pentagon conjecture this is a starter for) · [MAIS-O47](MAIS-O47.md) (uniqueness of toy-model minimizers up to symmetry) · [MAIS-O4](MAIS-O4.md) (the toy model's loss under a coherence constraint).*

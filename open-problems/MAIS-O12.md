@@ -19,6 +19,6 @@ The techniques should be in reach: Pudlák's Handbook chapter [P98] proves the d
 ## References
 
 - [[C19]](../references/C19.md) A. Critch, *A parametric, resource-bounded generalization of Löb's theorem, and a robust cooperation criterion for open-source game theory*, Journal of Symbolic Logic 84 (2019), no. 4, 1368–1381. [arXiv:1602.04184](https://arxiv.org/abs/1602.04184)
-- [P98] P. Pudlák, *The lengths of proofs*, in: Handbook of Proof Theory (S. R. Buss, ed.), Elsevier, 1998, pp. 547–637.
+- [[P98]](../references/P98.md) P. Pudlák, *The lengths of proofs*, in: Handbook of Proof Theory (S. R. Buss, ed.), Elsevier, 1998, pp. 547–637.
 
 *Related: [MAIS-O10](MAIS-O10.md) (polynomial overhead follows from linear $\mathcal{E}_S$ and polynomial $d_S$) · [MAIS-O16](MAIS-O16.md) (the cooperation threshold whose finiteness needs the certified $\mathcal{E}$ bound) · [MAIS-O20](MAIS-O20.md) (a route that avoids $d_S$ entirely).*

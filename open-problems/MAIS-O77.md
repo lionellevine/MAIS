@@ -25,7 +25,7 @@ The table is what the rest of the agenda consumes: the SGD limit theorem ([MAIS-
 
 ## References
 
-- [AW05] M. Aoyagi and S. Watanabe, *Stochastic complexities of reduced rank regression in Bayesian estimation*, Neural Networks 18(7), 924–933, 2005.
+- [[AW05]](../references/AW05.md) M. Aoyagi and S. Watanabe, *Stochastic complexities of reduced rank regression in Bayesian estimation*, Neural Networks 18(7), 924–933, 2005.
 - [LR24] S. P. Lehalleur and R. Rimányi, *Geometry of fibers of the multiplication map of deep linear neural networks*. [arXiv:2411.19920](https://arxiv.org/abs/2411.19920)
 - [[LFWMW23]](../references/LFWMW23.md) E. Lau, Z. Furman, G. Wang, D. Murfet, and S. Wei, *The local learning coefficient: a singularity-aware complexity measure*. [arXiv:2308.12108](https://arxiv.org/abs/2308.12108)
 

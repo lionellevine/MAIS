@@ -24,7 +24,7 @@ In words: is there any regime where penalizing the average strictly lowers the w
 ## References
 
 - [[EHOS+22]](../references/EHOS+22.md) N. Elhage et al., *Toy models of superposition*, Transformer Circuits Thread. [arXiv:2209.10652](https://arxiv.org/abs/2209.10652)
-- [BF03] J. J. Benedetto and M. Fickus, *Finite normalized tight frames*, Advances in Computational Mathematics 18(2–4), 357–385.
+- [[BF03]](../references/BF03.md) J. J. Benedetto and M. Fickus, *Finite normalized tight frames*, Advances in Computational Mathematics 18(2–4), 357–385.
 - [W74] L. R. Welch, *Lower bounds on the maximum cross correlation of signals*, IEEE Transactions on Information Theory 20(3), 397–399.
 
 *Related: [MAIS-O4](MAIS-O4.md) (the full coherence-constrained frontier this is a first case of) · [MAIS-O46](MAIS-O46.md) (whether low coherence even helps recovery) · [MAIS-O51](MAIS-O51.md) (the same penalty analyzed in the smallest model) · [MAIS-O50](MAIS-O50.md) (the gradient-flow version).*

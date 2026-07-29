@@ -26,7 +26,7 @@ When the gate is a single Morse saddle, the agenda conjectures $\alpha = \lambda
 
 ## References
 
-- [BEGK04] A. Bovier, M. Eckhoff, V. Gayrard, and M. Klein, *Metastability in reversible diffusion processes I: sharp asymptotics for capacities and exit times*, J. Eur. Math. Soc. 6 (2004), 399–424.
+- [[BEGK04]](../references/BEGK04.md) A. Bovier, M. Eckhoff, V. Gayrard, and M. Klein, *Metastability in reversible diffusion processes I: sharp asymptotics for capacities and exit times*, J. Eur. Math. Soc. 6 (2004), 399–424.
 - [B13] N. Berglund, *Kramers' law: validity, derivations and generalisations*, Markov Processes and Related Fields 19 (2013), 459–490. [arXiv:1106.5799](https://arxiv.org/abs/1106.5799)
 - [ABM25] M. Assal, J.-F. Bony, and L. Michel, *Metastable diffusions with degenerate drifts*, Ann. Inst. Fourier 75 (2025), 1–33. [arXiv:2202.02208](https://arxiv.org/abs/2202.02208)
 - [Del26] L. Delande, *Sharp spectral gap for some degenerate Witten Laplacians*, Ann. Henri Poincaré (2026). [arXiv:2410.21899](https://arxiv.org/abs/2410.21899)

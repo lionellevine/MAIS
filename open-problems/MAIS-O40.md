@@ -20,12 +20,12 @@ $$\langle w_{\tau(i)},w_{\tau(j)}\rangle\ =\ r^2\cos\bigl(2\pi(i-j)/5\bigr) \qqu
 
 Equivalently: up to an orthogonal transformation of $\mathbb{R}^2$ and relabeling, the columns form a regular pentagon.
 
-Every quantity is explicit: the loss is a semialgebraic integral in fifteen variables (ten entries of $W$, five of $b$), piecewise rational because of the moving ReLU breakpoints. Critical-point theory rules the pentagon in as a candidate — the regular $k$-gons are critical with the loss in closed form (Chen et al. [[CLMWM23]](https://arxiv.org/abs/2310.06301)), and under a capacity-saturation hypothesis, made precise in Ivanov et al. [[IORP+26]](https://arxiv.org/abs/2602.02224), critical configurations organize into tight frames with a discrete classification. What is missing is a symmetrization technique for ReLU energies that reaches *global* minimality. For the toy-model background and the frame-theory shadow, see [MAIS-A3](../agendas/A3/).
+Every quantity is explicit: the loss is a semialgebraic integral in fifteen variables (ten entries of $W$, five of $b$), piecewise rational because of the moving ReLU breakpoints. Critical-point theory rules the pentagon in as a candidate — the regular $k$-gons are critical with the loss in closed form (Chen et al. [[CLMWM23]](../references/CLMWM23.md)), and under a capacity-saturation hypothesis, made precise in Ivanov et al. [[IORP+26]](https://arxiv.org/abs/2602.02224), critical configurations organize into tight frames with a discrete classification. What is missing is a symmetrization technique for ReLU energies that reaches *global* minimality. For the toy-model background and the frame-theory shadow, see [MAIS-A3](../agendas/A3/).
 
 ## References
 
-- [BF03] J. J. Benedetto and M. Fickus, *Finite normalized tight frames*, Adv. Comput. Math. **18** (2003), 357–385.
-- [CLMWM23] Z. Chen, E. Lau, J. Mendel, S. Wei, and D. Murfet, *Dynamical versus Bayesian phase transitions in a toy model of superposition*, 2023. [arXiv:2310.06301](https://arxiv.org/abs/2310.06301)
+- [[BF03]](../references/BF03.md) J. J. Benedetto and M. Fickus, *Finite normalized tight frames*, Adv. Comput. Math. **18** (2003), 357–385.
+- [[CLMWM23]](../references/CLMWM23.md) Z. Chen, E. Lau, J. Mendel, S. Wei, and D. Murfet, *Dynamical versus Bayesian phase transitions in a toy model of superposition*, 2023. [arXiv:2310.06301](https://arxiv.org/abs/2310.06301)
 - [[EHOS+22]](../references/EHOS+22.md) N. Elhage, T. Hume, C. Olsson, N. Schiefer, et al., *Toy models of superposition*, Transformer Circuits Thread, Anthropic, 2022. [arXiv:2209.10652](https://arxiv.org/abs/2209.10652)
 - [IORP+26] G. Ivanov, N. Oozeer, S. Raval, T. Pejovic, S. Upadhyay, and A. Abdullah, *Spectral superposition: a theory of feature geometry*, 2026. [arXiv:2602.02224](https://arxiv.org/abs/2602.02224)
 
