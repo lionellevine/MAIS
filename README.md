@@ -11,6 +11,7 @@ Beyond the [invitation paper](papers/P1/), this repo hosts three kinds of pre-pu
 | [**Open Problems**](open-problems/) | A short exposition of a single open problem |
 | [**Agendas**](agendas/) | A cluster of related open problems and partial progress on resolving them |
 | [**Papers**](papers/) | Papers in progress |
+| [**References**](references/) | Detailed summaries of cited AI safety papers, suitable for stuffing an LLM's context |
 
 The intended life cycle is **open problem → agenda → paper → publication**: open problems get incorporated into agendas, and a maturing agenda spins off papers.
 

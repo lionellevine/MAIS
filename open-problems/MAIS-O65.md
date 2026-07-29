@@ -18,7 +18,7 @@ The word "common" is a proved reduction, not part of the problem: near the scale
 
 ## References
 
-- [W09] S. Watanabe, *Algebraic Geometry and Statistical Learning Theory*, Cambridge University Press, 2009.
+- [[W09]](../references/W09.md) S. Watanabe, *Algebraic Geometry and Statistical Learning Theory*, Cambridge University Press, 2009.
 - [A25] M. Aoyagi, *Singular leaning [sic] coefficients and efficiency in learning theory*, 2025. [arXiv:2501.12747](https://arxiv.org/abs/2501.12747)
 
 *Related: [MAIS-O63](MAIS-O63.md) (the squared-error version, whose answer the finite-$\beta$ pair must match) · [MAIS-O6](MAIS-O6.md) (Fourier structure of the minimizers) · [MAIS-O71](MAIS-O71.md) (another boundary of the analytic setup: ReLU with continuous inputs).*

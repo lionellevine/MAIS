@@ -21,7 +21,7 @@ The heuristic is a ratio: the well mass is $\varepsilon^{\lambda_A} (\log\tfrac1
 ## References
 
 - [BEGK04] A. Bovier, M. Eckhoff, V. Gayrard, and M. Klein, *Metastability in reversible diffusion processes I: sharp asymptotics for capacities and exit times*, J. Eur. Math. Soc. 6 (2004), 399–424.
-- [W09] S. Watanabe, *Algebraic Geometry and Statistical Learning Theory*, Cambridge University Press, 2009.
+- [[W09]](../references/W09.md) S. Watanabe, *Algebraic Geometry and Statistical Learning Theory*, Cambridge University Press, 2009.
 - [Del26] L. Delande, *Sharp spectral gap for some degenerate Witten Laplacians*, Ann. Henri Poincaré (2026). [arXiv:2410.21899](https://arxiv.org/abs/2410.21899)
 
 *Related: [MAIS-O73](MAIS-O73.md) (the general singular Eyring–Kramers problem this instantiates) · [MAIS-O75](MAIS-O75.md) (the barrier-free, purely entropic regime) · [MAIS-O7](MAIS-O7.md) (the staircase whose plateau times such laws would predict).*

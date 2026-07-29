@@ -6,7 +6,7 @@
 
 *Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
-The **local learning coefficient**, in the pointwise sense of Lau, Furman, Wang, Murfet, and Wei [[LFWMW23]](https://arxiv.org/abs/2308.12108), is the complexity measure that developmental interpretability estimates inside trained networks to watch structure form during training. In Watanabe's singular learning theory [W09] it replaces the parameter count: for a localized prior it sets the complexity penalty in the Bayes free energy and the $\lambda/n$ decay of the generalization error. Exact values, against which the estimators can be calibrated, are known only for a short list of classical models.
+The **local learning coefficient**, in the pointwise sense of Lau, Furman, Wang, Murfet, and Wei [[LFWMW23]](../references/LFWMW23.md), is the complexity measure that developmental interpretability estimates inside trained networks to watch structure form during training. In Watanabe's singular learning theory [W09] it replaces the parameter count: for a localized prior it sets the complexity penalty in the Bayes free energy and the $\lambda/n$ decay of the generalization error. Exact values, against which the estimators can be calibrated, are known only for a short list of classical models.
 
 For reduced-rank regression, the learning coefficient depends on the truth only through one integer, the rank — which is why a closed form exists at all. For a one-head attention model, the analog of "the truth has rank $r$" is "the truth is a smaller transformer," and the honest first question is whether a generic-teacher value of the learning coefficient exists at all.
 
@@ -19,7 +19,7 @@ In words: away from a proper analytic subset of teachers, the local pair takes a
 ## References
 
 - [AW05] M. Aoyagi and S. Watanabe, *Stochastic complexities of reduced rank regression in Bayesian estimation*, Neural Networks 18 (2005), no. 7, 924–933.
-- [W09] S. Watanabe, *Algebraic Geometry and Statistical Learning Theory*, Cambridge University Press, 2009.
-- [LFWMW23] E. Lau, Z. Furman, G. Wang, D. Murfet, and S. Wei, *The local learning coefficient: a singularity-aware complexity measure*, 2023. [arXiv:2308.12108](https://arxiv.org/abs/2308.12108)
+- [[W09]](../references/W09.md) S. Watanabe, *Algebraic Geometry and Statistical Learning Theory*, Cambridge University Press, 2009.
+- [[LFWMW23]](../references/LFWMW23.md) E. Lau, Z. Furman, G. Wang, D. Murfet, and S. Wei, *The local learning coefficient: a singularity-aware complexity measure*, 2023. [arXiv:2308.12108](https://arxiv.org/abs/2308.12108)
 
 *Related: [MAIS-O67](MAIS-O67.md) (compute the generic value this conjecture posits) · [MAIS-O68](MAIS-O68.md) (the polynomial linear-attention variant) · [MAIS-O70](MAIS-O70.md) (the local strata of the reduced-rank template).*

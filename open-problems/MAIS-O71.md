@@ -26,7 +26,7 @@ Both displays are part of the claim: the volume asymptotics (which the subanalyt
 
 ## References
 
-- [W09] S. Watanabe, *Algebraic Geometry and Statistical Learning Theory*, Cambridge University Press, 2009.
+- [[W09]](../references/W09.md) S. Watanabe, *Algebraic Geometry and Statistical Learning Theory*, Cambridge University Press, 2009.
 - [LR98] J.-M. Lion and J.-P. Rolin, *Intégration des fonctions sous-analytiques et volumes des sous-ensembles sous-analytiques*, Annales de l'Institut Fourier 48 (1998), no. 3, 755–767.
 - [NW23] S. Nagayasu and S. Watanabe, *Bayesian free energy of deep ReLU neural network in overparametrized cases*, 2023. [arXiv:2303.15739](https://arxiv.org/abs/2303.15739)
 

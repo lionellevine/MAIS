@@ -21,7 +21,7 @@ Conjecture 5.3 of the agenda ([MAIS-O66](MAIS-O66.md)) is the statement that a g
 ## References
 
 - [AW05] M. Aoyagi and S. Watanabe, *Stochastic complexities of reduced rank regression in Bayesian estimation*, Neural Networks 18 (2005), no. 7, 924–933.
-- [W09] S. Watanabe, *Algebraic Geometry and Statistical Learning Theory*, Cambridge University Press, 2009.
+- [[W09]](../references/W09.md) S. Watanabe, *Algebraic Geometry and Statistical Learning Theory*, Cambridge University Press, 2009.
 - [YW23] N. Yoshida and S. Watanabe, *Upper bound of real log canonical threshold of tensor decomposition and its application to Bayesian inference*, 2023. [arXiv:2303.05731](https://arxiv.org/abs/2303.05731)
 
 *Related: [MAIS-O67](MAIS-O67.md) (the softmax version of the same teacher-student question) · [MAIS-O66](MAIS-O66.md) (generic constancy over teachers) · [MAIS-O70](MAIS-O70.md) (the reduced-rank template this model is modeled on).*

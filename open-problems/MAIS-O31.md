@@ -8,7 +8,7 @@
 
 Take the simplest causal structure there is, a chain $C_m\to C_{m-1}\to\dots\to C_1$ of binary variables, and an agent paid to guess the far end $C_1$ while observing nothing. An analyst may tamper with the chain at a single link $C_j$ and watch how the agent's guess responds. How much of the chain's probability law does that one dial recover?
 
-This is a smallest instance of world-model extraction from behavior: reading what an agent believes off what it does, with no access to its internals. Richens and Everitt [[RE24]](https://arxiv.org/abs/2402.10877) proved that an analyst who can intervene on every chance variable recovers the whole model from the agent's optimal policies, for almost every parameter choice. An auditor of a real system controls fewer dials, and what a restricted intervention set identifies is open in general ([MAIS-O30](MAIS-O30.md)); the chain with one dial is the case meant to be solved first.
+This is a smallest instance of world-model extraction from behavior: reading what an agent believes off what it does, with no access to its internals. Richens and Everitt [[RE24]](../references/RE24.md) proved that an analyst who can intervene on every chance variable recovers the whole model from the agent's optimal policies, for almost every parameter choice. An auditor of a real system controls fewer dials, and what a restricted intervention set identifies is open in general ([MAIS-O30](MAIS-O30.md)); the chain with one dial is the case meant to be solved first.
 
 The framework: a model is the chain graph together with its conditional probability tables — the marginal of the root $C_m$ and a $2\times2$ transition table at each of the $m-1$ edges, hence $2(m-1)+1$ parameters $\theta$, all bounded away from degeneracy in the margin class $\mathcal{M}(\mathsf{s},\lambda)$, where the skeleton $\mathsf{s}$ records the data $(\mathbf{C},\mathbf{O},\mathbf{Z},u)$ fixed in the question below. Conditions (M2)–(M3) on the utility say the guess always matters: the utility gap is bounded away from zero and takes both signs. Since the agent observes nothing, a policy is a single number in $[0,1]$, the probability of guessing $1$. The analyst may apply any mixture $\sigma\in\Sigma_W$ of local interventions (fix, flip, or leave each variable of $W$) and observe an optimal policy for the resulting task; a parameter is **$\Sigma_W$-identifiable** if it is constant across all models in the class sharing such an optimal-policy family.
 
@@ -18,6 +18,6 @@ The agenda records a heuristic, labeled as such: mixtures at $C_j$ should reveal
 
 ## References
 
-- [RE24] J. Richens and T. Everitt, *Robust agents learn causal world models*, ICLR 2024. [arXiv:2402.10877](https://arxiv.org/abs/2402.10877)
+- [[RE24]](../references/RE24.md) J. Richens and T. Everitt, *Robust agents learn causal world models*, ICLR 2024. [arXiv:2402.10877](https://arxiv.org/abs/2402.10877)
 
 *Related: [MAIS-O30](MAIS-O30.md) (the general restricted-intervention problem) · [MAIS-O34](MAIS-O34.md) (another small exact case: two variables, all interventions) · [MAIS-O23](MAIS-O23.md) (identifiability with the full intervention set).*

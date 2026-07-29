@@ -28,6 +28,6 @@ Part of the frontier picture is now known: Lehalleur and Rimányi ([[LR24]](http
 - [AW05] M. Aoyagi, S. Watanabe, *Stochastic complexities of reduced rank regression in Bayesian estimation*, Neural Networks **18** (2005), 924–933.
 - [L17] S. Lin, *Ideal-theoretic strategies for asymptotic approximation of marginal likelihood integrals*, J. Algebraic Stat. **8** (2017), 22–55.
 - [LR24] S. P. Lehalleur, R. Rimányi, *Geometry of fibers of the multiplication map of deep linear neural networks*, 2024. [arXiv:2411.19920](https://arxiv.org/abs/2411.19920)
-- [W09] S. Watanabe, *Algebraic Geometry and Statistical Learning Theory*, Cambridge University Press, 2009.
+- [[W09]](../references/W09.md) S. Watanabe, *Algebraic Geometry and Statistical Learning Theory*, Cambridge University Press, 2009.
 
 *Related: [MAIS-O7](MAIS-O7.md) (the headline conjecture whose staircase runs over these strata) · [MAIS-O77](MAIS-O77.md) (computing the stratification for a concrete fiber) · [MAIS-O73](MAIS-O73.md) (metastable timescales built from stratum data).*

@@ -6,7 +6,7 @@
 
 *Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
-The theorem behind behavioral world-model discovery is due to Richens and Everitt [[RE24]](https://arxiv.org/abs/2402.10877): near-optimal adaptation to all local interventions and observation masks determines the agent's causal model. Their theorem holds for almost every parameter choice, with the exceptions described only as the vanishing locus of polynomials arising in the proof. Finite-sample statements need more: an explicit, efficiently checkable hypothesis in place of "almost every." This problem asks for the polynomials by name.
+The theorem behind behavioral world-model discovery is due to Richens and Everitt [[RE24]](../references/RE24.md): near-optimal adaptation to all local interventions and observation masks determines the agent's causal model. Their theorem holds for almost every parameter choice, with the exceptions described only as the vanishing locus of polynomials arising in the proof. Finite-sample statements need more: an explicit, efficiently checkable hypothesis in place of "almost every." This problem asks for the polynomials by name.
 
 The objects: a skeleton $\mathsf{s}=(\mathbf{C},\mathbf{O},\mathbf{Z},u)$ fixes $m$ binary chance variables, an observation set $\mathbf{O}\subseteq\mathbf{C}$, utility parents $\mathbf{Z}\subseteq\mathbf{C}$, and a known utility $u$; a compatible model $M=(G,\theta)$ is a directed acyclic graph on the chance variables with its conditional probability tables, and $K(G)=\sum_i 2^{|\mathrm{Pa}_G(C_i)|}$ counts the free table entries ($K$ is its maximum over the margin class). The agent sees the observed variables, picks a binary action, and is scored by $u$; a policy is regret-$\delta$ if its expected score is within $\delta$ of optimal; a shifted task pairs a mixture of single-variable interventions with a mask hiding some of the observations.
 
@@ -22,7 +22,7 @@ In words: identical behavior forces identical models on the subclass, nearly opt
 
 ## References
 
-- [RE24] J. Richens and T. Everitt, *Robust agents learn causal world models*, ICLR 2024. [arXiv:2402.10877](https://arxiv.org/abs/2402.10877)
+- [[RE24]](../references/RE24.md) J. Richens and T. Everitt, *Robust agents learn causal world models*, ICLR 2024. [arXiv:2402.10877](https://arxiv.org/abs/2402.10877)
 - [URBY13] C. Uhler, G. Raskutti, P. Bühlmann, and B. Yu, *Geometry of the faithfulness assumption in causal inference*, Annals of Statistics 41 (2013), no. 2, 436–463.
 
 *Related: [MAIS-O23](MAIS-O23.md) (the qualitative question the list would settle) · [MAIS-O25](MAIS-O25.md) (query complexity built on this subclass) · [MAIS-O2](MAIS-O2.md) (the sampled-action headline problem).*

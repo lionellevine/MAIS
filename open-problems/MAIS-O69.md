@@ -10,7 +10,7 @@ Local learning coefficients are estimated in practice by sampling from a posteri
 
 The target of the estimate is Watanabe's **local learning coefficient** [W09]: at a parameter $w^\ast $ where the population loss $K$ (the average Kullback–Leibler divergence from the truth to the model) vanishes, $\lambda(w^\ast )$ measures how plentiful the almost-true parameters are nearby — inside a small fixed ball around $w^\ast $, the volume of $\lbrace K \le \varepsilon\rbrace $ scales as $\varepsilon^{\lambda(w^\ast )}$ up to logarithmic factors. The global coefficient is the minimum of $\lambda$ over the whole zero set $W_0$ of $K$. Bayesian learning favors the exact fits of smallest coefficient, so local coefficients are a handle on which internal mechanism a network learns — the reason developmental interpretability estimates them at scale.
 
-The estimator of Lau, Furman, Wang, Murfet, and Wei [[LFWMW23]](https://arxiv.org/abs/2308.12108), idealized here by exact expectations: given empirical loss $L_n(w) = -\frac1n \sum_i \log p(Y_i \mid X_i, w)$, a point $w^\ast $, and a localization strength $\gamma > 0$, the **localized tempered posterior** is proportional to $\exp(-n\beta^\ast  L_n(w) - \frac{\gamma}{2}\Vert w - w^\ast \Vert ^2)$ with $\beta^\ast  = 1/\log n$, and the estimate is $\hat\lambda_n(w^\ast ;\gamma) = \bigl(\mathbb{E}^{\beta^\ast ,\gamma}[\ n L_n(w)\ ] - n L_n(w^\ast )\bigr)/\log n$. The problem poses the simplest model with two components of unequal local complexity, so that global and local answers differ.
+The estimator of Lau, Furman, Wang, Murfet, and Wei [[LFWMW23]](../references/LFWMW23.md), idealized here by exact expectations: given empirical loss $L_n(w) = -\frac1n \sum_i \log p(Y_i \mid X_i, w)$, a point $w^\ast $, and a localization strength $\gamma > 0$, the **localized tempered posterior** is proportional to $\exp(-n\beta^\ast  L_n(w) - \frac{\gamma}{2}\Vert w - w^\ast \Vert ^2)$ with $\beta^\ast  = 1/\log n$, and the estimate is $\hat\lambda_n(w^\ast ;\gamma) = \bigl(\mathbb{E}^{\beta^\ast ,\gamma}[\ n L_n(w)\ ] - n L_n(w^\ast )\bigr)/\log n$. The problem poses the simplest model with two components of unequal local complexity, so that global and local answers differ.
 
 **Problem ([MAIS-A6, Problem 6.1](../agendas/A6/MAIS-A6.tex#L471)).** Take $d = 2$, $W = \lbrace w \in \mathbb{R}^2 : \Vert w\Vert  \le 3\rbrace $, no inputs, model $y \sim N(\mu(w), 1)$ with
 
@@ -22,8 +22,8 @@ The two sides of the dichotomy are known. Watanabe's WBIC theorem [W13] says tha
 
 ## References
 
-- [LFWMW23] E. Lau, Z. Furman, G. Wang, D. Murfet, and S. Wei, *The local learning coefficient: a singularity-aware complexity measure*, 2023. [arXiv:2308.12108](https://arxiv.org/abs/2308.12108)
+- [[LFWMW23]](../references/LFWMW23.md) E. Lau, Z. Furman, G. Wang, D. Murfet, and S. Wei, *The local learning coefficient: a singularity-aware complexity measure*, 2023. [arXiv:2308.12108](https://arxiv.org/abs/2308.12108)
 - [W13] S. Watanabe, *A widely applicable Bayesian information criterion*, Journal of Machine Learning Research 14 (2013), 867–897.
-- [W09] S. Watanabe, *Algebraic Geometry and Statistical Learning Theory*, Cambridge University Press, 2009.
+- [[W09]](../references/W09.md) S. Watanabe, *Algebraic Geometry and Statistical Learning Theory*, Cambridge University Press, 2009.
 
 *Related: [MAIS-O70](MAIS-O70.md) (ground-truth local pairs to calibrate the estimator against) · [MAIS-O61](MAIS-O61.md) (running the estimator on small trained networks) · [MAIS-O63](MAIS-O63.md) (the exact values the estimator would be checked against on modular addition).*

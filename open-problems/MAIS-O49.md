@@ -6,7 +6,7 @@
 
 *Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
-A network in which each feature is wired to a single neuron is legible by inspection: every activation coordinate is an explicit signed combination of named features. Gao et al. [[GRCG+25]](https://arxiv.org/abs/2511.13653) found empirically that training transformers with almost all weights zeroed buys interpretable circuits at a measured capability cost. In the toy model of superposition of Elhage et al. [[EHOS+22]](https://arxiv.org/abs/2209.10652), that cost can be asked for exactly.
+A network in which each feature is wired to a single neuron is legible by inspection: every activation coordinate is an explicit signed combination of named features. Gao et al. [[GRCG+25]](https://arxiv.org/abs/2511.13653) found empirically that training transformers with almost all weights zeroed buys interpretable circuits at a measured capability cost. In the toy model of superposition of Elhage et al. [[EHOS+22]](../references/EHOS+22.md), that cost can be asked for exactly.
 
 The model: data $x\in\mathbb{R}^m$ with independent coordinates, each zero with probability $S$ and otherwise uniform on $[0,1]$; network $f_{W,b}(x)=\mathrm{ReLU}(W^{\top}Wx+b)$ with $W\in\mathbb{R}^{n\times m}$ (columns $W_1,\dots,W_m$), $n<m$; loss $L_{m,n,S}=\mathbb{E}\ \Vert x-f_{W,b}(x)\Vert _2^2$. Write $v(S)=(1-S)(1+3S)/12$ for the cost of dropping one feature. The agenda proves two calibration points among column-1-sparse matrices (each column of $W$ has at most one nonzero entry): storing $n$ features orthogonally and dropping the rest costs $(m-n)\ v(S)$, while storing $2n$ features in antipodal pairs costs $\tfrac{n(1-S)^2}{3}+(m-2n)\ v(S)$, which is strictly cheaper when $S>3/7$. Whether anything beats these two is open.
 
@@ -24,7 +24,7 @@ In words: among networks whose every feature is wired to one neuron, is the best
 
 ## References
 
-- [EHOS+22] N. Elhage et al., *Toy models of superposition*, Transformer Circuits Thread, 2022. [arXiv:2209.10652](https://arxiv.org/abs/2209.10652)
+- [[EHOS+22]](../references/EHOS+22.md) N. Elhage et al., *Toy models of superposition*, Transformer Circuits Thread, 2022. [arXiv:2209.10652](https://arxiv.org/abs/2209.10652)
 - [GRCG+25] L. Gao et al., *Weight-sparse transformers have interpretable circuits*, 2025. [arXiv:2511.13653](https://arxiv.org/abs/2511.13653)
 
 *Related: [MAIS-O4](MAIS-O4.md) (the coherence-constrained frontier, the other currency) · [MAIS-O48](MAIS-O48.md) (alignment constraints in the privileged-basis model) · [MAIS-O45](MAIS-O45.md) (the recovery predicate applied to trained dictionaries).*

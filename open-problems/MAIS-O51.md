@@ -6,9 +6,9 @@
 
 *Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
-Two features, one dimension: the smallest network that must choose what to forget. Elhage et al. [[EHOS+22]](https://arxiv.org/abs/2209.10652) solved the unregularized case; nobody has analyzed it with the interference penalty that "training for interpretability" would actually add.
+Two features, one dimension: the smallest network that must choose what to forget. Elhage et al. [[EHOS+22]](../references/EHOS+22.md) solved the unregularized case; nobody has analyzed it with the interference penalty that "training for interpretability" would actually add.
 
-The data has two independent coordinates, each zero with probability $S\in(0,1)$ and otherwise uniform on $[0,1]$; feature 2 carries an importance weight $I>0$ multiplying its share of the loss. The network stores both features in one dimension via weights $(w_1,w_2)$ and reconstructs through a ReLU; in the toy model's notation this is $m=2$ features in $n=1$ hidden dimension. Elhage et al. [[EHOS+22]](https://arxiv.org/abs/2209.10652) treat the unpenalized problem and find three phases with closed-form losses and a first-order transition: ignore the weak feature; dedicate the dimension to it; or store the pair in antipodal superposition, $w_2=-w_1$. The open case adds an interference penalty $R$, twice the squared inner product of the two stored directions, with coefficient $\lambda>0$.
+The data has two independent coordinates, each zero with probability $S\in(0,1)$ and otherwise uniform on $[0,1]$; feature 2 carries an importance weight $I>0$ multiplying its share of the loss. The network stores both features in one dimension via weights $(w_1,w_2)$ and reconstructs through a ReLU; in the toy model's notation this is $m=2$ features in $n=1$ hidden dimension. Elhage et al. [[EHOS+22]](../references/EHOS+22.md) treat the unpenalized problem and find three phases with closed-form losses and a first-order transition: ignore the weak feature; dedicate the dimension to it; or store the pair in antipodal superposition, $w_2=-w_1$. The open case adds an interference penalty $R$, twice the squared inner product of the two stored directions, with coefficient $\lambda>0$.
 
 **Problem ([MAIS-A4, Example 6.1](../agendas/A4/MAIS-A4.tex#L505)).** Take $m=2$, $n=1$, importance weights $(1,I)$: the loss is
 
@@ -20,6 +20,6 @@ In words: partition the parameter octant into the regions where each of the thre
 
 ## References
 
-- [EHOS+22] N. Elhage et al., *Toy models of superposition*, Transformer Circuits Thread. [arXiv:2209.10652](https://arxiv.org/abs/2209.10652)
+- [[EHOS+22]](../references/EHOS+22.md) N. Elhage et al., *Toy models of superposition*, Transformer Circuits Thread. [arXiv:2209.10652](https://arxiv.org/abs/2209.10652)
 
 *Related: [MAIS-O4](MAIS-O4.md) (the full interference–performance frontier this is the smallest case of) · [MAIS-O50](MAIS-O50.md) (gradient flow on the same $(2,1)$ model) · [MAIS-O44](MAIS-O44.md) (average-vs-worst-case interference at larger sizes).*

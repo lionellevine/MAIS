@@ -6,7 +6,7 @@
 
 *Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
-How much can proving $\Box P \to P$ save over proving $P$ directly? If the answer is "only polynomially much," then every proof budget in the Löbian cooperation story of Critch [[C19]](https://arxiv.org/abs/1602.04184) — the thresholds at which source-reading agents establish each other's cooperation — becomes polynomially effective. This page states the expected answer; deciding it is the problem.
+How much can proving $\Box P \to P$ save over proving $P$ directly? If the answer is "only polynomially much," then every proof budget in the Löbian cooperation story of Critch [[C19]](../references/C19.md) — the thresholds at which source-reading agents establish each other's cooperation — becomes polynomially effective. This page states the expected answer; deciding it is the problem.
 
 Work in an efficient proof system, by default $\mathsf{PA}_{\mathrm{bin}}$: Peano arithmetic with binary numerals and an abbreviation rule (an expression used many times is paid for once), all proof lengths counted in symbols. The overhead below depends on these conventions, and [MAIS-A1](../agendas/A1/) fixes them exactly, down to the Gödel coding. Write $\ell_S(\varphi)$ for the least symbol length of an $S$-proof of $\varphi$ and $\Box P$ for arithmetized provability. The **Löb overhead** is $F_S(k,n)$, the maximum of $\ell_S(P)$ over sentences $P$ with $|P|\le n$ and $\ell_S(\Box P\to P)\le k$: the hardest-to-prove sentence among those whose reflection instance has a $k$-symbol proof (see [MAIS-O1](MAIS-O1.md)).
 
@@ -23,6 +23,6 @@ A concrete route in: carry out the ledger for $\mathsf{PA}_{\mathrm{bin}}$ with 
 ## References
 
 - [P98] P. Pudlák, *The lengths of proofs*, in: Handbook of Proof Theory (S. R. Buss, ed.), Elsevier, 1998, pp. 547–637.
-- [C19] A. Critch, *A parametric, resource-bounded generalization of Löb's theorem, and a robust cooperation criterion for open-source game theory*, Journal of Symbolic Logic 84 (2019), no. 4, 1368–1381. [arXiv:1602.04184](https://arxiv.org/abs/1602.04184)
+- [[C19]](../references/C19.md) A. Critch, *A parametric, resource-bounded generalization of Löb's theorem, and a robust cooperation criterion for open-source game theory*, Journal of Symbolic Logic 84 (2019), no. 4, 1368–1381. [arXiv:1602.04184](https://arxiv.org/abs/1602.04184)
 
 *Related: [MAIS-O1](MAIS-O1.md) (the overhead function this conjecture answers) · [MAIS-O12](MAIS-O12.md) (the constants $\mathcal{E}_S$ and $d_S$ the strong form needs) · [MAIS-O11](MAIS-O11.md) (the lower-bound counterpart).*

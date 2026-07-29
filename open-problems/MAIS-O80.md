@@ -29,6 +29,6 @@ Either outcome informs the same question: whether the geometric invariants attac
 ## References
 
 - [ABM23] E. Abbe, E. Boix-Adserà, and T. Misiakiewicz, *SGD learning on neural networks: leap complexity and saddle-to-saddle dynamics*, COLT 2023. [arXiv:2302.11055](https://arxiv.org/abs/2302.11055)
-- [W09] S. Watanabe, *Algebraic Geometry and Statistical Learning Theory*, Cambridge University Press, 2009.
+- [[W09]](../references/W09.md) S. Watanabe, *Algebraic Geometry and Statistical Learning Theory*, Cambridge University Press, 2009.
 
 *Related: [MAIS-O7](MAIS-O7.md) (the solvable linear dictionary this would extend beyond linearity) · [MAIS-O77](MAIS-O77.md) (computing singularity data along a saddle chain in the linear case) · [MAIS-O81](MAIS-O81.md) (whether a saddle's free-energy invariant is even well defined).*

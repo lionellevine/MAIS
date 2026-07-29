@@ -6,7 +6,7 @@
 
 *Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
-Train a tiny autoencoder to squeeze five sparse features through two dimensions, and its five weight vectors crystallize into a regular pentagon. This is the experiment of *Toy models of superposition* (Elhage et al. [[EHOS+22]](https://arxiv.org/abs/2209.10652)) in which superposition — a network representing more features than it has dimensions, a central obstacle to reading off what a model has learned — was first exhibited, and the pentagon is its emblem. No theorem yet says the pentagon wins.
+Train a tiny autoencoder to squeeze five sparse features through two dimensions, and its five weight vectors crystallize into a regular pentagon. This is the experiment of *Toy models of superposition* (Elhage et al. [[EHOS+22]](../references/EHOS+22.md)) in which superposition — a network representing more features than it has dimensions, a central obstacle to reading off what a model has learned — was first exhibited, and the pentagon is its emblem. No theorem yet says the pentagon wins.
 
 The model: fix $m$ features, $n<m$ dimensions, and a sparsity parameter $p\in(0,1)$. Let $x\in\mathbb{R}^m$ have independent coordinates $x_i=\zeta_i\omega_i$ with $\zeta_i\sim\mathrm{Bernoulli}(p)$ and $\omega_i\sim\mathrm{Unif}[0,1]$, and define
 
@@ -26,7 +26,7 @@ Every quantity is explicit: the loss is a semialgebraic integral in fifteen vari
 
 - [BF03] J. J. Benedetto and M. Fickus, *Finite normalized tight frames*, Adv. Comput. Math. **18** (2003), 357–385.
 - [CLMWM23] Z. Chen, E. Lau, J. Mendel, S. Wei, and D. Murfet, *Dynamical versus Bayesian phase transitions in a toy model of superposition*, 2023. [arXiv:2310.06301](https://arxiv.org/abs/2310.06301)
-- [EHOS+22] N. Elhage, T. Hume, C. Olsson, N. Schiefer, et al., *Toy models of superposition*, Transformer Circuits Thread, Anthropic, 2022. [arXiv:2209.10652](https://arxiv.org/abs/2209.10652)
+- [[EHOS+22]](../references/EHOS+22.md) N. Elhage, T. Hume, C. Olsson, N. Schiefer, et al., *Toy models of superposition*, Transformer Circuits Thread, Anthropic, 2022. [arXiv:2209.10652](https://arxiv.org/abs/2209.10652)
 - [IORP+26] G. Ivanov, N. Oozeer, S. Raval, T. Pejovic, S. Upadhyay, and A. Abdullah, *Spectral superposition: a theory of feature geometry*, 2026. [arXiv:2602.02224](https://arxiv.org/abs/2602.02224)
 
 *Related: [MAIS-O42](MAIS-O42.md) (the one-active-feature case, a starter) · [MAIS-O47](MAIS-O47.md) (uniqueness of minimizers of the same toy model up to symmetry) · [MAIS-O4](MAIS-O4.md) (the toy model's loss frontier under a coherence constraint).*

@@ -17,7 +17,7 @@ The uniform truth is a solved base case and a model answer: there the attention 
 ## References
 
 - [AW05] M. Aoyagi and S. Watanabe, *Stochastic complexities of reduced rank regression in Bayesian estimation*, Neural Networks 18 (2005), no. 7, 924–933.
-- [W09] S. Watanabe, *Algebraic Geometry and Statistical Learning Theory*, Cambridge University Press, 2009.
+- [[W09]](../references/W09.md) S. Watanabe, *Algebraic Geometry and Statistical Learning Theory*, Cambridge University Press, 2009.
 - [WHVFM24] G. Wang, J. Hoogland, S. van Wingerden, Z. Furman, and D. Murfet, *Differentiation and specialization of attention heads via the refined local learning coefficient*, 2024. [arXiv:2410.02984](https://arxiv.org/abs/2410.02984)
 
 *Related: [MAIS-O66](MAIS-O66.md) (the generic-constancy hypothesis this problem rests on) · [MAIS-O68](MAIS-O68.md) (linear attention, a degree-10 polynomial loss likelier to fall first) · [MAIS-O70](MAIS-O70.md) (local pairs on the reduced-rank template).*

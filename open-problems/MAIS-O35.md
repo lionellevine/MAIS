@@ -6,7 +6,7 @@
 
 *Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
-Radon's inversion formula became tomography when it acquired error bars and dose budgets. For world-model discovery — reading a causal model out of an agent's near-optimal behavior — the inversion step is a theorem of Richens and Everitt [[RE24]](https://arxiv.org/abs/2402.10877): any policy that stays near-optimal across a rich family of interventions on its environment determines an approximate causal model of that environment. The two-variable environment is a scanner small enough to build first: how many sampled actions determine whether $X$ causes $Y$ or $Y$ causes $X$, and to how many digits?
+Radon's inversion formula became tomography when it acquired error bars and dose budgets. For world-model discovery — reading a causal model out of an agent's near-optimal behavior — the inversion step is a theorem of Richens and Everitt [[RE24]](../references/RE24.md): any policy that stays near-optimal across a rich family of interventions on its environment determines an approximate causal model of that environment. The two-variable environment is a scanner small enough to build first: how many sampled actions determine whether $X$ causes $Y$ or $Y$ causes $X$, and to how many digits?
 
 The **two-variable family** $\mathcal{M}_2(\lambda)$, exactly quantified in the agenda's [Definition 5.1](../agendas/A2/MAIS-A2.tex#L372): chance variables $X,Y$; the agent observes nothing, chooses a binary action $d$, and is paid a known utility $u(d,x,y)$ whose action gap $u(1,x,y)-u(0,x,y)$ is bounded away from zero, takes both signs, and is sensitive to each variable; the model is either $X\to Y$ (parameters $a=P(X{=}1)$, $b_x=P(Y{=}1\mid X{=}x)$) or $Y\to X$, with all parameters in $[\lambda,1-\lambda]$ and edge strength at least $\lambda$. A query names a rational mixture $\sigma$ of the sixteen intervention profiles; the adversary has pre-committed a regret-$\delta$ policy for each mixture, and the answer is one action sampled from it; corruption at level $\zeta$ flips each returned action independently with probability $\zeta$. Two quantities from the companion problem [MAIS-O34](MAIS-O34.md): $r_M(\delta)$, the radius of the set of models sharing a regret-$\delta$ policy family with $M$ (the ambiguity no budget removes), and the switching surfaces, the mixtures at which an optimal agent is indifferent. $H$ denotes binary entropy.
 
@@ -18,7 +18,7 @@ The agenda pairs this with a fully specified computational project: sample a tho
 
 ## References
 
-- [RE24] J. Richens and T. Everitt, *Robust agents learn causal world models*, ICLR 2024. [arXiv:2402.10877](https://arxiv.org/abs/2402.10877)
+- [[RE24]](../references/RE24.md) J. Richens and T. Everitt, *Robust agents learn causal world models*, ICLR 2024. [arXiv:2402.10877](https://arxiv.org/abs/2402.10877)
 - [KK07] R. M. Karp and R. Kleinberg, *Noisy binary search and its applications*, SODA 2007, 881–890.
 
 *Related: [MAIS-O34](MAIS-O34.md) (the exact identified set this problem samples toward) · [MAIS-O2](MAIS-O2.md) (the general problem this grounds) · [MAIS-O29](MAIS-O29.md) (Boltzmann agents in general).*
