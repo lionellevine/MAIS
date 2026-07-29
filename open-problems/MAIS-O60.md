@@ -17,7 +17,6 @@ In words: with a single neuron there is no competition for neurons, only the que
 ## References
 
 - [HWCY26] J. He, L. Wang, S. Chen, and Z. Yang, *On the mechanism and dynamics of modular addition: Fourier features, lottery ticket, and grokking*, preprint, 2026. [arXiv:2602.16849](https://arxiv.org/abs/2602.16849)
-- [HWZCY26] J. He, L. Wang, F. Zhang, S. Chen, and Z. Yang, *Neural networks provably learn spectral representations for group composition*, preprint, 2026. [arXiv:2606.02993](https://arxiv.org/abs/2606.02993)
 - [NCLSS23] N. Nanda, L. Chan, T. Lieberum, J. Smith, and J. Steinhardt, *Progress measures for grokking via mechanistic interpretability*, ICLR, 2023. [arXiv:2301.05217](https://arxiv.org/abs/2301.05217)
 
 *Related: [MAIS-O59](MAIS-O59.md) (two quadratic neurons: alignment plus competition) · [MAIS-O53](MAIS-O53.md) (multiplicities when many neurons compete) · [MAIS-O5](MAIS-O5.md) (the headline selection law).*

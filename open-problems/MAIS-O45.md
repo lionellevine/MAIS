@@ -6,7 +6,7 @@
 
 *Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
-Coherence — the worst-case overlap between stored features, meaning the largest inner product in absolute value between two distinct unit-normalized columns of the weight matrix — is a property of the weights; the post-hoc interpreter never sees the weights. She sees only activations, and runs a dictionary-learning estimator on them. Does training with an interference penalty actually help her?
+Coherence, the worst-case overlap between stored features, is a property of the weights; the post-hoc interpreter never sees the weights. She sees only activations, and runs a dictionary-learning estimator on them. Does training with an interference penalty actually help her?
 
 The setting is the ReLU toy model of Elhage et al. [[EHOS+22]](https://arxiv.org/abs/2209.10652): $x\in\mathbb{R}^m$ has independent coordinates, each zero with probability $S$ and otherwise uniform on $[0,1]$; the network $f_{W,b}(x)=\mathrm{ReLU}(W^{\top}Wx+b)$, $W\in\mathbb{R}^{n\times m}$ with $n<m$, has task loss $L=\mathbb{E}\ \Vert x-f_{W,b}(x)\Vert _2^2$, and $R(W)=\sum_{i\neq j}\langle W_i,W_j\rangle^2$ is the interference penalty, the smooth average-case counterpart of the worst-case coherence. The interpreter is handed the activations $h=Wx$ and fits a dictionary $D\in\mathbb{R}^{n\times d}$, columns constrained to $\Vert D_j\Vert _2\le1$, minimizing the sparse-coding objective $J_{W,S,\alpha}(D)=\mathbb{E}_x \min_{a\in\mathbb{R}^d_{\ge0}} \bigl(\Vert Wx-Da\Vert _2^2+\alpha\Vert a\Vert _1\bigr)$ — a sparse autoencoder with the learned encoder replaced by exact minimization. Say $D$ **$\varepsilon$-recovers** $W$ if some injective map $\pi$ sends each nonzero column $i$ of $W$ to a nonzero column of $D$ with $\langle\widehat W_i,\widehat D_{\pi(i)}\rangle\ge1-\varepsilon$ (hats normalize columns to unit length), and write $\mathrm{REC}_S(W;d,\alpha,\varepsilon)=1$ if every global minimizer of $J_{W,S,\alpha}$ $\varepsilon$-recovers $W$.
 
@@ -21,6 +21,5 @@ Part (1) asks, in the lowest dimension where the question makes sense, whether t
 
 - [CZWW25] J. Cui, Q. Zhang, Y. Wang, and Y. Wang, *On the limits of sparse autoencoders: a theoretical framework and reweighted remedy*, 2025. [arXiv:2506.15963](https://arxiv.org/abs/2506.15963)
 - [EHOS+22] N. Elhage et al., *Toy models of superposition*, Transformer Circuits Thread, 2022. [arXiv:2209.10652](https://arxiv.org/abs/2209.10652)
-- [GJB15] R. Gribonval, R. Jenatton, and F. Bach, *Sparse and spurious: dictionary learning with noise and outliers*, IEEE Transactions on Information Theory 61(11), 6298–6319, 2015. [arXiv:1407.5155](https://arxiv.org/abs/1407.5155)
 
 *Related: [MAIS-O46](MAIS-O46.md) (does coherence even rank recoverability?) · [MAIS-O3](MAIS-O3.md) (identifiability of the $\ell^1$ dictionary estimator itself) · [MAIS-O44](MAIS-O44.md) (the coherence-level version of transfer) · [MAIS-O43](MAIS-O43.md) (measure the recovery–merging phase diagram numerically).*

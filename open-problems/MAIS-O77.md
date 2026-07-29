@@ -12,13 +12,9 @@ The invariant is the **two-sided local pair** $(\lambda(w), m(w))$, defined at a
 
 $$\mathrm{vol}\bigl\lbrace  w \in B_\delta(w^\ast) : |L(w) - L(w^\ast)| < \varepsilon \bigr\rbrace  \asymp \varepsilon^{\lambda(w^\ast)} \bigl( \log \tfrac1\varepsilon \bigr)^{m(w^\ast)-1}.$$
 
-At a local minimum this is the local learning coefficient of Lau et al. [[LFWMW23]](https://arxiv.org/abs/2308.12108), Watanabe's real log canonical threshold; at a saddle the two-sided absolute value is one of several inequivalent choices, deliberately fixed here.
+At a local minimum this is the local learning coefficient of Lau et al. [[LFWMW23]](https://arxiv.org/abs/2308.12108), Watanabe's real log canonical threshold; at a saddle the two-sided absolute value is one of several inequivalent choices, deliberately fixed here (the alternatives are weighed in [MAIS-A7](../agendas/A7/), Section 6.1).
 
-One entry of the table is classical: Aoyagi and Watanabe [AW05] computed the minimal value of $\lambda$ over the fiber, the learning coefficient of reduced rank regression, by a resolution of singularities carried out by hand. When $N + r \le M + H$, $M + r \le N + H$, and $H + r \le M + N$,
-
-$$\lambda = \frac{2(H+r)(M+N) - (M-N)^2 - (H+r)^2 + [\,M{+}H{+}N{+}r\ \text{odd}\,]}{8}$$
-
-(the bracket contributing $1$ when its condition holds), with $m = 2$ if $M+H+N+r$ is odd and $m = 1$ if even; the three remaining cases give simpler quadratic values with $m = 1$. These global values are attained at the most degenerate points of the fiber, so the minimal stratum in part (a) means the stratum on which $\lambda$ attains this minimum.
+One entry of the table is classical: Aoyagi and Watanabe [AW05] computed the minimal value of $\lambda$ over the fiber, the learning coefficient of reduced rank regression, by a resolution of singularities carried out by hand; the exact values, quadratic in $(M, N, H, r)$ with four cases, are reproduced as [MAIS-A7, Theorem 2.6](../agendas/A7/MAIS-A7.tex#L183). This global minimum is attained at the most degenerate points of the fiber, so the minimal stratum in part (a) means the stratum on which $\lambda$ attains it.
 
 **Problem ([MAIS-A7, Problem 3.9](../agendas/A7/MAIS-A7.tex#L359); λ-stratification of the fiber and its saddles).** For the loss $L(A,B) = \tfrac12 \Vert  BA - \Phi \Vert _F^2$ with $H > r$:
 

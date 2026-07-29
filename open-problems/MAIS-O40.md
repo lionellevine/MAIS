@@ -6,7 +6,7 @@
 
 *Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
-Train a tiny autoencoder to squeeze five sparse features through two dimensions, and its five weight vectors crystallize into a regular pentagon. This is the experiment of *Toy models of superposition* (Elhage et al. [[EHOS+22]](https://arxiv.org/abs/2209.10652)) in which superposition was first exhibited, and the pentagon is its emblem. No theorem yet says the pentagon wins.
+Train a tiny autoencoder to squeeze five sparse features through two dimensions, and its five weight vectors crystallize into a regular pentagon. This is the experiment of *Toy models of superposition* (Elhage et al. [[EHOS+22]](https://arxiv.org/abs/2209.10652)) in which superposition — a network representing more features than it has dimensions, a central obstacle to reading off what a model has learned — was first exhibited, and the pentagon is its emblem. No theorem yet says the pentagon wins.
 
 The model: fix $m$ features, $n<m$ dimensions, and a sparsity parameter $p\in(0,1)$. Let $x\in\mathbb{R}^m$ have independent coordinates $x_i=\zeta_i\omega_i$ with $\zeta_i\sim\mathrm{Bernoulli}(p)$ and $\omega_i\sim\mathrm{Unif}[0,1]$, and define
 
