@@ -21,13 +21,13 @@ so a small $\lambda$ means near-level parameters are plentiful; at a local minim
 
 For the refinement by multiplicity, order pairs by declaring $(\lambda', m')$ deeper than $(\lambda, m)$ when $\lambda' < \lambda$, or when $\lambda' = \lambda$ and $m' > m$. Does the finite-image assertion and the corresponding locally closed subanalytic frontier condition hold for this ordered pair?
 
-Part of the frontier picture is now known: Lehalleur and Rimányi ([[LR24]](https://arxiv.org/abs/2411.19920), Proposition 8.4(ii)) prove $\lambda$ is lower semicontinuous, so $\lbrace  w \in W_0 : \lambda(w) \le c \rbrace $ is closed in $W_0$. Finiteness of the image, subanalyticity of the pieces, and the multiplicity-refined version remain open. The real case has behavior absent from its complexification, including parity effects: in the Aoyagi–Watanabe formula for reduced rank regression [AW05], the learning coefficient and its multiplicity depend on whether the sum of the four dimension parameters is even or odd. For the surrounding program, see [MAIS-A7](../agendas/A7/).
+Part of the frontier picture is now known: Lehalleur and Rimányi ([[LR24]](../references/LR24.md), Proposition 8.4(ii)) prove $\lambda$ is lower semicontinuous, so $\lbrace  w \in W_0 : \lambda(w) \le c \rbrace $ is closed in $W_0$. Finiteness of the image, subanalyticity of the pieces, and the multiplicity-refined version remain open. The real case has behavior absent from its complexification, including parity effects: in the Aoyagi–Watanabe formula for reduced rank regression [AW05], the learning coefficient and its multiplicity depend on whether the sum of the four dimension parameters is even or odd. For the surrounding program, see [MAIS-A7](../agendas/A7/).
 
 ## References
 
 - [[AW05]](../references/AW05.md) M. Aoyagi, S. Watanabe, *Stochastic complexities of reduced rank regression in Bayesian estimation*, Neural Networks **18** (2005), 924–933.
 - [L17] S. Lin, *Ideal-theoretic strategies for asymptotic approximation of marginal likelihood integrals*, J. Algebraic Stat. **8** (2017), 22–55.
-- [LR24] S. P. Lehalleur, R. Rimányi, *Geometry of fibers of the multiplication map of deep linear neural networks*, 2024. [arXiv:2411.19920](https://arxiv.org/abs/2411.19920)
+- [[LR24]](../references/LR24.md) S. P. Lehalleur, R. Rimányi, *Geometry of fibers of the multiplication map of deep linear neural networks*, 2024. [arXiv:2411.19920](https://arxiv.org/abs/2411.19920)
 - [[W09]](../references/W09.md) S. Watanabe, *Algebraic Geometry and Statistical Learning Theory*, Cambridge University Press, 2009.
 
 *Related: [MAIS-O7](MAIS-O7.md) (the headline conjecture whose staircase runs over these strata) · [MAIS-O77](MAIS-O77.md) (computing the stratification for a concrete fiber) · [MAIS-O73](MAIS-O73.md) (metastable timescales built from stratum data).*

@@ -22,6 +22,6 @@ The problem has teeth: $|\boldsymbol{\Psi}_n|$ is astronomically larger than any
 ## References
 
 - [[RABE25]](../references/RABE25.md) J. Richens, D. Abel, A. Bellot, and T. Everitt, *General agents contain world models*, Proc. 42nd International Conference on Machine Learning (ICML), 2025. [arXiv:2506.01622](https://arxiv.org/abs/2506.01622)
-- [RMKWS80] R. L. Rivest, A. R. Meyer, D. J. Kleitman, K. Winklmann, and J. Spencer, *Coping with errors in binary search procedures*, J. Comput. System Sci. 20 (1980), no. 3, 396–404.
+- [[RMKWS80]](../references/RMKWS80.md) R. L. Rivest, A. R. Meyer, D. J. Kleitman, K. Winklmann, and J. Spencer, *Coping with errors in binary search procedures*, J. Comput. System Sci. 20 (1980), no. 3, 396–404.
 
 *Related: [MAIS-O32](MAIS-O32.md) (the uncorrupted resolution limit in the same setting) · [MAIS-O2](MAIS-O2.md) (independent response corruption in the interventional setting) · [MAIS-O35](MAIS-O35.md) (corruption at the two-variable scale).*

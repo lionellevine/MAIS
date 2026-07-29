@@ -16,7 +16,7 @@ The agenda flags rather than endorses this formulation. It hard-wires three deba
 
 ## References
 
-- [S76] R. M. Solovay, *Provability interpretations of modal logic*, Israel Journal of Mathematics 25 (1976), 287–304.
+- [[S76]](../references/S76.md) R. M. Solovay, *Provability interpretations of modal logic*, Israel Journal of Mathematics 25 (1976), 287–304.
 - [GS79] D. Guaspari and R. M. Solovay, *Rosser sentences*, Annals of Mathematical Logic 16 (1979), no. 1, 81–99.
 - [DM89] D. H. J. de Jongh and F. Montagna, *Much shorter proofs*, Zeitschrift für mathematische Logik und Grundlagen der Mathematik 35 (1989), 247–260.
 - [[C19]](../references/C19.md) A. Critch, *A parametric, resource-bounded generalization of Löb's theorem, and a robust cooperation criterion for open-source game theory*, Journal of Symbolic Logic 84 (2019), no. 4, 1368–1381. [arXiv:1602.04184](https://arxiv.org/abs/1602.04184)

@@ -12,11 +12,11 @@ The parameters are three functions $u_1, v_1, w_1 \in \mathbb{R}^{C_p}$ — a si
 
 **Problem ([MAIS-A5, Problem 6.2](../agendas/A5/MAIS-A5.tex#L320)).** Let $G = C_p$, $\sigma = \mathrm{ReLU}$, $m = 1$, $\lambda = 0$, $\tau = 1$, and condition on the event that the neuron is active at initialization — $u_1(a) + v_1(b) > 0$ for some $(a,b)$. (On the complementary event the gradient vanishes almost surely; equality at a ReLU kink is a Gaussian null event.) Prove or refute: almost surely on the active event, the normalized weights $(u_1, v_1, w_1)/\Vert \cdot\Vert $ converge, and the limit is $(\delta, [\rho_\zeta])$-pure for every $\delta > 0$, for some frequency $\zeta$.
 
-In words: with a single neuron there is no competition for neurons, only the question of whether the rectifier dynamics themselves concentrate a random initial spectrum onto one frequency. The nearest rectifier result, a leakage-rate estimate of He, Wang, Chen, and Yang [[HWCY26]](https://arxiv.org/abs/2602.16849), starts from a controlled single-frequency state rather than random initialization, so even this one-neuron case is open. For the Clarke-trajectory convention and the surrounding results, see [MAIS-A5](../agendas/A5/).
+In words: with a single neuron there is no competition for neurons, only the question of whether the rectifier dynamics themselves concentrate a random initial spectrum onto one frequency. The nearest rectifier result, a leakage-rate estimate of He, Wang, Chen, and Yang [[HWCY26]](../references/HWCY26.md), starts from a controlled single-frequency state rather than random initialization, so even this one-neuron case is open. For the Clarke-trajectory convention and the surrounding results, see [MAIS-A5](../agendas/A5/).
 
 ## References
 
-- [HWCY26] J. He, L. Wang, S. Chen, and Z. Yang, *On the mechanism and dynamics of modular addition: Fourier features, lottery ticket, and grokking*, preprint, 2026. [arXiv:2602.16849](https://arxiv.org/abs/2602.16849)
+- [[HWCY26]](../references/HWCY26.md) J. He, L. Wang, S. Chen, and Z. Yang, *On the mechanism and dynamics of modular addition: Fourier features, lottery ticket, and grokking*, preprint, 2026. [arXiv:2602.16849](https://arxiv.org/abs/2602.16849)
 - [[NCLSS23]](../references/NCLSS23.md) N. Nanda, L. Chan, T. Lieberum, J. Smith, and J. Steinhardt, *Progress measures for grokking via mechanistic interpretability*, ICLR, 2023. [arXiv:2301.05217](https://arxiv.org/abs/2301.05217)
 
 *Related: [MAIS-O59](MAIS-O59.md) (two quadratic neurons: alignment plus competition) · [MAIS-O53](MAIS-O53.md) (multiplicities when many neurons compete) · [MAIS-O5](MAIS-O5.md) (the headline selection law).*

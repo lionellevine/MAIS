@@ -23,7 +23,7 @@ In words: how small can the task loss be among weight matrices whose worst-case 
 ## References
 
 - [[EHOS+22]](../references/EHOS+22.md) N. Elhage et al., *Toy models of superposition*, Transformer Circuits Thread. [arXiv:2209.10652](https://arxiv.org/abs/2209.10652)
-- [W74] L. R. Welch, *Lower bounds on the maximum cross correlation of signals*, IEEE Transactions on Information Theory 20(3), 397–399.
+- [[W74]](../references/W74.md) L. R. Welch, *Lower bounds on the maximum cross correlation of signals*, IEEE Transactions on Information Theory 20(3), 397–399.
 - [CDI24] A. Cowsik, K. Dolev, and A. Infanger, *The Persian rug: solving toy models of superposition using large-scale symmetries*. [arXiv:2410.12101](https://arxiv.org/abs/2410.12101)
 
 *Related: [MAIS-O44](MAIS-O44.md) (the survey's first case: average vs. worst-case interference) · [MAIS-O51](MAIS-O51.md) (the same frontier in the smallest model, a starter) · [MAIS-O47](MAIS-O47.md) (uniqueness of the $(5,2)$ minimizer, needed for part 1) · [MAIS-O49](MAIS-O49.md) (the analogous frontier for weight sparsity).*

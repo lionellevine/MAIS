@@ -16,12 +16,12 @@ Two facts frame the conjecture. Padding any exact fit with a dead unit raises it
 
 $$\lambda_{\min}(p, H+1; R) \ =\  \lambda_{\min}(p, H; R) + \frac{2p-1}{4}.$$
 
-In words: as long as the running minimum plus one increment stays below the ceiling $p^3/2$, each added unit raises the smallest local learning coefficient in the ball by exactly $(2p-1)/4$ — the cost of killing the unit, and about a third of the parameter-counting charge. For comparison, Cullen, Estan-Ruiz, Danait, and Li [[CEDL26]](https://arxiv.org/abs/2603.01192) compute local coefficients for these networks in closed form under non-degeneracy hypotheses charging $(3p-1)/2$ per active unit; those hypotheses fail at the dead-unit points this conjecture prices. A first step sized for one paper: settle the case of a single added unit, computing the exact local coefficient at the padded Fourier point $(w^F, 0) \in W_0(p, 2p)$, where the cross terms discarded by Cauchy–Schwarz must be confronted. The padding proposition and the ceiling argument are in [MAIS-A6](../agendas/A6/).
+In words: as long as the running minimum plus one increment stays below the ceiling $p^3/2$, each added unit raises the smallest local learning coefficient in the ball by exactly $(2p-1)/4$ — the cost of killing the unit, and about a third of the parameter-counting charge. For comparison, Cullen, Estan-Ruiz, Danait, and Li [[CEDL26]](../references/CEDL26.md) compute local coefficients for these networks in closed form under non-degeneracy hypotheses charging $(3p-1)/2$ per active unit; those hypotheses fail at the dead-unit points this conjecture prices. A first step sized for one paper: settle the case of a single added unit, computing the exact local coefficient at the padded Fourier point $(w^F, 0) \in W_0(p, 2p)$, where the cross terms discarded by Cauchy–Schwarz must be confronted. The padding proposition and the ceiling argument are in [MAIS-A6](../agendas/A6/).
 
 ## References
 
 - [[W09]](../references/W09.md) S. Watanabe, *Algebraic Geometry and Statistical Learning Theory*, Cambridge University Press, 2009.
 - [[LFWMW23]](../references/LFWMW23.md) E. Lau, Z. Furman, G. Wang, D. Murfet, and S. Wei, *The local learning coefficient: a singularity-aware complexity measure*, 2023. [arXiv:2308.12108](https://arxiv.org/abs/2308.12108)
-- [CEDL26] B. Cullen, S. Estan-Ruiz, R. Danait, and J. Li, *A Basin-Selection Perspective on Grokking via Singular Learning Theory*, 2026. [arXiv:2603.01192](https://arxiv.org/abs/2603.01192)
+- [[CEDL26]](../references/CEDL26.md) B. Cullen, S. Estan-Ruiz, R. Danait, and J. Li, *A Basin-Selection Perspective on Grokking via Singular Learning Theory*, 2026. [arXiv:2603.01192](https://arxiv.org/abs/2603.01192)
 
 *Related: [MAIS-O63](MAIS-O63.md) (the base values $\lambda_{\min}(p,H;R)$ this recursion starts from) · [MAIS-O6](MAIS-O6.md) (structure of the minimizers) · [MAIS-O62](MAIS-O62.md) (where the variety becomes nonempty).*

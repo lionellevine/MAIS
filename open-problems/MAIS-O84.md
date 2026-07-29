@@ -27,7 +27,7 @@ The crossover time is the theory's answer to the 2%: Langosco et al.'s agents we
 ## References
 
 - [[SHNGS18]](../references/SHNGS18.md) Soudry, Hoffer, Nacson, Gunasekar, and Srebro, *The implicit bias of gradient descent on separable data*, J. Mach. Learn. Res. 19(70):1–57, 2018. [arXiv:1710.10345](https://arxiv.org/abs/1710.10345)
-- [JT19] Ji and Telgarsky, *The implicit bias of gradient descent on nonseparable data*, COLT 2019 — the refined residual and rate analysis for the linear case. [arXiv:1803.07300](https://arxiv.org/abs/1803.07300)
+- [[JT19]](../references/JT19.md) Ji and Telgarsky, *The implicit bias of gradient descent on nonseparable data*, COLT 2019 — the refined residual and rate analysis for the linear case. [arXiv:1803.07300](https://arxiv.org/abs/1803.07300)
 - [[LKSP+22]](../references/LKSP+22.md) Langosco, Koch, Sharkey, Pfau, Orseau, and Krueger, *Goal misgeneralization in deep reinforcement learning*, ICML 2022 — the 2% experiment. [arXiv:2105.14111](https://arxiv.org/abs/2105.14111)
 
 *Related: [MAIS-O8](MAIS-O8.md) (the selection map whose finite-time structure this is) · [MAIS-O89](MAIS-O89.md) (the other linear-model residual question) · [MAIS-O88](MAIS-O88.md) (the reinforcement-learning diversity curve).*

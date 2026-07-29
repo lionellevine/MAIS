@@ -19,6 +19,6 @@ The agenda pairs this with a fully specified computational project: sample a tho
 ## References
 
 - [[RE24]](../references/RE24.md) J. Richens and T. Everitt, *Robust agents learn causal world models*, ICLR 2024. [arXiv:2402.10877](https://arxiv.org/abs/2402.10877)
-- [KK07] R. M. Karp and R. Kleinberg, *Noisy binary search and its applications*, SODA 2007, 881–890.
+- [[KK07]](../references/KK07.md) R. M. Karp and R. Kleinberg, *Noisy binary search and its applications*, SODA 2007, 881–890.
 
 *Related: [MAIS-O34](MAIS-O34.md) (the exact identified set this problem samples toward) · [MAIS-O2](MAIS-O2.md) (the general problem this grounds) · [MAIS-O29](MAIS-O29.md) (Boltzmann agents in general).*

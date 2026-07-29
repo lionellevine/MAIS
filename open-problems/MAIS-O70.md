@@ -18,6 +18,6 @@ In the statement's last sentence, "the table" is the Aoyagi–Watanabe case list
 
 - [[AW05]](../references/AW05.md) M. Aoyagi and S. Watanabe, *Stochastic complexities of reduced rank regression in Bayesian estimation*, Neural Networks 18(7) (2005), 924–933.
 - [[LFWMW23]](../references/LFWMW23.md) E. Lau, Z. Furman, G. Wang, D. Murfet, and S. Wei, *The local learning coefficient: a singularity-aware complexity measure*. [arXiv:2308.12108](https://arxiv.org/abs/2308.12108)
-- [W13] S. Watanabe, *A widely applicable Bayesian information criterion*, Journal of Machine Learning Research 14 (2013), 867–897.
+- [[W13]](../references/W13.md) S. Watanabe, *A widely applicable Bayesian information criterion*, Journal of Machine Learning Research 14 (2013), 867–897.
 
 *Related: [MAIS-O69](MAIS-O69.md) (the localization question this table would calibrate) · [MAIS-O77](MAIS-O77.md) (learning coefficients on the matrix factorization fiber and its saddles) · [MAIS-O67](MAIS-O67.md) (the attention analog of the global formula).*

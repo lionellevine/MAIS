@@ -19,12 +19,12 @@ Work in an efficient proof system $S$, in Critch's sense [[C19]](../references/C
    beating the trivial toll of the lemma above; that is, exhibit any genuine speedup from Löb's rule. (Here $S = \mathsf{PA}_{\mathrm{bin}}$, or any efficient system of your choice.)
 2. Decide Conjecture 3.5 ([MAIS-O10](MAIS-O10.md)): is $F_{\mathsf{PA}_{\mathrm{bin}}}(k,n)$ bounded by a fixed polynomial in $k+n$, or does it grow faster than every polynomial along some sequence $(k_i, n_i)$?
 
-Part 1 asks for a sequence of sentences whose direct proofs are longer, by a fixed factor plus the trivial toll, than the proofs of their reflection instances: the first witness that the detour pays at all. In part 2, Conjecture 3.5 asserts the first alternative, the polynomial bound. The nearest proved lower bounds are Friedman's and Pudlák's [[P17]](https://arxiv.org/abs/1601.01487), for the one instance $P=\bot$ where the hypothesis is unprovable; for the speedup literature and why it falls short here, see [MAIS-A1](../agendas/A1/).
+Part 1 asks for a sequence of sentences whose direct proofs are longer, by a fixed factor plus the trivial toll, than the proofs of their reflection instances: the first witness that the detour pays at all. In part 2, Conjecture 3.5 asserts the first alternative, the polynomial bound. The nearest proved lower bounds are Friedman's and Pudlák's [[P17]](../references/P17.md), for the one instance $P=\bot$ where the hypothesis is unprovable; for the speedup literature and why it falls short here, see [MAIS-A1](../agendas/A1/).
 
 ## References
 
 - [[C19]](../references/C19.md) A. Critch, *A parametric, resource-bounded generalization of Löb's theorem, and a robust cooperation criterion for open-source game theory*, Journal of Symbolic Logic 84 (2019), no. 4, 1368–1381. [arXiv:1602.04184](https://arxiv.org/abs/1602.04184)
 - [P71] R. Parikh, *Existence and feasibility in arithmetic*, Journal of Symbolic Logic 36 (1971), no. 3, 494–508.
-- [P17] P. Pudlák, *Incompleteness in the finite domain*, Bulletin of Symbolic Logic 23 (2017), no. 4, 405–441. [arXiv:1601.01487](https://arxiv.org/abs/1601.01487)
+- [[P17]](../references/P17.md) P. Pudlák, *Incompleteness in the finite domain*, Bulletin of Symbolic Logic 23 (2017), no. 4, 405–441. [arXiv:1601.01487](https://arxiv.org/abs/1601.01487)
 
 *Related: [MAIS-O1](MAIS-O1.md) (the overhead function) · [MAIS-O10](MAIS-O10.md) (the conjecture part 2 decides) · [MAIS-O21](MAIS-O21.md) (whether any answer transfers between proof systems).*

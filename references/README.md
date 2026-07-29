@@ -28,3 +28,20 @@ Detailed summaries of AI safety papers cited across the [open problems](../open-
 | [BF03](BF03.md) | Benedetto & Fickus, *Finite normalized tight frames* (2003) | MAIS-A3, A4 + 3 problems |
 | [CLMWM23](CLMWM23.md) | Chen et al., *Dynamical versus Bayesian phase transitions in a toy model of superposition* (2023) | MAIS-A3, A4 + 3 problems |
 | [BEGK04](BEGK04.md) | Bovier, Eckhoff, Gayrard & Klein, *Metastability in reversible diffusion processes I* (2004) | MAIS-A7 + 3 problems |
+| [P17](P17.md) | Pudlák, *Incompleteness in the finite domain* (2017) | MAIS-A1 + 2 problems |
+| [S76](S76.md) | Solovay, *Provability interpretations of modal logic* (1976) | MAIS-A1 + 2 problems |
+| [RMKWS80](RMKWS80.md) | Rivest et al., *Coping with errors in binary search procedures* (1980) | MAIS-A2 + 2 problems |
+| [KK07](KK07.md) | Karp & Kleinberg, *Noisy binary search and its applications* (2007) | MAIS-A2 + 2 problems |
+| [URBY13](URBY13.md) | Uhler, Raskutti, Bühlmann & Yu, *Geometry of the faithfulness assumption in causal inference* (2013) | MAIS-A2 + 2 problems |
+| [EGS05](EGS05.md) | Eberhardt, Glymour & Scheines, *On the number of experiments sufficient and in the worst case necessary…* (2005) | MAIS-A2 + 2 problems |
+| [W74](W74.md) | Welch, *Lower bounds on the maximum cross correlation of signals* (1974) | MAIS-A4 + 2 problems |
+| [IORP+26](IORP+26.md) | Ivanov et al., *Spectral superposition: a theory of feature geometry* (2026) | MAIS-A3, A4 + 2 problems |
+| [JSH22](JSH22.md) | Jermyn, Schiefer & Hubinger, *Engineering monosemanticity in toy models* (2022) | MAIS-A4 + 2 problems |
+| [T25](T25.md) | Tian, *Composing global solutions to reasoning tasks via algebraic objects in neural nets* (2025) | MAIS-A5, A6 + 2 problems |
+| [HWCY26](HWCY26.md) | He, Wang, Chen & Yang, *On the mechanism and dynamics of modular addition* (2026) | MAIS-A5 + 2 problems |
+| [CEDL26](CEDL26.md) | Cullen, Estan-Ruiz, Danait & Li, *A Basin-Selection Perspective on Grokking via Singular Learning Theory* (2026) | MAIS-A6 + 2 problems |
+| [W13](W13.md) | Watanabe, *A widely applicable Bayesian information criterion* (2013) | MAIS-A6 + 2 problems |
+| [LR24](LR24.md) | Lehalleur & Rimányi, *Geometry of fibers of the multiplication map of deep linear neural networks* (2024) | MAIS-A7 + 2 problems |
+| [Del26](Del26.md) | Delande, *Sharp spectral gap for some degenerate Witten Laplacians* (2026) | MAIS-A7 + 2 problems |
+| [JT19](JT19.md) | Ji & Telgarsky, *The implicit bias of gradient descent on nonseparable data* (2019) | MAIS-A8 + 2 problems |
+| [MVSL21](MVSL21.md) | Mingard, Valle-Pérez, Skalse & Louis, *Is SGD a Bayesian sampler? Well, almost* (2021) | MAIS-A8 + 2 problems |

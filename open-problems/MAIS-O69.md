@@ -23,7 +23,7 @@ The two sides of the dichotomy are known. Watanabe's WBIC theorem [W13] says tha
 ## References
 
 - [[LFWMW23]](../references/LFWMW23.md) E. Lau, Z. Furman, G. Wang, D. Murfet, and S. Wei, *The local learning coefficient: a singularity-aware complexity measure*, 2023. [arXiv:2308.12108](https://arxiv.org/abs/2308.12108)
-- [W13] S. Watanabe, *A widely applicable Bayesian information criterion*, Journal of Machine Learning Research 14 (2013), 867–897.
+- [[W13]](../references/W13.md) S. Watanabe, *A widely applicable Bayesian information criterion*, Journal of Machine Learning Research 14 (2013), 867–897.
 - [[W09]](../references/W09.md) S. Watanabe, *Algebraic Geometry and Statistical Learning Theory*, Cambridge University Press, 2009.
 
 *Related: [MAIS-O70](MAIS-O70.md) (ground-truth local pairs to calibrate the estimator against) · [MAIS-O61](MAIS-O61.md) (running the estimator on small trained networks) · [MAIS-O63](MAIS-O63.md) (the exact values the estimator would be checked against on modular addition).*

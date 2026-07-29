@@ -19,6 +19,6 @@ With $W$ small, the all-variable hard anchors of the Richens–Everitt reconstru
 ## References
 
 - [[RE24]](../references/RE24.md) J. Richens and T. Everitt, *Robust agents learn causal world models*, ICLR 2024. [arXiv:2402.10877](https://arxiv.org/abs/2402.10877)
-- [EGS05] F. Eberhardt, C. Glymour, and R. Scheines, *On the number of experiments sufficient and in the worst case necessary to identify all causal relations among N variables*, UAI 2005, 178–184.
+- [[EGS05]](../references/EGS05.md) F. Eberhardt, C. Glymour, and R. Scheines, *On the number of experiments sufficient and in the worst case necessary to identify all causal relations among N variables*, UAI 2005, 178–184.
 
 *Related: [MAIS-O31](MAIS-O31.md) (the chain with a single intervenable variable, the first test case) · [MAIS-O23](MAIS-O23.md) (identifiability with the full intervention set) · [MAIS-O24](MAIS-O24.md) (explicit margins replacing "almost every").*

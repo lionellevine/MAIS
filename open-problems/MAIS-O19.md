@@ -21,6 +21,6 @@ In words: every law of provability logic remains a law when every "provable" is 
 ## References
 
 - [[C19]](../references/C19.md) A. Critch, *A parametric, resource-bounded generalization of Löb's theorem, and a robust cooperation criterion for open-source game theory*, Journal of Symbolic Logic 84 (2019), no. 4, 1368–1381. [arXiv:1602.04184](https://arxiv.org/abs/1602.04184)
-- [S76] R. M. Solovay, *Provability interpretations of modal logic*, Israel Journal of Mathematics 25 (1976), 287–304.
+- [[S76]](../references/S76.md) R. M. Solovay, *Provability interpretations of modal logic*, Israel Journal of Mathematics 25 (1976), 287–304.
 
 *Related: [MAIS-O18](MAIS-O18.md) (the Löb axiom case) · [MAIS-O22](MAIS-O22.md) (the completeness converse) · [MAIS-O12](MAIS-O12.md) (the polynomial bounds on $\mathcal{E}$ and $d_S$ the hypothesis needs).*

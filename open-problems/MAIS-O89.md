@@ -12,11 +12,11 @@ The setting is the agenda's coin line with the relative encoding: an agent at $p
 
 **Problem ([MAIS-A8, Problem 7.1](../agendas/A8/MAIS-A8.tex#L462)).** In this setting, the boundary logit at $c=p-1$ is $d_k=w_{0,k}-w_{1,k}$; the leading maximum-margin term cancels there. Determine whether $d_k$ converges as a function of the initialization and step size, and compute its limit $d_\infty$. Then compute the exact return of the limiting logistic policy, which steps right at a boundary state with probability $\sigma(d_\infty)$. This convention includes $d_\infty=0$ without a separate tie rule.
 
-Here $w_{0,k},w_{1,k}$ are the two coordinates of the step-$k$ iterate, $\sigma(z)=1/(1+e^{-z})$, and the return is the test return of the agenda's coin line: the probability of collecting the coin within the horizon when start and coin positions are independent and uniform. The refined residual analysis of Ji and Telgarsky [[JT19]](https://arxiv.org/abs/1803.07300) for separable logistic regression is the natural tool, and no networks are involved: this is a starter problem about a two-parameter convex iteration. For the max-margin computation it refines, see [MAIS-A8](../agendas/A8/).
+Here $w_{0,k},w_{1,k}$ are the two coordinates of the step-$k$ iterate, $\sigma(z)=1/(1+e^{-z})$, and the return is the test return of the agenda's coin line: the probability of collecting the coin within the horizon when start and coin positions are independent and uniform. The refined residual analysis of Ji and Telgarsky [[JT19]](../references/JT19.md) for separable logistic regression is the natural tool, and no networks are involved: this is a starter problem about a two-parameter convex iteration. For the max-margin computation it refines, see [MAIS-A8](../agendas/A8/).
 
 ## References
 
 - [[SHNGS18]](../references/SHNGS18.md) D. Soudry, E. Hoffer, M. S. Nacson, S. Gunasekar, and N. Srebro, *The implicit bias of gradient descent on separable data*, Journal of Machine Learning Research 19 (2018), no. 70, 1–57. [arXiv:1710.10345](https://arxiv.org/abs/1710.10345)
-- [JT19] Z. Ji and M. Telgarsky, *The implicit bias of gradient descent on nonseparable data*, Conference on Learning Theory 2019, pp. 1772–1798. [arXiv:1803.07300](https://arxiv.org/abs/1803.07300)
+- [[JT19]](../references/JT19.md) Z. Ji and M. Telgarsky, *The implicit bias of gradient descent on nonseparable data*, Conference on Learning Theory 2019, pp. 1772–1798. [arXiv:1803.07300](https://arxiv.org/abs/1803.07300)
 
 *Related: [MAIS-O85](MAIS-O85.md) (defers to this residual when the margin score vanishes) · [MAIS-O84](MAIS-O84.md) (the other finite-time question in the linear model) · [MAIS-O8](MAIS-O8.md) (the headline selection problem).*

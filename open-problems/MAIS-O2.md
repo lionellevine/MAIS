@@ -17,7 +17,7 @@ At $\delta=0$ optimal policies are deterministic away from switching surfaces, s
 ## References
 
 - [[RE24]](../references/RE24.md) J. Richens and T. Everitt, *Robust agents learn causal world models*, ICLR 2024. [arXiv:2402.10877](https://arxiv.org/abs/2402.10877)
-- [RMKWS80] R. L. Rivest, A. R. Meyer, D. J. Kleitman, K. Winklmann, and J. Spencer, *Coping with errors in binary search procedures*, Journal of Computer and System Sciences 20(3) (1980), 396–404.
-- [KK07] R. M. Karp and R. Kleinberg, *Noisy binary search and its applications*, SODA 2007, 881–890.
+- [[RMKWS80]](../references/RMKWS80.md) R. L. Rivest, A. R. Meyer, D. J. Kleitman, K. Winklmann, and J. Spencer, *Coping with errors in binary search procedures*, Journal of Computer and System Sciences 20(3) (1980), 396–404.
+- [[KK07]](../references/KK07.md) R. M. Karp and R. Kleinberg, *Noisy binary search and its applications*, SODA 2007, 881–890.
 
 *Related: [MAIS-O25](MAIS-O25.md) (the exact-oracle version this builds on) · [MAIS-O27](MAIS-O27.md) (the regret floor $\varphi$) · [MAIS-O26](MAIS-O26.md) (conjectured rate for the exact oracle) · [MAIS-O35](MAIS-O35.md) (the two-variable starter case).*
