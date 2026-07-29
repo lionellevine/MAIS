@@ -3,6 +3,7 @@
 \usepackage{amsmath, amssymb, amsthm, mathtools}
 \usepackage{xcolor}
 \usepackage[colorlinks=true, linkcolor=blue!55!black, citecolor=blue!55!black, urlcolor=blue!55!black]{hyperref}
+\newcommand{\Oid}[1]{\href{https://github.com/lionellevine/MAIS/blob/main/open-problems/MAIS-O#1.md}{\texttt{MAIS-O#1}}}
 \newcommand{\arxiv}[1]{\href{https://arxiv.org/abs/#1}{\texttt{arXiv:#1}}}
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
@@ -279,7 +280,7 @@ Each unit of $w^F$ carries a single frequency $k$; the output matrix reads the a
 
 Is width $2p-1$ optimal? An elementary count gives a floor: for fixed output coordinate $c$, the function $f_c(a,b)$ is a sum of a function of $a$, a function of $b$, and the bilinear kernel $2\sum_j V_{c,j}\, u_j'(a) u_j''(b)$, whose $p \times p$ matrix has rank at most $H$; the target kernel $\delta_{a+b}(c)$ is a permutation matrix (rank $p$) minus additive parts (rank $\le 2$), so $H \ge p - 2$.
 
-\begin{question}\label{q:width}
+\begin{question}[\Oid{62}]\label{q:width}
 Let $H_{\min}(p)$ be the least $H$ with $W_0(p,H) \neq \emptyset$. Then $p - 2 \le H_{\min}(p) \le 2p - 1$; determine $H_{\min}(p)$.
 \end{question}
 
@@ -291,7 +292,7 @@ Question~\ref{q:width} is a constrained tensor-rank problem: the units contribut
 
 For $H \ge 2p-1$ let $w^F_H \in W_0(p,H)$ denote the Fourier solution of Lemma~\ref{lem:fourier} padded with $H - (2p-1)$ zero units, and let $R_p = 1 + \|w^F_{2p-1}\|$. Local coefficients are in the sense of Definition~\ref{def:local} applied to the polynomial \eqref{eq:K-modadd}.
 
-\begin{problem}[Learning coefficients of modular addition]\label{prob:modadd}
+\begin{problem}[\Oid{63}: Learning coefficients of modular addition]\label{prob:modadd}
 Fix an odd integer $p \ge 3$ and an integer $H \ge 2p - 1$.
 \begin{enumerate}
 \item[(a)] Determine $\lambda(w^F_H)$ and $m(w^F_H)$.
@@ -330,7 +331,7 @@ where $P(u) = p^{-2}\sum_{a,b} (u'(a) + u''(b))^4$. Hence the product of the sub
 
 The proposition says an idle unit costs $(2p-1)/4$, about a third of the $3p/2$ that its parameter count would charge and well under the $(3p-1)/2$ per active unit at the non-degenerate solutions of \cite{cullen2026}. Heuristically---and I emphasize this is a heuristic---killing the extra unit should be the \emph{optimal} use of it while width is scarce; Remark~\ref{rem:ceiling} shows the linear growth cannot continue forever, which is why the conjecture carries a ceiling:
 
-\begin{conjecture}[The marginal cost of width]\label{conj:increment}
+\begin{conjecture}[\Oid{64}: The marginal cost of width]\label{conj:increment}
 For every odd $p \ge 3$, every $R \ge R_p$, and every $H \ge 2p-1$ with $\lambda_{\min}(p, H; R) + \frac{2p-1}{4} \le \frac{p^3}{2}$,
 \[
    \lambda_{\min}(p, H+1; R) \;=\; \lambda_{\min}(p, H; R) + \frac{2p-1}{4}.
@@ -349,7 +350,7 @@ so increments of $(2p-1)/4$ cannot accumulate past it. To see this, pad $w^F_{2p
 
 The geometric question becomes precise as follows. For $0 \le k \le (p-1)/2$ let $\mathcal F_k \subset \R^p$ be the span of the vectors $(\cos \omega k a)_{a \in \Z_p}$ and $(\sin \omega k a)_{a \in \Z_p}$ (so $\mathcal F_0$ is the constants). Call a unit $j$ of a parameter $w$ \textbf{active} if the function $(a,b) \mapsto V_j (u_j'(a) + u_j''(b))^2$ is not identically zero, and \textbf{single-frequency} if there is one $k$ with $u_j', u_j'' \in \mathcal F_0 + \mathcal F_k$. Thus an active unit is simply a hidden neuron whose summand contributes a nonzero input--output function. The constant part must be allowed: adding a constant $c$ to $u_j'$ and subtracting it from $u_j''$ fixes $f_w$---hence fixes $W_0$, every local coefficient, and the activity of every unit---so no property destroyed by these translations can be forced at the optimum, and membership in a bare $\mathcal F_k$ is such a property. Every unit of the Fourier solution $w^F_H$ is single-frequency or inactive; the conjecture asks whether the fixed ball from the survey forces this structure:
 
-\begin{conjecture}[\texttt{MAIS-O6}: Fourier structure of the most degenerate solutions]\label{conj:fourier}
+\begin{conjecture}[\Oid{6}: Fourier structure of the most degenerate solutions]\label{conj:fourier}
 For every odd $p \ge 3$ and $H \ge 2p - 1$\textup{:} every $w \in W_0(p, H)$ with $\|w\| \le R_p$ and $\lambda(w) = \lambda_{\min}(p, H; R_p)$ has all of its active units single-frequency.
 \end{conjecture}
 
@@ -357,7 +358,7 @@ The corresponding statement for every $R\ge R_p$ is a stronger extension: larger
 
 Finally, practice trains this task with the softmax/cross-entropy model rather than squared error, and the theory should follow it there. Fix $\beta > 0$ and define two objects. The \textbf{softmax model} assigns to input $(a,b)$ the conditional law $\softmax(f_w(a,b))$ on $\Z_p$, where for $z \in \R^p$ the probability vector $\softmax(z)$ has coordinates $\softmax(z)_c = \exp(z_c)/\sum_{c'} \exp(z_{c'})$. The \textbf{$\beta$-smoothed truth} is $q_\beta(\cdot \mid a,b) = \softmax(\beta\, \delta_{a+b})$: it weights the correct residue by $\exp(\beta)$ against $1$ for each other residue. The truth is realizable---scaling the output matrix of $w^F_H$ by $\beta$ gives $f_w = \beta\,\delta_{a+b}$ exactly---and the resulting $K_\beta$ is real-analytic (no longer polynomial).
 
-\begin{problem}[Cross-entropy version]\label{prob:xent}
+\begin{problem}[\Oid{65}: Cross-entropy version]\label{prob:xent}
 Fix odd $p \ge 3$ and $H \ge 2p-1$. Compute the common local pair of $K_\beta$ at the scaled Fourier solution for finite $\beta>0$. Then, for the specified radius $R_\beta=(1+\beta)R_p$, determine the minimum of the local coefficient over $\{w\in W_0^\beta:\|w\|\le R_\beta\}$, its multiplicity, and its asymptotics as $\beta\to\infty$, where $W_0^\beta$ is the zero set of $K_\beta$.
 \end{problem}
 
@@ -434,11 +435,11 @@ Homogeneity lets every exact factorization be scaled into every ball about $0$, 
 
 For structured truths, the right analog of ``the truth has rank $r$'' is ``the truth is a smaller transformer.'' For $1 \le e_0 < e$ let $\iota \colon \R^{d_0} \to \R^d$ ($d_0 = ve_0 + e_0^2 + e_0 v$) be the padding embedding: $\iota(E^0, Q^0, U^0)$ places $E^0$ in the first $e_0$ columns of $E$, $Q^0$ in the top-left block of $Q$, $U^0$ in the top rows of $U$, and zeros elsewhere. A \textbf{teacher} $w^0 \in \R^{d_0}$ defines the truth $q(y \mid x) = $ output law of the dimension-$e_0$ model at $w^0$; this truth is realized by the student at $\iota(w^0)$. Let $\lambda(\iota(w^0))$, $m(\iota(w^0))$ denote the local coefficient and multiplicity of the student's $K$ there. In Theorem~\ref{thm:aw} the coefficient depends only on the rank of the truth; here the honest first question is whether a ``generic teacher'' value exists at all.
 
-\begin{conjecture}[Generic constancy]\label{conj:generic}
+\begin{conjecture}[\Oid{66}: Generic constancy]\label{conj:generic}
 For each $(v, T, e, e_0)$ with $1 \le e_0 < e$ there is a real-analytic function $h \colon \R^{d_0} \to \R$, not identically zero, such that $\bigl(\lambda(\iota(w^0)), m(\iota(w^0))\bigr)$ is constant on $\{w^0 : h(w^0) \neq 0\}$.
 \end{conjecture}
 
-\begin{problem}\label{prob:attn-teacher}
+\begin{problem}[\Oid{67}]\label{prob:attn-teacher}
 Assuming or proving Conjecture~\ref{conj:generic}, compute the generic value $\Lambda(v, T, e, e_0)$ and its multiplicity.
 \end{problem}
 
@@ -448,7 +449,7 @@ Finally, a fully polynomial variant, closest in spirit to reduced-rank regressio
 \]
 with Gaussian output model $y = \ell^{\mathrm{lin}}(x) + N(0, I_v)$ and inputs uniform on $[v]^T$. Each coordinate of $\ell^{\mathrm{lin}}$ is a polynomial in $w$, multihomogeneous of degree $(3,1,1)$ in $(E, Q, U)$, so for the truth generated by any teacher, $K$ is an explicit polynomial of degree $10$. (For this Gaussian output model the hypotheses of Theorem~\ref{thm:watanabe} hold by the argument of Remark~\ref{rem:conditions-modadd}, not Remark~\ref{rem:conditions-attn}.)
 
-\begin{problem}[Linear attention]\label{prob:linear-attn}
+\begin{problem}[\Oid{68}: Linear attention]\label{prob:linear-attn}
 For the linear-attention model with the zero truth $q=N(0,I_v)$, determine $\lambda(0)$ and $m(0)$ as functions of $(v,T,e)$. Then compute the generic pair for a teacher of embedding dimension $e_0<e$, with Conjecture~\textup{\ref{conj:generic}} restated for this degree-$10$ polynomial and the same padding map $\iota$.
 \end{problem}
 
@@ -467,7 +468,7 @@ the expectation taken under that density. The design descends from Watanabe's ``
 
 That theorem cuts both ways. For fixed $\gamma$, the Gaussian factor is itself a smooth positive prior on $W$, so the estimator converges to the global coefficient, not necessarily to $\lambda(w^*)$. To recover a local coefficient, the localization strength must grow with $n$. The following model has two components of unequal local complexity and asks how fast.
 
-\begin{problem}[When does Gaussian localization localize?]\label{prob:estimator}
+\begin{problem}[\Oid{69}: When does Gaussian localization localize?]\label{prob:estimator}
 Take $d = 2$, $W = \{w \in \R^2 : \|w\| \le 3\}$, no inputs, model $y \sim N(\mu(w), 1)$ with
 \[
    \mu(w) = (w_1 - 1)\,(w_1^2 + w_2^2)^2,
@@ -487,7 +488,7 @@ and $\hat\lambda_n(w^*;\gamma)\to1/4$ in probability. Fixed-strength localizatio
 
 A complementary calibration problem runs the estimator where the answer is known:
 
-\begin{problem}[Local coefficients on the template]\label{prob:calibration}
+\begin{problem}[\Oid{70}: Local coefficients on the template]\label{prob:calibration}
 For reduced-rank regression with parameters $(N,M,H,r)$, prove that the local pair $(\lambda(w^*),m(w^*))$ at a factorization $w^*=(A,B)\in W_0$ depends only on $(\rank A,\rank B)$, and compute the resulting table. Hence characterize the strata on which $\lambda(w^*)$ equals the minimum in Theorem~\textup{\ref{thm:aw}}. For example, when $N=M=H=2$ and $r=0$, a neighborhood of $(I_2,0)$ has local coefficient $2$, whereas the table gives $3/2$.
 \end{problem}
 
@@ -541,7 +542,7 @@ Intersect each activation cell with a finite basic-semialgebraic decomposition o
 
 For a continuous input distribution there is no finite activation partition in parameter space. Here is a concrete replacement.
 
-\begin{question}[Continuous-input ReLU learning]\label{q:relu}
+\begin{question}[\Oid{71}: Continuous-input ReLU learning]\label{q:relu}
 Fix $r,H\ge1$ and
 \[
  f_w(x)=c+\sum_{j=1}^H v_j\max(a_j\cdot x+b_j,0),
@@ -573,7 +574,7 @@ None of these residues touches the core. The function \eqref{eq:K-modadd} is an 
 \bibitem{mais}
 L.~Levine,
 \emph{Math for AI Safety: An Invitation for Mathematicians},
-2026. \url{https://github.com/lionellevine/MAIS/blob/main/papers/MAIS-P1/MAIS-P1.pdf}.
+2026. \url{https://github.com/lionellevine/MAIS/tree/main/papers/P1}.
 
 
 \bibitem{aoyagi2005}

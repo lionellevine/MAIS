@@ -3,6 +3,7 @@
 \usepackage{amsmath, amssymb, amsthm, mathtools}
 \usepackage{xcolor}
 \usepackage[colorlinks=true, linkcolor=blue!55!black, citecolor=blue!55!black, urlcolor=blue!55!black]{hyperref}
+\newcommand{\Oid}[1]{\href{https://github.com/lionellevine/MAIS/blob/main/open-problems/MAIS-O#1.md}{\texttt{MAIS-O#1}}}
 \newcommand{\arxiv}[1]{\href{https://arxiv.org/abs/#1}{\texttt{arXiv:#1}}}
 \emergencystretch=1.5em
 \theoremstyle{plain}
@@ -231,7 +232,7 @@ Throughout this section $\varepsilon$ and $\delta$ denote thresholds as above; e
 
 The headline problem is Open Problem~\texttt{MAIS-O5} in measurable form. Its weight decay $\lambda > 0$ is not incidental: that is the regime of the survey statement and of every seed table in Section~\ref{sec:phenomenon}. The survey also singles out the first case with genuine competition: $C_5$, quadratic activation, width two, and no decay. Problem~\ref{start:c5} makes that foothold explicit.
 
-\begin{problem}[\texttt{MAIS-O5}: The selection law]\label{prob:law}
+\begin{problem}[\Oid{5}: The selection law]\label{prob:law}
 Fix a finite group $G$, $\sigma \in \{x^2, \mathrm{ReLU}\}$, a width $m$, and $\lambda, \tau > 0$, and consider $\mathcal{T}(G,\sigma,m,\lambda,\tau)$ (for $\sigma = \mathrm{ReLU}$, under every measurable selection of Clarke trajectories, per the convention of Section~\ref{sec:networks}).
 \begin{enumerate}
 \item[(a)] Prove that the limiting selection law $\mu_\infty$ of Definition~\ref{def:law} exists.
@@ -248,7 +249,7 @@ so $\theta=0$ is a strict hyperbolic local minimum with an open attraction basin
 
 Two neighboring theories do not yet predict this ensemble. Morwani et al.~\cite{morwani2024} characterize maximum margin in the $\ell_{2,3}$ norm, whereas Definition~\ref{def:ensemble} uses Euclidean squared decay; Wei et al.~\cite{wei2019} preserve the chosen regularizer norm rather than converting one norm into another. He et al.~\cite{he2026spectral} prove per-neuron alignment and abelian diversification for projected flow under a Taylor-surrogate risk. Their comparison with exact cross-entropy is finite-horizon, so it does not transfer the asymptotic theorem.
 
-\begin{problem}[Sparse or dense]\label{prob:sparse}
+\begin{problem}[\Oid{52}: Sparse or dense]\label{prob:sparse}
 Let $p\to\infty$ through odd primes, $G = C_p$, $\sigma = \mathrm{ReLU}$, $m = \lceil C_0\, p \rceil$, $\lambda = \lambda_0 > 0$, and $\tau = \tau_0 p^{-1/2}$ with $C_0,\lambda_0,\tau_0>0$ fixed. Fix a small $\delta$ and determine
 \[
    \limsup_{p \to \infty} \; \limsup_{t \to \infty} \; \frac{\E\, N_\delta(\theta(t))}{p}\,:
@@ -260,7 +261,7 @@ The empirical record is too thin even to conjecture the growth rate: the publish
 
 The next two statements concern multiplicities in the one regime where per-neuron behavior is already a theorem: quadratic activation, no weight decay.
 
-\begin{conjecture}[Law of large numbers for multiplicities]\label{conj:lln}
+\begin{conjecture}[\Oid{53}: Law of large numbers for multiplicities]\label{conj:lln}
 Fix a nonabelian finite group $G$, $\sigma(x) = x^2$, $\lambda = 0$, $\tau > 0$. There exist constants $q_{[\rho]} \geq 0$ with $\sum_{[\rho] \in \Rcl(G)} q_{[\rho]} = 1$, not depending on $\tau$, such that for every $\delta \in (0, \tfrac12)$ and every $[\rho] \in \Rcl(G)$,
 \[
    \lim_{m \to \infty} \; \lim_{t \to \infty} \; \nu_{[\rho],\delta}\bigl(\theta_m(t)\bigr) \;=\; q_{[\rho]}
@@ -269,7 +270,7 @@ Fix a nonabelian finite group $G$, $\sigma(x) = x^2$, $\lambda = 0$, $\tau > 0$.
 where $\theta_m$ denotes the trajectory of $\mathcal{T}(G, x^2, m, 0, \tau)$, and $q_{[\rho]} > 0$ for every $[\rho]$. Existence of the inner limit, almost surely for each fixed $m$, is part of the conjecture.
 \end{conjecture}
 
-\begin{question}[Selection probabilities]\label{q:dsquared}
+\begin{question}[\Oid{54}: Selection probabilities]\label{q:dsquared}
 In the setting of Conjecture~\ref{conj:lln}, is $q_{[\rho]}$ proportional to $\dim \Pi_{[\rho]} = \sum_{\rho' \in [\rho]} d_{\rho'}^2$, i.e.\ to the dimension of the isotypic component?
 \end{question}
 
@@ -277,7 +278,7 @@ The conjecture asserts convergence of empirical proportions; it does not assert 
 
 The cyclic foothold $C_5$ has the advantage of matching Open Problem~\texttt{MAIS-O5} exactly. For a first \emph{nonabelian} laboratory, take $G=S_3$. Its representation theory still fits on one line: $\Rcl(S_3) = \{\mathrm{sgn}, \mathrm{std}\}$, with $d_{\mathrm{sgn}} = 1$, $d_{\mathrm{std}} = 2$, and only $\mathrm{std}$ faithful.
 
-\begin{problem}[$S_3$ with the architecture fixed in advance]\label{prob:s3}
+\begin{problem}[\Oid{55}: $S_3$ with the architecture fixed in advance]\label{prob:s3}
 Consider $\mathcal{T}(S_3, \sigma, m, \lambda, \tau)$ with $\sigma \in \{x^2, \mathrm{ReLU}\}$, $m \geq 100$, $\lambda > 0$, $\tau > 0$.
 \begin{enumerate}
 \item[(a)] (\emph{Purity.}) For $\sigma = \mathrm{ReLU}$: prove or refute that almost surely every neuron ends pure or silent. Precisely: each neuron $i$ either is eventually \emph{inactive}---$u_i(a) + v_i(b) < 0$ for all $(a,b)$, so that it contributes to no logit---or there is a class $[\rho] \in \{\mathrm{sgn}, \mathrm{std}\}$ such that, for every $\delta \in (0,\tfrac12)$, neuron $i$ is $(\delta,[\rho])$-pure for all large $t$. (The silent alternative cannot be dropped: with positive probability a neuron is inactive at initialization, and then its gradient is pure weight decay, so it shrinks radially and stays inactive, and impure, forever. The restriction $\delta < \tfrac12$ matters too: at $\delta \geq \tfrac12$ one neuron can be pure for both classes at once. For $\sigma=x^2$ and $\lambda=0$, He et al.~\cite{he2026spectral} prove alignment for projected flow under a Taylor-surrogate risk; the exact-loss, rectifier, and weight-decay regimes are open.)
@@ -285,7 +286,7 @@ Consider $\mathcal{T}(S_3, \sigma, m, \lambda, \tau)$ with $\sigma \in \{x^2, \m
 \end{enumerate}
 \end{problem}
 
-\begin{conjecture}\label{conj:s3}
+\begin{conjecture}[\Oid{56}]\label{conj:s3}
 Fix a nonexceptional threshold $\varepsilon>0$. In $\mathcal{T}(S_3, x^2, m, \lambda, \tau)$ with $m \geq 100$, in the double limit $t \to \infty$ then $\lambda \to 0$: the selection law converges to the point mass at $\{\mathrm{sgn}, \mathrm{std}\}$.
 \end{conjecture}
 
@@ -293,7 +294,7 @@ Morwani et al.'s Theorem 9 \cite{morwani2024} applies to $S_3$ under the $\ell_{
 
 Finally, non-identifiability where the data most strongly suggest it. $\Out(S_5)$ is trivial, so Proposition~\ref{prop:symmetry} imposes no constraint: no symmetry identifies one key set with another.
 
-\begin{problem}[Non-identifiability at width 128]\label{prob:nonident}
+\begin{problem}[\Oid{57}: Non-identifiability at width 128]\label{prob:nonident}
 Consider the ensembles $\mathcal{T}(S_5, \mathrm{ReLU}, 128, \lambda, \tau)$, the fully connected setting of \cite{chughtai2023}. Prove or refute: for some $\lambda, \tau > 0$ there exist two subsets $S \neq S'$ of $\Rcl(S_5)$ with
 \[
    \liminf_{t \to \infty} \mu_t(\{S\}) > 0 \quad\text{and}\quad \liminf_{t \to \infty} \mu_t(\{S'\}) > 0.
@@ -302,7 +303,7 @@ Consider the ensembles $\mathcal{T}(S_5, \mathrm{ReLU}, 128, \lambda, \tau)$, th
 
 The four seeds in Section~\ref{sec:phenomenon} suggest $S = \{\mathrm{sgn}, \mathrm{std}\}$ and $S' = S \cup \{\text{a 5-dimensional}\}$. This is a nonabelian extension of the survey problem: not merely that inequivalent zero-loss circuits exist---for the quadratic activation with $\ell^2$ loss on abelian group tasks, the algebraic constructions of \cite{tian2024} already provide them in abundance, though nothing analogous is proved for the cross-entropy loss or for $S_5$---but that gradient flow from Gaussian initialization actually charges two key sets with positive probability. Nothing of this kind is proved for any group and any architecture.
 
-\begin{question}[Exchangeability beyond symmetry]\label{q:exchangeable}
+\begin{question}[\Oid{58}: Exchangeability beyond symmetry]\label{q:exchangeable}
 Fix $G = C_p$ with $p \geq 7$, an activation $\sigma \in \{x^2, \mathrm{ReLU}\}$, and $m, \lambda, \tau$ as in Problem~\ref{prob:law}. Is every limit point of the selection laws $(\mu_t)_{t \geq 0}$ invariant under \emph{all} permutations of the $(p-1)/2$ frequency classes, or only under the multiplicative action of Proposition~\ref{prop:symmetry}? Equivalently: conditioned on $|K_\varepsilon| = k$, is $K_\varepsilon$ asymptotically a uniformly random $k$-set?
 \end{question}
 
@@ -310,17 +311,17 @@ A negative answer would mean training feels the multiplicative structure of $(\Z
 
 \section{A place to start}\label{sec:start}
 
-\begin{problem}[The smallest case with competition]\label{start:c5}
+\begin{problem}[\Oid{59}: The smallest case with competition]\label{start:c5}
 Let $G = C_5$, $\sigma(x) = x^2$, $m = 2$, $\lambda = 0$, and $\tau = 1$. The parameter space is $\R^{30}$ and $\Rcl(C_5)$ has two frequencies. Write the gradient field in a real Fourier basis. As a first finite calculation, classify its stationary directions for which each neuron is supported on one frequency, determine their transverse stability, and decide which of the four ordered frequency assignments can attract an open set. Then prove or refute that almost surely each neuron \emph{aligns}: the limit of $\theta(t)/\|\theta(t)\|$ exists and its neuron $i$ is $(\delta,[\rho_{\zeta_i}])$-pure for every $\delta>0$, for some frequency $\zeta_i$. Compute the probability that the two neurons choose the same frequency. (Proposition~\ref{prop:symmetry} makes the frequencies exchangeable, so this one probability determines the law of the pair on the alignment event.)
 \end{problem}
 
 The first step is a symmetry-reduced algebra problem; the second asks whether those local calculations control a random trajectory. Together they isolate the phenomenon on which the larger problems turn: competition between representations for a finite supply of neurons. The comparison arguments of \cite{he2026grokking} use small or specially controlled initialization and an early-stage decoupled approximation; the Riemannian-gradient structure of \cite{he2026spectral} belongs to a Taylor-surrogate projected flow. The width-$2$, unit-scale, exact-loss problem above lies outside both theories.
 
-\begin{problem}[One rectifier neuron]\label{start:relu}
+\begin{problem}[\Oid{60}: One rectifier neuron]\label{start:relu}
 Let $G = C_p$, $\sigma = \mathrm{ReLU}$, $m = 1$, $\lambda = 0$, $\tau = 1$, and condition on the event that the neuron is active at initialization---$u_1(a) + v_1(b) > 0$ for some $(a,b)$. On the complementary event the gradient vanishes almost surely; equality at a ReLU kink is a Gaussian null event. Prove or refute: almost surely on the active event, the normalized weights $(u_1, v_1, w_1)/\|\cdot\|$ converge, and the limit is $(\delta, [\rho_\zeta])$-pure for every $\delta > 0$, for some frequency $\zeta$. The nearest rectifier result, a leakage-rate estimate in \cite{he2026grokking}, starts from a controlled single-frequency state rather than random initialization.
 \end{problem}
 
-\begin{problem}[A pilot measurement of the law]\label{start:measure}
+\begin{problem}[\Oid{61}: A pilot measurement of the law]\label{start:measure}
 For $G\in\{C_5,S_3\}$, train Definition~\ref{def:arch} with both activations, widths $m\in\{2,8\}$, initialization scale $\tau=|G|^{-1/2}$, and
 \[
 \lambda\in\{0,10^{-4},10^{-2}\}.
@@ -372,7 +373,7 @@ The main question is already concrete: which representations appear, with what p
 \bibitem{mais}
 L.~Levine,
 \emph{Math for AI Safety: An Invitation for Mathematicians},
-2026. \url{https://github.com/lionellevine/MAIS/blob/main/papers/MAIS-P1/MAIS-P1.pdf}.
+2026. \url{https://github.com/lionellevine/MAIS/tree/main/papers/P1}.
 
 
 \bibitem{chizat2020}

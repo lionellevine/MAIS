@@ -3,6 +3,7 @@
 \usepackage{amsmath, amssymb, amsthm, mathtools}
 \usepackage{xcolor}
 \usepackage[colorlinks=true, linkcolor=blue!55!black, citecolor=blue!55!black, urlcolor=blue!55!black]{hyperref}
+\newcommand{\Oid}[1]{\href{https://github.com/lionellevine/MAIS/blob/main/open-problems/MAIS-O#1.md}{\texttt{MAIS-O#1}}}
 \emergencystretch=1.5em
 \newcommand{\arxiv}[1]{\href{https://arxiv.org/abs/#1}{\texttt{arXiv:#1}}}
 \theoremstyle{plain}
@@ -272,7 +273,7 @@ To a shortest proof of $P$, append the propositional axiom instance $P \to (\Box
 
 Together with L\"ob's theorem, which says the two hypothesis classes coincide---$S \vdash \Box P \to P$ if and only if $S \vdash P$---Lemma~\ref{lem:cheap} recasts the whole question as one about \emph{speedup}. Proving the reflection instance is never much harder than proving the sentence; $F_S$ measures how much \emph{easier} it can be. Equivalently: how much can L\"ob's rule, ``to prove $P$, prove $\Box P \to P$ instead,'' shorten proofs?
 
-\begin{problem}[\texttt{MAIS-O1}: Determine the overhead]
+\begin{problem}[\Oid{1}: Determine the overhead]
 \label{prob:determineF}
 Determine the asymptotic growth of $F_{\PAbin}(k,n)$, up to constant factors in $k$ and $n$. (The growth is joint: for fixed $k$ only finitely many sentences $P$ satisfy $\ell_S(\Box P \to P) \le k$, and for fixed $n$ only finitely many satisfy $|P| \le n$, so $F_{\PAbin}$ is eventually constant in each argument separately; Conjecture~\ref{conj:poly} below states the expected joint answer.) The same question may be asked for every efficient proof system.
 \end{problem}
@@ -291,7 +292,7 @@ F_S(k,n) \;\lesssim\; \mathcal{E}_S\bigl(k + d_S(O(n)) + \mathrm{poly}(n)\bigr) 
 \]
 where $\mathcal{E}_S$ and $d_S$ are the two system constants of the story. If both are polynomial (and standard techniques \cite{pudlak1998} should give polynomial bounds for standard systems), then so is $F$.
 
-\begin{conjecture}[Polynomial overhead]
+\begin{conjecture}[\Oid{10}: Polynomial overhead]
 \label{conj:poly}
 There are constants $C, c$ (depending on the system) with
 \[
@@ -302,7 +303,7 @@ In the strong form: $F_{\PAbin}(k,n) \le C\,(k + n^{c})$, i.e.\ the premise leng
 
 A first lower-bound target is already delicate. Lemma~\ref{lem:cheap} shows $F_S(k,n) \ge \ell_S(P)$ for any $P$ with $|P| \le n$ and $\ell_S(P) \le k - C_1(n+1)$, but whether sentences of length $\le n$ with shortest proofs \emph{just under} $k$ exist for given $(k,n)$ is itself a question about the spectrum of shortest proof lengths. The first requested example asks whether L\"ob's rule shortens a proof at all:
 
-\begin{question}[Lower bounds]
+\begin{question}[\Oid{11}: Lower bounds]
 \label{q:lower}
 \hspace{1em}
 \begin{enumerate}
@@ -319,7 +320,7 @@ Thus the present bounds reduce to the trivial lower regime and the heuristic upp
 
 The two system constants deserve their own problem. Both are well defined: $\mathcal{E}_S$ by the discussion following Definition~\ref{def:expansion}, and $d_S$ because there are finitely many $\Phi$ with $|\Phi| \le n$, each has a fixed point $\Psi$ of the required length by the choice of $C_0$, and each equivalence $\Psi \leftrightarrow \Phi(\gn{\Psi})$ is provable, so a search through proofs in order of length terminates as in Proposition~\ref{prop:welldefined}.
 
-\begin{problem}[System constants]
+\begin{problem}[\Oid{12}: System constants]
 \label{prob:expansion}
 For $S = \PAbin$: determine $\mathcal{E}_S$ and $d_S$ up to constant factors. In particular, decide whether $\mathcal{E}_S(m) = O(m)$, as Critch's engineering estimate suggests, or whether internalization has an inherent superlinear cost; and determine the least degree of $d_S$ for the standard diagonal construction and for any construction.
 \end{problem}
@@ -329,7 +330,7 @@ For $S = \PAbin$: determine $\mathcal{E}_S$ and $d_S$ up to constant factors. In
 
 Now the bounded boxes. The first missing piece is elementary asymptotic arithmetic for the budget language.
 
-\begin{conjecture}[Comparison of budget terms]
+\begin{conjecture}[\Oid{13}: Comparison of budget terms]
 \label{conj:comparison}
 For any $\Bud$-terms $t_1,t_2$, if $t_1(k)\le t_2(k)$ for all sufficiently large standard $k$, then $t_1\leSstar t_2$. Moreover, a threshold and an $S$-proof are computable from the two terms.
 \end{conjecture}
@@ -371,14 +372,14 @@ still far below $\log k$. Thus proofs of $p(\num{k})$ shorter than $\log k$ may 
 
 Between Proposition~\ref{prop:failure} and Theorem~\ref{thm:pbl} lies the \textbf{L\"ob window}: canonical budgets above the provably bounded terms but below internal regularity. If $\mathcal{E}_S$ has a certified linear bound, the window is the logarithmic scale.
 
-\begin{question}[The L\"ob window]
+\begin{question}[\Oid{14}: The L\"ob window]
 \label{q:window}
 For $S=\PAbin$, does PBL hold for the canonical numeral-length budget $f=\lambda$? For the canonical budgets $\lambda_{a/b}$ with fixed $0<a<b$? More ambitiously, characterize the $\Bud$-terms $f$ for which PBL holds. The graph is part of each term, so this is a property of a finite syntactic object rather than of an extensional function with many presentations.
 \end{question}
 
 Next, the threshold. The repaired proof is effective once its three internal comparisons are supplied: where $f$ absorbs the fixed-point bookkeeping, where $h$ absorbs $\mathcal E\circ g$, and where $g$ absorbs numeral length. For a $\Bud$-term, Conjecture~\ref{conj:comparison} would generate these proofs and their moduli from the term itself.
 
-\begin{problem}[Effective parametric bounded L\"ob]
+\begin{problem}[\Oid{15}: Effective parametric bounded L\"ob]
 \label{prob:effective}
 Fix $S$ with the standing expansion certificate, and assume Conjecture~\ref{conj:comparison}. Given $p\in\Lang_1(S)$, an internally regular $\Bud$-term $f$, and an $S$-proof of $\forall k\,(\Box_{f(k)}p(k)\to p(k))$ of length $L$, give explicit bounds. Writing $C_S$ for the fixed constants of the proof system, require
 \[
@@ -402,12 +403,12 @@ The motivating instance deserves separate billing. Fix $S=\PAbin$, a concrete pr
 \]
 with $\min\emptyset := \infty$. Theorem~\ref{thm:fairbot} would give $\hat{k}^{*} < \infty$, but its hypothesis on $\mathcal{E}_{\PAbin}$ is unproved (Problem~\ref{prob:expansion}), so finiteness itself is part of the next problem.
 
-\begin{problem}[The FairBot threshold]
+\begin{problem}[\Oid{16}: The FairBot threshold]
 \label{prob:fairbot}
 Prove the standing expansion certificate for one standard system and encoding, deduce $\hat{k}^{*}<\infty$, and give a certified numerical interval containing the exact threshold. Compute the threshold if feasible.
 \end{problem}
 
-\begin{question}
+\begin{question}[\Oid{17}]
 \label{q:polyfairbot}
 Fix a canonical $\Bud$-term implementation of $G$. A \emph{uniform agent family} is one generator program taking $k$ as input. For a pair of such families $(A,B)$, let $r(A,B)$ be the least $K$ such that $A_k(B_k)=B_k(A_k)=\mathsf C$ for all $k\ge K$. Let $r_G(\ell,L)$ be the maximum of $r(A,B)$ over pairs whose two generators have at most $\ell$ symbols and whose uniform $G$-fairness implications have proofs of at most $L$ symbols, with maximum of the empty set equal to $0$.
 
@@ -444,7 +445,7 @@ In words: $S$ will vouch, one $k$ at a time, that short proofs of its own short-
 
 L\"ob's theorem has two strengths. The \emph{rule} (from $\vdash \Box P \to P$ infer $\vdash P$) is what Sections~\ref{sec:overhead}--\ref{sec:parametric} quantified. The \emph{axiom} is its internalization: $S \vdash \Box(\Box P \to P) \to \Box P$, one box deeper. G\"odel--L\"ob provability logic $\GL$ (propositional logic with a modality $\Box$, the distribution axiom $\Box(A \to B) \to (\Box A \to \Box B)$, which alone gives the base modal logic $K$, the L\"ob axiom $\Box(\Box A \to A) \to \Box A$, and the necessitation rule ``from $\vdash A$ infer $\vdash \Box A$'') captures \emph{exactly} the propositional laws of provability: Solovay \cite{solovay1976} proved that $\GL \vdash \varphi$ if and only if every arithmetical realization of $\varphi$ is a theorem of $\PA$. Critch conjectures that all of $\GL$ survives the introduction of budgets \cite{critch2016}. Making that conjecture precise requires a bounded L\"ob \emph{axiom} first.
 
-\begin{problem}[Internal bounded L\"ob]
+\begin{problem}[\Oid{18}: Internal bounded L\"ob]
 \label{prob:internal}
 Fix an efficient $S$. Determine for which triples of $\Bud$-terms $(a,b,c)$, and more generally which triples of internally certified represented budgets, it holds that for every $p\in\Lang_1(S)$ there is $\hat{k}$ with
 \[
@@ -459,7 +460,7 @@ A bounded outer budget does not make every triple admissible. Take $p=\bot$, $a=
 
 This is the statement Theorem~\ref{thm:pbl} would become if its implication moved inside the box, and it is what a bounded $\GL$ needs as its L\"ob axiom. Enumerate the box occurrences of a modal formula $\varphi$ as $1,\dots,s$. A \textbf{budget schedule} is a tuple $c=(c_1,\dots,c_s)$ of positive integers. Given a \textbf{realization} $\rho$ assigning each atom a formula in $\Lang_1(S)$, define $\varphi^{\rho,c}(k)$ by structural recursion: atoms go to their realizations, connectives commute, and the $j$-th box receives the canonical $\Bud$-budget $k^{c_j}$.
 
-\begin{conjecture}[Bounded $\GL$, soundness form]
+\begin{conjecture}[\Oid{19}: Bounded $\GL$, soundness form]
 \label{conj:boundedGL}
 Let $S$ satisfy the conventions above, with a polynomial $\Bud$-term bound $E^\sharp$ on $\mathcal E$ and a polynomial bound on $d_S$. For every modal formula $\varphi$ with $\GL\vdash\varphi$ there is a budget schedule $c$ (depending on $S$ and $\varphi$ only) such that for every realization $\rho$ there is $\hat{k}$ with
 \[
@@ -482,7 +483,7 @@ Payor's handshake also has a bounded agent, the analogue of $\FB_k$. Following h
 \]
 where $c$ is the sentence $[\mathrm{PB}_k(\mathrm{Opp}) = \mathsf{C} \,\wedge\, \mathrm{Opp}(\mathrm{PB}_k) = \mathsf{C}]$ (``we both cooperate''), the references to the agent's own source code again implemented by Kleene's recursion theorem. So where $\FB_k$ demands a proof of the opponent's cooperation, $\mathrm{PB}_k$ demands a proof that provable mutual cooperation implies mutual cooperation.
 
-\begin{problem}[Parametric bounded Payor]
+\begin{problem}[\Oid{20}: Parametric bounded Payor]
 \label{prob:payor}
 Let $S$ satisfy the conventions above. Determine internal comparison conditions on represented budgets $f,g$ under which, for every $p\in\Lang_1(S)$,
 \begin{multline*}
@@ -541,7 +542,7 @@ The ordinary overhead in the survey survives formalization intact: Definition~\r
 
 \emph{First, $F$ is not an invariant.} The overhead function depends on the proof calculus, the numeral system, the abbreviation discipline, and the G\"odel coding: Proposition~\ref{prop:failure}(2) versus Remark~\ref{rem:abbrev} shows the dependence is not cosmetic, since the availability of compression changes which budget functions are even admissible. The classical remedy in proof complexity is to work up to polynomial simulation:
 
-\begin{problem}[Robustness]
+\begin{problem}[\Oid{21}: Robustness]
 \label{prob:robust}
 Suppose $S$ and $S'$ prove the same theory. Specify polynomial-size translations of formulas and proofs in both directions, together with polynomial-size $S$- and $S'$-proofs that each translated bounded-provability predicate agrees with the source predicate at the translated budget. Under these hypotheses, prove that $F_S$ and $F_{S'}$ are polynomially related:
 \[
@@ -554,7 +555,7 @@ Until Problem~\ref{prob:robust} is settled, ``determine the least overhead $F$''
 
 \emph{Second, bounded completeness needs a formulation.} Conjecture~\ref{conj:boundedGL} is only the soundness half of a bounded provability logic. The completeness half should say: if $\GL \nvdash \varphi$, then no budget schedule makes $\varphi$ a bounded law. But the quantifiers can be placed in several inequivalent ways:
 
-\begin{question}[Toward bounded Solovay]
+\begin{question}[\Oid{22}: Toward bounded Solovay]
 \label{q:solovay}
 Suppose $\GL \nvdash \varphi$. Is it true that for every budget schedule $c$ there is a realization $\rho$ such that $S \nvdash \forall k>\hat{k}\;\varphi^{\rho,c}(k)$ for every $\hat{k}$?
 \end{question}
@@ -568,7 +569,7 @@ Everything else is now a matter of proving inequalities between price tags. The 
 \bibitem{mais}
 L.~Levine,
 \emph{Math for AI Safety: An Invitation for Mathematicians},
-2026. \url{https://github.com/lionellevine/MAIS/blob/main/papers/MAIS-P1/MAIS-P1.pdf}.
+2026. \url{https://github.com/lionellevine/MAIS/tree/main/papers/P1}.
 
 
 \bibitem{artemov2001}

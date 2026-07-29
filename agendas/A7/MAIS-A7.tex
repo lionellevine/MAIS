@@ -3,6 +3,7 @@
 \usepackage{amsmath, amssymb, amsthm, mathtools}
 \usepackage{xcolor}
 \usepackage[colorlinks=true, linkcolor=blue!55!black, citecolor=blue!55!black, urlcolor=blue!55!black]{hyperref}
+\newcommand{\Oid}[1]{\href{https://github.com/lionellevine/MAIS/blob/main/open-problems/MAIS-O#1.md}{\texttt{MAIS-O#1}}}
 \newcommand{\arxiv}[1]{\href{https://arxiv.org/abs/#1}{\texttt{arXiv:#1}}}
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
@@ -212,7 +213,7 @@ A bridge must decide three things, and each admits more than one defensible choi
 
 The following question is closely related to Conjecture~5 of Lin~\cite{lin2017}.
 
-\begin{question}\label{q:strat}
+\begin{question}[\Oid{72}]\label{q:strat}
 Let $L\colon \T^d \to [0,\infty)$ be real-analytic and not identically zero, with $W_0 = L^{-1}(0) \neq \emptyset$. (Since $\T^d$ is connected, analyticity then forbids $L$ from vanishing on any open set, so Definition~\ref{def:llc} applies at every point of $W_0$; for $L \equiv 0$ the map below is undefined everywhere.) Let $\lambda\colon W_0 \to \Q_{>0}$ be the local learning coefficient of Definition~\ref{def:llc}.
 \begin{enumerate}
 \item[(a)] Does $\lambda$ take only finitely many values on $W_0$?
@@ -244,7 +245,7 @@ The proof is the deterministic core of Watanabe's free-energy theorem: write $\i
 
 Since the Langevin process on the torus is ergodic, the occupation fractions converge to $\pi_\varepsilon$ at any fixed $\varepsilon$; the content of ``effective dynamics'' is the order of visits and the transition times. On exponential timescales this is metastability. For nondegenerate (Morse) landscapes the sharp answer is the Eyring--Kramers law \cite{begk2004}; the problem is its singular version, with the polynomial-in-$\varepsilon$ prefactor carrying the \textsc{rlct} data.
 
-\begin{problem}[singular Eyring--Kramers]\label{prob:kramers}
+\begin{problem}[\Oid{73}: singular Eyring--Kramers]\label{prob:kramers}
 Let $L\colon \T^d \to [0,\infty)$ be real-analytic with $W_0 = K_A \sqcup K_B$, two disjoint compact connected components (possibly positive-dimensional and singular), with local data $(\lambda_A, m_A)$ and $(\lambda_B, m_B)$ (minimal $\lambda$, then maximal $m$, over each component). Let
 \[
    h \;=\; \inf_{\gamma} \, \max_{t \in [0,1]} L(\gamma(t)) \;>\; 0,
@@ -260,7 +261,7 @@ the infimum over continuous paths $\gamma\colon [0,1] \to \T^d$ with $\gamma(0) 
 uniformly for $x$ in compact subsets of the interior of $\mathcal{B}_A \cap \{ L < h \}$. Determine the rational exponent $\alpha$, the integer $q$, and the constant $C>0$ from a finite resolution of the germ along $K_A$ (its exponents and leading volume coefficients) and the corresponding leading local capacity data at the minimizing gate. The exponential term is already supplied by Freidlin--Wentzell theory \cite{freidlin2012}; the problem is the stated polynomial--logarithmic prefactor.
 \end{problem}
 
-\begin{conjecture}\label{conj:kramers}
+\begin{conjecture}[\Oid{74}]\label{conj:kramers}
 In the setting of Problem~\ref{prob:kramers}, suppose additionally that the infimum $h$ is attained at a single nondegenerate index-one critical point $z^*$ (a Morse saddle). Then
 \[
    \E_x[\tau_B] \;=\; C\, \varepsilon^{\lambda_A - d/2} \bigl( \log \tfrac1\varepsilon \bigr)^{m_A - 1} e^{h/\varepsilon} \, (1 + o(1)),
@@ -291,7 +292,7 @@ matching the equilibrium ratio of Proposition~\ref{prop:gibbs}. The new content 
 
 Metastability concerns wells separated by loss barriers. A second regime has strata of \emph{the same} loss, joined inside $W_0$, with no barrier at all. There the selection is purely entropic (driven by transversal volume) and the timescales should be polynomial in $1/\varepsilon$, not exponential.
 
-\begin{problem}[two-stratum entropic selection]\label{prob:entropic}
+\begin{problem}[\Oid{75}: two-stratum entropic selection]\label{prob:entropic}
 On $\T^2$, let
 \[
    L(x, y) \;=\; \sin^2\! x \, \sin^4\! y .
@@ -314,7 +315,7 @@ Every object here is explicit; parts (a) and (b) reduce to one-dimensional effec
 
 For genuine SGD near a \emph{smooth} manifold of minimizers there is a complete result. Li, Wang, and Arora \cite{liwangarora2022}, adapting a 1991 theorem of Katzenberger \cite{katzenberger1991}, prove: if the set $\Gamma$ of local minimizers is a compact $C^\infty$ manifold on which the Hessian rank is constant and equal to the codimension, then SGD with learning rate $\eta$, run for $\lfloor t / \eta^2 \rfloor$ steps, converges as $\eta \to 0$ to a limiting diffusion \emph{on} $\Gamma$, whose drift and diffusion coefficients are explicit in the loss Hessian and the noise covariance. For label noise the limit is (up to time constants) the gradient flow on $\Gamma$ of the function $\tfrac14 \tr \nabla^2 L$ \cite{blanc2020, damian2021, liwangarora2022}: SGD, having reached the optimal set, slides along it toward flatter points. This supplies an effective dynamics on the smooth part. The hypothesis of constant Hessian rank excludes precisely the singularities where the strata meet, which is where the selection happens.
 
-\begin{problem}[effective diffusion beyond the smooth part]\label{prob:katzenberger}
+\begin{problem}[\Oid{76}: effective diffusion beyond the smooth part]\label{prob:katzenberger}
 Let $L(A, B) = \tfrac12 \| BA - \Phi \|_F^2$ as in \eqref{eq:dln-loss} with $H > r = \rank \Phi$ and $H \le \min(M, N)$. On the fiber $F_\Phi$, Sylvester's rank inequality $\rank A + \rank B - H \le \rank BA = r$ caps the rank sum, so the \textbf{top stratum} is
 \[
    \Gamma \;=\; \{ (A,B) \in F_\Phi : \rank A + \rank B = H + r \}
@@ -355,7 +356,7 @@ The limitation, expanded in Section~\ref{sec:two-clocks}, is that the label-nois
 
 The deep-linear network is the one model where both staircases are explicit, so it is where a dictionary between them should first be proved or refuted. Three problems, in increasing ambition.
 
-\begin{problem}[$\lambda$-stratification of the fiber and its saddles]\label{prob:fiber}
+\begin{problem}[\Oid{77}: $\lambda$-stratification of the fiber and its saddles]\label{prob:fiber}
 For $L$ as in \eqref{eq:dln-loss} with $H > r$:
 \begin{enumerate}
 \item[(a)] Compute the local invariants $(\lambda(w), m(w))$ of Definition~\ref{def:llc} at every point $w \in F_\Phi$, and identify the minimal stratum. Determine whether the invariants depend only on the pair $(\rank A, \rank B)$. The minimal value is Theorem~\ref{thm:aw}. There is partial progress: Lehalleur and Rim\'anyi \cite{lehalleurrimanyi2024} determine the components and codimensions of such fibers at any depth and compute the \textsc{rlct} of the zero-target fiber, and Lau et al.~\cite{lau2023} give closed-form local values at parameters of each product rank as ground truth for their estimator. These results do not determine the dependence on the two ranks separately, the edge cases, or any of part (b). Aoyagi's recursive blow-ups \cite{aoyagi2005,aoyagi2024} are the natural tool.
@@ -363,7 +364,7 @@ For $L$ as in \eqref{eq:dln-loss} with $H > r$:
 \end{enumerate}
 \end{problem}
 
-\begin{conjecture}[\texttt{MAIS-O7}: opposing staircases]\label{conj:opposing}
+\begin{conjecture}[\Oid{7}: opposing staircases]\label{conj:opposing}
 In the setting of Problem~\ref{prob:fiber}, let $\lambda_k = \inf_{w \in C_k} \lambda(w)$ with the two-sided definition. This is an infimum because $C_k$ is noncompact; Question~\ref{q:strat}(a), posed on a compact analytic zero set, does not imply attainment here, so attainment is part of the claim. Then $\lambda_0 < \lambda_1 < \dots < \lambda_r$ while $L_0 > L_1 > \dots > L_r$: along the saddle chain that gradient flow visits, the loss falls and the learning coefficient rises, step for step.
 \end{conjecture}
 
@@ -399,7 +400,7 @@ where $W_{-1}$ is the lower real branch of Lambert's $W$ function. The \textbf{d
 \]
 Here $\lambda_k^{\mathrm{AW}}$ is the invariant of the rank-$k$ model's own optimal set, not the two-sided coefficient of the saddle set $C_k$ in Conjecture~\ref{conj:opposing}; whether the two agree is part of Problem~\ref{prob:fiber}(b). Call the spectral family \textbf{well separated} if $n_1(q)<\dots<n_r(q)$ for all sufficiently large $q$. This hypothesis is substantive: a near-flat spectrum can make the lower convex envelope of the points $(L_k,\lambda_k^{\mathrm{AW}})$ skip rungs. The joint limit $q\to\infty$ is also substantive: for one fixed spectrum the crossovers are finite, so an $n\to\infty$ statement eventually sees only the final rank.
 
-\begin{problem}[time versus sample size]\label{prob:dictionary}
+\begin{problem}[\Oid{78}: time versus sample size]\label{prob:dictionary}
 Fix $H,r,\tau$ and a well-separated spectral family as above.
 \begin{enumerate}
 \item[(a)] Prove or refute that the Bayesian schedule is realized by the posterior in this joint limit. For each $q$, take i.i.d.\ data $(x_i,y_i)$ with standard Gaussian $x_i\in\R^H$ and $y_i=\Phi(q)x_i+{}$standard Gaussian noise, and a smooth positive prior on one compact parameter domain $W\subset\R^{2H^2}$ meeting every $C_k(q)$ and its most degenerate points. Write
@@ -446,7 +447,7 @@ $\sup_{w \in C} L_{\varepsilon,\delta}(w) < \inf \{ L_{\varepsilon,\delta}(w) : 
 
 In words: $L_{\varepsilon,\delta}(w)$ is the free energy of a $\delta$-window at $w$, trading the depth of the loss in the window against its volume; a degenerate saddle, poor in depth but rich in volume, can beat its own rim. At $\varepsilon \to 0$ with $\delta$ fixed, $L_{\varepsilon,\delta}(w) \to \min_{B_\delta(w)} L$, and no strict saddle is an effective minimum; at large $\varepsilon$, volume dominates. The slogan lives, if anywhere, in a window.
 
-\begin{question}\label{q:effective-loss}
+\begin{question}[\Oid{79}]\label{q:effective-loss}
 For the deep linear network \eqref{eq:dln-loss} with the spectrum $s_1 > \dots > s_r$, fix $R$ large enough that the ball $\| A \|_F^2 + \| B \|_F^2 \le R$ meets every $C_k$, and let $C_k^R = C_k \cap \{ \| A \|_F^2 + \| B \|_F^2 \le R \}$. The truncation is forced, not cosmetic: Definition~\ref{def:effective-loss} requires $C$ compact, and along the noncompact $C_k$ with $\| A \|_F \to \infty$ the fiber directions steepen, the window mass shrinks, and $\sup_{C_k} L_{\varepsilon,\delta} = +\infty$, so no untruncated $C_k$ is an effective minimum. Determine for each $k$ the set $E_k \subseteq (0,\infty)^2$ of resolutions $(\varepsilon, \delta)$ at which $C_k^R$ is an effective local minimum. For fixed $\delta>0$, write
 \[
    I_k(\delta)=\{\varepsilon>0:(\varepsilon,\delta)\in E_k\}.
@@ -478,7 +479,7 @@ For $f\colon \{-1, 1\}^d \to \R$, expand in the Fourier--Walsh basis $f = \sum_{
 \]
 the largest number of fresh coordinates any stage of a best build-up must acquire at once. Abbe, Boix-Adser\`a, and Misiakiewicz \cite{abbe2023} conjecture, for uniform Boolean or isotropic Gaussian inputs, that online SGD (one fresh sample per step) learns such targets saddle-to-saddle in $\tilde\Theta\bigl(d^{\max(\operatorname{Leap}(f),\,2)}\bigr)$ steps, where $\tilde\Theta$ is $\Theta$ up to logarithmic factors and the step count equals the sample count in this one-pass regime; they prove a version of the conjecture for isotropic Gaussian data and two-layer networks, under technical assumptions on how SGD is run, so on the Boolean cube---the setting below---the timescale is conjectural. A combinatorial invariant of the \emph{target} sets the timescale. Singular learning theory assigns geometric invariants to the \emph{critical points}. The problem is whether the two bookkeepings agree.
 
-\begin{problem}\label{prob:leap}
+\begin{problem}[\Oid{80}]\label{prob:leap}
 Fix once and for all a nonpolynomial real-analytic activation $\sigma$. An \textbf{admissible instance} consists of a dimension $d$, a target $f\colon\{-1,1\}^d\to\R$, and a width $N$ for which
 \[
    f_w(x)=\sum_{i\le N}a_i\,\sigma(\langle w_i,x\rangle)
@@ -541,7 +542,7 @@ so the unnormalized window free energy is $\beta \bigl( L(z) - \tfrac{\mu \delta
 \]
 In this two-dimensional example the coefficient $1$ happens to equal the two-sided $\lambda$ of the saddle, though it does not reproduce the multiplicity correction. For $\rho>\tfrac12$ the coefficient is instead $d\rho$. The conclusion is therefore schedule-dependence, not universal nonexistence: a chosen boundary scale may coincide with $\lambda$, while no intrinsic window exponent has emerged. What the empirical successes \cite{chen2023, hoogland2024} suggest is that the relevant critical sets in practice are minima-with-flat-directions or very shallow saddles, for which the rim term is small in the observed window of $n$. The formalization problem this leaves:
 
-\begin{problem}\label{prob:saddle-free-energy}
+\begin{problem}[\Oid{81}]\label{prob:saddle-free-energy}
 Use the well-separated target family $\Phi(q)$ and the compact parameter domain $W$ of Problem~\ref{prob:dictionary}(a), with moving crossovers $n_k(q)\to\infty$, and put
 \[
    J_q=\bigl[\sqrt{n_1(q)},\,2n_r(q)\bigr]\cap\mathbb{N}.
@@ -578,7 +579,7 @@ There are, then, two clocks in this problem: one ticks in samples and prefers fl
 \bibitem{mais}
 L.~Levine,
 \emph{Math for AI Safety: An Invitation for Mathematicians},
-2026. \url{https://github.com/lionellevine/MAIS/blob/main/papers/MAIS-P1/MAIS-P1.pdf}.
+2026. \url{https://github.com/lionellevine/MAIS/tree/main/papers/P1}.
 
 
 \bibitem{abbe2023}

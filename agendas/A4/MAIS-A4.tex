@@ -3,6 +3,7 @@
 \usepackage{amsmath, amssymb, amsthm, mathtools}
 \usepackage{xcolor}
 \usepackage[colorlinks=true, linkcolor=blue!55!black, citecolor=blue!55!black, urlcolor=blue!55!black]{hyperref}
+\newcommand{\Oid}[1]{\href{https://github.com/lionellevine/MAIS/blob/main/open-problems/MAIS-O#1.md}{\texttt{MAIS-O#1}}}
 \newcommand{\arxiv}[1]{\href{https://arxiv.org/abs/#1}{\texttt{arXiv:#1}}}
 \emergencystretch=1.5em
 \theoremstyle{plain}
@@ -319,7 +320,7 @@ The objects $L=L_{m,n,S}$, $R$, $\mu$, $\mu_+$, $v(S)$, $J$, $\mathrm{REC}_S$, $
 
 \subsection{The interference--performance frontier}
 
-\begin{problem}[\texttt{MAIS-O4}: Coherence-constrained frontier]\label{prob:frontier}
+\begin{problem}[\Oid{4}: Coherence-constrained frontier]\label{prob:frontier}
 For $m>n\ge2$, $S\in(0,1)$, $c\in[0,1]$, define
 \[
 P_{m,n,S}(c) \;=\; \inf\bigl\{\,L_{m,n,S}(W,b)\ :\ \mu(W)\le c\,\bigr\}.
@@ -370,7 +371,7 @@ No value of $p(\beta,S,c)$ with $c\in(0,1)$ is known; determining one would be a
 
 Proposition~\ref{prop:scalar} disposes of the trivial reading; here is the nontrivial one. The penalty available to gradient-based training is the smooth average $R$; the quantity the interpreter cares about is the max $\mu$; and the frame-potential fact of Section~\ref{sec:background} warns that $R$'s stationary structure (tight frames) does not obviously favor small $\mu$.
 
-\begin{problem}[Penalizing the sum to control the max]\label{prob:summax}
+\begin{problem}[\Oid{44}: Penalizing the sum to control the max]\label{prob:summax}
 Let $R$ be the interference of Definition~\ref{def:coherence}.
 \begin{enumerate}
 \item Exhibit a quadruple $(m,n,S,\lambda)$, where $m>n\ge2$, $S\in(0,1)$, and $\lambda>0$, for which the two sets of minimizers below are nonempty, every $(W,b)\in\operatorname{argmin}(L+\lambda R)$ has task loss below the orthogonality price of Theorem~\ref{thm:price}(1), i.e.\ $L(W,b)<(m-n)\,v(S)$, and
@@ -391,7 +392,7 @@ Part (1) is the survey's ``lower coherence'' target stated so that Proposition~\
 
 The deeper question is whether any of this helps the interpreter. Coherence is a property of $W$; recovery is a property of the estimator applied to the activations $Wx$. The bridge is entirely unbuilt---even in this toy world.
 
-\begin{problem}[Recovery transfer: ``more identifiable atoms'']\label{prob:transfer}
+\begin{problem}[\Oid{45}: Recovery transfer: ``more identifiable atoms'']\label{prob:transfer}
 Let $\mathrm{REC}_S$ be the recovery predicate of Definition~\ref{def:rec}.
 \begin{enumerate}
 \item (\emph{Antipodal warm-up.}) Let $(m,n)=(4,2)$ and let $W^*$ be the antipodal configuration, with columns $e_1,-e_1,e_2,-e_2$. Determine, for each $S\in(0,1)$, the set of triples $(d,\alpha,\varepsilon)$, with $d\ge4$, $\alpha>0$, and $\varepsilon\in(0,\tfrac12)$, for which $\mathrm{REC}_S(W^*;d,\alpha,\varepsilon)=1$.
@@ -401,7 +402,7 @@ Let $\mathrm{REC}_S$ be the recovery predicate of Definition~\ref{def:rec}.
 
 Part (2) is a stronger recovery-level extension: a proof would have to establish, along the way, an identifiability theorem for the $\ell^1$ estimator on a structured dictionary---the subject of the sibling open problem ``The geometry and identifiability of superposition.'' Part (1) is small enough to attack alone: the activation distribution is just $(x_1-x_2,\,x_3-x_4)$ with sparse uniform coordinates, and the question is whether the standard estimator, at its \emph{global} optimum, splits each axis into two signed atoms. To my knowledge even this is unproved; the closest theory \cite{cui2025} computes closed-form SAE behavior in a different asymptotic regime and finds recovery generically fails without reweighting, which makes part (1) a genuine test rather than a formality.
 
-\begin{question}[Does coherence rank recoverability?]\label{q:goodhart}
+\begin{question}[\Oid{46}: Does coherence rank recoverability?]\label{q:goodhart}
 Do there exist parameters $n,m,d,\alpha,\varepsilon$, a sparsity $S\in(0,1)$, and dictionaries $W,W'\in\R^{n\times m}$, both with unit-norm columns, such that
 \[
 \begin{gathered}
@@ -420,7 +421,7 @@ I expect the answer is yes---the antipodal configuration has $\mu=1$ yet its sig
 
 A further question is stability: should training have a well-defined answer, so that two runs (or two auditors) find the same features? The toy model's symmetries make ``the same'' precise. Let $G = O(n)\times \Sigma_m$ act on parameters by $W\mapsto QW P^{-1}$, $b \mapsto Pb$ for $Q$ orthogonal and $P$ a coordinate permutation (permuting features and their biases together); $L$, $R$, $\mu$ are $G$-invariant, the first because $\mathcal D_{m,S}$ is exchangeable and $W^\top W$ is $Q$-invariant.
 
-\begin{problem}[Single-orbit training]\label{prob:orbit}
+\begin{problem}[\Oid{47}: Single-orbit training]\label{prob:orbit}
 Call the objective $L+\lambda R$ \textbf{identifiable at} $(m,n,S,\lambda)$ if its $\operatorname{argmin}$ is nonempty and consists of a single $G$-orbit.
 \begin{enumerate}
 \item Decide identifiability for $(m,n)=(5,2)$, $\lambda=0$, at high sparsity: prove there exists $S_0<1$ such that for all $S\in(S_0,1)$ the $\operatorname{argmin}$ is a single $G$-orbit---concretely, the regular pentagon with its optimal norms and biases---or prove that no such $S_0$ exists.
@@ -434,7 +435,7 @@ Part (1) would be the first theorem certifying any of the polytope phases of \ci
 
 Propositions~\ref{prop:blind}--\ref{prop:monobottleneck} settle the plentiful regime of the privileged-basis model and compute the fully-aligned bottleneck value $(m-k)v(S)$. The open territory is small $\delta>0$: can a \emph{slightly} polysemantic hidden layer beat the perfectly aligned one, and by how much?
 
-\begin{problem}[Monosemanticity frontier]\label{prob:mono}
+\begin{problem}[\Oid{48}: Monosemanticity frontier]\label{prob:mono}
 For $k<m$, $S\in(0,1)$, $\delta\in[0,1]$, define
 \[
 P'_{m,k,S}(\delta) \;=\; \inf\bigl\{\,L'_{m,k,S}(\theta)\ :\ M(\theta)\ge 1-\delta\,\bigr\},
@@ -456,7 +457,7 @@ Mencattini, Montagna, and Locatello \cite{mencattini2026} prove a rate--distorti
 
 Remark~\ref{rem:wsparse} showed column-1-sparse wiring beats orthogonality. The exact cost of wiring constraints is open, and is the toy-model shadow of the empirical capability--interpretability frontier of \cite{gao2025}.
 
-\begin{problem}[The wiring frontier]\label{prob:wsparse}
+\begin{problem}[\Oid{49}: The wiring frontier]\label{prob:wsparse}
 For $m\ge 2n\ge2$ and $S\in(0,1)$, determine
 \[
 Q_{m,n,S} \;=\; \inf\bigl\{\,L_{m,n,S}(W,b)\ :\ \|W_i\|_0\le 1 \text{ for all } i\,\bigr\}
@@ -479,7 +480,7 @@ The comparison requested in Problem~\ref{prob:wsparse} is the pointwise comparis
 
 Every problem so far quantifies over exact minimizers. Training does not; and Proposition~\ref{prop:blind} shows regimes where minimization alone cannot decide the property of interest, so the selection is made by the optimizer.
 
-\begin{question}[What does gradient flow select?]\label{q:dynamics}
+\begin{question}[\Oid{50}: What does gradient flow select?]\label{q:dynamics}
 Fix $(m,n,S,\lambda,\sigma)$ and use the measurable Clarke-trajectory convention above for $L+\lambda R$, from $W_{ij}\sim N(0,\sigma^2)$ independently and $b=0$. Write $\theta_\infty=\dagger$ when the selected trajectory does not converge.
 \begin{enumerate}
 \item For $(m,n)=(2,1)$ with importance weights $(1,I)$, on convergent trajectories write the limiting row as $(w_1,w_2)$. Determine the probabilities of the four disjoint events
@@ -501,7 +502,7 @@ Part (3) states the \emph{implicit bias} question for interpretability in miniat
 
 \section{A place to start}\label{sec:start}
 
-\begin{example}[\texttt{MAIS-O51}: The regularized phase diagram of the smallest model]\label{ex:21}
+\begin{example}[\Oid{51}: The regularized phase diagram of the smallest model]\label{ex:21}
 Take $m=2$, $n=1$, importance weights $(1,I)$: the loss is
 \begin{align*}
 L(w_1,w_2,b) = \E\Bigl[&\bigl(x_1-\relu(w_1^2x_1+w_1w_2x_2+b_1)\bigr)^2\\
@@ -555,7 +556,7 @@ The interference--performance frontier and the average-to-worst-case question ar
 \bibitem{mais}
 L.~Levine,
 \emph{Math for AI Safety: An Invitation for Mathematicians},
-2026. \url{https://github.com/lionellevine/MAIS/blob/main/papers/MAIS-P1/MAIS-P1.pdf}.
+2026. \url{https://github.com/lionellevine/MAIS/tree/main/papers/P1}.
 
 
 \bibitem{aharon2006} Aharon, M., Elad, M., and Bruckstein, A. M. (2006). On the uniqueness of overcomplete dictionaries, and a practical way to retrieve them. \emph{Linear Algebra and its Applications} 416(1), 48--67.

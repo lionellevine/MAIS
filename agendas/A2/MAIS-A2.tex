@@ -3,6 +3,7 @@
 \usepackage{amsmath, amssymb, amsthm, mathtools}
 \usepackage{xcolor}
 \usepackage[colorlinks=true, linkcolor=blue!55!black, citecolor=blue!55!black, urlcolor=blue!55!black]{hyperref}
+\newcommand{\Oid}[1]{\href{https://github.com/lionellevine/MAIS/blob/main/open-problems/MAIS-O#1.md}{\texttt{MAIS-O#1}}}
 \emergencystretch=2em
 \newcommand{\arxiv}[1]{\href{https://arxiv.org/abs/#1}{\texttt{arXiv:#1}}}
 \providecommand{\glsfirst}[2]{#2}
@@ -256,13 +257,13 @@ The problems come in five groups: identifiability without measure zero; query co
 
 \subsection{Identifiability without measure zero}
 
-\begin{question}[Do margins suffice?]\label{q:ident}
+\begin{question}[\Oid{23}: Do margins suffice?]\label{q:ident}
 Fix a skeleton $\sk$ and $\lambda\in(0,\tfrac12)$. If $M,M'\in\MM(\sk,\lambda)$ satisfy $\boldsymbol\Delta_M=\boldsymbol\Delta_{M'}$, must $M=M'$? Equivalently (by Proposition~\ref{prop:equiv}): can two distinct models in the margin class share a common family of optimal policies for every observation mask?
 \end{question}
 
 Theorem~\ref{thm:re}(a) says the answer is yes off a Lebesgue-null set, but the null set is described only implicitly, as the vanishing locus of polynomials arising in the proof, and it is not known whether conditions (M1)--(M6) avoid it. I do not conjecture an answer. A counterexample---two distinct models in a margin class with identical masked behavior everywhere---would be as valuable as a proof, since it would reveal a cancellation mechanism that any finite-sample theory must condition away.
 
-\begin{problem}[Effective genericity]\label{prob:effective}
+\begin{problem}[\Oid{24}: Effective genericity]\label{prob:effective}
 For each diagram shape $(\bC,\bO,\bZ)$ and each compatible graph $G$, exhibit a finite explicit list of rational polynomials $Q^G_1,\dots,Q^G_r$ in $(\theta,u)$. With $S=K(G)+2^{|\bZ|}$, require the list length, degrees, coefficient bit lengths, and construction time to be polynomial in $S$ (using sparse monomial encoding). Find constants $a,b>0$ depending only on $(m,S)$ such that for all $\lambda,\mu\in(0,\tfrac12)$, on the subclass
 $\MM(\sk,\lambda,\mu):=\{M\in\MM(\sk,\lambda): |Q^G_j(\theta,u)|\ge\mu \text{ for all } j, \text{ where } G \text{ is } M\text{'s own graph}\}$:
 \begin{enumerate}
@@ -276,17 +277,17 @@ This problem is what the rest of the finite-sample theory rests on: it converts 
 
 \subsection{Query complexity}
 
-\begin{problem}[Query complexity with exact policy probabilities]\label{prob:exact}
+\begin{problem}[\Oid{25}: Query complexity with exact policy probabilities]\label{prob:exact}
 Let $\mathcal{N}\subseteq\MM(\sk,\lambda)$ be a compact semialgebraic class satisfying conclusions (a)--(b) of Problem~\ref{prob:effective} with modulus $\omega(\delta)=L\delta$. Assume also a richness condition: for some graph $G$ and $\rho>0$, its table-parameter projection contains a $K(G)$-dimensional box of side $\rho$. Determine, up to constants depending on $(m,K,\lambda,L,\rho)$, the minimal budget $N(\varepsilon)$ such that the minimax risk over $\mathcal{N}$ at budget $N(\varepsilon)$, with $\delta=0$ and the policy-probability oracle, is at most $\varepsilon$. In particular: decide whether $N(\varepsilon)\le \mathrm{poly}(K,1/\lambda,L,1/\rho)\log(1/\varepsilon)$, and whether adaptive queries outperform non-adaptive ones by more than a constant factor.
 \end{problem}
 
-\begin{conjecture}\label{conj:exact}
+\begin{conjecture}[\Oid{26}]\label{conj:exact}
 For $\mathcal{N}=\MM(\sk,\lambda,\mu)$ with $\mu$ fixed, $N(\varepsilon)=\Theta\bigl(K\log(1/\varepsilon)\bigr)$ as $\varepsilon\to0$, with the implied constants polynomial in $1/\lambda$, $1/\mu$, and $L$ and independent of $m$ otherwise: bisection along the segments of Proposition~\ref{prop:equiv} achieves the information-theoretic floor of Remark~\ref{rem:packing} up to constants.
 \end{conjecture}
 
 The upper-bound side looks like bookkeeping (bisect each of the $O(K)$ needed critical weights to precision $\varepsilon\cdot\mathrm{poly}(\lambda)$), but it is not: the reconstruction of \cite{richens2024} solves for table entries \emph{recursively} outward from $\bZ$, and errors compound through quotients whose denominators are exactly the quantities the margins bound. Whether the compounding is polynomial or exponential in the depth of the diagram is the real question, and a negative answer (necessarily exponential in depth for some skeletons) would be just as interesting.
 
-\begin{problem}[\texttt{MAIS-O2}: Query complexity from sampled actions]\label{prob:noisy}
+\begin{problem}[\Oid{2}: Query complexity from sampled actions]\label{prob:noisy}
 In the setting of Problem~\ref{prob:exact}, replace the policy-probability oracle by sampled actions and allow $\delta\ge0$. Determine the minimax budget $N(\varepsilon,\delta)$ for recovering the graph and tables to error at most $\varepsilon$, or prove that the target lies below the identified-set radius $\varphi(\delta;\sk,\lambda)$ and is therefore impossible. Separate three contributions: locating the switching surfaces of the optimal policy family, estimating the probabilities of genuinely stochastic policies, and the irreducible ambiguity caused by regret. Then add independent response corruption at a known level $\zeta<\tfrac12$ and determine its cost.
 \end{problem}
 
@@ -296,13 +297,13 @@ At $\delta=0$, every optimal policy is deterministic away from a switching surfa
 
 The next three problems concern the floor that the agent's own imperfection places under any method, however many queries it spends.
 
-\begin{problem}[The regret floor]\label{prob:floor}
+\begin{problem}[\Oid{27}: The regret floor]\label{prob:floor}
 Determine the asymptotics of $\varphi(\delta;\sk,\lambda)$ as $\delta\to0$: (a) decide whether $\varphi(0^+)=0$ (this refines Question~\ref{q:ident}); (b) assuming it is zero, determine $\lim_{\delta\to0}\varphi(\delta)/\delta$ as an explicit function of $(\sk,\lambda)$, together with the matching statement that some pair of models at distance $c\delta$ is $\delta$-indistinguishable; (c) determine the graph threshold: defining the \emph{strength} of an edge of $M$ as the maximum, over pairs of parent configurations differing only in the tail variable, of the induced table difference (the quantity (M4) bounds below), decide for which pairs $(s,\delta)$ every $M\in\MM(\sk,\lambda)$ carrying an edge of strength at least $s$ has that edge present in every model of $I_\delta(M)$---and exhibit, for the complementary pairs, an $M$ and an $M'\in I_\delta(M)$ omitting the edge.
 \end{problem}
 
 Part (c) makes precise ``which parts of the graph are identifiable'': at regret $\delta$, strong edges survive and weak edges blur into the error floor, and the problem asks for the exact exchange rate. Theorem~\ref{thm:re}(b) gives the upper half (linear in $\delta$); no lower-bound construction appears in the literature.
 
-\begin{problem}[Average-case regret]\label{prob:average}
+\begin{problem}[\Oid{28}: Average-case regret]\label{prob:average}
 Fix the probability measure $\nu$ on $\Sigma^\mathrm{mask}(\bC,\bO)$ defined by drawing two profiles uniformly, a weight $q$ uniformly from $[0,1]$, and a mask $\bO'\subseteq\bO$ uniformly. Call a policy family $\Pi$ \emph{$(\kappa,\delta)$-admissible} for $M$ if
 \[
    \nu\{(\sigma,\bO'):\reg_M^{\bO'}(\pi_{\sigma,\bO'};\sigma)>\delta\}\le\kappa.
@@ -312,7 +313,7 @@ Define the identified set and radius $\varphi(\delta,\kappa;\sk,\lambda)$ as bef
 
 This is the model of a \emph{realistic} agent: good in most environments, with no guarantee in an adversarially chosen few. The experiments of \cite{richens2025} (whose trained agents violate the worst-case regret bound outright, with $\delta=1$ on some goals, yet still yield accurate extracted models on average) are empirical evidence that some version of $\varphi(0,\kappa)\to0$ holds, and in the goal-based setting of \S\ref{subsec:theorems}, Nayebi \cite{nayebi2026} has since proved a recovery theorem from low \emph{average-case} regret over an explicit goal family, with margin conditions in place of genericity; the interventional version posed here remains open. The choice of $\nu$ is declared rather than canonical; a solution for any explicit non-degenerate $\nu$ would be a full success, and the dependence on $\nu$ is itself part of the geometry.
 
-\begin{problem}[Boltzmann agents: rates and design]\label{prob:boltzmann}
+\begin{problem}[\Oid{29}: Boltzmann agents: rates and design]\label{prob:boltzmann}
 Under the Boltzmann channel with known $\beta$: (a) decide whether the map from models to Boltzmann behavior is injective on $\MM(\sk,\lambda)$; (b) for each fixed finite $\beta$, determine the minimax risk at budget $N$ up to constants, including the deterioration as $\beta\to0$; then characterize the joint $(N,\beta)$ crossover from the smooth local rate (typically proportional to $1/(\beta\sqrt N)$) to the noiseless adaptive-search regime as $\beta\to\infty$; (c) solve the design problem: which distribution over queries $(\sigma,\bO',w)$ maximizes the minimax rate?
 \end{problem}
 
@@ -322,13 +323,13 @@ For fixed $\beta$, part (b) is a smooth parametric estimation problem. Large $\b
 
 For $W\subseteq\bC$, let $\Sigma_W$ be the mixtures of profiles that act as the identity outside $W$ (so $\Sigma_\emptyset$ is pure observation). These are interventions on the mechanisms of environmental variables. They are distinct from masking the agent's sensory inputs, which leaves the environment unchanged. Define $\Sigma_W$-identifiability of a functional $T(M)$ at $M$ by requiring $T$ to be constant on the models in $\MM(\sk,\lambda)$ sharing an optimal-policy family with $M$ for every $\sigma\in\Sigma_W$ and every mask $\bO'\subseteq\bO$.
 
-\begin{problem}[Restricted intervention sets]\label{prob:restricted}
+\begin{problem}[\Oid{30}: Restricted intervention sets]\label{prob:restricted}
 For Lebesgue-almost-every parameter choice, characterize combinatorially---in terms of the graph $G$, the sets $W,\bO,\bZ$---which edge indicators and which table entries are $\Sigma_W$-identifiable. In particular, exhibit the minimal sets $W$ for which everything on $\Anc(U)$ is identifiable. Compare environmental intervention on observed variables ($W=\bO$) with sensory masking alone ($W=\emptyset$).
 \end{problem}
 
 The reconstruction of \cite{richens2024} leans on hard interventions on \emph{all} chance variables at once (the endpoints in Proposition~\ref{prop:equiv}); with $W$ small these anchors are unavailable, and it is not even clear that the identifiable set of functionals is monotone in the strength of the margin conditions. The flavor is that of the classical question of how many experiments identify a causal graph \cite{eberhardt2005}, transplanted from observing all variables to observing one bit of behavior.
 
-\begin{question}[The chain]\label{q:chain}
+\begin{question}[\Oid{31}: The chain]\label{q:chain}
 Let $\bC=\{C_1,\dots,C_m\}$ with graph the directed path $C_m\to C_{m-1}\to\dots\to C_1$, observation set $\bO=\emptyset$, utility parents $\bZ=\{C_1\}$, and $u$ with margin (M2)--(M3). For $W=\{C_j\}$, a single intervenable variable: which of the $2(m-1)+1$ table parameters are $\Sigma_W$-identifiable for almost every $\theta$ (comparison class: the models of $\MM(\sk,\lambda)$ carrying this chain graph, so that all the parameters are defined)? (Heuristic, labeled as such: mixtures at $C_j$ should reveal the composite transfer map from $C_j$ to $C_1$---a product of $2\times2$ stochastic matrices---and the observational marginal of $C_1$, but not the individual factors nor anything upstream of $C_j$; I have not proved either the positive or the negative half, and the negative half needs a genuine indistinguishability construction.)
 \end{question}
 
@@ -347,13 +348,13 @@ Two environments are indistinguishable from first actions when these sets inters
 \]
 the error that no analyst can beat, however many first actions it inspects. Applying the extractor of Theorem~\ref{thm:rabe} to a common first-action map and using the triangle inequality gives $\varepsilon^*(E,n,\delta)\le\sqrt{2/\bigl((n-1)(1-\delta)\bigr)}$ for $n>1$, with $\varepsilon^*(E,n,0)=O(1/n)$ by the refined clause; the myopic theorem gives $\varepsilon^*(E,1,0)=1$ for suitable $E$ when the depth-one class is defined by \emph{Next} goals alone.
 
-\begin{problem}[Is $1/n$ the truth?]\label{prob:rate}
+\begin{problem}[\Oid{32}: Is $1/n$ the truth?]\label{prob:rate}
 Determine the asymptotics of $\varepsilon^*(E,n,0)$ as $n\to\infty$ for fixed $E$: is $n\,\varepsilon^*(E,n,0)$ bounded away from $0$ and $\infty$ whenever some transition probability of $E$ lies strictly between $0$ and $1$? A positive answer to the lower half means constructing, for each $n$, a single depth-$n$ optimal goal-conditioned policy shared by two environments whose transition probabilities differ by $c/n$; a negative one would mean that the full lattice of composite goals pins the model more tightly than the binomial medians the known extractor reads.
 \end{problem}
 
 The upper bound's $1/n$ is the resolution at which an exact binomial median determines its success probability: at $\delta=0$ the switch point of the either--or goals of \S\ref{subsec:theorems} identifies the median $\lfloor p(n+1)\rfloor$ of a binomial in $n$ tries, pinning $p$ to a window of width $O(1/n)$, and the $O(\delta/\sqrt{n})$ term for imperfect agents comes from locating that median against distribution-function steps of height about $1/\sqrt{n}$. Whether an optimal agent can really be as uninformative as $1/n$ is, to my knowledge, open. (The certification framework of \cite{lu2026} proves a matching per-transition tightness result for its own small-$\delta$ bound; whether its construction gives $\liminf_n n\,\varepsilon^*(E,n,0)>0$ here is the first thing for a solver to check.)
 
-\begin{problem}[Persistent corruption]\label{prob:corruption}
+\begin{problem}[\Oid{33}: Persistent corruption]\label{prob:corruption}
 Consider all finite instances $(\bS,\bA,n,\delta)$ with $|\bA|\ge2$, $n>1$, and $(n-1)(1-\delta)>4$. An \emph{$\eta$-corruption} of an agent $\pi\in A(E,n,\delta)$ is any function $\rho\colon\bS\times\bPsi_n\to\bA$ differing from $f_\pi$ on at most $\eta\,|\bS\times\bPsi_n|$ arguments, chosen by an adversary who knows the analyst's randomized strategy but commits to $\rho$ before the interaction. Call $\eta$ \emph{uniformly tolerable} if one randomized algorithm and one polynomial $p$ use at most $p(|\bS|,|\bA|,n)$ queries and achieve, for every such instance, every communicating environment $E$, every $\pi\in A(E,n,\delta)$, and every $\eta$-corruption,
 \[
    \max_{s,a,s'}\,\bigl|\widehat P_{ss'}(a)-P_{ss'}(a)\bigr|\;\le\; \frac{2}{\sqrt{(n-1)(1-\delta)}}
@@ -372,13 +373,13 @@ Everything above becomes unconditional on the smallest skeleton that supports a 
 Let $\bC=\{X,Y\}$, $\bO=\emptyset$, $\bZ=\{X,Y\}$, and fix a utility $u\colon\{0,1\}^3\to[0,1]$ satisfying (M2)--(M3) and (M6) with margin $\lambda$. The class $\MM_2(\lambda)$ consists of the models with graph $G_\to$ ($X\to Y$; parameters $a=P(X\!=\!1)$, $b_x=P(Y\!=\!1\mid X\!=\!x)$) or $G_\leftarrow$ ($Y\to X$; parameters $b=P(Y\!=\!1)$, $a_y=P(X\!=\!1\mid Y\!=\!y)$), with all parameters in $[\lambda,1-\lambda]$ and edge strength $|b_0-b_1|\ge\lambda$ (resp.\ $|a_0-a_1|\ge\lambda$). There are $16$ profiles; since $\bO=\emptyset$, the behavioral transform is the vector $\bigl(\Delta_M(\sigma)\bigr)_{\sigma\in\Prof}\in\mathbb{R}^{16}$ with $\Delta_M(\sigma)=\sum_{x,y}P_M(x,y;\sigma)\,g(x,y)$, and a query is a rational mixture $\sigma$, answered by the bit $\pi_\sigma\in\{0,1\}$.
 \end{definition}
 
-\begin{problem}[Starter: the identified set, exactly]\label{prob:starter-set}
+\begin{problem}[\Oid{34}: Starter: the identified set, exactly]\label{prob:starter-set}
 For the family $\MM_2(\lambda)$, write $r_M(\delta):=\sup_{M'\in I_\delta(M)}e(M;G',\theta')$ for the local radius of the identified set. (a) Determine, as an explicit semialgebraic condition on $(u,\theta)$, when the global fiber $\{M':\Delta_{M'}=\Delta_M\}$ is the singleton $\{M\}$; in particular decide whether margin $\lambda>0$ alone suffices. (b) On the locus where the inverse is locally Lipschitz and the graph is locally fixed, compute the first-order constant in $r_M(\delta)=c(u,\theta)\delta+o(\delta)$. On the complementary locus, classify the alternatives: a positive limiting radius, graph ambiguity, or a fractional-power modulus. Use this classification to determine the largest regret below which the edge direction is certain throughout the class.
 \end{problem}
 
 This is three unknown parameters, one binary structural choice, and sixteen explicit quadratic polynomials $\Delta_M(\sigma)$ in the parameters; part (a) is a concrete real-algebra problem (quantifier elimination will decide any single instance; the problem asks for the human-readable answer), and part (b) is a small but genuine piece of the geometry that Problem~\ref{prob:floor} asks for in general. It is sized for a first paper, and I do not know the answer.
 
-\begin{problem}[Starter: finite-sample recovery]\label{prob:starter-sample}
+\begin{problem}[\Oid{35}: Starter: finite-sample recovery]\label{prob:starter-sample}
 For $\MM_2(\lambda)$ restricted to a compact locus on which $r_M(\delta)\le L\delta$ for all sufficiently small $\delta$, prove matching upper and lower bounds for the sampled-action budget $N(\varepsilon,\delta)$ needed to output the graph and all three parameters within $\varepsilon$. Begin at $\delta=0$, where only queries exactly on a switching surface can randomize, and then determine the crossover at positive regret between sampling error and the radius $\sup_M r_M(\delta)$. Finally add independent response corruption at level $\zeta$ and determine whether its sharp cost is the capacity factor $1/(1-H(\zeta))$.
 \end{problem}
 
@@ -466,7 +467,7 @@ Oper.\ Res.\ \textbf{71} (2023), no.~4. \arxiv{2002.11650}
 \bibitem{mais}
 L.~Levine,
 \emph{Math for AI Safety: An Invitation for Mathematicians},
-2026. \url{https://github.com/lionellevine/MAIS/blob/main/papers/MAIS-P1/MAIS-P1.pdf}.
+2026. \url{https://github.com/lionellevine/MAIS/tree/main/papers/P1}.
 \bibitem{li2023}
 K.~Li, A.~K. Hopkins, D.~Bau, F.~Vi\'egas, H.~Pfister, and M.~Wattenberg,
 \emph{Emergent world representations: exploring a sequence model trained on a synthetic task},

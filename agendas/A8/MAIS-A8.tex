@@ -3,6 +3,7 @@
 \usepackage{amsmath, amssymb, amsthm, mathtools}
 \usepackage{xcolor}
 \usepackage[colorlinks=true, linkcolor=blue!55!black, citecolor=blue!55!black, urlcolor=blue!55!black]{hyperref}
+\newcommand{\Oid}[1]{\href{https://github.com/lionellevine/MAIS/blob/main/open-problems/MAIS-O#1.md}{\texttt{MAIS-O#1}}}
 \emergencystretch=2em
 \newcommand{\arxiv}[1]{\href{https://arxiv.org/abs/#1}{\texttt{arXiv:#1}}}
 \theoremstyle{plain}
@@ -264,7 +265,7 @@ Proposition~\ref{prop:absolute} versus Proposition~\ref{prop:relative} is, to my
 
 Fix the absolute encoding $x_{\mathrm a}=(1,p,c)$ and the two-layer architecture \eqref{eq:twolayer} with width $m$ and initialization $a_j\sim N(0,\sigma^2)$, $u_j\sim N(0,\sigma^2 I_3)$, all independent. Train by the iteration of Remark~\ref{rem:conventions}, and let $q_\varepsilon(k;m,\sigma,L,\eta)$ be the misgeneralization probability \eqref{eq:selection}.
 
-\begin{problem}[\texttt{MAIS-O8}: The selection map]\label{prob:selectionmap}
+\begin{problem}[\Oid{8}: The selection map]\label{prob:selectionmap}
 Determine whether the limit
 \[
 \bar q_\varepsilon(m,\sigma,L,\eta)
@@ -277,7 +278,7 @@ The gloss: over initialization alone, what is the probability that the trained n
 
 I expect the proxy to win the tie, at both extremes of the initialization scale.
 
-\begin{conjecture}[The proxy wins at $\varepsilon=0$]\label{conj:proxywins}
+\begin{conjecture}[\Oid{82}: The proxy wins at $\varepsilon=0$]\label{conj:proxywins}
 For every $\sigma>0$, $L\ge4$, and sufficiently small $\eta>0$,
 \[
    \lim_{m\to\infty}\;\liminf_{k\to\infty}\;q_0(k;m,\sigma,L,\eta)\;=\;1 .
@@ -332,7 +333,7 @@ Weak convergence of normalized representing measures is the premise here. Pointw
 
 The two infinite-width regimes therefore select the proxy at $\varepsilon=0$. The finite-width standard family may still behave differently:
 
-\begin{question}[Is there any coin-lover in the standard family?]\label{q:coinlover}
+\begin{question}[\Oid{83}: Is there any coin-lover in the standard family?]\label{q:coinlover}
 Do there exist $L\ge4$, $m$, $\sigma>0$, and a sufficiently small step size $\eta>0$ with
 \[
    \limsup_{k\to\infty}\;\mathbb P_{\theta_0}\bigl(f_{\theta_k}(x_{\mathrm a}(s^{*}))<0\bigr)\;>\;\tfrac12
@@ -340,7 +341,7 @@ Do there exist $L\ge4$, $m$, $\sigma>0$, and a sufficiently small step size $\et
 ---a member of the standard family at which the trained network walks strictly toward the displaced coin with probability better than one half?
 \end{question}
 
-\begin{problem}[\texttt{MAIS-O8}, $\varepsilon>0$: Diversity at the level of networks]\label{prob:diversitynets}
+\begin{problem}[\Oid{8}, $\varepsilon>0$: Diversity at the level of networks]\label{prob:diversitynets}
 Fix rational $\varepsilon\in(0,1]$, $m\ge2$, $\sigma>0$, and sufficiently small $\eta>0$. Determine
 \[
 \lim_{k\to\infty}q_\varepsilon(k;m,\sigma,L,\eta).
@@ -348,7 +349,7 @@ Fix rational $\varepsilon\in(0,1]$, $m\ge2$, $\sigma>0$, and sufficiently small 
 The linear theory predicts $0$. The kernel comparison is the sign at the probe of a finite kernel support-vector machine; the finite-width problem asks how the answer depends on $(m,\sigma,\eta)$.
 \end{problem}
 
-\begin{problem}[\texttt{MAIS-O84}: The crossover time, or: why $2\%$?]\label{prob:crossover}
+\begin{problem}[\Oid{84}: The crossover time, or: why $2\%$?]\label{prob:crossover}
 In the linear model of Proposition~\ref{prop:diversity}, run gradient descent on $\mathcal L_\varepsilon$ from $w_0=0$ with a sufficiently small constant step size, so that Theorem~\ref{thm:soudry} applies, and let
 \[
    k^{*}(\varepsilon)\;=\;\inf\{k:\ f_{w_k}(x_{\mathrm a}(s^{*}))<0\}
@@ -384,11 +385,11 @@ with some $\alpha_p>0$. At the probe,
 because precisely the monomials with $j=0$ survive and the constant term is one. Therefore $\widehat w\cdot\psi_k(p^*,0)>0$.
 \end{proof}
 
-\begin{problem}[Which representations misgeneralize?]\label{prob:encodings}
+\begin{problem}[\Oid{85}: Which representations misgeneralize?]\label{prob:encodings}
 Give a structural criterion on a feature map $\psi:\{0,\dots,L\}^2\to\mathbb R^D$ deciding whether the maximum-margin direction at $\varepsilon=0$ is positive or negative at the probe. Restrict to separable encodings. If the maximum-margin direction vanishes at the probe, classify the result as undetermined at leading order and pass to the residual of Problem~\ref{prob:boundary}.
 \end{problem}
 
-\begin{question}[The Bayesian-sampler test, in a box]\label{q:bayes}
+\begin{question}[\Oid{86}: The Bayesian-sampler test, in a box]\label{q:bayes}
 Valle-P\'erez et al.~\cite{valleperez2019} and Mingard et al.~\cite{mingard2021} argue that the function distribution produced by stochastic gradient descent can resemble a Bayesian posterior under the corresponding infinite-width Gaussian-process prior. The iteration in this file is full-batch and deterministic after initialization, so the comparison below tests random initialization plus gradient descent, not SGD itself. Bernstein and Yue \cite{bernstein2022} make this comparison directly and find an additional large-margin bias. The coin line makes one marginal exactly computable. Let $K(x,x')=\mathbb E_{u\sim N(0,I_3)}[\varphi(u\cdot x)\varphi(u\cdot x')]$ (in closed form, $\frac{\|x\|\|x'\|}{2\pi}(\sin\vartheta+(\pi-\vartheta)\cos\vartheta)$ with $\vartheta$ the angle between $x,x'$ \cite{chosaul2009}), let $g\sim \mathrm{GP}(0,K)$, and set
 \[
    Q(L)\;=\;\mathbb P\bigl(g(x_{\mathrm a}(s^{*}))>0 \;\big|\; g(x_{\mathrm a}(p,L))>0 \text{ for } 0\le p\le L-1\bigr),
@@ -440,11 +441,11 @@ Global convergence theorems for tabular softmax policy gradient \cite{mei2020,ag
 
 The genuinely new phenomenon in reinforcement learning is an asymmetry that behavior cloning lacks. The gradient $\nabla J$ is an expectation, over episodes, of (return)\,$\times$\,(a score term); episodes with return $0$ contribute nothing. So a policy that has already committed to ``move right'' receives corrective signal from a left-lying coin only on episodes where it \emph{happens to random-walk left far enough to collect it}---an event whose probability decays geometrically as the policy grows confident. The corrective signal at diversity $\varepsilon$ is therefore not of size $\varepsilon$, as in cloning, but of size $\varepsilon$ times a policy-dependent exploration factor that the proxy itself drives toward zero. Misgeneralization protects itself. (This paragraph is a heuristic, and making it quantitative is part of the problem below. In a neighboring setting---reinforcement finetuning of language models---the mechanism is a theorem: the expected gradient contributed by an input vanishes as the reward's standard deviation under the current policy tends to zero \cite{razin2024vanish}.)
 
-\begin{question}[Exploration starvation]\label{q:starvation}
+\begin{question}[\Oid{87}: Exploration starvation]\label{q:starvation}
 Fix $L\ge4$ and $\sigma>0$. Are there $\bar\varepsilon>0$ and $\delta>0$ such that for every real $\varepsilon\in(0,\bar\varepsilon]$ the linear policy-gradient flow satisfies $\limsup_{t\to\infty}q^{\mathrm{RL}}_\varepsilon(t;\sigma,L)\ge\delta$? Behavior cloning has no such $\bar\varepsilon$: Proposition~\ref{prop:diversity} gives $q_\varepsilon(k)\to0$ for every rational $\varepsilon>0$.
 \end{question}
 
-\begin{problem}[The misgeneralization curve]\label{prob:curve}
+\begin{problem}[\Oid{88}: The misgeneralization curve]\label{prob:curve}
 For the two-layer policy and each $\delta\in(0,\tfrac12)$, let $\tau_\delta=\inf\{k: J_\varepsilon(\theta_k)\ge1-\delta\}$, with $\tau_\delta=\infty$ if the set is empty. Determine
 \[
    \varepsilon\;\longmapsto\;
@@ -458,15 +459,15 @@ as a function of $(\varepsilon,m,\sigma,L,\delta,\eta)$, together with $\Pr(\tau
 
 Four projects, in increasing order of ambition.
 
-\begin{problem}[The boundary residual]\label{prob:boundary}
+\begin{problem}[\Oid{89}: The boundary residual]\label{prob:boundary}
 In the setting of Proposition~\ref{prop:relative}, the boundary logit at $c=p-1$ is $d_k=w_{0,k}-w_{1,k}$; the leading maximum-margin term cancels there. Determine whether $d_k$ converges as a function of the initialization and step size, and compute its limit $d_\infty$. Then compute the exact return of the limiting logistic policy, which steps right at a boundary state with probability $\sigma(d_\infty)$. This convention includes $d_\infty=0$ without a separate tie rule.
 \end{problem}
 
-\begin{problem}[\texttt{MAIS-O84}: The crossover asymptotics]
+\begin{problem}[\Oid{84}: The crossover asymptotics]
 Prove $k^{*}(\varepsilon)=\varepsilon^{-1+o(1)}$, or refute it, in the setting of Problem~\ref{prob:crossover}. The tools are those of \cite{soudry2018} plus a two-phase analysis; no network is involved.
 \end{problem}
 
-\begin{problem}[Kernel-regime selection, end to end]\label{prob:ntkstarter}
+\begin{problem}[\Oid{90}: Kernel-regime selection, end to end]\label{prob:ntkstarter}
 Proposition~\ref{prop:ntk} settles the infinite-width $\varepsilon=0$ flow. Prove the finite-width probe statement
 \[
 \lim_{m\to\infty}\liminf_{k\to\infty}
@@ -475,7 +476,7 @@ q^{\mathrm{ntk}}_0(k;m,L,\eta)=1,
 or identify the obstruction. The observable is the sign at this one probe; uniform-in-time convergence of the entire empirical kernel is not required and in general fails under cross-entropy training \cite{yu2025}. Separately, compute the probe sign of the kernel support-vector machine for $\varepsilon>0$ and small $L$.
 \end{problem}
 
-\begin{problem}[The atlas]
+\begin{problem}[\Oid{91}: The atlas]
 Compute, by simulation, the selection maps
 \[
 q_\varepsilon(k;m,\sigma,L,\eta)
@@ -504,7 +505,7 @@ Propositions~\ref{prop:ntk}, \ref{prop:meanfield}, \ref{prop:monomials}, and \re
 \bibitem{mais}
 L.~Levine,
 \emph{Math for AI Safety: An Invitation for Mathematicians},
-2026. \url{https://github.com/lionellevine/MAIS/blob/main/papers/MAIS-P1/MAIS-P1.pdf}.
+2026. \url{https://github.com/lionellevine/MAIS/tree/main/papers/P1}.
 
 
 \bibitem{sadek2025} Abdel Sadek, K., Farrugia-Roberts, M., Anwar, U., Erlebach, H., Schroeder de Witt, C., Krueger, D., and Dennis, M. (2025). Mitigating goal misgeneralization via minimax regret. \emph{Reinforcement Learning Conference} 2025. \arxiv{2507.03068}.
