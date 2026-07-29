@@ -2,7 +2,7 @@
 
 *Open problem MAIS-O26 · posed in [MAIS-A2](../agendas/A2/) as [Conjecture 4.4](../agendas/A2/MAIS-A2.tex#L284) · Status: open.*
 
-*Tags: interpretability · world-model extraction · eliciting latent knowledge · black-box evaluation · complexity theory · statistics. Difficulty: ★★.*
+*Tags: interpretability · world-model discovery · eliciting latent knowledge · black-box evaluation · complexity theory · statistics. Difficulty: ★★.*
 
 *Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
@@ -14,13 +14,13 @@ The conjecture restricts to the subclass $\mathcal{M}(\mathsf{s},\lambda,\mu)$ o
 
 **Conjecture ([MAIS-A2, Conjecture 4.4](../agendas/A2/MAIS-A2.tex#L284)).** For $\mathcal{N}=\mathcal{M}(\mathsf{s},\lambda,\mu)$ with $\mu$ fixed, $N(\varepsilon)=\Theta\bigl(K\log(1/\varepsilon)\bigr)$ as $\varepsilon\to0$, with the implied constants polynomial in $1/\lambda$, $1/\mu$, and $L$ and independent of $m$ otherwise: bisection along the one-parameter mixture segments of the agenda's Proposition 3.2 achieves the information-theoretic floor of its Remark 3.3 up to constants.
 
-The segments are the extraction device of the agenda's Proposition 3.2. The optimal action at $w$ tracks the sign of a behavioral quantity $\Delta(\sigma,w)$, the $g$-weighted probability of the states consistent with $w$, which is affine in the mixture $\sigma$. Mix the environment $\sigma_0$ of interest with a hard profile $\sigma^\ast$ pinning all variables at once to a state, consistent with $w$, whose utility gap opposes the agent's action at $\sigma_0$ (the margin conditions provide one): along $(1-q)\sigma_0+q\sigma^\ast$ the action flips at a single critical weight $q_{\mathrm{crit}}$, and $\Delta(\sigma_0,w)=-\tfrac{q_{\mathrm{crit}}}{1-q_{\mathrm{crit}}}\,\Delta(\sigma^\ast,w)$ with $\Delta(\sigma^\ast,w)$ a known utility gap. Each query buys one binary digit of $q_{\mathrm{crit}}$.
+The segments are the recovery device of the agenda's Proposition 3.2. The optimal action at $w$ tracks the sign of a behavioral quantity $\Delta(\sigma,w)$, the $g$-weighted probability of the states consistent with $w$, which is affine in the mixture $\sigma$. Mix the environment $\sigma_0$ of interest with a hard profile $\sigma^\ast$ pinning all variables at once to a state, consistent with $w$, whose utility gap opposes the agent's action at $\sigma_0$ (the margin conditions provide one): along $(1-q)\sigma_0+q\sigma^\ast$ the action flips at a single critical weight $q_{\mathrm{crit}}$, and $\Delta(\sigma_0,w)=-\tfrac{q_{\mathrm{crit}}}{1-q_{\mathrm{crit}}}\,\Delta(\sigma^\ast,w)$ with $\Delta(\sigma^\ast,w)$ a known utility gap. Each query buys one binary digit of $q_{\mathrm{crit}}$.
 
-The doubtful half is the upper bound: the known reconstruction solves for table entries recursively outward from the utility-parent set $\mathbf{Z}$, and errors compound through quotients whose denominators are exactly the quantities the margin conditions bound below — hence the powers of $1/\lambda$ and $1/\mu$ in the constants. The conjecture asserts the compounding is polynomial; a proof that it is necessarily exponential in the diagram's depth for some skeletons would refute the conjecture as stated and be equally welcome. For the full margin conditions, the behavioral transform, and the packing floor, see [MAIS-A2](../agendas/A2/).
+The doubtful half is the upper bound. The known reconstruction is that of Richens and Everitt [[RE24]](https://arxiv.org/abs/2402.10877), whose theorem the agenda's margin classes make quantitative: their algorithm solves for table entries recursively outward from the utility-parent set $\mathbf{Z}$, and errors compound through quotients whose denominators are exactly the quantities the margin conditions bound below — hence the powers of $1/\lambda$ and $1/\mu$ in the constants. The conjecture asserts the compounding is polynomial; a proof that it is necessarily exponential in the diagram's depth for some skeletons would refute the conjecture as stated and be equally welcome. For the full margin conditions, the behavioral transform, and the packing floor, see [MAIS-A2](../agendas/A2/).
 
 ## References
 
-- J. Richens and T. Everitt, *Robust agents learn causal world models*, ICLR 2024. [arXiv:2402.10877](https://arxiv.org/abs/2402.10877)
-- F. Eberhardt, C. Glymour, and R. Scheines, *On the number of experiments sufficient and in the worst case necessary to identify all causal relations among N variables*, UAI 2005, pp. 178–184.
+- [RE24] J. Richens and T. Everitt, *Robust agents learn causal world models*, ICLR 2024. [arXiv:2402.10877](https://arxiv.org/abs/2402.10877)
+- [EGS05] F. Eberhardt, C. Glymour, and R. Scheines, *On the number of experiments sufficient and in the worst case necessary to identify all causal relations among N variables*, UAI 2005, pp. 178–184.
 
 *Related: [MAIS-O25](MAIS-O25.md) (the problem this answers) · [MAIS-O24](MAIS-O24.md) (the polynomial margins assumed) · [MAIS-O2](MAIS-O2.md) (the sampled-action version) · [MAIS-O35](MAIS-O35.md) (test the conjecture on two variables).*

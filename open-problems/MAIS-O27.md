@@ -2,7 +2,7 @@
 
 *Open problem MAIS-O27 · posed in [MAIS-A2](../agendas/A2/) as [Problem 4.6](../agendas/A2/MAIS-A2.tex#L300) · Status: open.*
 
-*Tags: interpretability · world-model extraction · eliciting latent knowledge · black-box evaluation · bounded rationality · statistics · probability. Difficulty: ★★★.*
+*Tags: interpretability · world-model discovery · eliciting latent knowledge · black-box evaluation · bounded rationality · statistics · probability. Difficulty: ★★★.*
 
 *Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
@@ -14,12 +14,12 @@ A local intervention applies one of the four maps of $\lbrace0,1\rbrace$ to itse
 
 **Problem ([MAIS-A2, Problem 4.6](../agendas/A2/MAIS-A2.tex#L300)).** Determine the asymptotics of $\varphi(\delta;\mathsf{s},\lambda)$ as $\delta\to0$: (a) decide whether $\varphi(0^+)=0$ (this refines the agenda's Question 4.1); (b) assuming it is zero, determine $\lim_{\delta\to0}\varphi(\delta)/\delta$ as an explicit function of $(\mathsf{s},\lambda)$, together with the matching statement that some pair of models at distance $c\delta$ is $\delta$-indistinguishable; (c) determine the graph threshold: defining the *strength* of an edge of $M$ as the maximum, over pairs of parent configurations differing only in the tail variable, of the induced table difference (the quantity (M4) bounds below), decide for which pairs $(s,\delta)$ every $M\in\mathcal{M}(\mathsf{s},\lambda)$ carrying an edge of strength at least $s$ has that edge present in every model of $I_\delta(M)$ — and exhibit, for the complementary pairs, an $M$ and an $M'\in I_\delta(M)$ omitting the edge.
 
-Part (c) makes precise which parts of the graph are identifiable: at regret $\delta$, strong edges survive and weak edges blur into the error floor, and the problem asks for the exact exchange rate between edge strength and regret. The known upper half is linear in $\delta$: by the Richens–Everitt theorem ([arXiv:2402.10877](https://arxiv.org/abs/2402.10877), Theorems 1–2), for almost every model a policy family that is $\delta$-optimal on every shifted task determines the tables of the utility's chance ancestors to within $O(\delta)$ entrywise (the constant depending on the model), and recovers a subgraph of the true graph. No lower-bound construction appears in the literature. For the full formalism and the finite-sample problems this floor bounds, see [MAIS-A2](../agendas/A2/).
+Part (c) makes precise which parts of the graph are identifiable: at regret $\delta$, strong edges survive and weak edges blur into the error floor, and the problem asks for the exact exchange rate between edge strength and regret. The known upper half is linear in $\delta$: by the Richens–Everitt theorem ([[RE24]](https://arxiv.org/abs/2402.10877), Theorems 1–2), for almost every model a policy family that is $\delta$-optimal on every shifted task determines the tables of the utility's chance ancestors to within $O(\delta)$ entrywise (the constant depending on the model), and recovers a subgraph of the true graph. No lower-bound construction appears in the literature. For the full formalism and the finite-sample problems this floor bounds, see [MAIS-A2](../agendas/A2/).
 
 ## References
 
-- J. Richens and T. Everitt, *Robust agents learn causal world models*, ICLR 2024. [arXiv:2402.10877](https://arxiv.org/abs/2402.10877)
-- A. Bellot, J. Richens, and T. Everitt, *The limits of predicting agents from behaviour*, ICML 2025. [arXiv:2506.02923](https://arxiv.org/abs/2506.02923)
-- T. Everitt, R. Carey, E. D. Langlois, P. A. Ortega, and S. Legg, *Agent incentives: a causal perspective*, AAAI 2021.
+- [RE24] J. Richens and T. Everitt, *Robust agents learn causal world models*, ICLR 2024. [arXiv:2402.10877](https://arxiv.org/abs/2402.10877)
+- [BRE25] A. Bellot, J. Richens, and T. Everitt, *The limits of predicting agents from behaviour*, ICML 2025. [arXiv:2506.02923](https://arxiv.org/abs/2506.02923)
+- [ECLOL21] T. Everitt, R. Carey, E. D. Langlois, P. A. Ortega, and S. Legg, *Agent incentives: a causal perspective*, AAAI 2021.
 
 *Related: [MAIS-O23](MAIS-O23.md) (the $\delta=0$ question part (a) refines) · [MAIS-O28](MAIS-O28.md) (regret bounded on average instead of everywhere) · [MAIS-O2](MAIS-O2.md) (the finite-sample problem this floor bounds) · [MAIS-O34](MAIS-O34.md) (the radius computed exactly on two variables).*

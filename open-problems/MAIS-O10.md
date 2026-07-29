@@ -6,7 +6,7 @@
 
 *Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
-How much can proving $\Box P \to P$ save over proving $P$ directly? If the answer is "only polynomially much," then every proof budget in the Löbian cooperation story — the thresholds at which source-reading agents establish each other's cooperation — becomes polynomially effective. This page states the expected answer; deciding it is the problem.
+How much can proving $\Box P \to P$ save over proving $P$ directly? If the answer is "only polynomially much," then every proof budget in the Löbian cooperation story of Critch [[C19]](https://arxiv.org/abs/1602.04184) — the thresholds at which source-reading agents establish each other's cooperation — becomes polynomially effective. This page states the expected answer; deciding it is the problem.
 
 Work in an efficient proof system, by default $\mathsf{PA}_{\mathrm{bin}}$: Peano arithmetic in Enderton's Hilbert calculus with binary numerals and a priced abbreviation rule (a proof line may define a fresh name for a fixed string, possibly using earlier abbreviations, every character charged, so an expression used many times is paid for once), all proof lengths counted in symbols of the proof file as written. The overhead below depends on these conventions, and [MAIS-A1](../agendas/A1/) fixes them exactly, down to the Gödel coding. Write $\ell_S(\varphi)$ for the least symbol length of an $S$-proof of $\varphi$ and $\Box P$ for arithmetized provability. The **Löb overhead** is $F_S(k,n)$, the maximum of $\ell_S(P)$ over sentences $P$ with $|P|\le n$ and $\ell_S(\Box P\to P)\le k$: the hardest-to-prove sentence among those whose reflection instance has a $k$-symbol proof (see [MAIS-O1](MAIS-O1.md)).
 
@@ -18,12 +18,12 @@ $$F_{\mathsf{PA}_{\mathrm{bin}}}(k,n) \ \le\  C\ (k+n)^{c} \quad \text{for all }
 
 In the strong form: $F_{\mathsf{PA}_{\mathrm{bin}}}(k,n) \le C\ (k + n^{c})$, i.e. the premise length enters linearly. The strong form would follow from the ledger together with a linear expansion function ($\mathcal{E}_{\mathsf{PA}_{\mathrm{bin}}}(m) = O(m)$) and polynomial $d_S$.
 
-A concrete route in: carry out the ledger for $\mathsf{PA}_{\mathrm{bin}}$ with explicit constants, using the length-tracked derivability conditions in Pudlák's Handbook chapter, and read off explicit $C, c$. No published proof carries this out for any concrete system. For the ledger and the surrounding formalism, see [MAIS-A1](../agendas/A1/).
+A concrete route in: carry out the ledger for $\mathsf{PA}_{\mathrm{bin}}$ with explicit constants, using the length-tracked derivability conditions in Pudlák's Handbook chapter [P98], and read off explicit $C, c$. No published proof carries this out for any concrete system. For the ledger and the surrounding formalism, see [MAIS-A1](../agendas/A1/).
 
 ## References
 
-- P. Pudlák, *The lengths of proofs*, in: Handbook of Proof Theory (S. R. Buss, ed.), Elsevier, 1998, pp. 547–637.
-- A. Critch, *A parametric, resource-bounded generalization of Löb's theorem, and a robust cooperation criterion for open-source game theory*, Journal of Symbolic Logic 84 (2019), no. 4, 1368–1381. [arXiv:1602.04184](https://arxiv.org/abs/1602.04184)
-- P. Pudlák, *Incompleteness in the finite domain*, Bulletin of Symbolic Logic 23 (2017), no. 4, 405–441. [arXiv:1601.01487](https://arxiv.org/abs/1601.01487)
+- [P98] P. Pudlák, *The lengths of proofs*, in: Handbook of Proof Theory (S. R. Buss, ed.), Elsevier, 1998, pp. 547–637.
+- [C19] A. Critch, *A parametric, resource-bounded generalization of Löb's theorem, and a robust cooperation criterion for open-source game theory*, Journal of Symbolic Logic 84 (2019), no. 4, 1368–1381. [arXiv:1602.04184](https://arxiv.org/abs/1602.04184)
+- [P17] P. Pudlák, *Incompleteness in the finite domain*, Bulletin of Symbolic Logic 23 (2017), no. 4, 405–441. [arXiv:1601.01487](https://arxiv.org/abs/1601.01487)
 
 *Related: [MAIS-O1](MAIS-O1.md) (the overhead function this conjecture answers) · [MAIS-O12](MAIS-O12.md) (the constants $\mathcal{E}_S$ and $d_S$ the strong form needs) · [MAIS-O11](MAIS-O11.md) (the lower-bound counterpart).*

@@ -6,7 +6,7 @@
 
 *Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
-Which irreducible representations a trained network uses varies by random seed ([Nanda et al. 2023](https://arxiv.org/abs/2301.05217); [Chughtai, Chan, and Nanda 2023](https://arxiv.org/abs/2302.03025)), and the published data on that variation amount to a handful of seeds at a couple of configurations. Before anyone proves a selection theorem — or even conjectures the right constants — someone should measure the law. This problem is a fully specified experiment: run it, and the field gets its first reproducible estimate of the selection distribution at small scale.
+Which irreducible representations a trained network uses varies by random seed (Nanda, Chan, Lieberum, Smith, and Steinhardt [[NCLSS23]](https://arxiv.org/abs/2301.05217); Chughtai, Chan, and Nanda [[CCN23]](https://arxiv.org/abs/2302.03025)), and the published data on that variation amount to a handful of seeds at a couple of configurations. Before anyone proves a selection theorem — or even conjectures the right constants — someone should measure the law. This problem is a fully specified experiment: run it, and the field gets its first reproducible estimate of the selection distribution at small scale.
 
 The network is one hidden layer of $m$ neurons on a finite group $G$: logits $f_\theta(a,b)(c) = \sum_{i=1}^m \sigma(u_i(a)+v_i(b))\ w_i(c)$ with $u_i, v_i, w_i \in \mathbb{R}^G$, every coordinate initialized as an independent centered Gaussian of variance $\tau^2$, and loss $L_\lambda$ equal to cross-entropy over the full multiplication table — the average over input pairs $(a,b)$ of minus the log of the probability the network assigns to the correct product $ab$, where logits become probabilities via $c \mapsto e^{f_\theta(a,b)(c)}/\sum_{c'} e^{f_\theta(a,b)(c')}$ — plus weight decay $\lambda\Vert \theta\Vert ^2$.
 
@@ -18,8 +18,8 @@ The two readouts are deliberately local: estimate the same-frequency probability
 
 ## References
 
-- B. Chughtai, L. Chan, and N. Nanda, *A toy model of universality: reverse engineering how networks learn group operations*, ICML 2023. [arXiv:2302.03025](https://arxiv.org/abs/2302.03025) — the seed tables this pilot would turn into a measured law.
-- N. Nanda, L. Chan, T. Lieberum, J. Smith, and J. Steinhardt, *Progress measures for grokking via mechanistic interpretability*, ICLR 2023. [arXiv:2301.05217](https://arxiv.org/abs/2301.05217) — key frequencies and single-frequency neurons on addition mod 113.
-- D. Morwani, B. L. Edelman, C.-A. Oncescu, R. Zhao, and S. Kakade, *Feature emergence via margin maximization: case studies in algebraic tasks*, ICLR 2024. [arXiv:2311.07568](https://arxiv.org/abs/2311.07568) — the dense maximum-margin prediction the measurements can be compared against.
+- [CCN23] B. Chughtai, L. Chan, and N. Nanda, *A toy model of universality: reverse engineering how networks learn group operations*, ICML 2023. [arXiv:2302.03025](https://arxiv.org/abs/2302.03025) — the seed tables this pilot would turn into a measured law.
+- [NCLSS23] N. Nanda, L. Chan, T. Lieberum, J. Smith, and J. Steinhardt, *Progress measures for grokking via mechanistic interpretability*, ICLR 2023. [arXiv:2301.05217](https://arxiv.org/abs/2301.05217) — key frequencies and single-frequency neurons on addition mod 113.
+- [MEOZK24] D. Morwani, B. L. Edelman, C.-A. Oncescu, R. Zhao, and S. Kakade, *Feature emergence via margin maximization: case studies in algebraic tasks*, ICLR 2024. [arXiv:2311.07568](https://arxiv.org/abs/2311.07568) — the dense maximum-margin prediction the measurements can be compared against.
 
 *Related: [MAIS-O59](MAIS-O59.md) (the same-frequency probability this estimates) · [MAIS-O55](MAIS-O55.md) (the $S_3$ selection law this samples) · [MAIS-O53](MAIS-O53.md) (the large-width constants a scaling study would target).*

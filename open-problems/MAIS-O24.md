@@ -2,11 +2,11 @@
 
 *Open problem MAIS-O24 · posed in [MAIS-A2](../agendas/A2/) as [Problem 4.2](../agendas/A2/MAIS-A2.tex#L266) · Status: open.*
 
-*Tags: interpretability · world-model extraction · eliciting latent knowledge · black-box evaluation · algebraic geometry · probability · complexity theory. Difficulty: ★★.*
+*Tags: interpretability · world-model discovery · eliciting latent knowledge · black-box evaluation · algebraic geometry · probability · complexity theory. Difficulty: ★★.*
 
 *Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
-The theorem behind behavioral world-model extraction — near-optimal adaptation to all local interventions and observation masks determines the agent's causal model — holds for almost every parameter choice, with the exceptions described only as the vanishing locus of polynomials arising in the proof. Finite-sample statements need more: an explicit, efficiently checkable hypothesis in place of "almost every." This problem asks for the polynomials by name.
+The theorem behind behavioral world-model discovery is due to Richens and Everitt [[RE24]](https://arxiv.org/abs/2402.10877): near-optimal adaptation to all local interventions and observation masks determines the agent's causal model. Their theorem holds for almost every parameter choice, with the exceptions described only as the vanishing locus of polynomials arising in the proof. Finite-sample statements need more: an explicit, efficiently checkable hypothesis in place of "almost every." This problem asks for the polynomials by name.
 
 The objects: a skeleton $\mathsf{s}=(\mathbf{C},\mathbf{O},\mathbf{Z},u)$ fixes $m$ binary chance variables, an observation set $\mathbf{O}\subseteq\mathbf{C}$, utility parents $\mathbf{Z}\subseteq\mathbf{C}$, and a known utility $u$; a compatible model $M=(G,\theta)$ is any directed acyclic graph on the chance variables with its conditional probability tables, and $K(G)=\sum_i 2^{|\mathrm{Pa}_G(C_i)|}$ counts the free table entries ($K$ is its maximum over the margin class). The agent sees the observed variables, picks a binary action $d$, and is scored $u(d,z)$ at the utility-parent values $z$; a policy is regret-$\delta$ if its expected score is within $\delta$ of optimal. A local intervention applies one of the four maps on $\lbrace 0,1\rbrace$ (identity, set to $0$, set to $1$, negate) to a single chance variable; a shifted task pairs a probabilistic mixture of intervention profiles, one map per variable, with a mask hiding some of the observations.
 
@@ -18,12 +18,12 @@ The margin class $\mathcal{M}(\mathsf{s},\lambda)$ imposes six explicit non-dege
 2. quantitatively, $M'\in I_\delta(M)$ implies $e(M;M')\le (K/\lambda\mu)^{a}\ \delta$ for all $\delta$ below an explicit threshold;
 3. the excluded set is small: for each fixed graph $G$ and Lebesgue-almost-every $u$, $\mathrm{Leb}\bigl\lbrace \theta: |Q^G_j(\theta,u)|<\mu \text{ for some } j\bigr\rbrace \le S^{a}\mu^{b}$.
 
-In words: identical behavior forces identical models on the subclass, nearly optimal behavior pins the model to within a constant times the regret, and the models sacrificed to get this are few. The rest of the agenda's finite-sample theory is posed relative to a solution. Classical causal discovery made the same move once before: strong faithfulness replaces a measure-zero assumption by an explicit margin, and Uhler, Raskutti, Bühlmann, and Yu showed the excluded set can be surprisingly large — a caution aimed directly at part 3. The margin conditions and the transform appear above in compressed form; their exact quantifiers are in [MAIS-A2](../agendas/A2/).
+In words: identical behavior forces identical models on the subclass, nearly optimal behavior pins the model to within a constant times the regret, and the models sacrificed to get this are few. The rest of the agenda's finite-sample theory is posed relative to a solution. Classical causal discovery made the same move once before: strong faithfulness replaces a measure-zero assumption by an explicit margin, and Uhler, Raskutti, Bühlmann, and Yu [URBY13] showed the excluded set can be surprisingly large — a caution aimed directly at part 3. The margin conditions and the transform appear above in compressed form; their exact quantifiers are in [MAIS-A2](../agendas/A2/).
 
 ## References
 
-- J. Richens and T. Everitt, *Robust agents learn causal world models*, ICLR 2024. [arXiv:2402.10877](https://arxiv.org/abs/2402.10877)
-- C. Uhler, G. Raskutti, P. Bühlmann, and B. Yu, *Geometry of the faithfulness assumption in causal inference*, Annals of Statistics 41 (2013), no. 2, 436–463.
-- J. Pearl, *Causality: Models, Reasoning, and Inference*, 2nd ed., Cambridge University Press, 2009.
+- [RE24] J. Richens and T. Everitt, *Robust agents learn causal world models*, ICLR 2024. [arXiv:2402.10877](https://arxiv.org/abs/2402.10877)
+- [URBY13] C. Uhler, G. Raskutti, P. Bühlmann, and B. Yu, *Geometry of the faithfulness assumption in causal inference*, Annals of Statistics 41 (2013), no. 2, 436–463.
+- [P09] J. Pearl, *Causality: Models, Reasoning, and Inference*, 2nd ed., Cambridge University Press, 2009.
 
 *Related: [MAIS-O23](MAIS-O23.md) (the qualitative question the list would settle) · [MAIS-O25](MAIS-O25.md) (query complexity built on this subclass) · [MAIS-O2](MAIS-O2.md) (the sampled-action headline problem).*

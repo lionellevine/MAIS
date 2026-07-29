@@ -2,11 +2,11 @@
 
 *Open problem MAIS-O35 · posed in [MAIS-A2](../agendas/A2/) as [Problem 5.3](../agendas/A2/MAIS-A2.tex#L382) · Status: open.*
 
-*Tags: interpretability · world-model extraction · eliciting latent knowledge · black-box evaluation · statistics · probability. Difficulty: ★.*
+*Tags: interpretability · world-model discovery · eliciting latent knowledge · black-box evaluation · statistics · probability. Difficulty: ★.*
 
 *Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
-Radon's inversion formula became tomography when it acquired error bars and dose budgets. For world-model extraction — reading a causal model out of an agent's near-optimal behavior — the inversion step is a theorem of Richens and Everitt (2024): any policy that stays near-optimal across a rich family of interventions on its environment determines an approximate causal model of that environment. The two-variable environment is a scanner small enough to build first: how many sampled actions determine whether $X$ causes $Y$ or $Y$ causes $X$, and to how many digits?
+Radon's inversion formula became tomography when it acquired error bars and dose budgets. For world-model discovery — reading a causal model out of an agent's near-optimal behavior — the inversion step is a theorem of Richens and Everitt [[RE24]](https://arxiv.org/abs/2402.10877): any policy that stays near-optimal across a rich family of interventions on its environment determines an approximate causal model of that environment. The two-variable environment is a scanner small enough to build first: how many sampled actions determine whether $X$ causes $Y$ or $Y$ causes $X$, and to how many digits?
 
 The **two-variable family** $\mathcal{M}_2(\lambda)$ (the agenda's Definition 5.1): chance variables $X,Y$; the agent observes nothing, chooses a binary action $d$, and is paid a known utility $u(d,x,y)\in[0,1]$ whose gap $g(x,y)=u(1,x,y)-u(0,x,y)$ satisfies $|g|\ge\lambda$, takes both signs, and is sensitive to each variable (flipping either argument changes $g$ by at least $\lambda$ at some value of the other); the model is either $X\to Y$ (parameters $a=P(X{=}1)$, $b_x=P(Y{=}1\mid X{=}x)$) or $Y\to X$, with all parameters in $[\lambda,1-\lambda]$ and edge strength $|b_0-b_1|\ge\lambda$ (resp. $|a_0-a_1|\ge\lambda$). A query names a rational mixture $\sigma$ of the sixteen intervention profiles — each variable independently left free, fixed to $0$, fixed to $1$, or flipped. The adversary has pre-committed, for each mixture, a single probability of playing $d=1$ whose expected utility under $\sigma$ falls short of the best achievable by at most $\delta$ (the agent sees neither the variables nor the realized profile), and the answer is one action sampled from it; corruption at level $\zeta$ flips each returned action independently with probability $\zeta$. The distance between two models is the largest parameter difference, or $1$ if the graphs differ. Two quantities from the companion problem [MAIS-O34](MAIS-O34.md): $r_M(\delta)$, the largest distance from $M$ to a model for which some single assignment of action probabilities to mixtures has regret at most $\delta$ for both at once (the ambiguity no budget removes), and the switching surfaces, the mixtures at which an optimal agent is indifferent. $H$ denotes binary entropy.
 
@@ -18,8 +18,8 @@ The agenda pairs this with a fully specified computational project: sample a tho
 
 ## References
 
-- J. Richens and T. Everitt, *Robust agents learn causal world models*, ICLR 2024. [arXiv:2402.10877](https://arxiv.org/abs/2402.10877)
-- R. M. Karp and R. Kleinberg, *Noisy binary search and its applications*, SODA 2007, 881–890.
-- R. L. Rivest, A. R. Meyer, D. J. Kleitman, K. Winklmann, and J. Spencer, *Coping with errors in binary search procedures*, J. Comput. System Sci. 20 (1980), 396–404.
+- [RE24] J. Richens and T. Everitt, *Robust agents learn causal world models*, ICLR 2024. [arXiv:2402.10877](https://arxiv.org/abs/2402.10877)
+- [KK07] R. M. Karp and R. Kleinberg, *Noisy binary search and its applications*, SODA 2007, 881–890.
+- [RMKWS80] R. L. Rivest, A. R. Meyer, D. J. Kleitman, K. Winklmann, and J. Spencer, *Coping with errors in binary search procedures*, J. Comput. System Sci. 20 (1980), 396–404.
 
 *Related: [MAIS-O34](MAIS-O34.md) (the exact identified set this problem samples toward) · [MAIS-O2](MAIS-O2.md) (the general problem this grounds) · [MAIS-O29](MAIS-O29.md) (Boltzmann agents in general).*

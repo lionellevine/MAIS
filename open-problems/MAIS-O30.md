@@ -2,11 +2,11 @@
 
 *Open problem MAIS-O30 · posed in [MAIS-A2](../agendas/A2/) as [Problem 4.9](../agendas/A2/MAIS-A2.tex#L326) · Status: open.*
 
-*Tags: interpretability · world-model extraction · eliciting latent knowledge · black-box evaluation · combinatorics · probability. Difficulty: ★★★.*
+*Tags: interpretability · world-model discovery · eliciting latent knowledge · black-box evaluation · combinatorics · probability. Difficulty: ★★★.*
 
 *Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
-The known algorithm for extracting a causal model from an agent's behavior anchors itself with hard interventions on *every* environment variable at once. A real experimenter can usually tamper with only a few. Which arrows of the graph, and which probability tables, can still be read off the agent's behavior when the intervenable set shrinks?
+Richens and Everitt [[RE24]](https://arxiv.org/abs/2402.10877) proved that a causal model of the environment can be read off an agent's optimal behavior, and their proof supplies an algorithm. That algorithm anchors itself with hard interventions on *every* environment variable at once. A real experimenter can usually tamper with only a few. Which arrows of the graph, and which probability tables, can still be read off the agent's behavior when the intervenable set shrinks?
 
 The framework, from [MAIS-A2](../agendas/A2/), is a binary causal influence diagram. A skeleton $\mathsf{s}=(\mathbf{C},\mathbf{O},\mathbf{Z},u)$ fixes a finite set $\mathbf{C}$ of binary chance variables, the agent's observation set $\mathbf{O}\subseteq\mathbf{C}$, the utility-parent set $\mathbf{Z}\subseteq\mathbf{C}$, and a known utility function $u$; the unknown is the model $M=(G,\theta)$, a directed acyclic graph $G$ on $\mathbf{C}$ — free to vary, so edge presence is genuinely unknown — together with its conditional probability tables $\theta$. The agent observes $\mathbf{O}$, makes a single binary decision $D$, and is scored $u(D,\mathbf{Z})$; a policy maps observed values to the probability of deciding $D=1$. Models range over a margin class $\mathcal{M}(\mathsf{s},\lambda)$, which bounds every degeneracy away by an explicit $\lambda$: table entries lie in $[\lambda,1-\lambda]$; each edge of $G$ moves its target's table by at least $\lambda$ for some setting of the other parents; the utility gap $g(z)=u(1,z)-u(0,z)$ satisfies $|g|\ge\lambda$, varies by at least $\lambda$ in each utility-parent coordinate, and takes both signs on values of $\mathbf{Z}$ consistent with each observation; every chance variable is an ancestor of the utility, and at least one is hidden from the agent. $\mathrm{Anc}(U)$ denotes the chance ancestors of the utility, the largest set any behavioral method can hope to recover (on the margin class, all of $\mathbf{C}$).
 
@@ -14,12 +14,12 @@ For $W\subseteq\mathbf{C}$, let $\Sigma_W$ be the mixtures of intervention profi
 
 **Problem ([MAIS-A2, Problem 4.9](../agendas/A2/MAIS-A2.tex#L326)).** For Lebesgue-almost-every parameter choice, characterize combinatorially — in terms of the graph $G$, the sets $W,\mathbf{O},\mathbf{Z}$ — which edge indicators and which table entries are $\Sigma_W$-identifiable. In particular, exhibit the minimal sets $W$ for which everything on $\mathrm{Anc}(U)$ is identifiable. Compare environmental intervention on observed variables ($W=\mathbf{O}$) with sensory masking alone ($W=\emptyset$).
 
-With $W$ small, the all-variable hard anchors of the known reconstruction are unavailable, and it is not even clear that the set of identifiable functionals is monotone in the strength of the margin conditions. The flavor is that of the classical question — how many experiments identify a causal graph (Eberhardt, Glymour, and Scheines) — transplanted from observing all variables to observing one bit of behavior. The margin conditions in full ((M1)–(M6)) and the intervention formalism are in [MAIS-A2](../agendas/A2/).
+With $W$ small, the all-variable hard anchors of the Richens–Everitt reconstruction [[RE24]](https://arxiv.org/abs/2402.10877) are unavailable, and it is not even clear that the set of identifiable functionals is monotone in the strength of the margin conditions. The flavor is that of the classical question — how many experiments identify a causal graph (Eberhardt, Glymour, and Scheines [EGS05]) — transplanted from observing all variables to observing one bit of behavior. The margin conditions in full ((M1)–(M6)) and the intervention formalism are in [MAIS-A2](../agendas/A2/).
 
 ## References
 
-- Richens, J., and Everitt, T. (2024). Robust agents learn causal world models. *ICLR 2024*. [arXiv:2402.10877](https://arxiv.org/abs/2402.10877)
-- Eberhardt, F., Glymour, C., and Scheines, R. (2005). On the number of experiments sufficient and in the worst case necessary to identify all causal relations among N variables. *UAI 2005*, 178–184.
-- Pearl, J. (2009). *Causality: Models, Reasoning, and Inference*, 2nd ed. Cambridge University Press.
+- [RE24] J. Richens and T. Everitt, *Robust agents learn causal world models*, ICLR 2024. [arXiv:2402.10877](https://arxiv.org/abs/2402.10877)
+- [EGS05] F. Eberhardt, C. Glymour, and R. Scheines, *On the number of experiments sufficient and in the worst case necessary to identify all causal relations among N variables*, UAI 2005, 178–184.
+- [P09] J. Pearl, *Causality: Models, Reasoning, and Inference*, 2nd ed., Cambridge University Press, 2009.
 
 *Related: [MAIS-O31](MAIS-O31.md) (the chain with a single intervenable variable, the first test case) · [MAIS-O23](MAIS-O23.md) (identifiability with the full intervention set) · [MAIS-O24](MAIS-O24.md) (explicit margins replacing "almost every").*

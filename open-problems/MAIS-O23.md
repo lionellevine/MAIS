@@ -2,11 +2,11 @@
 
 *Open problem MAIS-O23 · posed in [MAIS-A2](../agendas/A2/) as [Question 4.1](../agendas/A2/MAIS-A2.tex#L260) · Status: open.*
 
-*Tags: interpretability · world-model extraction · eliciting latent knowledge · black-box evaluation · algebraic geometry · probability. Difficulty: ★★★.*
+*Tags: interpretability · world-model discovery · eliciting latent knowledge · black-box evaluation · algebraic geometry · probability. Difficulty: ★★★.*
 
 *Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
-If two agents act optimally in every locally tampered version of an environment, masked observations included, must they hold the same causal model of it? Richens and Everitt answered yes for Lebesgue-almost-every parameter choice, and world-model extraction from behavior rests on this. But the exceptional null set is described only implicitly, as the vanishing locus of polynomials arising in their proof, and an auditor cannot check membership in an unnamed null set.
+If two agents act optimally in every locally tampered version of an environment, masked observations included, must they hold the same causal model of it? Richens and Everitt [[RE24]](https://arxiv.org/abs/2402.10877) answered yes for Lebesgue-almost-every parameter choice, and world-model discovery from behavior rests on this. But the exceptional null set is described only implicitly, as the vanishing locus of polynomials arising in their proof, and an auditor cannot check membership in an unnamed null set.
 
 The setting is a finite causal influence diagram with binary variables: a **skeleton** $\mathsf{s}=(\mathbf{C},\mathbf{O},\mathbf{Z},u)$ lists the binary chance variables $\mathbf{C}$, the subset $\mathbf{O}\subseteq\mathbf{C}$ the agent observes, the utility parents $\mathbf{Z}\subseteq\mathbf{C}$, and a known utility $u$; a **model** $M=(G,\theta)$ is a directed acyclic graph on $\mathbf{C}$ with conditional probability tables. The agent sees the values of a visible subset $\mathbf{O}'\subseteq\mathbf{O}$ (the rest are masked), picks a single binary action $d$, and is scored $u(d,z)$ where $z$ is the value of $\mathbf{Z}$; the action has no children among the chance variables, so it affects nothing but the score, and a policy is a map from observed values to action probabilities. A **local intervention** on a variable applies one of the four maps $\lbrace 0,1\rbrace\to\lbrace 0,1\rbrace$ to its sampled value — identity, the constants $\mathrm{do}(0)$ and $\mathrm{do}(1)$, or negation — leaving every other mechanism unchanged; a **profile** applies one such map to each variable, and $P_M(c;\sigma)$ is the distribution over configurations $c$ when a profile is drawn from a probability mixture $\sigma$ of profiles.
 
@@ -18,8 +18,8 @@ The agenda deliberately offers no conjecture. A counterexample — two distinct 
 
 ## References
 
-- J. Richens and T. Everitt, *Robust agents learn causal world models*, ICLR 2024. [arXiv:2402.10877](https://arxiv.org/abs/2402.10877)
-- C. Uhler, G. Raskutti, P. Bühlmann, and B. Yu, *Geometry of the faithfulness assumption in causal inference*, Ann. Statist. 41 (2013), 436–463.
-- J. Pearl, *Causality: Models, Reasoning, and Inference*, 2nd ed., Cambridge University Press, 2009.
+- [RE24] J. Richens and T. Everitt, *Robust agents learn causal world models*, ICLR 2024. [arXiv:2402.10877](https://arxiv.org/abs/2402.10877)
+- [URBY13] C. Uhler, G. Raskutti, P. Bühlmann, and B. Yu, *Geometry of the faithfulness assumption in causal inference*, Ann. Statist. 41 (2013), 436–463.
+- [P09] J. Pearl, *Causality: Models, Reasoning, and Inference*, 2nd ed., Cambridge University Press, 2009.
 
 *Related: [MAIS-O24](MAIS-O24.md) (explicit polynomial margins that would settle it) · [MAIS-O27](MAIS-O27.md) (its quantitative refinement, the regret floor) · [MAIS-O34](MAIS-O34.md) (the two-variable case, solvable exactly).*

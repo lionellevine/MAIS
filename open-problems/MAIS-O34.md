@@ -2,7 +2,7 @@
 
 *Open problem MAIS-O34 · posed in [MAIS-A2](../agendas/A2/) as [Problem 5.2](../agendas/A2/MAIS-A2.tex#L376) · Status: open.*
 
-*Tags: interpretability · world-model extraction · eliciting latent knowledge · black-box evaluation · algebraic geometry · computational. Difficulty: ★.*
+*Tags: interpretability · world-model discovery · eliciting latent knowledge · black-box evaluation · algebraic geometry · computational. Difficulty: ★.*
 
 *Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
@@ -14,12 +14,12 @@ There are sixteen intervention profiles: each variable's value is left alone, fi
 
 **Problem ([MAIS-A2, Problem 5.2](../agendas/A2/MAIS-A2.tex#L376)).** For the family $\mathcal{M}_2(\lambda)$, write $r_M(\delta):=\sup_{M'\in I_\delta(M)}e(M;G',\theta')$ for the local radius of the identified set. (a) Determine, as an explicit semialgebraic condition on $(u,\theta)$, when the global fiber $\lbrace M':\Delta_{M'}=\Delta_M\rbrace $ is the singleton $\lbrace M\rbrace $; in particular decide whether margin $\lambda>0$ alone suffices. (b) On the locus where the inverse is locally Lipschitz and the graph is locally fixed, compute the first-order constant in $r_M(\delta)=c(u,\theta)\delta+o(\delta)$. On the complementary locus, classify the alternatives: a positive limiting radius, graph ambiguity, or a fractional-power modulus. Use this classification to determine the largest regret below which the edge direction is certain throughout the class.
 
-Part (a) is a concrete real-algebra problem: quantifier elimination will decide any single instance, and the problem asks for the human-readable answer. Part (b) is a small but genuine piece of the geometry that the general regret-floor problem asks for. The agenda sizes it for a first paper. For the general framework this family instantiates, see [MAIS-A2](../agendas/A2/).
+Part (a) is a concrete real-algebra problem: quantifier elimination will decide any single instance, and the problem asks for the human-readable answer. Part (b) is a small but genuine piece of the geometry that the general regret-floor problem asks for. The agenda sizes it for a first paper. This family is the smallest instance of the setting in which Richens and Everitt [[RE24]](https://arxiv.org/abs/2402.10877) proved that near-optimal behavior under local interventions determines the causal model for almost every parameter choice; part (a) asks for the exact locus in the smallest case. For the general framework this family instantiates, see [MAIS-A2](../agendas/A2/).
 
 ## References
 
-- J. Richens and T. Everitt, *Robust agents learn causal world models*, Proc. 12th International Conference on Learning Representations (ICLR), 2024. [arXiv:2402.10877](https://arxiv.org/abs/2402.10877)
-- C. Uhler, G. Raskutti, P. Bühlmann, and B. Yu, *Geometry of the faithfulness assumption in causal inference*, Annals of Statistics 41 (2013), no. 2, 436–463.
-- J. Pearl, *Causality: Models, Reasoning, and Inference*, 2nd ed., Cambridge University Press, 2009.
+- [RE24] J. Richens and T. Everitt, *Robust agents learn causal world models*, Proc. 12th International Conference on Learning Representations (ICLR), 2024. [arXiv:2402.10877](https://arxiv.org/abs/2402.10877)
+- [URBY13] C. Uhler, G. Raskutti, P. Bühlmann, and B. Yu, *Geometry of the faithfulness assumption in causal inference*, Annals of Statistics 41 (2013), no. 2, 436–463.
+- [P09] J. Pearl, *Causality: Models, Reasoning, and Inference*, 2nd ed., Cambridge University Press, 2009.
 
 *Related: [MAIS-O35](MAIS-O35.md) (the finite-sample companion on the same family) · [MAIS-O23](MAIS-O23.md) (the global identifiability question) · [MAIS-O27](MAIS-O27.md) (the regret floor in general).*

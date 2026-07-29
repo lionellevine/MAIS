@@ -6,7 +6,7 @@
 
 *Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
-When a network learns addition mod $p$, it expresses its outputs through a sparse random set of the $(p-1)/2$ Fourier frequencies. One symmetry of that random set is a theorem: the automorphisms of $C_p$ act on frequencies by $\zeta \mapsto t\zeta$ for $t \in (\mathbb{Z}/p\mathbb{Z})^\times$, the training ensemble is invariant under them, and they act transitively, so every frequency is learned with the same probability. But multiplication does not act transitively on *pairs* or on $k$-element sets of frequencies. Could training prefer multiplicatively structured sets, say geometric progressions $\lbrace \zeta, 2\zeta, 4\zeta, \dots\rbrace $?
+When a network learns addition mod $p$, it expresses its outputs through a sparse random set of the $(p-1)/2$ Fourier frequencies, a phenomenon reverse-engineered by Nanda, Chan, Lieberum, Smith, and Steinhardt [[NCLSS23]](https://arxiv.org/abs/2301.05217) and extended to general finite groups by Chughtai, Chan, and Nanda [[CCN23]](https://arxiv.org/abs/2302.03025), whose seed tables show the set varying from one initialization to the next. One symmetry of that random set is a theorem: the automorphisms of $C_p$ act on frequencies by $\zeta \mapsto t\zeta$ for $t \in (\mathbb{Z}/p\mathbb{Z})^\times$, the training ensemble is invariant under them, and they act transitively, so every frequency is learned with the same probability. But multiplication does not act transitively on *pairs* or on $k$-element sets of frequencies. Could training prefer multiplicatively structured sets, say geometric progressions $\lbrace \zeta, 2\zeta, 4\zeta, \dots\rbrace $?
 
 The setting is the selection-law problem ([MAIS-O5](MAIS-O5.md)): a one-hidden-layer network of width $m$ with activation $\sigma$, logits $f_\theta(a,b)(c) = \sum_{i=1}^m \sigma(u_i(a)+v_i(b))\ w_i(c)$ for $u_i,v_i,w_i \in \mathbb{R}^{C_p}$, trained by gradient flow on the cross-entropy loss over the full addition table plus weight decay $\lambda\Vert \theta\Vert ^2$, from independent $N(0,\tau^2)$ coordinates. Here the width $m$ and the constants $\lambda, \tau > 0$ are fixed but arbitrary: no limit in $m$, $\lambda$, or $\tau$ is taken, the question is posed for each choice separately, and an answer for a single explicit choice is a full solution. (For $\sigma = \mathrm{ReLU}$ the loss is only piecewise smooth; the flow then means a Clarke trajectory, and the question is asserted for every measurable selection of one trajectory per initial condition.)
 
@@ -22,8 +22,8 @@ A negative answer would mean training feels the multiplicative structure of $(\m
 
 ## References
 
-- B. Chughtai, L. Chan, and N. Nanda, *A toy model of universality: reverse engineering how networks learn group operations*, ICML 2023. [arXiv:2302.03025](https://arxiv.org/abs/2302.03025)
-- N. Nanda, L. Chan, T. Lieberum, J. Smith, and J. Steinhardt, *Progress measures for grokking via mechanistic interpretability*, ICLR 2023. [arXiv:2301.05217](https://arxiv.org/abs/2301.05217)
-- D. Morwani, B. L. Edelman, C.-A. Oncescu, R. Zhao, and S. Kakade, *Feature emergence via margin maximization: case studies in algebraic tasks*, ICLR 2024. [arXiv:2311.07568](https://arxiv.org/abs/2311.07568)
+- [CCN23] B. Chughtai, L. Chan, and N. Nanda, *A toy model of universality: reverse engineering how networks learn group operations*, ICML 2023. [arXiv:2302.03025](https://arxiv.org/abs/2302.03025)
+- [NCLSS23] N. Nanda, L. Chan, T. Lieberum, J. Smith, and J. Steinhardt, *Progress measures for grokking via mechanistic interpretability*, ICLR 2023. [arXiv:2301.05217](https://arxiv.org/abs/2301.05217)
+- [MEOZK24] D. Morwani, B. L. Edelman, C.-A. Oncescu, R. Zhao, and S. Kakade, *Feature emergence via margin maximization: case studies in algebraic tasks*, ICLR 2024. [arXiv:2311.07568](https://arxiv.org/abs/2311.07568)
 
 *Related: [MAIS-O5](MAIS-O5.md) (the selection law itself) · [MAIS-O52](MAIS-O52.md) (how many frequencies, rather than which sets) · [MAIS-O61](MAIS-O61.md) (an experimental pipeline that could test small cases).*
