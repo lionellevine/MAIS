@@ -26,9 +26,9 @@ Direct estimation of both distributions on tasks small enough that individual fu
 
 ## Why it matters for AI safety
 
-Whether a trained agent's off-distribution behavior is predicted by the optimizer's dynamics or by the random-parameter posterior is precisely the question a theory of goal misgeneralization must settle, and this paper is the empirical case for the posterior. [MAIS-A8](../agendas/A8/) puts the two theories in a box where they can be forced to disagree about a single number: on the coin line, the Gaussian-process posterior probability of the proxy verdict at the probe is strictly less than one, while the agenda's kernel-flow analysis (its Proposition 5.3) drives the probe logit to $+\infty$, suggesting the value one. Question 5.10 asks which prediction the finite-width limit of full-batch gradient descent actually matches — a marginal on which the Mingard–Valle-Pérez–Skalse–Louis picture is exactly testable; see [MAIS-A8](../agendas/A8/).
+The paper offers empirical evidence that a network's parameter-to-function map explains much of SGD's function-level bias. This matters for goal misgeneralization because it gives a competing prediction to one based directly on optimization dynamics. [MAIS-A8](../agendas/A8/) compares the two on a one-dimensional coin-collection model: its Gaussian-process posterior assigns the proxy action probability strictly below one, while an infinite-width kernel-flow calculation sends the corresponding logit to infinity. Which prediction describes large finite networks remains open.
 
 ## Cited by
 
-- [MAIS-A8](../agendas/A8/) — the SGD-as-Bayesian-sampler thesis is one of the two candidate theories its Question 5.10 pits against each other on the coin line.
+- [MAIS-A8](../agendas/A8/) — compares the SGD-as-Bayesian-sampler hypothesis with an optimization-dynamics prediction on a one-dimensional coin-collection model.
 - Problems [MAIS-O86](../open-problems/MAIS-O86.md) · [MAIS-O91](../open-problems/MAIS-O91.md)

@@ -6,17 +6,18 @@
 
 *Summarized by: Claude 5 Fable directed by Lionel Levine.*
 
-**TL;DR.** Closed-form local learning coefficients for shallow quadratic networks on modular addition, in both the over- and under-parametrized regimes, under explicit non-degeneracy hypotheses; in the under-parametrized regime each active unit charges $(3p-1)/2$. On this foundation the paper reads grokking as basin selection: competing near-zero-loss basins are ranked by their local learning coefficients, and the delayed jump to generalization is a passage from a higher-coefficient memorizing basin to a lower-coefficient generalizing one. Empirically, the coefficient estimated from training data alone drops at the onset of generalization.
+**TL;DR.** Under genericity and non-defectiveness hypotheses, the paper computes local learning coefficients for shallow quadratic networks, including modular addition. Below the secant-saturation threshold, each active hidden unit contributes $(3p-1)/2$; above it, the coefficient saturates. These coefficients rank equal-loss regions for Bayesian learning. Their proposed connection to the fixed-data timing of grokking is empirical rather than a consequence of singular learning theory.
 
 ## Setting
 
-The network is a two-layer quadratic model for addition mod a prime $p$: the one-hot pair of residues is a vector $x \in \mathbb{R}^{2p}$, and the output is $V\sigma(W^{\top}x)$ with $\sigma(t) = t^2$ applied entrywise, where $W \in \mathbb{R}^{2p \times K}$ and $V \in \mathbb{R}^{p \times K}$ for hidden width $K$; the loss is squared error against the one-hot answer. The quantity computed is the **local learning coefficient** $\lambda(w)$, the volume-growth exponent of the loss sublevel sets near a parameter $w$ — in Watanabe's singular learning theory, the basin with the smallest coefficient is where the Bayesian posterior concentrates, and smaller coefficients mean lower expected generalization error.
+The network is a two-layer quadratic model for addition mod a prime $p$: the one-hot pair of residues is a vector $x \in \mathbb{R}^{2p}$, and the output is $V\sigma(W^{\top}x)$ with $\sigma(t)=t^2$, $W\in\mathbb{R}^{2p\times K}$, and $V\in\mathbb{R}^{p\times K}$. The loss is squared error against the one-hot answer. The **local learning coefficient** $\lambda(w)$ is a volume-growth exponent for low-loss parameters near $w$. In Bayesian asymptotics, among regions with comparable loss, a smaller coefficient gives a smaller complexity penalty. This statement concerns increasing sample size, not the time evolution of SGD on a fixed dataset.
 
 ## Main results
 
-1. **Under-parametrized regime** (width below the span threshold $d(d+1)/2$ with $d = 2p$): at a zero-loss parameter where every unit is active, the units' rank-one matrices are linearly independent, and a genericity condition on tangent directions holds, the coefficient is exactly $\lambda = K(3p-1)/2$ — a charge of $(3p-1)/2$ per active unit, below the $3p/2$ that parameter counting would assess.
-2. **Over-parametrized regime** (width at or above the threshold, with a corresponding span condition): $\lambda = p \cdot d(d+1)/4$, which for modular addition is $p^2(2p+1)/2$ — the coefficient saturates and further width is free.
-3. **Basin-selection account of grokking.** Companion formulas cover the lazy (memorizing) regime and the feature-learning regime, the latter charging by an effective width that counts active units; grokking is the transition from the memorizing basin to the generalizing basin that dominates the posterior.
+1. **Below saturation.** Write $d=2p$ and $D=d(d+1)/2$. At a generic smooth zero-loss point with nonzero atoms and a non-defective secant variety, if $K(d+p-1)<pD$, then
+   $$\lambda=\frac{K(d+p-1)}2=\frac{K(3p-1)}2.$$
+2. **At and above saturation.** Under the corresponding full-span hypothesis, if $K(d+p-1)\ge pD$, then $\lambda=pD/2=p^2(2p+1)/2$. Extra width does not increase this generic coefficient.
+3. **Optimization regimes.** Companion formulas give reference coefficients for linearized, lazy-feature, memorizing, and feature-learning regimes. The paper interprets grokking through competition between such regions, while explicitly separating Bayesian preference from the unproved dynamical question of when SGD moves between them.
 4. **Empirics.** Coefficient trajectories estimated from training data track the onset of generalization, and their final values scale linearly in both $p$ and $K$.
 
 ## Method
@@ -25,7 +26,7 @@ Not a full resolution of singularities: the coefficients come from a rank analys
 
 ## Why it matters for AI safety
 
-If local learning coefficients can be computed for a task whose learned mechanism is known, they predict which algorithm Bayesian learning prefers — an interpretability tool that runs before training rather than after. This paper is the closest existing computation for modular addition, and the hypotheses that make its formulas exact are precisely what the open questions relax: the non-degenerate value $(2p-1)(3p-1)/2$ at width $2p-1$ is beaten by the bound $3p^2-3p+1$ at the Fourier point, where the hypotheses fail, and they fail again at the dead-unit and coinciding-unit strata that the posterior may prefer. So [CEDL26] settles the generic stratum, and the singular strata below it — the Fourier fits and the price of an idle unit — are the subject of [MAIS-A6](../agendas/A6/).
+Local learning coefficients can distinguish equal-loss parameter regions that implement different mechanisms, at least for Bayesian learning. This paper gives a generic benchmark for modular addition, while the Fourier solutions, dead units, and coincident units of special interest to interpretability lie on nongeneric strata where its formula need not apply. Computing those strata and testing whether the coefficients predict SGD's choices are the subjects of [MAIS-A6](../agendas/A6/).
 
 ## Cited by
 

@@ -22,11 +22,11 @@ What is *not* proved: that global minimizers of the toy-model loss satisfy capac
 
 ## Method
 
-Operator-theoretic. The frame operator's spectral decomposition converts a question about $m$ interacting vectors into a question about how norm distributes over few eigenspaces; capacity saturation is the input that pins each feature to one eigenspace, and the combinatorics of the resulting tight frames is organized by association schemes. (This summary is written from the abstract and the citing agendas' statements of the results; the proofs were not checked against the full text.)
+Operator-theoretic. The frame operator's spectral decomposition converts a question about $m$ interacting vectors into a question about how each vector's norm is distributed across eigenspaces. Under capacity saturation, the optimality conditions force each feature's spectral measure onto one eigenspace. The resulting inner-product relations form association schemes, which organize the discrete classification of tight-frame geometries.
 
 ## Why it matters for AI safety
 
-Superposition is a central obstacle to reading off what a model has learned, and the toy-model geometries are its emblem. This paper is the nearest nonlinear analogue to date of the Benedetto–Fickus theorem: a structure theory for the geometries a ReLU model can adopt, at the level of a conditional classification rather than global optimality. The gap it leaves open is precisely where the agendas dig. Conjecture 4.10 of [MAIS-A3](../agendas/A3/) asks for the missing global statement — that the regular pentagon *wins* in the $(5,2)$ model — with this classification ruling the pentagon in as a candidate; [MAIS-A4](../agendas/A4/) asks whether global minimizers saturate capacity at all, and whether minimizers are unique up to symmetry, turning the paper's empirical hypothesis into the open problem.
+Superposition makes features interfere and complicates attempts to read them from a network's weights. This paper gives a conditional structure theorem for the resulting ReLU toy-model geometries: if capacity is saturated, the possible configurations are spectrally localized tight frames. It does not prove capacity saturation or global optimality of the regular pentagon in the $(5,2)$ model. Those missing steps are posed in [MAIS-A3](../agendas/A3/) and [MAIS-A4](../agendas/A4/).
 
 ## Cited by
 

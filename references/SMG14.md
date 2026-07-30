@@ -16,8 +16,10 @@ The network is $x \mapsto W_L \cdots W_1 x$, trained by gradient flow $\tau \dot
 
 1. **Decoupling.** In the two-layer case, the aligned flow separates into independent scalar systems $\tau \dot a = b(s - ab)$, $\tau \dot b = a(s - ab)$ per mode, with conserved quantity $a^2 - b^2$ (from the rescaling symmetry of the factorization).
 2. **Closed-form trajectory.** The reconstructed mode strength $u = ab$ obeys the logistic equation $\tau \dot u = 2u(s - u)$, solved by $u(t) = s\, e^{2st/\tau} / (e^{2st/\tau} - 1 + s/u_0)$. Each mode lingers near zero, then rises sharply to $s_\alpha$ at time $t_\alpha \approx \tfrac{\tau}{2 s_\alpha} \log \tfrac{s_\alpha}{u_0}$: larger singular values are learned faster.
-3. **The staircase.** As $u_0 \to 0$, the modes are therefore acquired sequentially, strongest first, and the loss falls in plateaus separated by sharp drops — the trajectory passes near the chain of saddles at which only the top $k$ modes are fit. The fixed point is the best rank-(width) approximation of $\Sigma^{31}$, so at every intermediate time the network holds the best low-rank approximation learned so far: coarse structure before fine detail.
-4. **Depth.** For $L$ layers the aligned mode strength obeys $\tau \dot u = (L-1)\, u^{2 - 2/(L-1)} (s - u)$; the paper also studies initializations (orthogonal, "dynamical isometry") that keep learning time from degrading with depth.
+3. **The staircase.** As $u_0\to0$, modes are acquired sequentially, strongest first, and the loss falls in plateaus separated by sharp drops. The trajectory passes near saddles at which only the leading modes have been learned; the eventual fixed point is the best rank-constrained approximation allowed by the hidden width.
+4. **Depth.** With $L$ weight matrices, as in $W_L\cdots W_1$, equal aligned factors give
+   $$\tau\dot u=L\,u^{2-2/L}(s-u).$$
+   The paper also studies orthogonal initializations that prevent learning time and gradient propagation from deteriorating severely with depth.
 
 The exact statements are for linear networks with whitened inputs and aligned initialization. The paper's evidence that nonlinear networks show the same plateau-and-drop phenomenology is numerical, and the authors present the low-rank-first implicit bias as a dynamics story, not a generalization theorem.
 

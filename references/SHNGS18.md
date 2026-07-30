@@ -24,9 +24,9 @@ Guess-and-verify on the asymptotic form. The ansatz $w_k=\hat w\log k+\rho_k$ is
 
 ## Why it matters for AI safety
 
-Goal misgeneralization is a selection problem: when several policies fit the training data perfectly, which one does gradient descent pick? This theorem is the one setting where the selection question has a complete answer — a finite convex program computable in advance — and the agenda's coin line is built so that the theorem applies verbatim. There it settles the entire linear chapter: the proxy ("move right") wins at zero training diversity, the intended goal wins at any positive diversity, and the verdict flips with the input encoding, each claim reduced to a max-margin computation with an explicit KKT certificate. The theorem is also the template the agenda asks to extend — to networks, where selection as a function of initialization is open, and to the crossover-time question, where the theorem's own residual asymptotics become the tool. See [MAIS-A8](../agendas/A8/).
+Goal misgeneralization is partly a selection problem: when several linear classifiers fit the training data, which one does gradient descent approach? This theorem answers through the hard-margin support vector machine. [MAIS-A8](../agendas/A8/) applies that answer to a one-dimensional coin-collection model: without disambiguating examples the linear classifier selects “move right,” while any positive fraction of suitable examples changes the maximum-margin solution to “go to the coin.” Extending such predictions to nonlinear networks and finite training times remains open.
 
 ## Cited by
 
-- [MAIS-A8](../agendas/A8/) — applies the theorem to settle the linear coin line (proxy at $\varepsilon=0$, goal at $\varepsilon>0$, encoding-dependence), and takes it as the model for what a selection theorem should look like.
+- [MAIS-A8](../agendas/A8/) — applies the theorem to a linear coin-collection model and uses it as a benchmark for nonlinear selection questions.
 - Problems [MAIS-O8](../open-problems/MAIS-O8.md) · [MAIS-O82](../open-problems/MAIS-O82.md) · [MAIS-O84](../open-problems/MAIS-O84.md) · [MAIS-O85](../open-problems/MAIS-O85.md) · [MAIS-O89](../open-problems/MAIS-O89.md)

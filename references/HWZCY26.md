@@ -6,7 +6,7 @@
 
 *Summarized by: Claude 5 Fable directed by Lionel Levine.*
 
-**TL;DR.** For a two-layer network trained on group composition, an idealized training dynamics — projected gradient flow on a small-logit Taylor surrogate of the cross-entropy — becomes, in the Fourier domain, Riemannian gradient ascent on a representation-theoretic energy functional. Under random initialization each neuron converges almost surely to a single irreducible representation of the group, and for abelian groups the population diversifies uniformly across the nontrivial representations, with Haar-uniform phases and exponential convergence rates. This is the nearest rigorous theorem to the neuron-level selection laws conjectured in [MAIS-A5](../agendas/A5/) — proved for the surrogate flow, not the exact ensemble.
+**TL;DR.** For a two-layer network trained on group composition, an idealized training dynamics — projected gradient flow on a small-logit Taylor surrogate of the cross-entropy — becomes, in the Fourier domain, Riemannian gradient ascent on a representation-theoretic energy functional. Under random initialization each neuron converges almost surely to a single irreducible representation of the group. For abelian groups, the population diversifies uniformly across nontrivial representations, with Haar-uniform phases and exponential convergence rates. These are theorems for the surrogate flow, not the exact training dynamics.
 
 ## Setup and hypotheses
 
@@ -30,5 +30,5 @@ Circuit-level interpretability rests on the observed regularity that neurons in 
 
 ## Cited by
 
-- [MAIS-A5](../agendas/A5/) — the closest theorem to the agenda's selection laws: its neuron-purity and law-of-large-numbers conjectures ask for the exact-loss analogues of the alignment and diversification results proved here for the surrogate flow.
+- [MAIS-A5](../agendas/A5/) — its neuron-purity and population-distribution conjectures ask for exact-loss analogues of the alignment and diversification results proved here for the surrogate flow.
 - Problems [MAIS-O5](../open-problems/MAIS-O5.md) · [MAIS-O53](../open-problems/MAIS-O53.md) · [MAIS-O54](../open-problems/MAIS-O54.md) · [MAIS-O55](../open-problems/MAIS-O55.md) · [MAIS-O59](../open-problems/MAIS-O59.md)

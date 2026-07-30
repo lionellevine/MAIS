@@ -6,7 +6,7 @@
 
 *Summarized by: Claude 5 Fable directed by Lionel Levine.*
 
-**TL;DR.** How many experiments does it take to pin down every causal arrow among $N$ variables? If each experiment randomizes at most one variable and the experimenter sees the full joint distribution each time, then $N-1$ experiments always suffice, and against a worst-case graph no fewer will do — adaptivity does not help. Randomizing several variables in one experiment can beat the bound. This is the founding accounting result of experimental causal discovery: not whether the graph is identifiable, but at what price.
+**TL;DR.** How many experiments does it take to pin down every causal arrow among $N$ variables? If each experiment randomizes at most one variable, the sharp worst-case answer is $N-1$. If any subset may be randomized simultaneously, it falls to $\lfloor\log_2 N\rfloor+1$ experiments: $\log_2N+1$ when $N$ is a power of two and $\lceil\log_2N\rceil$ otherwise. These idealized bounds assume exact knowledge of every conditional independence after each intervention.
 
 ## Setting
 
@@ -14,17 +14,19 @@ A causally sufficient set of $N$ variables carries an unknown causal directed ac
 
 ## Main results
 
-1. **Sufficiency.** If each experiment randomizes at most one variable, $N-1$ experiments suffice to identify all causal relations among the $N$ variables.
-2. **Worst-case necessity.** No procedure using single-variable experiments, adaptive or not, can guarantee identification with fewer than $N-1$; the complete graph is the obstruction.
-3. **Multiple simultaneous interventions escape the bound.** When one experiment may randomize several variables at once, fewer than $N-1$ experiments can suffice, so the linear price is an artifact of the one-variable-at-a-time restriction. (The sharp logarithmic accounting for unrestricted simultaneous interventions came in later work and is not claimed here.)
+1. **Single-variable interventions.** If each experiment randomizes at most one variable, $N-1$ experiments suffice, and the complete graph shows that no adaptive procedure can guarantee fewer.
+2. **Unrestricted simultaneous interventions.** If any number of variables may be randomized independently in one experiment, the sharp worst-case count is $\lfloor\log_2 N\rfloor+1$. The intervention sets can be chosen so that every pair of variables is separated by an intervention in at least one experiment and is also observed together, or separated in the opposite direction, in another.
+3. **Restricted simultaneous interventions.** If at most $k_{\max}<N/2$ variables may be randomized at once, the paper gives a matching worst-case count
+   $$\left\lceil \frac{N}{k_{\max}}-1+\frac{N}{2k_{\max}}\log_2 k_{\max}\right\rceil,$$
+   with the evident rounding conventions when the displayed terms are not integral.
 
 ## Method
 
-Sufficiency is a direct protocol. Randomizing a variable $X$ splits the world in two: within the manipulated distribution, independence tests settle the adjacencies among the other variables, and comparing against the undisturbed distribution reveals which variables respond to $X$ — orienting every edge at $X$. After $N-1$ variables have each taken a turn under randomization, every edge has had an endpoint randomized, and all adjacencies and orientations are settled. Necessity is an adversary argument on the complete graph: all complete DAGs are Markov equivalent, so observation alone orients nothing, and any plan with fewer than $N-1$ single-variable experiments leaves two variables never randomized — the direction of the edge between them remains consistent with the data either way.
+The key bookkeeping is pairwise. To determine the relation between two variables, an experiment must intervene on one but not the other to test direction, while some experiment must also leave both passive or intervene in the opposite direction to distinguish an incoming edge from no edge. Single-variable interventions perform these tests one vertex at a time, giving the $N-1$ bound. Simultaneous interventions encode each variable by the binary pattern of experiments in which it is randomized; distinct patterns separate every pair, yielding the logarithmic construction. Complete DAGs supply the matching worst cases because observational data alone leave all their edge directions unresolved.
 
 ## Why it matters for AI safety
 
-For evaluators who would read a black-box agent's world model off its behavior, this paper fixes the classical baseline: even with the enormous advantage of observing *all* variables after each intervention, identification costs a definite, graph-independent number of experiments. [MAIS-A2](../agendas/A2/) transplants the accounting question to the setting of Richens and Everitt [[RE24]](../references/RE24.md), where each experiment returns not a joint distribution but one bit — an optimal agent's action. The agenda's query-complexity problem ([MAIS-O25](../open-problems/MAIS-O25.md)) asks for the analogue of the $N-1$ theorem at that far weaker observation channel, and its restricted-intervention problem ([MAIS-O30](../open-problems/MAIS-O30.md)) echoes the paper's central discovery that *which* variables can be randomized, not just how many times, governs what is identifiable. The gap between the two channels — all variables versus one bit of behavior — is the price of interpretability-by-experiment, and [MAIS-A2](../agendas/A2/) is an attempt to compute it.
+An evaluator may try to infer a black-box agent's world model by changing its environment and watching its choices. This paper gives a best-case baseline for the number of such interventions: it assumes the evaluator sees the entire post-intervention distribution exactly, yet the allowed size of an intervention changes the worst-case count from linear to logarithmic. [MAIS-A2](../agendas/A2/) asks for corresponding bounds when a query reveals only an agent's action, and when only some environmental variables can be changed.
 
 ## Cited by
 

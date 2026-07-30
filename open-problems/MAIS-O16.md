@@ -22,12 +22,12 @@ $$\hat{k}^{\ast } := \min\lbrace \  K : \mathrm{FairBot}_k(\mathrm{FairBot}_k) =
 
 In the last clause, certified means proved: an interval containing $\hat{k}^{\ast }$ is a proof that the two copies cooperate at every budget at or above the upper endpoint, together with a defecting budget large enough to show the threshold is at least the lower endpoint. Any single budget is decidable — run the two terminating programs — so the content lies in the upper endpoint's claim about all larger $k$.
 
-Proof *search* need not be the bottleneck: Critch, Dennis, and Russell [[CDR22]](https://arxiv.org/abs/2208.07006) observe that an agent can front-load the known proof, so that verifying Löbian cooperation takes well under a second of computer time. Measuring $\hat{k}^{\ast }$ in a real proof assistant is a feasible experiment, not a thought experiment. For the proof-system conventions and the certified-budget formalism, see [MAIS-A1](../agendas/A1/); the counterexamples that make the certification necessary are in [MAIS-P2](../papers/P2/).
+Proof *search* need not be the bottleneck: Critch, Dennis, and Russell [[CDR22]](../references/CDR22.md) observe that an agent can try the known Löbian proof first rather than enumerate every shorter string. This makes fast verification plausible, but their paper does not implement or benchmark the proposal. Measuring $\hat{k}^{\ast }$ in a real proof assistant remains the experiment. For the proof-system conventions and the certified-budget formalism, see [MAIS-A1](../agendas/A1/); the counterexamples that make the certification necessary are in [MAIS-P2](../papers/P2/).
 
 ## References
 
 - [[C19]](../references/C19.md) A. Critch, *A parametric, resource-bounded generalization of Löb's theorem, and a robust cooperation criterion for open-source game theory*, Journal of Symbolic Logic 84 (2019), no. 4, 1368–1381. [arXiv:1602.04184](https://arxiv.org/abs/1602.04184)
 - [[BCFH+14]](../references/BCFH+14.md) M. Barász, P. Christiano, B. Fallenstein, M. Herreshoff, P. LaVictoire, and E. Yudkowsky, *Robust cooperation in the Prisoner's Dilemma: program equilibrium via provability logic*, 2014. [arXiv:1401.5577](https://arxiv.org/abs/1401.5577)
-- [CDR22] A. Critch, M. Dennis, and S. Russell, *Cooperative and uncooperative institution designs: surprises and problems in open-source game theory*, 2022. [arXiv:2208.07006](https://arxiv.org/abs/2208.07006)
+- [[CDR22]](../references/CDR22.md) A. Critch, M. Dennis, and S. Russell, *Cooperative and uncooperative institution designs: surprises and problems in open-source game theory*, 2022. [arXiv:2208.07006](https://arxiv.org/abs/2208.07006)
 
 *Related: [MAIS-O1](MAIS-O1.md) (the Löb overhead this threshold depends on) · [MAIS-O17](MAIS-O17.md) (thresholds over families of agents) · [MAIS-O20](MAIS-O20.md) (a bounded Payor lemma).*

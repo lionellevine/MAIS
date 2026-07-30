@@ -24,9 +24,9 @@ Representation theory proves the algorithm correct; a battery of measurements sh
 
 ## Why it matters for AI safety
 
-Mechanistic interpretability findings transfer across training runs only to the extent that what a network learns is reproducible. This paper supplies the sharpest small-scale evidence on both sides at once: the algorithm family is stable across seeds, but the instance — the set of irreps — is a random variable whose law nobody knows. The four $S_5$ seed tables reported here are, in the framing of [MAIS-A5](../agendas/A5/), four samples from the *selection law*, and the agenda's central problem asks for that law: does it converge, is it deterministic, and can it be computed in any explicit case?
+Mechanistic interpretability findings transfer across training runs only when the learned mechanism is reproducible. In these experiments the broad representation-theoretic algorithm is stable, but the particular irreducible representations vary with the random seed. [MAIS-A5](../agendas/A5/) asks for the probability distribution over these outcomes induced by random initialization and training.
 
 ## Cited by
 
-- [MAIS-A5](../agendas/A5/) — takes the character-based algorithm as its structural backbone and treats the paper's seed tables as samples from the selection law it seeks to compute.
+- [MAIS-A5](../agendas/A5/) — takes the character-based algorithm as its structural backbone and treats the paper's seed tables as samples from the distribution over trained mechanisms it seeks to compute.
 - Problems [MAIS-O5](../open-problems/MAIS-O5.md) · [MAIS-O52](../open-problems/MAIS-O52.md) · [MAIS-O53](../open-problems/MAIS-O53.md) · [MAIS-O55](../open-problems/MAIS-O55.md) · [MAIS-O56](../open-problems/MAIS-O56.md) · [MAIS-O57](../open-problems/MAIS-O57.md) · [MAIS-O58](../open-problems/MAIS-O58.md) · [MAIS-O61](../open-problems/MAIS-O61.md)

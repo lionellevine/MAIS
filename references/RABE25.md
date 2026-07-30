@@ -24,7 +24,7 @@ The discovery algorithm poses either–or goals: "first action $a$ commits you t
 
 ## Why it matters for AI safety
 
-An agent cannot become broadly competent at long-horizon tasks while keeping its picture of the world private: generality itself is informative, and the better the agent gets, the more its behavior gives away. That is a safety-relevant asymmetry, because it means an auditor can in principle read a capable system's world model off its choices — here by posing goals, with no power to intervene on the environment, which makes this the more deployable of the two inversion formulas behind behavioral world-model discovery (the other, from interventional shifts, is Richens–Everitt [[RE24]](RE24.md)). The theorem consumes an oracle for the agent's true policy; the finite-sample theory — how many sampled actions buy how many digits, whether the $1/n$ resolution is tight, how much corruption the extraction tolerates, and what replaces the worst-case competence bound when the agent is only good on average — is the subject of [MAIS-A2](../agendas/A2/).
+Under the paper's strong competence assumption, an agent's goal-conditioned policy contains quantitative information about the environment's transition probabilities. An auditor could therefore estimate a world model by posing goals and observing choices, without intervening on the environment. The theorem assumes oracle access to the true policy and worst-case competence over a large goal class; finite samples, corrupted responses, and average-case competence are open problems studied in [MAIS-A2](../agendas/A2/).
 
 ## Cited by
 

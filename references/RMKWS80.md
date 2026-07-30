@@ -6,7 +6,7 @@
 
 *Summarized by: Claude 5 Fable directed by Lionel Levine.*
 
-**TL;DR.** Binary search survives lies. To identify an unknown value by comparison questions when up to $E$ of the answers may be false, roughly $\log_2 n + E\log_2\log_2 n$ questions are necessary and sufficient: each tolerated lie costs an additive $\log\log n$, not a multiplicative factor. The lies are persistent, not channel noise — re-asking a question can draw the same false answer — so repetition buys nothing, and the searcher must instead budget for errors inside the search itself. This is the founding quantitative result on the Rényi–Ulam problem of searching with lies.
+**TL;DR.** Binary search survives a bounded total number of lies. To identify an unknown value by comparison questions when at most $E$ answers may be false, $\log_2 n+E\log_2\log_2 n+O(E\log E)$ questions are necessary and sufficient in the worst case. Repetition can defeat a bounded lie budget, but the optimal strategy is much more efficient than repeating every comparison $2E+1$ times.
 
 ## Setting
 
@@ -26,7 +26,7 @@ A potential argument in the style of Berlekamp's theory of error-correcting comm
 
 ## Why it matters for AI safety
 
-Behavioral world-model discovery keeps reducing, in its one-dimensional core, to locating a threshold from unreliable yes–no data: the switching surface of a near-optimal policy, probed one sampled action at a time. When the deviations from optimality are adversarial and persistent rather than fresh noise, repetition is worthless and the correct model regime is exactly this paper's — a bounded budget of lies, spent by an adversary who knows the search strategy. [RMKWS80] supplies the endpoint result for that regime: recovery is still possible, at additive rather than multiplicative cost. The open question is what its analogue looks like when the object being searched for is not one threshold but a causal model coupled across many of them; that is the subject of [MAIS-A2](../agendas/A2/).
+Suppose an evaluator locates a threshold in an agent's behavior by asking adaptive yes–no questions, while an adversary may corrupt at most $E$ answers in total. This paper shows that robust recovery costs only an additive $E\log\log n$ term, far less than protecting every query by majority vote. That is a useful endpoint for the corruption models in [MAIS-A2](../agendas/A2/). It does not cover persistent corruption tied to a state, or fresh random noise on every query; those are different models.
 
 ## Cited by
 

@@ -26,7 +26,7 @@ Small initialization decouples the network: for early times each neuron's dynami
 
 ## Why it matters for AI safety
 
-Which representation a network adopts is a random function of initialization, and [MAIS-A5](../agendas/A5/) asks for the law of that random variable — the selection law behind the seed-to-seed instability that mechanistic interpretability keeps encountering. This paper is the sharpest rigorous dynamics available for the agenda's model task: it proves the lottery-ticket mechanism that earlier work on modular addition had only observed. Its hypotheses also mark the frontier precisely. The theorems begin from small or specially controlled states, not the unit-scale Gaussian initializations of the agenda's ensembles, so even the smallest cases with generic starts — two quadratic neurons on $C_5$ ([MAIS-O59](../open-problems/MAIS-O59.md)), one ReLU neuron ([MAIS-O60](../open-problems/MAIS-O60.md)) — lie outside the theory. Extending the comparison arguments across that boundary is exactly what those problems ask; see [MAIS-A5](../agendas/A5/).
+Which representation a network adopts can depend on random initialization. [MAIS-A5](../agendas/A5/) asks for the resulting probability distribution over learned mechanisms. This paper proves a rigorous winner-take-all mechanism for modular addition under small or specially controlled initial states. Unit-scale Gaussian initialization lies outside its theorems, including the small cases posed in [MAIS-O59](../open-problems/MAIS-O59.md) and [MAIS-O60](../open-problems/MAIS-O60.md).
 
 ## Cited by
 

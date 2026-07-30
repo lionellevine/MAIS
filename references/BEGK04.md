@@ -6,7 +6,7 @@
 
 *Summarized by: Claude 5 Fable directed by Lionel Levine.*
 
-**TL;DR.** For a reversible diffusion in a Morse landscape, the mean time to cross from a metastable well into a deeper one is a computable constant times $e^{h/\varepsilon}$, where $h$ is the barrier height and the constant is built from Hessian data at the starting minimum and at the saddle. This is the Eyring–Kramers formula, conjectured in the chemistry literature since the 1930s; this paper gave the first rigorous proof with the sharp prefactor in arbitrary dimension. The proof runs through an exact identity: mean crossing time equals the Gibbs mass of the starting well divided by the potential-theoretic capacity between the wells.
+**TL;DR.** For a reversible diffusion in a Morse landscape, the mean time to cross from a metastable well into a deeper one is a computable constant times $e^{h/\varepsilon}$, where $h$ is the barrier height and the constant is built from Hessian data at the starting minimum and saddle. This paper gives the first rigorous sharp Eyring–Kramers formula in dimensions above one. Its potential-theoretic identity expresses the mean crossing time as an equilibrium-potential-weighted Gibbs mass divided by the capacity between the wells.
 
 ## Setup and hypotheses
 
@@ -27,7 +27,7 @@ Potential theory replaces the direct analysis of the process. The mean hitting t
 
 ## Why it matters for AI safety
 
-Noisy training in a singular loss landscape moves between flat valleys on exponential timescales, and predicting the dwell time at a loss plateau means proving an Eyring–Kramers law for wells that are not points. This paper supplies the frame the singular version is conjectured in: the identity *mean time = well mass / capacity* separates the two ingredients, the well mass (which Watanabe's volume asymptotics express through the local learning coefficient) and the gate capacity (which for a Morse saddle is order $\varepsilon^{d/2} e^{-h/\varepsilon}$ by the computation here). Running the ratio predicts the prefactor $\varepsilon^{\lambda - d/2}(\log \tfrac1\varepsilon)^{m-1}$ — flatter wells are stickier — and the two halves of a proof for the first singular test cases already exist in the literature: the saddle capacity from this paper, the well mass from Watanabe. Making them meet on an arbitrary analytic singular well is the program of [MAIS-A7](../agendas/A7/).
+Noisy training can spend long periods near one low-loss region before crossing to another. For nondegenerate wells and saddles, this paper shows how to compute that residence time from a weighted well mass and a gate capacity. Neural-network minima are usually degenerate, so the theorem does not apply directly. Combining its mass-over-capacity formula with Watanabe's singular volume asymptotics suggests the heuristic prefactor $\varepsilon^{\lambda-d/2}(\log(1/\varepsilon))^{m-1}$ when the gate remains Morse; proving or correcting that heuristic is part of [MAIS-A7](../agendas/A7/).
 
 ## Cited by
 

@@ -30,6 +30,7 @@ Detailed summaries of AI safety papers cited across the [open problems](../open-
 | [BEGK04](BEGK04.md) | Bovier, Eckhoff, Gayrard & Klein, *Metastability in reversible diffusion processes I* (2004) | MAIS-A7 + 3 problems |
 | [P17](P17.md) | Pudlák, *Incompleteness in the finite domain* (2017) | MAIS-A1 + 2 problems |
 | [S76](S76.md) | Solovay, *Provability interpretations of modal logic* (1976) | MAIS-A1 + 2 problems |
+| [CDR22](CDR22.md) | Critch, Dennis & Russell, *Cooperative and uncooperative institution designs…* (2022) | MAIS-A1 + 1 problem |
 | [RMKWS80](RMKWS80.md) | Rivest et al., *Coping with errors in binary search procedures* (1980) | MAIS-A2 + 2 problems |
 | [KK07](KK07.md) | Karp & Kleinberg, *Noisy binary search and its applications* (2007) | MAIS-A2 + 2 problems |
 | [URBY13](URBY13.md) | Uhler, Raskutti, Bühlmann & Yu, *Geometry of the faithfulness assumption in causal inference* (2013) | MAIS-A2 + 2 problems |

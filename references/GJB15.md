@@ -1,6 +1,6 @@
 # Sparse and spurious: dictionary learning with noise and outliers
 
-*Summary [GJB15] · R. Gribonval, R. Jenatton, and F. Bach, IEEE Transactions on Information Theory 2015 · [arXiv:1407.5155](https://arxiv.org/abs/1407.5155).*
+*Summary [GJB15] · R. Gribonval, R. Jenatton, and F. Bach, IEEE Transactions on Information Theory 61(11) (2015), 6298–6319 · [arXiv:1407.5155](https://arxiv.org/abs/1407.5155).*
 
 *Tags: interpretability · sparse autoencoders · superposition · probability · optimization.*
 
@@ -24,7 +24,7 @@ The population objective is shown to decrease in the direction of $\Phi$ on a sp
 
 ## Why it matters for AI safety
 
-This is the known guarantee for the estimator that sparse autoencoders implement: the $\ell^1$-penalized objective has a good minimum *near* the generating dictionary. What it leaves open is what interpretability needs — whether a merged or rotated dictionary far away scores even better, so that a converged SAE could be globally optimal yet wrong about the features. Promoting this local guarantee to a global one, first in the clean population case of independent supports and then under the correlated supports of the superposition hypothesis, is the subject of [MAIS-A3](../agendas/A3/).
+The paper analyzes a close mathematical analogue of the sparse-coding objective used by sparse autoencoders: an $\ell^1$-penalized reconstruction loss over a learned dictionary. It guarantees a good local minimum near the generating dictionary, but does not rule out a merged or rotated dictionary with lower loss far away. Global recovery, first for independent supports and then for correlated feature activations, is the subject of [MAIS-A3](../agendas/A3/).
 
 ## Cited by
 
