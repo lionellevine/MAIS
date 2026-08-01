@@ -8,6 +8,8 @@ Conventions that keep this repository consistent. Readers don't need this page; 
 - The identifier names the mathematical content, not a file: a problem keeps its O-number when it is quoted in a paper, expanded into an agenda, or resolved.
 - [open-problems/README.md](open-problems/README.md) is the full registry. A new problem lands as its page, its registry row, and its jump-list entries in the same commit. Before assigning a number, compare against the existing statements: a strict first case or a different deliverable may earn its own identifier; a restatement does not.
 - The seed agendas A1–A8 expand the survey's headline problems O1–O8. The matching numbers record those particular relationships, not a general convention — a future agenda need not match its problem's number.
+- **Resolved problems** keep their identifier and page forever. The status line becomes `Status: **resolved in the negative/affirmative** (month year)`; the credit block gains a `Resolved by:` entry; a `## Resolution` section after the verbatim statement states the answer, sketches the argument self-containedly (external links may rot; the page should not), records what remains open, and links the solution documents; the registry row gains a `— **resolved**` marker. A successor question, if any, is a new problem with a new number.
+- **Draft problems** carry MAIS-D$n$ identifiers while unreleased; on release a draft receives the next free O-number (D-numbers are never public identifiers).
 
 ## Files and folders
 

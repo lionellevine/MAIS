@@ -321,6 +321,9 @@ The first step is a symmetry-reduced algebra problem; the second asks whether th
 Let $G = C_p$, $\sigma = \mathrm{ReLU}$, $m = 1$, $\lambda = 0$, $\tau = 1$, and condition on the event that the neuron is active at initialization---$u_1(a) + v_1(b) > 0$ for some $(a,b)$. On the complementary event the gradient vanishes almost surely; equality at a ReLU kink is a Gaussian null event. Prove or refute: almost surely on the active event, the normalized weights $(u_1, v_1, w_1)/\|\cdot\|$ converge, and the limit is $(\delta, [\rho_\zeta])$-pure for every $\delta > 0$, for some frequency $\zeta$. The nearest rectifier result, a leakage-rate estimate in \cite{he2026grokking}, starts from a controlled single-frequency state rather than random initialization.
 \end{problem}
 
+\medskip
+\noindent\textbf{Resolved, in the negative} (Gautam Neelakantan Memana, August 2026). For every odd prime $p \ge 5$ there is an open set of active initializations---hence a positive-probability event conditional on activity---from which the flow extinguishes the sole active gate in finite time: the weights freeze at a centered point mass whose Fourier energy is $2/(p-1)$ in every nonzero frequency class, so the normalized limit exists but is not single-frequency pure for any $\delta < 1 - 2/(p-1)$. A strengthened analysis by GPT-5.6 Sol exhibits a second open set on which the neuron stays active forever, memorizes a single table entry, and diverges in norm with the same flat limiting spectrum, and shows both failures are independent of the choice of Clarke trajectory. The resolution record, with proofs, is linked from the problem's page in the repository. What survives is the quantitative question, Problem~\ref{start:outcome} below.
+
 \begin{problem}[\Oid{61}: A pilot measurement of the law]\label{start:measure}
 For $G\in\{C_5,S_3\}$, train Definition~\ref{def:arch} with both activations, widths $m\in\{2,8\}$, initialization scale $\tau=|G|^{-1/2}$, and
 \[
@@ -329,6 +332,15 @@ For $G\in\{C_5,S_3\}$, train Definition~\ref{def:arch} with both activations, wi
 Use the full multiplication table and full-batch Adam on $L_\lambda$ (learning rate $10^{-3}$, $\beta_1=.9$, $\beta_2=.999$, numerical stabilizer $10^{-8}$), with the convention $\mathrm{ReLU}'(0)=0$. Run at most $2\cdot10^4$ updates from $100$ fixed seeds per configuration. Declare convergence when both the relative loss change and the relative parameter change stay below $10^{-7}$ for $500$ consecutive updates; otherwise label the run nonconvergent. Record $K_{.005}$, $N_{.05}$, and the finite-width multiplicities $\nu_{[\rho],.05}$. Publish the configuration files, seeds, final checkpoints, and nonconvergence counts, with $95\%$ confidence intervals for the observed key-set probabilities.
 
 The two readouts are deliberately local: estimate the same-frequency probability in the $C_5$, width-$2$ foothold, and measure how the key-set law changes when width or decay is varied. The $S_3$ runs test whether the same pipeline survives its first nonabelian group. These are finite-width estimates, not the conjectural constants $q_{[\rho]}$; a larger scaling study should wait until this pilot is reproducible.
+\end{problem}
+
+\begin{problem}[\Oid{92}: The outcome law of one rectifier neuron]\label{start:outcome}
+In the setting of Problem~\ref{start:relu}, say that a Clarke trajectory \emph{dies} if it reaches a completely inactive state in finite time and is constant thereafter; \emph{aligns} if $\theta(t)/\|\theta(t)\|$ converges to a limit that is $(\delta,[\rho_\zeta])$-pure for every $\delta>0$ and some frequency $\zeta$; and \emph{memorizes} if the normalized limit exists but is not pure. The resolution of Problem~\ref{start:relu} shows that death and memorization each occur with positive probability conditional on initial activity. Determine the outcome law:
+(1) does alignment occur with positive probability?
+(2) determine, or bound as $p \to \infty$, the conditional probabilities of death, memorization, and alignment;
+(3) how does the law depend on the initialization scale $\tau$?
+(4) for an everywhere-positive activation---softplus $\sigma_\beta(x) = \beta^{-1}\log(1+e^{\beta x})$, where no gate can die and the known counterexample mechanisms are unavailable---does the alignment conclusion of Problem~\ref{start:relu} hold almost surely?
+Part (1) alone would be substantial progress; the known counterexamples occupy constructed corners of initialization space and say nothing about typical behavior.
 \end{problem}
 
 \section{What is known}\label{sec:known}

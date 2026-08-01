@@ -19,4 +19,6 @@ The first step is a symmetry-reduced algebra problem; the second asks whether th
 - [[HWZCY26]](../references/HWZCY26.md) J. He, L. Wang, F. Zhang, S. Chen, and Z. Yang, *Neural networks provably learn spectral representations for group composition*, preprint, 2026. [arXiv:2606.02993](https://arxiv.org/abs/2606.02993)
 - [[HWCY26]](../references/HWCY26.md) J. He, L. Wang, S. Chen, and Z. Yang, *On the mechanism and dynamics of modular addition: Fourier features, lottery ticket, and grokking*, preprint, 2026. [arXiv:2602.16849](https://arxiv.org/abs/2602.16849)
 
-*Related: [MAIS-O5](MAIS-O5.md) (the headline problem this is the foothold of) · [MAIS-O60](MAIS-O60.md) (one rectifier neuron, the analogous reduction) · [MAIS-O61](MAIS-O61.md) (a pilot experiment estimating the same-frequency probability).*
+The rectifier cousin of this problem, [MAIS-O60](MAIS-O60.md), was resolved in the negative by explicit dead-neuron and memorization constructions; neither mechanism transfers to the quadratic activation here, which has no dead half-line, so the alignment question above stands.
+
+*Related: [MAIS-O5](MAIS-O5.md) (the headline problem this is the foothold of) · [MAIS-O60](MAIS-O60.md) (one rectifier neuron, the analogous reduction — resolved in the negative) · [MAIS-O92](MAIS-O92.md) (the outcome law that resolution leaves open) · [MAIS-O61](MAIS-O61.md) (a pilot experiment estimating the same-frequency probability).*

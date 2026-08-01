@@ -26,7 +26,7 @@ Small initialization decouples the network: for early times each neuron's dynami
 
 ## Why it matters for AI safety
 
-Which representation a network adopts can depend on random initialization. [MAIS-A5](../agendas/A5/) asks for the resulting probability distribution over learned mechanisms. This paper proves a rigorous winner-take-all mechanism for modular addition under small or specially controlled initial states. Unit-scale Gaussian initialization lies outside its theorems, including the small cases posed in [MAIS-O59](../open-problems/MAIS-O59.md) and [MAIS-O60](../open-problems/MAIS-O60.md).
+Which representation a network adopts can depend on random initialization. [MAIS-A5](../agendas/A5/) asks for the resulting probability distribution over learned mechanisms. This paper proves a rigorous winner-take-all mechanism for modular addition under small or specially controlled initial states. Unit-scale Gaussian initialization lies outside its theorems, including the small cases posed in [MAIS-O59](../open-problems/MAIS-O59.md) and [MAIS-O60](../open-problems/MAIS-O60.md) (the latter since resolved in the negative by counterexamples outside this paper's controlled regime).
 
 ## Cited by
 

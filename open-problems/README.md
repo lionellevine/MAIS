@@ -2,7 +2,7 @@
 
 Each open problem here opens with its AI safety motivation, with a link into the [research agenda](../agendas/) that carries its full context.
 
-All problems listed here are open as of July 2026; when a problem is resolved, its row will say so. Have you solved one of them? Have a promising line of attack? Want to correct a problem statement? [Open an issue](https://github.com/lionellevine/MAIS/issues/new/choose).
+Problems listed here are open unless their row says otherwise. First resolution: MAIS-O60, resolved in the negative in August 2026 — nine days after the registry launched. Have you solved one of them? Have a promising line of attack? Want to correct a problem statement? [Open an issue](https://github.com/lionellevine/MAIS/issues/new/choose).
 
 Note: Some of these problems sit deliberately on the easier side, to give mathematicians an entry point into AI safety. That means AI may get you most of the way to a solution. I see this as a feature, not a bug: the goal is to advance AI safety, not to curate problems that resist automation.
 
@@ -69,7 +69,7 @@ Stars indicate estimated difficulty. Problems whose deliverable is a computation
 | <a id="mais-o57"></a>MAIS-O57 | [Does gradient flow on S_5 select randomly among representation sets?](MAIS-O57.md) | interpretability | probability, dynamical systems, representation theory | ★★★ |
 | <a id="mais-o58"></a>MAIS-O58 | [Exchangeability of learned frequencies beyond multiplicative symmetry](MAIS-O58.md) | interpretability | probability, harmonic analysis, dynamical systems | ★★★ |
 | <a id="mais-o59"></a>MAIS-O59 | [Two neurons learning mod-5 addition: which frequencies win?](MAIS-O59.md) | interpretability | dynamical systems, probability, harmonic analysis | ★★ |
-| <a id="mais-o60"></a>MAIS-O60 | [Does a single ReLU neuron align to one frequency?](MAIS-O60.md) | interpretability | dynamical systems, probability, harmonic analysis | ★★ |
+| <a id="mais-o60"></a>MAIS-O60 | [Does a single ReLU neuron align to one frequency?](MAIS-O60.md) — **resolved** (negative, Aug 2026) | interpretability | dynamical systems, probability, harmonic analysis | ★★ |
 | <a id="mais-o61"></a>MAIS-O61 | [Pilot measurement of representation selection in small trained networks](MAIS-O61.md) | interpretability | computational, statistics | ★ *empirical* |
 | <a id="mais-o62"></a>MAIS-O62 | [Minimal network width for exact modular addition](MAIS-O62.md) | interpretability, generalization | complexity theory, algebraic geometry, harmonic analysis | ★★ |
 | <a id="mais-o63"></a>MAIS-O63 | [Learning coefficients of modular addition](MAIS-O63.md) | interpretability, generalization | algebraic geometry, statistics | ★★★ |
@@ -101,3 +101,4 @@ Stars indicate estimated difficulty. Problems whose deliverable is a computation
 | <a id="mais-o89"></a>MAIS-O89 | [Boundary-state residual of max-margin gradient descent](MAIS-O89.md) | generalization | optimization, dynamical systems | ★ |
 | <a id="mais-o90"></a>MAIS-O90 | [Does finite-width training inherit the kernel flow's selection?](MAIS-O90.md) | generalization | probability, optimization | ★★ |
 | <a id="mais-o91"></a>MAIS-O91 | [Numerical atlas of misgeneralization across widths and diversity](MAIS-O91.md) | generalization | computational, probability | ★ *empirical* |
+| <a id="mais-o92"></a>MAIS-O92 | [The outcome law of one rectifier neuron](MAIS-O92.md) | interpretability | dynamical systems, probability, harmonic analysis | ★★★ |
