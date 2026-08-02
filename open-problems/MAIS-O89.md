@@ -4,7 +4,7 @@
 
 *Tags: generalization · goal misgeneralization · training dynamics · optimization · dynamical systems. Difficulty: ★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 By the implicit-bias theorem of Soudry, Hoffer, Nacson, Gunasekar, and Srebro [[SHNGS18]](../references/SHNGS18.md), gradient descent on separable data converges in direction to the max-margin classifier. That direction predicts a trained linear classifier only to leading order, and the bounded residual it leaves behind is usually beneath notice. On the coin line — the agenda's one-dimensional toy of goal misgeneralization — the residual controls half the test return.
 

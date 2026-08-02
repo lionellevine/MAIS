@@ -4,7 +4,7 @@
 
 *Tags: interpretability · generalization · singular learning theory · grokking · mechanistic interpretability · complexity theory · algebraic geometry · harmonic analysis. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 How many hidden neurons does a quadratic network need to compute addition mod $p$ exactly? The answer sets the stage for every geometric question about this model: below the minimal width, the singular variety of exact fits is empty, so the learning coefficients that [MAIS-O6](MAIS-O6.md) asks about (the volume-growth exponents from singular learning theory that govern generalization and which exact fits Bayesian learning favors) have nothing to measure. The bounds in hand leave a factor-of-two range.
 

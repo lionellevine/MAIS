@@ -4,7 +4,7 @@
 
 *Tags: generalization · developmental interpretability · singular learning theory · training dynamics · dynamical systems · algebraic geometry. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Can a training plateau turn a saddle into a local minimum at the resolution visible to the dynamics? Researchers who study how a network's internal structure emerges during training say that during a plateau *the saddle is a local minimum of an effective loss*. Here is one way to make the slogan precise. For $\varepsilon, \delta > 0$ define the **effective loss**
 

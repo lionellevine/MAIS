@@ -4,7 +4,7 @@
 
 *Tags: interpretability · mechanistic interpretability · training dynamics · universality of circuits · probability · harmonic analysis · dynamical systems. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 When a network learns addition mod $p$, it expresses its outputs through a sparse random set of the $(p-1)/2$ Fourier frequencies, a phenomenon reverse-engineered by Nanda, Chan, Lieberum, Smith, and Steinhardt [[NCLSS23]](../references/NCLSS23.md) and extended to general finite groups by Chughtai, Chan, and Nanda [[CCN23]](../references/CCN23.md), whose seed tables show the set varying from one initialization to the next. Whether that variation obeys a law bears on mechanistic interpretability's universality hypothesis: reverse-engineering one network pays off insofar as its circuits recur in others. One symmetry of the random set is a theorem: the automorphisms of $C_p$ act on frequencies by $\zeta \mapsto t\zeta$ for $t \in (\mathbb{Z}/p\mathbb{Z})^\times$, the training ensemble is invariant under them, and they act transitively, so every frequency is learned with the same probability. But multiplication does not act transitively on *pairs* or on $k$-element sets of frequencies. Could training prefer multiplicatively structured sets, say geometric progressions $\lbrace \zeta, 2\zeta, 4\zeta, \dots\rbrace $?
 

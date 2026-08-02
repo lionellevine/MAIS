@@ -4,7 +4,7 @@
 
 *Tags: generalization · singular learning theory · training dynamics · developmental interpretability · probability · algebraic geometry. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 How long does noisy training take to escape a flat valley? For a Morse landscape the classical Eyring–Kramers formula answers with a constant prefactor times $e^{h/\varepsilon}$, where $h$ is the barrier height. Neural-network losses are not Morse: their zero sets are positive-dimensional and singular, and the problem below asks for the signature of that extra flatness — a polynomial-in-$\varepsilon$ correction governed by the same algebro-geometric invariant that controls Bayesian generalization.
 

@@ -4,7 +4,7 @@
 
 *Tags: interpretability · mechanistic interpretability · training dynamics · monosemanticity · dynamical systems · probability · harmonic analysis. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine.*
+*Authored by: Claude Fable 5 directed by Lionel Levine.*
 
 A single ReLU neuron trained on addition mod $p$ can end in at least three ways: it can die, freezing at a spectrally flat state; it can survive, memorize one entry of the addition table, and diverge with the same flat spectrum; or it can align to a single Fourier frequency, the monosemantic outcome that wide trained networks exhibit neuron by neuron. The first two outcomes occur with positive probability — that is the negative resolution of [MAIS-O60](MAIS-O60.md) by Gautam Neelakantan Memana and GPT-5.6 Sol. What nobody knows is the *law*: with what probabilities does a unit-scale Gaussian initialization produce each outcome? Whether interpretable structure is typical or merely possible is precisely the question this one-neuron model isolates.
 

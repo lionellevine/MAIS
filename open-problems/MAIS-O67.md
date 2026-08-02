@@ -4,7 +4,7 @@
 
 *Tags: interpretability · generalization · singular learning theory · developmental interpretability · algebraic geometry · statistics. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Exact learning coefficients are known for linear networks of every depth, but for attention — the layer the transformer is built from — not a single teacher-student value has been computed. This problem asks for the first one: the attention analog of the Aoyagi–Watanabe formula [AW05], in which the coefficient of reduced-rank regression depends on the truth only through its rank. The safety stake is calibration: developmental interpretability estimates these coefficients by sampling to detect phase transitions as transformers train, and such estimates already track the specialization of attention heads [WHVFM24], but there is no exact attention value to test the estimators against.
 

@@ -4,7 +4,7 @@
 
 *Tags: interpretability · mechanistic interpretability · training dynamics · universality of circuits · dynamical systems · representation theory · optimization. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 How far a mechanistic interpretation of one trained network carries to another depends on whether training selects the same circuits each time. For networks trained on group multiplication, Chughtai, Chan, and Nanda [[CCN23]](../references/CCN23.md) found universality in the weak sense only: the trained circuits are built from irreducible characters of the group, but *which* irreducibles appear varies from one random seed to the next.
 

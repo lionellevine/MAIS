@@ -4,7 +4,7 @@
 
 *Tags: interpretability · mechanistic interpretability · training dynamics · monosemanticity · dynamical systems · probability · harmonic analysis. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol · Resolved by: Gautam Neelakantan Memana, with a strengthening by GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol · Resolved by: Gautam Neelakantan Memana, with a strengthening by GPT 5.6 Sol.*
 
 Strip the network down to a single rectifier neuron on addition mod $p$. Trained wide networks on this task end up with neurons each committed to one Fourier frequency, as Nanda, Chan, Lieberum, Smith, and Steinhardt observed [[NCLSS23]](../references/NCLSS23.md); here the question is isolated in one neuron: started from a unit-scale Gaussian, does its direction converge, and is the limit a single frequency?
 

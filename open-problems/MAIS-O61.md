@@ -4,7 +4,7 @@
 
 *Tags: interpretability · mechanistic interpretability · training dynamics · universality of circuits · black-box evaluation · computational · statistics · empirical. Difficulty: ★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Which irreducible representations a trained network uses varies by random seed (Nanda, Chan, Lieberum, Smith, and Steinhardt [[NCLSS23]](../references/NCLSS23.md); Chughtai, Chan, and Nanda [[CCN23]](../references/CCN23.md)), and the published data on that variation amount to a handful of seeds at a couple of configurations. Before anyone proves a selection theorem — or even conjectures the right constants — someone should measure the law. This problem is a fully specified experiment: run it, and the field gets its first reproducible estimate of the selection distribution at small scale.
 

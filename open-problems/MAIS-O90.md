@@ -4,7 +4,7 @@
 
 *Tags: generalization · goal misgeneralization · proxy goals · training dynamics · probability · optimization. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 The coin line is the agenda's minimal model of goal misgeneralization: trained only on states with the coin at the right end of the line, does the network learn the proxy rule "move right" or the intended rule "go to the coin"? The two rules agree on every training state and disagree at an off-distribution probe state with the coin displaced to the left end. In the kernel limit the verdict is proved: the zero-diversity kernel gradient flow drives the probe logit to $+\infty$, so the infinite-width lazy network walks away from the displaced coin. The finite-width statement is open, and it is the one the selection question actually needs, since every trained network has finite width.
 

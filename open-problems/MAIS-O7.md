@@ -4,7 +4,7 @@
 
 *Tags: generalization · developmental interpretability · singular learning theory · training dynamics · algebraic geometry. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Gradient flow on a deep linear network descends a staircase: it lingers at a saddle where only the $k$ strongest modes of the target are fitted, then drops to the next. Watanabe's free-energy asymptotics assign a complexity invariant to each stage — the local learning coefficient $\lambda$ of Lau, Furman, Wang, Murfet, and Wei [[LFWMW23]](../references/LFWMW23.md), which controls generalization on the Bayesian side. The conjecture: as the loss falls down its staircase, $\lambda$ climbs an opposing one, step for step. Proved, it would let singular geometry predict the stages of training in advance — the central hope of developmental interpretability.
 

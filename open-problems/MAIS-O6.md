@@ -4,7 +4,7 @@
 
 *Tags: interpretability · generalization · singular learning theory · mechanistic interpretability · developmental interpretability · grokking · simplicity bias · algebraic geometry · harmonic analysis. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 A small network trained to add residues mod $p$, when reverse-engineered by Nanda, Chan, Lieberum, Smith, and Steinhardt [[NCLSS23]](../references/NCLSS23.md), turns out to be running a discrete Fourier algorithm: each hidden neuron carries a single frequency. Is that mechanism an accident of training, or is it forced by the geometry of the loss? Watanabe's singular learning theory [W09] says Bayesian learning settles on the exact fits of smallest local learning coefficient, so the question becomes a theorem-or-counterexample: whether the most singular exact fits are the Fourier ones.
 

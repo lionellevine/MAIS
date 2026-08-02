@@ -4,7 +4,7 @@
 
 *Tags: generalization · goal misgeneralization · proxy goals · simplicity bias · probability · optimization. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Both infinite-width limits of the coin-line network walk away from a displaced coin: the kernel flow provably drives the off-distribution probe logit to $+\infty$, and the mean-field limit — the margin maximizer identified by Chizat and Bach [[CB20]](../references/CB20.md), granted weak convergence of the representing measures — is strictly positive there. Does anything at finite width prefer to collect the coin instead?
 

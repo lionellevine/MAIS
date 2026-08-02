@@ -4,7 +4,7 @@
 
 *Tags: generalization · singular learning theory · training dynamics · developmental interpretability · statistics · probability. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Two staircases describe learning in the two-layer linear network $L(A,B) = \tfrac12 \Vert  BA - \Phi \Vert _F^2$ (weights $A \in \mathbb{R}^{H \times M}$ and $B \in \mathbb{R}^{N \times H}$ with hidden width $H$; target $\Phi \in \mathbb{R}^{N \times M}$ of rank $r \le H$ with distinct singular values $s_1 > \dots > s_r > 0$), and they are graded by different variables. Gradient flow $\tau \dot A = -\partial_A L$, $\tau \dot B = -\partial_B L$ from a small aligned initialization of scale $u_0$ learns the singular modes of $\Phi$ one at a time, mode $k$ switching on at $t_k = \tfrac{\tau}{2 s_k} \log \tfrac{s_k}{u_0}$ (Saxe–McClelland–Ganguli [[SMG14]](../references/SMG14.md)); the Bayesian posterior, as the sample size $n$ grows, walks down a free-energy ladder whose rungs trade the rank-$k$ loss $L_k = \tfrac12 \sum_{\alpha > k} s_\alpha^2$ against the Aoyagi–Watanabe learning coefficient $\lambda_k^{\mathrm{AW}}$ [AW05]. Is there a dictionary between training time and sample size that carries one staircase to the other?
 

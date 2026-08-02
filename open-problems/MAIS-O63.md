@@ -4,7 +4,7 @@
 
 *Tags: interpretability · generalization · singular learning theory · developmental interpretability · grokking · algebraic geometry · statistics. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Watanabe's singular learning theory [W09] predicts where a Bayesian learner's posterior settles: on the parameters of smallest **local learning coefficient** $\lambda(w)$, a volume-growth exponent — the volume of parameters near $w$ with population loss at most $\varepsilon$ scales like $\varepsilon^{\lambda(w)}$ times $(\log\frac{1}{\varepsilon})^{m(w)-1}$, where the integer $m(w)$ is the **multiplicity**. If $\lambda$ can be computed for a real task, it predicts *which algorithm* a trained network implements, before training it. No such computation exists for any task whose learned mechanism is known.
 

@@ -4,7 +4,7 @@
 
 *Tags: generalization · training dynamics · singular learning theory · simplicity bias · probability · algebraic geometry. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 What does stochastic gradient descent do after it reaches zero loss? For an overparametrized model the zero-loss parameters form a whole set, typically singular, and which point on it training selects is the implicit bias that determines what the trained model generalizes to. Over a *smooth* manifold of minimizers the answer is a theorem: Li, Wang, and Arora [[LWA22]](https://arxiv.org/abs/2110.06914), adapting a 1991 theorem of Katzenberger [K91], prove that SGD with learning rate $\eta \to 0$, suitably rescaled in time, converges to a diffusion *on* the manifold; under label noise (fresh independent noise added to the regression targets at each step, which makes the noise covariance proportional to the Hessian near the zero set) the limiting drift descends the Hessian trace, so SGD slides along the optimal set toward flatter points, a preference established for label-noise SGD by Damian, Ma, and Lee [[DML21]](https://arxiv.org/abs/2106.06530).
 

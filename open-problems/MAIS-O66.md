@@ -4,7 +4,7 @@
 
 *Tags: interpretability · generalization · singular learning theory · developmental interpretability · algebraic geometry · statistics. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 The **local learning coefficient**, in the pointwise sense of Lau, Furman, Wang, Murfet, and Wei [[LFWMW23]](../references/LFWMW23.md), is the complexity measure that developmental interpretability estimates inside trained networks to watch structure form during training. In Watanabe's singular learning theory [W09] it replaces the parameter count: for a localized prior it sets the complexity penalty in the Bayes free energy and the $\lambda/n$ decay of the generalization error. Exact values, against which the estimators can be calibrated, are known only for a short list of classical models.
 

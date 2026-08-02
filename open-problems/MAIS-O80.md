@@ -4,7 +4,7 @@
 
 *Tags: generalization · training dynamics · singular learning theory · developmental interpretability · algebraic geometry · combinatorics. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Two bookkeepings claim to govern stagewise learning, and they live on different objects. The safety interest is developmental interpretability's: stagewise training is where new capabilities arrive abruptly, and the hope is to predict a run's stages from geometric quantities measurable along the way.
 

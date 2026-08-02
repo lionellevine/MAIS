@@ -4,7 +4,7 @@
 
 *Tags: generalization · singular learning theory · developmental interpretability · algebraic geometry. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 The two-layer linear network $x \mapsto BAx$, with $A \in \mathbb{R}^{H \times M}$, $B \in \mathbb{R}^{N \times H}$, and population loss $L(A,B) = \tfrac12 \Vert  BA - \Phi \Vert _F^2$ against a rank-$r$ target $\Phi$, is the one model where both the Bayesian and the dynamical accounts of training are explicit. Its optimal set is the fiber $F_\Phi = \lbrace  (A,B) : BA = \Phi \rbrace $; its non-minimal critical points are all saddles, organized into the chain $C_0, C_1, \dots$ that gradient flow visits in order, where $C_k$ is the critical set at which $BA$ equals the top-$k$ singular truncation of $\Phi$ (with the discarded singular directions annihilated by $A$ and $B^\top$). This problem asks for the full table of singularity invariants over both the fiber and the saddles — commutative algebra and blow-ups, no probability at all.
 

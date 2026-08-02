@@ -4,7 +4,7 @@
 
 *Tags: interpretability · generalization · singular learning theory · developmental interpretability · algebraic geometry · statistics. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 The one singular model family solved completely — reduced-rank regression — was solved globally: Aoyagi and Watanabe [AW05] computed the minimum of the local learning coefficient over the whole set of exact fits, as a closed form in four integers. But the estimators now used on neural networks, introduced by Lau, Furman, Wang, Murfet, and Wei [[LFWMW23]](../references/LFWMW23.md), are local, evaluated at a point, and the pointwise values on this benchmark family have never been tabulated. Those estimators matter for safety because they measure which internal mechanism training has selected: two networks fitting the same data by different mechanisms can behave differently on inputs no test anticipated. They now run on billion-parameter models, with exact ground truth known only for a short list of classical families. The benchmark is missing its own answer key.
 

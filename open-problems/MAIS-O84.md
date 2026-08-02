@@ -4,7 +4,7 @@
 
 *Tags: generalization · goal misgeneralization · proxy goals · training dynamics · dynamical systems · optimization · probability. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Randomizing the coin's position in as little as 2% of training levels largely cured the coin collector of Langosco et al. [[LKSP+22]](../references/LKSP+22.md) of running past a displaced coin. Why 2%? In the max-margin theory the diversity level $\varepsilon$ is absent from the endpoint: for every $\varepsilon>0$ the limiting linear classifier is the intended goal. The empirical phenomenon must therefore live at finite time — in how long the rare corrective examples take to overturn the proxy.
 

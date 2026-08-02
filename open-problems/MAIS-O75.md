@@ -4,7 +4,7 @@
 
 *Tags: generalization · singular learning theory · training dynamics · simplicity bias · probability. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Metastability concerns wells separated by loss barriers, crossed on timescales exponential in the inverse temperature by the Eyring–Kramers law of Bovier, Eckhoff, Gayrard, and Klein [BEGK04]. But a singular optimal set can contain strata of *the same* loss, joined inside the zero set with no barrier between them — and noisy dynamics should still migrate from the less flat stratum to the flatter one, driven purely by transversal volume, on timescales polynomial rather than exponential in the inverse temperature. This entropic drift toward flatness is a candidate mechanism for the simplicity bias of noisy training: among equally accurate solutions, which one the dynamics selects. Here is the smallest test case, one trigonometric polynomial on $\mathbb{T}^2$.
 

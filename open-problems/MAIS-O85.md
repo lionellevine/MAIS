@@ -4,7 +4,7 @@
 
 *Tags: generalization · goal misgeneralization · proxy goals · simplicity bias · convex geometry · optimization. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 On the coin line at zero training diversity, the encoding decides: linear gradient descent on the features $(1,p,c)$ provably learns "move right," while on $(1,c-p)$ it provably learns to approach the coin. One-hot features (indicator vectors of the two positions, concatenated) and every monomial encoding $\psi_k(p,c)=(p^ic^j)_{i+j\le k}$ side with the proxy. What property of a feature map is responsible?
 

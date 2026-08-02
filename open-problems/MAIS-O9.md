@@ -4,7 +4,7 @@
 
 *Tags: control · probability · dynamical systems · complexity theory. Difficulty: ★★★.*
 
-*Audited by: Claude 5 Fable.*
+*Audited by: Claude Fable 5.*
 
 Can a small controller reliably steer a vast system to a desired global state, despite noise it cannot remove and rival processes it did not design? This is an abstraction of a core difficulty of AI alignment: goal-directed control of a complex world from limited leverage, with the difficulty concentrated where it is in practice — robustness and competition. Conway's Game of Life offers the simplest medium I know in which to pose the question precisely, and there it becomes a concrete problem in probability and theoretical computer science.
 

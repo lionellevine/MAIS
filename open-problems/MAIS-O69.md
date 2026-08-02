@@ -4,7 +4,7 @@
 
 *Tags: interpretability · generalization · singular learning theory · developmental interpretability · statistics · probability. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Local learning coefficients are estimated in practice by sampling from a posterior pinned near the point of interest — inside networks with billions of parameters. But the theorem underpinning the estimator cuts the wrong way: with any fixed localization strength, the Gaussian pin is just another smooth positive prior, so the estimator converges to the global coefficient, not necessarily the local one. How fast must the pin tighten with the sample size?
 

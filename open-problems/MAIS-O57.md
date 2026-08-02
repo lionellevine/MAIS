@@ -4,7 +4,7 @@
 
 *Tags: interpretability · mechanistic interpretability · universality of circuits · training dynamics · probability · dynamical systems · representation theory. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Mechanistic interpretability hopes that circuits are universal: that independently trained networks converge on the same internal mechanism, so understanding reverse-engineered from one model transfers to the next. Chughtai, Chan, and Nanda [[CCN23]](../references/CCN23.md) tested this hope on group multiplication, training the same width-128 network on multiplication in $S_5$ from four random seeds and reading off the irreducible representations visible in its outputs: two seeds gave {sign, standard}, one added a 5-dimensional representation, one added standard⊗sign and a 5-dimensional. Is that variation genuine randomness in the limiting ensemble, or a finite-training artifact that longer runs would wash out? No symmetry can force the variation: the outer automorphism group of $S_5$ is trivial, so no automorphism identifies one candidate outcome with another.
 

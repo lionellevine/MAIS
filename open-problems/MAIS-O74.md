@@ -4,7 +4,7 @@
 
 *Tags: generalization · singular learning theory · training dynamics · probability · algebraic geometry. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Take a double-well landscape where one well is not a point but a singular set, and the pass between the wells is an ordinary Morse saddle. The classical Eyring–Kramers formula gives the mean crossing time with a constant prefactor; this conjecture says the singular well contributes a power of the temperature, with exponent read off from Watanabe's learning coefficient [W09]. The safety interest is timing: laws of this kind would predict how long noisy training dwells at one loss plateau before jumping to the next.
 

@@ -4,7 +4,7 @@
 
 *Tags: interpretability · generalization · singular learning theory · developmental interpretability · algebraic geometry · statistics · computational. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Singular learning theory is the mathematical backbone of developmental interpretability: the **learning coefficient** $\lambda$ of a network's loss landscape replaces the parameter count in the asymptotics of Bayesian generalization, and estimating it numerically is how that program detects phase transitions in training. Exact values against which the estimates could be calibrated exist for few model families — completely, only for reduced-rank regression, whose learning coefficients Aoyagi and Watanabe [AW05] determined in closed form. Which attention variant is closest to that solved family? Drop the softmax from a one-head attention layer and the population loss becomes an explicit polynomial of degree ten — the nearest attention analog of reduced-rank regression, and the variant most likely to fall to existing technology: Newton polyhedra and computer algebra.
 

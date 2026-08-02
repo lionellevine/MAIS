@@ -4,7 +4,7 @@
 
 *Tags: interpretability · generalization · singular learning theory · developmental interpretability · grokking · algebraic geometry · statistics. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Singular learning theory predicts which algorithm a trained network implements before training it — provided its learning coefficients can be computed for the training setup actually used ([MAIS-O63](MAIS-O63.md)). Practice trains modular addition with softmax and cross-entropy, not squared error — but a deterministic label law is not realizable by any softmax model at finite parameters, so the realizable singular learning theory of Watanabe [W09] says nothing until the truth is smoothed. How much of the singular geometry survives the change of loss, and what happens as the smoothing is removed?
 

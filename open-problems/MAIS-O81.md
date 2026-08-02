@@ -4,7 +4,7 @@
 
 *Tags: generalization · singular learning theory · developmental interpretability · statistics · algebraic geometry. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Developmental interpretability reads a training run as a descent down a staircase of saddles and prices each rung by the Bayesian free-energy ladder of singular learning theory: Watanabe's asymptotics [W09], localized to regions at positive loss by Lau, Furman, Wang, Murfet, and Wei [[LFWMW23]](../references/LFWMW23.md), assign a region around a critical set at loss $L_C$ with learning coefficient $\lambda_C$ the free energy $n L_C + \lambda_C \log n$ at sample size $n$. Here $\lambda_C$ is a volume exponent: the volume of nearby parameters whose loss lies within $\varepsilon$ of $L_C$ scales as $\varepsilon^{\lambda_C}$. The ladder is a theorem when the rungs are minimizers at the same loss, and conditional already when they are local minimizers at distinct positive levels; the rungs of the dynamical staircase (the chain of plateaus, one per saddle, that gradient descent traverses in training) are saddles, and transcribing the ladder to saddles is the step everyone takes informally.
 
