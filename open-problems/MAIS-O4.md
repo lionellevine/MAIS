@@ -4,7 +4,7 @@
 
 *Tags: interpretability · training for interpretability · superposition · optimization · convex geometry · probability. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 A network asked to store more features than it has dimensions must let them interfere. Post-hoc interpretability deciphers whatever storage scheme training happened to invent; the complementary problem is to train networks whose features are legible in the first place, and to know what that legibility costs in performance.
 

@@ -4,7 +4,7 @@
 
 *Tags: interpretability · sparse autoencoders · mechanistic interpretability · superposition · computational · statistics · empirical. Difficulty: ★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Where, quantitatively, does a sparse autoencoder stop recovering features and start absorbing them? The theory of that boundary is open ([MAIS-O3](MAIS-O3.md), [MAIS-O36](MAIS-O36.md)); this problem specifies an experiment — synthetic data with a tunable fraction of nested feature pairs — that measures it first. The protocol pins down sample counts, optimizer, and thresholds, and requires publishing seeds and checkpoints.
 

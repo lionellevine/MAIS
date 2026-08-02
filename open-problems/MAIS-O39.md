@@ -4,7 +4,7 @@
 
 *Tags: interpretability · sparse autoencoders · mechanistic interpretability · superposition · optimization · statistics. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 A sparse autoencoder never solves the sparse-coding program it is named for. Instead of computing the optimal code for each data point, it applies one learned affine-plus-ReLU map — cheap, but not optimal. O'Neill, Gumran, and Klindt [[OGK25]](https://arxiv.org/abs/2411.13117) proved this shortcut can produce inaccurate *codes*; whether it moves the minimizing *dictionary*, the object interpretability actually reads off, is open.
 

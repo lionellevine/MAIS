@@ -4,7 +4,7 @@
 
 *Tags: interpretability · world-model discovery · eliciting latent knowledge · black-box evaluation · algebraic geometry · probability. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 If two agents act optimally in every locally tampered version of an environment, masked observations included, must they hold the same causal model of it? Richens and Everitt [[RE24]](../references/RE24.md) answered yes for Lebesgue-almost-every parameter choice, and world-model discovery from behavior rests on this. But the exceptional null set is described only implicitly, as the vanishing locus of polynomials arising in their proof, and an auditor cannot check membership in an unnamed null set.
 

@@ -4,7 +4,7 @@
 
 *Tags: interpretability · world-model discovery · eliciting latent knowledge · black-box evaluation · algebraic geometry · probability · complexity theory. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 The theorem behind behavioral world-model discovery is due to Richens and Everitt [[RE24]](../references/RE24.md): near-optimal adaptation to all local interventions and observation masks determines the agent's causal model. Their theorem holds for almost every parameter choice, with the exceptions described only as the vanishing locus of polynomials arising in the proof. Finite-sample statements need more: an explicit, efficiently checkable hypothesis in place of "almost every." This problem asks for the polynomials by name.
 

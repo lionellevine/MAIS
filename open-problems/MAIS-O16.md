@@ -4,7 +4,7 @@
 
 *Tags: cooperative AI · open-source game theory · program equilibrium · Löbian cooperation · logic · computational. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 AI systems are software agents, and programs, unlike people, can exhibit their source code cheaply. Whether transparent agents can cooperate where opaque ones defect is a basic question of cooperative AI — and in the simplest case it has been reduced to a single unknown number.
 

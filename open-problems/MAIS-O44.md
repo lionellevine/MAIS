@@ -4,7 +4,7 @@
 
 *Tags: interpretability · training for interpretability · superposition · optimization · harmonic analysis · probability. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 That a regularizer reduces the penalized quantity is a two-line fact about real numbers, true for every loss and every penalty. The mathematical content of "regularize for interpretability" lies in the distance between the penalty available to gradient-based training — a smooth average — and the quantity the interpreter cares about, a max.
 

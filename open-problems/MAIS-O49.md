@@ -4,7 +4,7 @@
 
 *Tags: interpretability · training for interpretability · mechanistic interpretability · superposition · optimization · probability · combinatorics. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 A network in which each feature is wired to a single neuron is legible by inspection: every activation coordinate is an explicit signed combination of named features. Gao et al. [[GRCG+25]](https://arxiv.org/abs/2511.13653) found empirically that training transformers with almost all weights zeroed buys interpretable circuits at a measured capability cost. In the toy model of superposition of Elhage et al. [[EHOS+22]](../references/EHOS+22.md), that cost can be asked for exactly.
 

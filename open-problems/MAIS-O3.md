@@ -4,7 +4,7 @@
 
 *Tags: interpretability · sparse autoencoders · mechanistic interpretability · superposition · statistics · optimization · probability. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 The working tool for reading concepts out of a neural network is the sparse autoencoder, an $\ell^1$-penalized dictionary learner. Every safety audit built on it inherits the answer to a mathematical question: when does the estimator return the network's true feature directions, and when does it return artifacts — two co-occurring concepts fused into one direction, the *feature absorption* documented empirically by Chanin et al. [[CWDB+24]](../references/CWDB+24.md)? Classical dictionary-learning theory answers only for independently occurring features, and real concepts co-occur. Even for this estimator the known guarantee, a theorem of Gribonval, Jenatton, and Bach [[GJB15]](../references/GJB15.md), is local: a minimum of the penalized objective exists near the true dictionary, with no control over faraway global minima.
 

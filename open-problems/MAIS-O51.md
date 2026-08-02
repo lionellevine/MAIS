@@ -4,7 +4,7 @@
 
 *Tags: interpretability · training for interpretability · superposition · optimization · probability. Difficulty: ★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Two features, one dimension: the smallest network that must choose what to forget. Elhage et al. [[EHOS+22]](../references/EHOS+22.md) solved the unregularized case; nobody has analyzed it with the interference penalty that "training for interpretability" would actually add.
 

@@ -4,7 +4,7 @@
 
 *Tags: interpretability · world-model discovery · eliciting latent knowledge · black-box evaluation · bounded rationality · statistics · optimization. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Between the optimal agent (noiseless bits) and the adversarially $\delta$-suboptimal agent (irreducible ambiguity) sits the standard model of a noisily rational one: the Boltzmann, or quantal-response, agent, which plays better actions exponentially more often. Recovering a causal model from its sampled actions is a smooth statistics problem rather than an adversarial one — and it comes with a design question: which experiments should the analyst run?
 

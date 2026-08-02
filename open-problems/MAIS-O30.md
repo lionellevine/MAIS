@@ -4,7 +4,7 @@
 
 *Tags: interpretability · world-model discovery · eliciting latent knowledge · black-box evaluation · combinatorics · probability. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Richens and Everitt [[RE24]](../references/RE24.md) proved that a causal model of the environment can be read off an agent's optimal behavior, and their proof supplies an algorithm. That algorithm anchors itself with hard interventions on *every* environment variable at once. A real experimenter can usually tamper with only a few. Which arrows of the graph, and which probability tables, can still be read off the agent's behavior when the intervenable set shrinks?
 

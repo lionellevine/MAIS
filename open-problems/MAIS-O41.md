@@ -4,7 +4,7 @@
 
 *Tags: interpretability · sparse autoencoders · mechanistic interpretability · superposition · optimization · convex geometry. Difficulty: ★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 A sparse autoencoder is interpretability's tool for extracting the concept directions a network stores in superposition; whether it recovers the true directions or blends co-occurring ones into a single reported "feature" is what decides if the extracted concepts can be trusted. Two features suffice to see it both fail and succeed. Let $v_1,v_2\in\mathbb{R}^n$ be unit vectors at angle $\theta$, and let the data be $y=v_1$, $y=v_2$, or $y=v_1+v_2$ with probabilities $a,b,c$ summing to one. The agenda proves two poles for the zero-penalty constrained limit of $\ell^1$ dictionary learning (reconstruct each data point exactly with nonnegative coefficients, at cost the expected total coefficient mass). Nesting merges: when $b=0$ (feature 2 never fires alone), the unique global minimizer places one atom at $v_1$ and one at the bisector of $v_1$ and $v_2$, and the merged atom undercuts the honest two-atom representation at every angle (agenda Proposition 3.1; Proposition 4.5 extends the merging to every penalty $\lambda\in(0,1)$ when $\theta\le\pi/2$). Solo firing recovers: when $a,b>0$, the unique global minimizer is the true pair $(v_1,v_2)$ (Proposition 3.2). Between the poles, nothing is proved.
 

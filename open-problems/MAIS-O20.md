@@ -4,7 +4,7 @@
 
 *Tags: cooperative AI · agent foundations · Löbian cooperation · open-source game theory · program equilibrium · proof-based agents · bounded rationality · logic. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Löb's theorem has a rival. Payor's lemma — proved by James Payor and written up by Critch [[C23]](https://www.lesswrong.com/posts/2WpPRrqrFQa6n2x3W/) — says: if $S \vdash \Box(\Box\varphi \to \varphi) \to \varphi$, then $S \vdash \varphi$ — and its four-line proof uses neither the diagonal lemma nor inner necessitation. In the bounded setting those absences are savings: the diagonalization cost $d_S$ (constructing a self-referential sentence and proving its defining equivalence) and the inner-necessitation half of the expansion cost $\mathcal{E}_S$ (converting an $m$-symbol proof of $\varphi$ into an $S$-proof that $\varphi$ has an $m$-symbol proof) drop out of the bookkeeping. Does the cheaper route give a smaller cooperation threshold?
 

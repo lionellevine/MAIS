@@ -4,7 +4,7 @@
 
 *Tags: interpretability · training for interpretability · sparse autoencoders · superposition · statistics · harmonic analysis. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 An antipodal pair of stored features has coherence $1$ — the worst possible score on the standard legibility metric — yet a sparse autoencoder with nonnegative codes treats $W_i$ and $-W_i$ as different atoms, so the pair is plausibly recoverable. Is coherence ranking dictionaries in the wrong order?
 

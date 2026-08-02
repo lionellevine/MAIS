@@ -4,7 +4,7 @@
 
 *Tags: interpretability · training for interpretability · superposition · universality of circuits · optimization · convex geometry. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 If two independent training runs find genuinely different optima, two auditors will report different features. Stability of interpretation is thus a uniqueness question: is the optimum a single orbit of the problem's symmetries?
 

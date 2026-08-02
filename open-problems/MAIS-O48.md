@@ -4,7 +4,7 @@
 
 *Tags: interpretability · training for interpretability · monosemanticity · optimization · probability. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 A hidden neuron that reads a single feature can be labeled; one that mixes several cannot. What does it cost, in task loss, to demand that every neuron be almost pure — and does the first little bit of impurity buy anything at all?
 

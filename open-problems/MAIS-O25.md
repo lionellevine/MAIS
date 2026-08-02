@@ -4,7 +4,7 @@
 
 *Tags: interpretability · world-model discovery · eliciting latent knowledge · black-box evaluation · complexity theory · statistics. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Each question to an optimal agent — what do you do in this tampered environment? — returns a single bit. Mixing two interventions with weight $q$ and bisecting on the weight at which the agent's action switches converts those bits into binary digits of an interventional probability, and sweeping over interventions recovers the agent's whole causal model. That is the algorithm of Richens and Everitt [[RE24]](../references/RE24.md), run with unlimited exact queries. For an evaluator who wants to read a black-box agent's world model off its behavior, the accounting question comes first in any finite theory: how many queries?
 

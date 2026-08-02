@@ -4,7 +4,7 @@
 
 *Tags: cooperative AI · agent foundations · Löbian cooperation · proof-based agents · bounded rationality · logic · complexity theory. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 The Löb overhead $F_S(k,n)$ — the least proof length of the hardest-to-prove sentence $P$ of length at most $n$ whose reflection instance $\Box P \to P$ has a proof of at most $k$ symbols, the box being the ordinary unbounded provability predicate "$P$ is provable in $S$" — depends on the proof calculus, the numeral system, the abbreviation discipline, and the Gödel coding.
 

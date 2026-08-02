@@ -4,7 +4,7 @@
 
 *Tags: interpretability · superposition · mechanistic interpretability · optimization · harmonic analysis. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Five points on or inside a circle, repelling one another through a ReLU: prove the regular pentagon wins. This is the pentagon conjecture for the superposition toy model ([MAIS-O40](MAIS-O40.md)) with the interaction between sparsity levels stripped away, leaving a pure packing energy.
 

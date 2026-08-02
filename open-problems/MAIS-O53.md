@@ -4,7 +4,7 @@
 
 *Tags: interpretability · mechanistic interpretability · training dynamics · universality of circuits · monosemanticity · probability · representation theory · dynamical systems. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 In networks trained on group multiplication, individual neurons commit: in Nanda et al.'s mod-113 network [[NCLSS23]](../references/NCLSS23.md), 84.6% of neurons have at least 85% of their weight energy on a single Fourier frequency, and Chughtai, Chan, and Nanda's nonabelian networks [[CCN23]](../references/CCN23.md) cluster neuron-by-neuron around single irreducible representations. Circuit-level interpretability implicitly bets that this commitment is lawful: reading one network should tell you about the next. As the width grows, does the fraction of neurons committed to each irreducible converge — a law of large numbers for how training allocates its neurons among the irreducibles of $G$?
 

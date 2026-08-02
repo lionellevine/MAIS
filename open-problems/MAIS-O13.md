@@ -4,7 +4,7 @@
 
 *Tags: cooperative AI · agent foundations · Löbian cooperation · proof-based agents · bounded rationality · logic. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Proof-based agents cooperate via Löb's theorem; agents with bounded compute need Critch's parametric bounded Löb theorem [[C19]](../references/C19.md), in which "provable" becomes "provable within $f(k)$ symbols": if $S$ proves, uniformly in $k$, that budgeted provability of $p(k)$ implies $p(k)$, and the budget $f$ grows fast enough, then $S$ proves $p(k)$ outright for all sufficiently large $k$. The proof of that theorem enlarges the budget at every step, and each enlargement must be licensed by an internal proof that one budget term eventually exceeds another. Can Peano arithmetic always supply that license? The conjecture says yes: for the budget terms that actually occur, true eventual comparisons are provable, with a computable threshold.
 

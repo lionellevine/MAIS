@@ -4,7 +4,7 @@
 
 *Tags: interpretability · world-model discovery · eliciting latent knowledge · black-box evaluation · bounded rationality · probability · statistics. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Extraction theorems ground a safety hope: that an evaluator with only behavioral access can recover the causal world model an agent's competence presupposes. The theorem of Richens and Everitt [[RE24]](../references/RE24.md) assumes an agent that is near-optimal in *every* tampered environment: generically, a policy family with regret at most $\delta$ on every intervened, partially masked task determines an approximate causal model of the environment, with error $O(\delta)$ in the conditional probability tables. Trained agents are not like that: in the experiments of Richens, Abel, Bellot, and Everitt [[RABE25]](../references/RABE25.md), the agents fail some tasks outright, violating any worst-case regret bound — yet the models extracted from their behavior are accurate. The theory behind that observation does not yet exist in the interventional setting. What does identifiability look like when the agent is merely good on average?
 

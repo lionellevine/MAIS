@@ -4,7 +4,7 @@
 
 *Tags: cooperative AI · agent foundations · Löbian cooperation · proof-based agents · bounded rationality · logic. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Proof-based agents cooperate by searching for proofs about one another's behavior; a bounded agent can search only within a proof-length budget, so which provability laws survive bounding determines which Löbian cooperation arguments it can run ([MAIS-A1](../agendas/A1/)). Solovay's theorem [S76] pins down the unbounded laws: Gödel–Löb logic $\mathsf{GL}$ proves a modal formula if and only if every arithmetical realization of it is a theorem of Peano arithmetic. The bounded soundness conjecture ([MAIS-O19](MAIS-O19.md)) is one half of a bounded analogue: every $\mathsf{GL}$-law should remain a law when each box is read as "provable within $k^{c_j}$ symbols." The completeness half should say that non-laws stay non-laws under every choice of budgets — but the quantifiers can be placed in several inequivalent ways, and choosing among them is part of the problem.
 

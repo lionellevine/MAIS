@@ -4,7 +4,7 @@
 
 *Tags: interpretability · mechanistic interpretability · universality of circuits · training dynamics · probability · dynamical systems · harmonic analysis. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 A network trained on addition mod 113 expressed its outputs through five of the 56 available Fourier frequencies. Yet Morwani, Edelman, Oncescu, Zhao, and Kakade [[MEOZK24]](../references/MEOZK24.md) proved that for a quadratic activation, the networks maximizing the margin in the $\ell_{2,3}$ norm adapted to the architecture use *all* the frequencies, one per neuron. Sparse or dense: which regime does actual training occupy as the modulus grows? Whether trained networks are compressible into a few interpretable features, or spread over extensively many, is a basic quantitative question for mechanistic interpretability.
 

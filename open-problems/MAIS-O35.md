@@ -4,7 +4,7 @@
 
 *Tags: interpretability · world-model discovery · eliciting latent knowledge · black-box evaluation · statistics · probability. Difficulty: ★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Radon's inversion formula became tomography when it acquired error bars and dose budgets. For world-model discovery — reading a causal model out of an agent's near-optimal behavior — the inversion step is a theorem of Richens and Everitt [[RE24]](../references/RE24.md): any policy that stays near-optimal across a rich family of interventions on its environment determines an approximate causal model of that environment. The two-variable environment is a scanner small enough to build first: how many sampled actions determine whether $X$ causes $Y$ or $Y$ causes $X$, and to how many digits?
 

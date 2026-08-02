@@ -4,7 +4,7 @@
 
 *Tags: interpretability · training for interpretability · sparse autoencoders · superposition · mechanistic interpretability · statistics · optimization · probability. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Coherence, the worst-case overlap between stored features, is a property of the weights; the post-hoc interpreter never sees the weights. She sees only activations, and runs a dictionary-learning estimator on them. Does training with an interference penalty actually help her?
 

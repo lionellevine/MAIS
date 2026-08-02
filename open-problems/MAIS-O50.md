@@ -4,7 +4,7 @@
 
 *Tags: interpretability · generalization · training dynamics · training for interpretability · monosemanticity · superposition · simplicity bias · dynamical systems · probability · optimization. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 When a task has both a legible optimum and a scrambled one at the same loss, the network we get is decided not by minimization but by the optimizer; whether we can read the internals of the model we deploy hangs on that choice. What law does gradient flow from random weights induce on the set of minima?
 

@@ -4,7 +4,7 @@
 
 *Tags: cooperative AI · agent foundations · Löbian cooperation · proof-based agents · bounded rationality · logic. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Löb's theorem has two strengths. The *rule* — from $\vdash \Box P \to P$ infer $\vdash P$ — is what the parametric bounded Löb theorem of Critch [[C19]](../references/C19.md) quantifies, and it is the engine of Löbian cooperation: agents with bounded compute cooperating because each finds a short proof about the other's behavior. The *axiom* is its internalization, $\Box(\Box P \to P) \to \Box P$, one box deeper; it is what a bounded provability logic — the natural setting for reasoning about such proof-based agents — would need as its Löb axiom. Which proof budgets make the bounded axiom hold?
 

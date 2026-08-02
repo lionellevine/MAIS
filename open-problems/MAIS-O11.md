@@ -4,7 +4,7 @@
 
 *Tags: cooperative AI · agent foundations · Löbian cooperation · proof-based agents · bounded rationality · logic · complexity theory. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Löb's rule says: to prove $P$, prove $\Box P \to P$ instead. Does the detour ever save a single symbol? Not one example is known. The stakes are in Löbian cooperation, where bounded agents read each other's source code and cooperate exactly when they find a proof of the other's cooperation within a fixed symbol budget ([MAIS-A1](../agendas/A1/)); without lower bounds on how long such proofs must be, those budgets rest on heuristics alone.
 

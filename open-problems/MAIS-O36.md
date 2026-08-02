@@ -4,7 +4,7 @@
 
 *Tags: interpretability · sparse autoencoders · mechanistic interpretability · superposition · probability · optimization · statistics. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 When a sparse autoencoder converges, is the dictionary it finds the one that generated the data? The known guarantee for the $\ell^1$-penalized estimator is local: Gribonval, Jenatton, and Bach [[GJB15]](../references/GJB15.md) proved that a minimum exists *near* the true dictionary, leaving open whether a merged or rotated dictionary far away scores even better. This conjecture asserts that in the cleanest population case — features firing independently, dictionary incoherent — no such faraway global minimizer exists.
 

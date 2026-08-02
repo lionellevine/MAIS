@@ -4,7 +4,7 @@
 
 *Tags: cooperative AI · agent foundations · Löbian cooperation · proof-based agents · bounded rationality · logic · complexity theory. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 The parametric bounded Löb theorem is due to Critch [[C19]](../references/C19.md); the form fixed here is its repair by GPT 5.6 Sol [[S26]](../papers/P2/). It is an existence theorem: given a proof of the reflection scheme $\forall k\ (\Box_{f(k)}\ p(k) \to p(k))$, it produces *some* threshold $\hat{k}$ above which $p(k)$ is provable. An agent allocating a proof-search budget needs the threshold itself. How does $\hat{k}$ depend on the data?
 

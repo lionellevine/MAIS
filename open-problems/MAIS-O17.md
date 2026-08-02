@@ -4,7 +4,7 @@
 
 *Tags: cooperative AI · open-source game theory · program equilibrium · Löbian cooperation · bounded rationality · logic · complexity theory. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Two copies of Critch's $\mathrm{FairBot}_k$ [[C19]](../references/C19.md) — the agent that searches all proofs of at most $k$ symbols for a proof that its opponent cooperates against it, cooperating if the search succeeds and defecting otherwise — cooperate in the Prisoner's Dilemma once the proof budget $k$ passes a threshold. That is one point of a landscape: over *all* pairs of transparent agents of bounded description length, how fast does the cooperation threshold grow? If the threshold grows polynomially, mutual source-code transparency is a workable mechanism for cooperation between AI systems; if it explodes, transparency alone does not scale.
 

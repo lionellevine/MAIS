@@ -4,7 +4,7 @@
 
 *Tags: interpretability · world-model discovery · eliciting latent knowledge · black-box evaluation · probability. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Take the simplest causal structure there is, a chain $C_m\to C_{m-1}\to\dots\to C_1$ of binary variables, and an agent paid to guess the far end $C_1$ while observing nothing. An analyst may tamper with the chain at a single link $C_j$ and watch how the agent's guess responds. How much of the chain's probability law does that one dial recover?
 

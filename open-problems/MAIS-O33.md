@@ -4,7 +4,7 @@
 
 *Tags: interpretability · world-model discovery · eliciting latent knowledge · black-box evaluation · complexity theory · combinatorics · probability. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 An agent whose behavior reveals its world-model may have stable blind spots: a fixed fraction of (state, goal) pairs on which its answers are arbitrary — the same wrong answers every time, not fresh noise. Channel noise is dispatched by repetition at logarithmic cost; persistent corruption cannot be, since re-asking a corrupted question returns the same lie — the regime of lie-tolerant binary search studied by Rivest, Meyer, Kleitman, Winklmann, and Spencer [RMKWS80]. How large a corrupted fraction can goal-based world-model discovery survive?
 

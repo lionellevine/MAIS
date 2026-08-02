@@ -4,7 +4,7 @@
 
 *Tags: interpretability · world-model discovery · eliciting latent knowledge · black-box evaluation · algebraic geometry · computational. Difficulty: ★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 The smallest environment supporting a causal question has two binary variables and one arrow: does $X$ cause $Y$ or $Y$ cause $X$? An agent is paid a known function of its action and both variables, observes nothing, and acts near-optimally under every mixture of local interventions. Which models of the environment are consistent with its behavior? This is world-model extraction in miniature: what a black-box evaluator, seeing actions only, can learn about how an agent models its world. Here the question is three unknown parameters, one binary structural choice, and sixteen explicit quadratic polynomials — small enough to answer exactly, and the answer is not known.
 

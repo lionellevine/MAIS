@@ -4,7 +4,7 @@
 
 *Tags: cooperative AI · agent foundations · Löbian cooperation · proof-based agents · bounded rationality · logic. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Solovay [S76] proved that Gödel–Löb logic $\mathsf{GL}$ — propositional modal logic with the distribution axiom $\Box(A \to B) \to (\Box A \to \Box B)$, the Löb axiom $\Box(\Box A \to A) \to \Box A$, and the necessitation rule — captures exactly the propositional laws of provability in Peano arithmetic. For proof-based agents — programs that cooperate when they find a proof, within a budget, that their counterpart cooperates — the provability that matters is the budgeted kind. Do Solovay's laws survive when every "provable" becomes "provable within $k^c$ symbols"? Critch conjectured they do, in the paper that proved his parametric resource-bounded Löb theorem [[C19]](../references/C19.md); making the conjecture precise already takes some care.
 

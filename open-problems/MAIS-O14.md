@@ -4,7 +4,7 @@
 
 *Tags: cooperative AI · agent foundations · Löbian cooperation · proof-based agents · bounded rationality · logic. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 The parametric bounded Löb theorem, due to Critch [[C19]](../references/C19.md), extends Löb's theorem to proofs of bounded length; it is the engine of Löbian cooperation, in which proof-based agents that can read one another's source code prove their way to mutual cooperation within a stated proof budget. For which budgets does it hold? Above a certain growth rate it is a theorem; below, it provably fails; between the two lies an undecided logarithmic window — the scale at which a budget can just afford to write down the numeral of its own parameter.
 

@@ -4,7 +4,7 @@
 
 *Tags: interpretability · superposition · mechanistic interpretability · optimization · harmonic analysis. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Train a tiny autoencoder to squeeze five sparse features through two dimensions, and its five weight vectors crystallize into a regular pentagon. This is the experiment of *Toy models of superposition* (Elhage et al. [[EHOS+22]](../references/EHOS+22.md)) in which superposition — a network representing more features than it has dimensions, a central obstacle to reading off what a model has learned — was first exhibited, and the pentagon is its emblem. No theorem yet says the pentagon wins.
 

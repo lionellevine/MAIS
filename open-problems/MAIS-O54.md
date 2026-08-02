@@ -4,7 +4,7 @@
 
 *Tags: interpretability · mechanistic interpretability · training dynamics · universality of circuits · representation theory · probability. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 A Gaussian random function on a finite group $G$ puts mean squared mass $d_\rho^2/|G|$ in the isotypic component of each irreducible representation $\rho$ of dimension $d_\rho$ — the Artin–Wedderburn block sizes. If each neuron of a trained network is won by its initially heaviest component, the fraction of neurons landing on each representation should be proportional to $d_\rho^2$. Is it? A yes would make the census of circuits in a trained network predictable in advance from the symmetry of the task — universality in its most quantitative form.
 

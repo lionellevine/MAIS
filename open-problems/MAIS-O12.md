@@ -4,7 +4,7 @@
 
 *Tags: cooperative AI · agent foundations · Löbian cooperation · proof-based agents · bounded rationality · logic · complexity theory. Difficulty: ★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 If you hold an $m$-symbol proof of $\varphi$ in your hand, how many symbols does it take to prove the sentence "$\varphi$ has an $m$-symbol proof"? Every quantitative Löbian argument — the overhead of Löb's theorem, the FairBot cooperation threshold — reduces to two such system constants, and neither has been determined for any concrete system.
 

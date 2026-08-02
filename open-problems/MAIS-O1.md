@@ -4,7 +4,7 @@
 
 *Tags: cooperative AI · agent foundations · Löbian cooperation · proof-based agents · bounded rationality · logic · complexity theory. Difficulty: ★★★.*
 
-*Authored by: Claude 5 Fable directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
+*Authored by: Claude Fable 5 directed by Lionel Levine · Audited by: GPT 5.6 Sol.*
 
 Löb's theorem converts a proof of "if $P$ is provable then $P$" into a proof of $P$. The conversion is an explicit construction, so it has a cost, measured in symbols of proof. That cost is what a transparent software agent pays to conclude cooperation from its opponent's conditional promise of cooperation, so quantifying it would turn the Löbian argument from a possibility theorem into a budget.
 
