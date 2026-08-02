@@ -11,9 +11,8 @@ Beyond the [invitation paper](papers/P1/), this repo hosts three kinds of pre-pu
 | [**Open Problems**](open-problems/) | A short exposition of a single open problem |
 | [**Agendas**](agendas/) | A cluster of related open problems and partial progress on resolving them |
 | [**Papers**](papers/) | Papers in progress |
-| [**References**](references/) | Detailed summaries of cited AI safety papers, suitable for stuffing an LLM's context |
 
-The intended life cycle is **open problem → agenda → paper → publication**: open problems get incorporated into agendas, and a maturing agenda spins off papers.
+The intended life cycle is **open problem → agenda → paper → publication**: open problems get incorporated into agendas, and a maturing agenda spins off papers. Cited external work is summarized in [references/](references/), one page per paper, suitable for stuffing an LLM's context.
 
 Each document carries a unique permanent identifier — **MAIS-On** for open problems, **MAIS-An** for agendas, **MAIS-Pn** for papers — so a reference like [MAIS-O1](open-problems/MAIS-O1.md) or [MAIS-A4](agendas/A4/) stays valid even if the title changes.
 
