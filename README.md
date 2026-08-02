@@ -30,6 +30,10 @@ Contributions of every size are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 The best first move is to [open an issue](https://github.com/lionellevine/MAIS/issues/new/choose) — a public thread that anyone can answer. A substantial contribution earns an invitation to join the author list, subject to the judgment of the document's current authors.
 
+## Citing
+
+Cite documents by their permanent identifier; contributions by others are cited as their authors' own work. Templates in [CITATION.md](CITATION.md).
+
 ## License
 
 All text and sources are released under [CC BY 4.0](LICENSE).

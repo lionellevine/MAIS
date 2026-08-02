@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "To cite a specific problem, agenda, or paper, use its permanent identifier (MAIS-O1, MAIS-A4, MAIS-P1, ...) together with this repository reference."
+message: "This file covers citation of the repository as a whole. To cite a specific problem, agenda, or paper, use its permanent identifier (MAIS-O1, MAIS-A4, MAIS-P1, ...) with the byline printed on the document; contributions by others (solutions, contributed papers) should be cited as their authors' own work. See CITATION.md for guidance and BibTeX templates."
 title: "Math for AI Safety"
 authors:
   - family-names: Levine
