@@ -2,7 +2,7 @@
 
 Each open problem here opens with its AI safety motivation, with a link into the [research agenda](../agendas/) that carries its full context.
 
-Problems listed here are open unless their row says otherwise. First resolution: MAIS-O60, resolved in the negative in August 2026 — nine days after the registry launched. Have you solved one of them? Have a promising line of attack? Want to correct a problem statement? [Open an issue](https://github.com/lionellevine/MAIS/issues/new/choose).
+Problems listed here are open unless their row says otherwise — where "open" means open to our knowledge: each problem was checked against the literature when it was released, but no such search is complete, and finding an existing solution counts as [resolving the problem](../CONTRIBUTING.md#substantial-contributions). First resolution: MAIS-O60, resolved in the negative in August 2026 — nine days after the registry launched. Have you solved one of them? Have a promising line of attack? Want to correct a problem statement? [Open an issue](https://github.com/lionellevine/MAIS/issues/new/choose).
 
 Note: Some of these problems sit deliberately on the easier side, to give mathematicians an entry point into AI safety. That means AI may get you most of the way to a solution. I see this as a feature, not a bug: the goal is to advance AI safety, not to curate problems that resist automation.
 

@@ -18,6 +18,8 @@ Typos, broken references, clearer phrasings, missing citations: edit the file di
 
 Progress on an open problem, a new result, a counterexample, a new section or worked example: **say so before investing serious work**, in an issue or by email. This protects you from duplicating effort or working at cross purposes with the authors, it lets others see that the problem is being actively worked on, and it puts the coauthorship question on the table from the start.
 
+**Finding a solution in the literature is solving the problem.** The problems here were checked against the literature when they were released, but "open" always means open to our knowledge. If you discover that a listed problem was already solved — whether or not anyone here is working on it — that discovery is a contribution in its own right: the problem page will record the problem as resolved by the prior work, identified by you, with credit.
+
 ## Coauthorship
 
 A substantial contribution to a document earns an invitation to join that document's author list. Expanding an open problem into an agenda, developing an agenda, or helping an agenda spin off a paper can all be the kind of contribution that makes a coauthor.
