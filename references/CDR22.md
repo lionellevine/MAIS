@@ -44,4 +44,4 @@ Future AI systems may be able to expose verifiable code, policies, or proof-carr
 ## Cited by
 
 - [MAIS-A1](../agendas/A1/) — uses its proof-order observation as motivation for a concrete bounded-agent implementation and asks that the required resource comparisons be certified.
-- Problems [MAIS-O16](../open-problems/MAIS-O16.md)
+- Problems [MAIS-O16](../open-problems/MAIS-O16.md) · [MAIS-D1](../open-problems/MAIS-D1.md)

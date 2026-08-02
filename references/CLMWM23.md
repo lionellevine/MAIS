@@ -4,7 +4,7 @@
 
 *Tags: interpretability · superposition · training dynamics · optimization · probability.*
 
-*Summarized by: Claude 5 Fable directed by Lionel Levine.*
+*Summarized by: Claude Fable 5 directed by Lionel Levine.*
 
 **TL;DR.** In the high-sparsity limit of a ReLU autoencoder toy model, the population loss has a closed formula, and with two hidden dimensions many regular $k$-gon weight configurations are critical points. Singular learning theory organizes these points by their local learning coefficients and predicts changes in which region dominates the Bayesian posterior as sample size grows. In controlled experiments, SGD trajectories pass near the same critical points in an order of decreasing loss and increasing estimated complexity.
 

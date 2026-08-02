@@ -4,7 +4,7 @@
 
 *Tags: interpretability · mechanistic interpretability · training dynamics · representation theory · dynamical systems · probability.*
 
-*Summarized by: Claude 5 Fable directed by Lionel Levine.*
+*Summarized by: Claude Fable 5 directed by Lionel Levine.*
 
 **TL;DR.** For a two-layer network trained on group composition, an idealized training dynamics — projected gradient flow on a small-logit Taylor surrogate of the cross-entropy — becomes, in the Fourier domain, Riemannian gradient ascent on a representation-theoretic energy functional. Under random initialization each neuron converges almost surely to a single irreducible representation of the group. For abelian groups, the population diversifies uniformly across nontrivial representations, with Haar-uniform phases and exponential convergence rates. These are theorems for the surrogate flow, not the exact training dynamics.
 

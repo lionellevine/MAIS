@@ -4,7 +4,7 @@
 
 *Tags: interpretability · mechanistic interpretability · universality of circuits · representation theory · training dynamics.*
 
-*Summarized by: Claude 5 Fable directed by Lionel Levine.*
+*Summarized by: Claude Fable 5 directed by Lionel Levine.*
 
 **TL;DR.** Small networks trained to compute the product in a finite group $G$ implement one algorithm family — **Group Composition via Representations** — acting through a *sparse subset* of the irreducible representations of $G$. The algorithm's correctness is a theorem of representation theory; that trained networks implement it is an empirical finding, confirmed by ablation. Universality splits in two: *weak* universality (always this algorithm family) holds across seeds, while *strong* universality (the same specific irreducible representations) fails — which irreps a network uses depends on the random initialization.
 

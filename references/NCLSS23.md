@@ -4,7 +4,7 @@
 
 *Tags: interpretability · mechanistic interpretability · grokking · training dynamics · harmonic analysis.*
 
-*Summarized by: Claude 5 Fable directed by Lionel Levine.*
+*Summarized by: Claude Fable 5 directed by Lionel Levine.*
 
 **TL;DR.** A one-layer transformer trained on addition mod $P=113$ is reverse-engineered in full: it embeds each residue as sines and cosines at a few "key frequencies" and computes $a+b \bmod P$ by trigonometric identities, so the learned algorithm is Fourier analysis on $\mathbb{Z}/P\mathbb{Z}$. Two progress measures derived from this mechanism show that grokking — the sudden, delayed jump from memorization to perfect generalization — is gradual underneath: training passes through memorization, then circuit formation, then cleanup, and the generalizing circuit forms *before* the visible test-accuracy jump.
 

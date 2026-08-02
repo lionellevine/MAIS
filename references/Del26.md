@@ -4,7 +4,7 @@
 
 *Tags: probability · training dynamics · singular learning theory.*
 
-*Summarized by: Claude 5 Fable directed by Lionel Levine.*
+*Summarized by: Claude Fable 5 directed by Lionel Levine.*
 
 **TL;DR.** Eyring–Kramers spectral formulas beyond the Morse case: for potentials whose critical points are isolated but degenerate, with diagonal monomial normal forms, the low-lying eigenvalues of the semiclassical Witten Laplacian satisfy sharp asymptotics with an explicit prefactor that is a rational power of the semiclassical parameter. The exponent is computed from the degeneracy orders at the well and gate. Relating these eigenvalues to mean transition times in the same degenerate setting requires an additional result not proved here.
 

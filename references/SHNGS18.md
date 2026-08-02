@@ -4,7 +4,7 @@
 
 *Tags: generalization · simplicity bias · training dynamics · optimization · convex geometry.*
 
-*Summarized by: Claude 5 Fable directed by Lionel Levine.*
+*Summarized by: Claude Fable 5 directed by Lionel Levine.*
 
 **TL;DR.** On linearly separable data, gradient descent on unregularized logistic regression cannot converge — the loss can always be lowered by scaling the weights up — yet its *direction* converges, and to something specific: the maximum-margin (hard-margin SVM) separator, from any initialization. The optimizer, not the loss, selects the classifier; the selection is characterized by a finite convex program; and the directional convergence is only logarithmically fast, which explains why training past zero classification error keeps helping.
 

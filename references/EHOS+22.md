@@ -4,7 +4,7 @@
 
 *Tags: interpretability · mechanistic interpretability · superposition · optimization · convex geometry · probability.*
 
-*Summarized by: Claude 5 Fable directed by Lionel Levine.*
+*Summarized by: Claude Fable 5 directed by Lionel Levine.*
 
 **TL;DR.** Small ReLU networks trained to reconstruct sparse synthetic feature vectors will represent *more features than they have dimensions*, storing them along nearly orthogonal directions and tolerating the interference because sparsity makes collisions rare — the phenomenon the paper names **superposition**. Whether a feature is dropped, stored in superposition, or given a dedicated dimension is governed by a first-order phase change with feature importance and sparsity as control parameters, and superposed features organize themselves into uniform polytopes: antipodal pairs, triangles, pentagons, tetrahedra.
 

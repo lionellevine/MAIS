@@ -4,7 +4,7 @@
 
 *Tags: interpretability · mechanistic interpretability · training dynamics · dynamical systems · harmonic analysis.*
 
-*Summarized by: Claude 5 Fable directed by Lionel Levine.*
+*Summarized by: Claude Fable 5 directed by Lionel Levine.*
 
 **TL;DR.** An end-to-end account of how a two-layer network learns addition mod $p$: the mechanism (single-frequency neurons whose phases satisfy a symmetry condition, so that their noisy individual votes cancel and the logits approximate the indicator of the correct sum), the dynamics (from small single-frequency initializations, gradient flow preserves the frequency and aligns the phases; when frequencies compete inside a neuron, the one with the largest initial magnitude and the best-aligned phase wins — a lottery decided at initialization), and grokking (memorization, then two generalization phases, driven by the competition between loss minimization and weight decay). The theorems live in a small-initialization, early-stage decoupled regime; the behavior at full random initialization is documented empirically.
 

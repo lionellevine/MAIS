@@ -4,7 +4,7 @@
 
 *Tags: generalization · training dynamics · simplicity bias · probability · empirical.*
 
-*Summarized by: Claude 5 Fable directed by Lionel Levine.*
+*Summarized by: Claude Fable 5 directed by Lionel Levine.*
 
 **TL;DR.** For a range of architectures and datasets, the probability that a network trained by SGD lands on a given function $f$ consistent with the training set correlates remarkably well with the Bayesian posterior probability of $f$ under random sampling of the parameters — estimated via the network's Gaussian-process limit — and that posterior is strongly biased toward low-error, low-complexity functions. The conclusion is empirical, not a theorem: the inductive bias behind generalization lives chiefly in the parameter-function map, with SGD contributing only second-order, hyperparameter-sensitive corrections.
 

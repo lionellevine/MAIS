@@ -4,7 +4,7 @@
 
 *Tags: world-model discovery · causal inference · algebraic geometry · probability.*
 
-*Summarized by: Claude 5 Fable directed by Lionel Levine.*
+*Summarized by: Claude Fable 5 directed by Lionel Levine.*
 
 **TL;DR.** Causal discovery algorithms assume faithfulness — every conditional independence in the data reflects the graph — and justify it by noting that unfaithful distributions form a measure-zero set. But finite samples require *strong* faithfulness: the relevant partial correlations must be bounded away from zero by a margin $\lambda$. This paper computes the geometry of that margin and finds that the set of distributions violating it has positive measure, which for many graph classes tends to $1$ as the graph grows. Replacing "almost every" by "every, given a margin" can silently exclude most of parameter space.
 

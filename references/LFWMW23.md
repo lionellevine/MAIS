@@ -4,7 +4,7 @@
 
 *Tags: singular learning theory · developmental interpretability · generalization · algebraic geometry · statistics.*
 
-*Summarized by: Claude 5 Fable directed by Lionel Levine.*
+*Summarized by: Claude Fable 5 directed by Lionel Levine.*
 
 **TL;DR.** Deep networks are singular statistical models, so Hessian rank can miss much of their local degeneracy. The paper develops the **local learning coefficient**, a Bayesian complexity measure for a neighborhood of one parameter, and an SGLD-based estimator for it. The estimator is calibrated against exact coefficients in deep linear networks with up to 100 million parameters and used comparatively on ResNet and transformer models; its practical values remain sensitive to localization and sampling choices.
 

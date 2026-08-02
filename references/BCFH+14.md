@@ -4,7 +4,7 @@
 
 *Tags: cooperative AI · open-source game theory · program equilibrium · Löbian cooperation · proof-based agents · logic.*
 
-*Summarized by: Claude 5 Fable directed by Lionel Levine.*
+*Summarized by: Claude Fable 5 directed by Lionel Levine.*
 
 **TL;DR.** In the one-shot Prisoner's Dilemma between players who read each other's source code, an agent that cooperates exactly when it can *prove* its opponent cooperates achieves mutual cooperation with its own copy — by Löb's theorem, not by symmetry-matching — while never being the sucker. The paper constructs the agents FairBot and PrudentBot, develops a general theory of *modal agents* in the Gödel–Löb provability logic $\mathsf{GL}$ in which any two agents' mutual actions are determined by a unique fixed point, and proves obstructions showing that no agent of this kind is universally optimal.
 

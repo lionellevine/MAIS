@@ -4,7 +4,7 @@
 
 *Tags: interpretability · sparse autoencoders · mechanistic interpretability · superposition · empirical.*
 
-*Summarized by: Claude 5 Fable directed by Lionel Levine.*
+*Summarized by: Claude Fable 5 directed by Lionel Levine.*
 
 **TL;DR.** As a sparse autoencoder's dictionary grows, hierarchical concepts split into finer latents ("math" into "algebra", "geometry", …) — the familiar *feature splitting*. This paper shows the resulting decomposition is not robust: a latent that appears to track a parent concept fails to fire precisely on the inputs where a child latent fires, the parent's direction having been **absorbed** into the child. The authors name the phenomenon *feature absorption*, argue it is a consequence of the sparsity objective whenever the underlying features form a hierarchy, introduce a metric to detect it, measure it across hundreds of language-model SAEs, and find that varying dictionary size or sparsity does not remove it.
 

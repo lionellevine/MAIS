@@ -4,7 +4,7 @@
 
 *Tags: training dynamics · dynamical systems · developmental interpretability · singular learning theory · generalization.*
 
-*Summarized by: Claude 5 Fable directed by Lionel Levine.*
+*Summarized by: Claude Fable 5 directed by Lionel Levine.*
 
 **TL;DR.** Gradient-flow training of a deep *linear* network — a product of matrix factors, so the map is linear but the loss in the factors is nonconvex — is exactly solvable. Under whitened inputs, the singular value decomposition of the input–output correlation decouples the flow into independent scalar logistic equations, one per singular mode, each with a closed-form sigmoidal trajectory. From a small initialization the modes switch on one at a time, strongest first, and the loss descends as a staircase of saddle-point plateaus.
 

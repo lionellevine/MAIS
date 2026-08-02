@@ -4,7 +4,7 @@
 
 *Tags: interpretability · mechanistic interpretability · universality of circuits · representation theory · harmonic analysis · optimization.*
 
-*Summarized by: Claude 5 Fable directed by Lionel Levine.*
+*Summarized by: Claude Fable 5 directed by Lionel Levine.*
 
 **TL;DR.** Mechanistic interpretability found that networks trained on modular addition learn Fourier features (Nanda et al.) and networks trained on group multiplication learn irreducible representations (Chughtai et al.); this paper explains why. For one-hidden-layer networks with homogeneous polynomial activations, the maximum-margin solutions — in a norm adapted to the architecture's homogeneity — are characterized in full: on addition mod $p$, every neuron carries a single Fourier frequency and all frequencies appear; on $k$-sparse parity, every neuron lives on the $k$ relevant coordinates; on multiplication in suitable finite groups, every neuron carries a single nontrivial irreducible representation and all of them appear. Margin maximization alone specifies the features, with no appeal to training dynamics.
 

@@ -4,7 +4,7 @@
 
 *Tags: interpretability · superposition · mechanistic interpretability · optimization · harmonic analysis.*
 
-*Summarized by: Claude 5 Fable directed by Lionel Levine.*
+*Summarized by: Claude Fable 5 directed by Lionel Levine.*
 
 **TL;DR.** A spectral theory of the feature geometries that arise in superposition: analyze the frame operator $F=WW^{\top}$ of the weight matrix and the spectral measure recording how each feature's norm distributes across its eigenspaces. In the toy models of superposition, under an empirically motivated *capacity-saturation* hypothesis, the theory forces spectral localization — each feature collapses onto a single eigenspace — after which features organize into tight frames and the possible geometries admit a discrete classification via association schemes, recovering the configurations observed in training (simplices, polygons, antiprisms). The structure theory is conditional: it does not prove that global minimizers saturate capacity.
 

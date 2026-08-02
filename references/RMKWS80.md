@@ -4,7 +4,7 @@
 
 *Tags: black-box evaluation · complexity theory · combinatorics · probability.*
 
-*Summarized by: Claude 5 Fable directed by Lionel Levine.*
+*Summarized by: Claude Fable 5 directed by Lionel Levine.*
 
 **TL;DR.** Binary search survives a bounded total number of lies. To identify an unknown value by comparison questions when at most $E$ answers may be false, $\log_2 n+E\log_2\log_2 n+O(E\log E)$ questions are necessary and sufficient in the worst case. Repetition can defeat a bounded lie budget, but the optimal strategy is much more efficient than repeating every comparison $2E+1$ times.
 

@@ -4,7 +4,7 @@
 
 *Tags: world-model discovery · combinatorics · complexity theory · statistics.*
 
-*Summarized by: Claude 5 Fable directed by Lionel Levine.*
+*Summarized by: Claude Fable 5 directed by Lionel Levine.*
 
 **TL;DR.** How many experiments does it take to pin down every causal arrow among $N$ variables? If each experiment randomizes at most one variable, the sharp worst-case answer is $N-1$. If any subset may be randomized simultaneously, it falls to $\lfloor\log_2 N\rfloor+1$ experiments: $\log_2N+1$ when $N$ is a power of two and $\lceil\log_2N\rceil$ otherwise. These idealized bounds assume exact knowledge of every conditional independence after each intervention.
 

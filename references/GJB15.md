@@ -4,7 +4,7 @@
 
 *Tags: interpretability · sparse autoencoders · superposition · probability · optimization.*
 
-*Summarized by: Claude 5 Fable directed by Lionel Levine.*
+*Summarized by: Claude Fable 5 directed by Lionel Levine.*
 
 **TL;DR.** Sparse coding learns a dictionary by minimizing a non-convex $\ell^1$-penalized objective, and before this paper its minima had little theory behind them. Gribonval, Jenatton, and Bach prove that under a probabilistic sparse-signal model, with high probability, the empirical objective admits a local minimum within a controlled radius of the dictionary that generated the data — non-asymptotically, for overcomplete dictionaries, with noise and even a fraction of outliers. The guarantee is local: it places a good minimum near the truth without excluding better minima far away.
 

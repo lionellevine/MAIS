@@ -4,7 +4,7 @@
 
 *Tags: singular learning theory · grokking · developmental interpretability · generalization · interpretability.*
 
-*Summarized by: Claude 5 Fable directed by Lionel Levine.*
+*Summarized by: Claude Fable 5 directed by Lionel Levine.*
 
 **TL;DR.** Under genericity and non-defectiveness hypotheses, the paper computes local learning coefficients for shallow quadratic networks, including modular addition. Below the secant-saturation threshold, each active hidden unit contributes $(3p-1)/2$; above it, the coefficient saturates. These coefficients rank equal-loss regions for Bayesian learning. Their proposed connection to the fixed-data timing of grokking is empirical rather than a consequence of singular learning theory.
 

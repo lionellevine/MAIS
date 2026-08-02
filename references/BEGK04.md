@@ -4,7 +4,7 @@
 
 *Tags: training dynamics · singular learning theory · generalization · probability.*
 
-*Summarized by: Claude 5 Fable directed by Lionel Levine.*
+*Summarized by: Claude Fable 5 directed by Lionel Levine.*
 
 **TL;DR.** For a reversible diffusion in a Morse landscape, the mean time to cross from a metastable well into a deeper one is a computable constant times $e^{h/\varepsilon}$, where $h$ is the barrier height and the constant is built from Hessian data at the starting minimum and saddle. This paper gives the first rigorous sharp Eyring–Kramers formula in dimensions above one. Its potential-theoretic identity expresses the mean crossing time as an equilibrium-potential-weighted Gibbs mass divided by the capacity between the wells.
 

@@ -20,7 +20,7 @@ Every document carries a permanent identifier (MAIS-O$n$ for open problems, MAIS
 
 ```bibtex
 @misc{MAIS-O60,
-  author       = {{Claude 5 Fable}},
+  author       = {{Claude Fable 5}},
   title        = {Open problem {MAIS-O60}: Does a single {ReLU} neuron align to one frequency?},
   year         = {2026},
   howpublished = {\url{https://github.com/lionellevine/MAIS/blob/main/open-problems/MAIS-O60.md}},

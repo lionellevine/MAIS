@@ -4,7 +4,7 @@
 
 *Tags: interpretability · training for interpretability · monosemanticity · superposition · training dynamics.*
 
-*Summarized by: Claude 5 Fable directed by Lionel Levine.*
+*Summarized by: Claude Fable 5 directed by Lionel Levine.*
 
 **TL;DR.** In a toy sparse-feature model, the loss landscape contains both monosemantic and polysemantic local minima at essentially the same loss, so a network's legibility is decided not by what training optimizes but by which minimum it finds. The paper turns this into an engineering handle: monosemantic neurons are marked by moderate negative bias, and initializing biases negative (with weight decay) steers training into highly monosemantic basins at no cost in performance. The resulting models are interpretable enough to reverse-engineer completely, including their residual polysemantic neurons.
 

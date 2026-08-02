@@ -4,7 +4,7 @@
 
 *Tags: interpretability · world-model discovery · eliciting latent knowledge · black-box evaluation · probability.*
 
-*Summarized by: Claude 5 Fable directed by Lionel Levine.*
+*Summarized by: Claude Fable 5 directed by Lionel Levine.*
 
 **TL;DR.** Any agent that competently achieves multi-step goals must have learned a predictive model of its environment: the transition probabilities can be recovered from the agent's policy alone, with error shrinking as the depth of the goals the agent can handle grows and degrading gracefully in its failure rate. This is the companion to Richens–Everitt [[RE24]](RE24.md) with the interventions removed — no ability to tamper with the environment is needed, only the agent's choices on a family of goals — and it comes with a sharp exemption: myopic agents, competent only at depth-one goals, reveal nothing.
 
