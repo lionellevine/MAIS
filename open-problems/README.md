@@ -69,7 +69,7 @@ Stars indicate estimated difficulty. Problems whose deliverable is a computation
 | <a id="mais-o57"></a>MAIS-O57 | [Does gradient flow on S_5 select randomly among representation sets?](MAIS-O57.md) | interpretability | probability, dynamical systems, representation theory | ★★★ |
 | <a id="mais-o58"></a>MAIS-O58 | [Exchangeability of learned frequencies beyond multiplicative symmetry](MAIS-O58.md) | interpretability | probability, harmonic analysis, dynamical systems | ★★★ |
 | <a id="mais-o59"></a>MAIS-O59 | [Two neurons learning mod-5 addition: which frequencies win?](MAIS-O59.md) | interpretability | dynamical systems, probability, harmonic analysis | ★★ |
-| <a id="mais-o60"></a>MAIS-O60 | [Does a single ReLU neuron align to one frequency?](MAIS-O60.md) — **resolved** (negative, Aug 2026) | interpretability | dynamical systems, probability, harmonic analysis | ★★ |
+| <a id="mais-o60"></a>MAIS-O60 | [Does a single ReLU neuron align to one frequency?](MAIS-O60.md) — **[resolved](O60/MAIS-O60-resolution.md)** (negative, Aug 2026) | interpretability | dynamical systems, probability, harmonic analysis | ★★ |
 | <a id="mais-o61"></a>MAIS-O61 | [Pilot measurement of representation selection in small trained networks](MAIS-O61.md) | interpretability | computational, statistics | ★ *empirical* |
 | <a id="mais-o62"></a>MAIS-O62 | [Minimal network width for exact modular addition](MAIS-O62.md) | interpretability, generalization | complexity theory, algebraic geometry, harmonic analysis | ★★ |
 | <a id="mais-o63"></a>MAIS-O63 | [Learning coefficients of modular addition](MAIS-O63.md) | interpretability, generalization | algebraic geometry, statistics | ★★★ |
