@@ -2,6 +2,8 @@
 
 Each document in this repository has its own author list and its own status, noted at the top of the file. Contributions of every size are welcome! Notice a typo? Have you solved one of the open problems, or do you have an idea for tackling one of them? Want your own open problem listed here? [Open an **issue**](https://github.com/lionellevine/MAIS/issues/new/choose) (a public comment thread attached to this repository) or email me: [lionel.levine@cornell.edu](mailto:lionel.levine@cornell.edu)
 
+Step-by-step instructions: [submitting a solution](contributing/solutions.md) · [discussion and progress on a problem](contributing/discussion.md) · [submitting a correction](contributing/corrections.md) · [proposing a new problem or agenda](contributing/new-problems.md).
+
 ## Proposing a new problem
 
 If you have an open problem that fits the collection — a precisely stated math problem motivated by AI safety — describe it in an issue or by email. If it fits, we'll add it to [`open-problems/`](open-problems/) with you as an author. An accepted problem receives a permanent unique MAIS-O identifier, which names the problem itself and never changes as it moves into agendas and papers.

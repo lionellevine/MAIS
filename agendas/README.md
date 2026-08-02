@@ -4,7 +4,7 @@ Agendas are clusters of related [open problems](../open-problems/). An agenda ca
 
 The seed agendas A1–A8 each expand on one open problem from the survey [*Math for AI Safety: An Invitation for Mathematicians*](../papers/P1/). I expect to add more agendas.
 
-Got your own agenda? [Open an issue](https://github.com/lionellevine/MAIS/issues/new/choose) to propose including it here!
+Got your own agenda? [Propose it](../contributing/new-problems.md) for inclusion here!
 
 Each agenda's folder is its landing page, with the abstract and links — like an arXiv abstract page.
 

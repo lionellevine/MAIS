@@ -19,4 +19,4 @@ A separate scoped pass rechecked the 19 findings most capable of invalidating or
 
 The [method note](METHOD.md) explains what each pass did and did not establish. The [pre-audit review note](PRE-AUDIT-REVIEW.md) records the earlier review layer. Raw coordination notes, repair prompts, and reports about agendas not included in this release are not part of the public record.
 
-AI review is not human peer review. If you find a mathematical error or a prior resolution of a stated problem, please [open an issue](https://github.com/lionellevine/MAIS/issues/new/choose).
+AI review is not human peer review. If you find a mathematical error, please [submit a correction](../../../contributing/corrections.md); if you find a prior resolution of a stated problem, please [say so](../../../contributing/solutions.md).
