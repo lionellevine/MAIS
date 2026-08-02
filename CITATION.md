@@ -20,12 +20,11 @@ Every document carries a permanent identifier (MAIS-O$n$ for open problems, MAIS
 
 ```bibtex
 @misc{MAIS-O60,
-  author       = {{Claude Fable 5}},
+  author       = {{Claude 5 Fable}},
   title        = {Open problem {MAIS-O60}: Does a single {ReLU} neuron align to one frequency?},
   year         = {2026},
   howpublished = {\url{https://github.com/lionellevine/MAIS/blob/main/open-problems/MAIS-O60.md}},
-  note         = {In \emph{Math for AI Safety} (L. Levine, ed.). Directed by Lionel Levine;
-                  audited by GPT-5.6 Sol. Resolved in the negative by
+  note         = {In \emph{Math for AI Safety}. Resolved in the negative by
                   Gautam Neelakantan Memana, August 2026}
 }
 ```
@@ -39,7 +38,7 @@ Solutions, corrections, and papers contributed by others belong to their authors
 ```bibtex
 @misc{memana2026,
   author = {Neelakantan Memana, Gautam},
-  title  = {A simple dead-neuron counterexample of {MAIS-O60}},
+  title  = {A simple dead-neuron counterexample of {MAIS}-60},
   year   = {2026},
   note   = {Resolves MAIS-O60 in the negative. Posted at
             \url{https://github.com/lionellevine/MAIS/issues/1}}
