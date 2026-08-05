@@ -11,7 +11,7 @@ Stars indicate estimated difficulty. Problems whose deliverable is a computation
 | # | Problem | Safety | Mathematics | ★ |
 |---|---------|--------|-------------|---|
 | <a id="mais-o1"></a>MAIS-O1 | [Quantitative bounded Löb](MAIS-O1.md) | cooperative AI, agent foundations | logic, complexity theory | ★★★ |
-| <a id="mais-o2"></a>MAIS-O2 | [Behavioral tomography of world-models](MAIS-O2.md) | interpretability | statistics, probability, complexity theory | ★★ |
+| <a id="mais-o2"></a>MAIS-O2 | [Recovering world-models from behavior](MAIS-O2.md) | interpretability | statistics, probability, complexity theory | ★★ |
 | <a id="mais-o3"></a>MAIS-O3 | [The geometry and identifiability of superposition](MAIS-O3.md) | interpretability | statistics, optimization, probability | ★★★ |
 | <a id="mais-o4"></a>MAIS-O4 | [Training for interpretability](MAIS-O4.md) | interpretability | optimization, convex geometry, probability | ★★★ |
 | <a id="mais-o5"></a>MAIS-O5 | [Representation theory of learned circuits](MAIS-O5.md) | interpretability | dynamical systems, probability, representation theory | ★★★ |

@@ -35,11 +35,11 @@
 \newcommand{\Prof}{\mathsf{Prof}}
 \newcommand{\sk}{\mathsf{s}}
 
-\title[Behavioral tomography of world-models]{Behavioral tomography of world-models:\\ finite-sample identifiability of causal models from behavior}
+\title[Recovering world-models from behavior]{Recovering world-models from behavior:\\ finite-sample identifiability of causal models}
 \author{Claude Fable 5, audited by GPT 5.6 Sol}
 \date{}
 \hypersetup{
-  pdftitle={Behavioral tomography of world-models},
+  pdftitle={Recovering world-models from behavior},
   pdfauthor={Claude Fable 5; audited by GPT 5.6 Sol},
   pdfsubject={Research agenda supplement to MAIS-O2 of Math for AI Safety}
 }
@@ -47,7 +47,7 @@
 \begin{document}
 
 \begin{abstract}
-Two theorems of Richens and coauthors show that a sufficiently capable agent cannot keep its picture of the world to itself: any policy that stays near-optimal across a rich family of interventions on its environment determines an approximate causal model of that environment, and any policy that achieves long multi-step goals determines an approximate transition model. Both proofs are constructive, but their discovery algorithms assume oracle access to an entire policy family. This note develops the finite-sample side of the story, as posed in the Open Problem ``Behavioral tomography of world-models'' of Lionel Levine's survey \emph{Math for AI Safety}. I set up the framework from scratch for the simplest nontrivial case---finite causal influence diagrams with binary variables and known utility---reduce the discovery theorems there to the inversion of an explicit finite ``behavioral transform,'' and state precise open problems on: replacing the theorems' measure-zero genericity by explicit margin conditions; the query complexity of discovery when each experiment returns an action sampled from a stochastic policy; the error floor imposed by an agent's regret (its shortfall from the best achievable score); what restricted intervention sets identify; and finite-sample and corruption-robust versions of the multi-step-goal theorem. A starter case is specified in full, together with a computational project. The final section explains what an activation-intervention theorem would still need to define.
+Two theorems of Richens and coauthors show that a sufficiently capable agent cannot keep its picture of the world to itself: any policy that stays near-optimal across a rich family of interventions on its environment determines an approximate causal model of that environment, and any policy that achieves long multi-step goals determines an approximate transition model. Both proofs are constructive, but their discovery algorithms assume oracle access to an entire policy family. This note develops the finite-sample side of the story, as posed in the Open Problem ``Recovering world-models from behavior'' of Lionel Levine's survey \emph{Math for AI Safety}. I set up the framework from scratch for the simplest nontrivial case---finite causal influence diagrams with binary variables and known utility---reduce the discovery theorems there to the inversion of an explicit finite ``behavioral transform,'' and state precise open problems on: replacing the theorems' measure-zero genericity by explicit margin conditions; the query complexity of discovery when each experiment returns an action sampled from a stochastic policy; the error floor imposed by an agent's regret (its shortfall from the best achievable score); what restricted intervention sets identify; and finite-sample and corruption-robust versions of the multi-step-goal theorem. A starter case is specified in full, together with a computational project. The final section explains what an activation-intervention theorem would still need to define.
 \end{abstract}
 
 \maketitle
@@ -60,7 +60,7 @@ July 12, 2026 \(\cdot\) Status: draft}
 \noindent This is a supplement to Open Problem~\texttt{MAIS-O2} of Lionel Levine's \emph{Math for AI Safety: An Invitation for Mathematicians}~\cite{mais}.
 
 \begin{quote}
-\textbf{Open Problem \texttt{MAIS-O2} (Behavioral tomography of world-models).}
+\textbf{Open Problem \texttt{MAIS-O2} (Recovering world-models from behavior).}
 Fix a finite causal influence diagram with binary variables and known utility, and an agent whose policy has regret at most $\delta$ across the family of local interventions. The discovery algorithm behind the theorem above~\cite{richens2024} recovers the agent's causal model from unlimited exact queries to such a policy. Prove a finite-sample version: if each query returns an action sampled from the policy, rather than the policy's exact action probabilities, and each experiment draws on the same intervention family as the theorem, maskings included, how many experiments determine the graph and the conditional probability tables to within $\eta$, and how does the answer scale with $\delta$? As a first case, take the two-variable diagrams, where the \emph{identified set}---the set of models consistent with the agent's observed behavior---can be computed exactly, and measure how the discovery algorithm degrades when its indifference equations are estimated from samples. Interventions on the agent's inputs, or on the \glsfirst{activations}{activations} (the values computed inside its network), are the harder surfaces beyond.
 \end{quote}
 

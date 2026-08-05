@@ -1,6 +1,6 @@
 # Math for AI Safety: An Invitation for Mathematicians
 
-**Lionel Levine** (Cornell University) · July 2026 · MAIS-P1 · under review
+**Lionel Levine** (Cornell University) · August 2026 · MAIS-P1 · under review
 
 **[Full text (PDF)](MAIS-P1.pdf)**
 

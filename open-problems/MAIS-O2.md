@@ -1,4 +1,4 @@
-# Behavioral tomography of world-models
+# Recovering world-models from behavior
 
 *Open problem MAIS-O2 · headline problem 2 of the survey [MAIS-P1](../papers/P1/) · canonically formalized in [MAIS-A2](../agendas/A2/) as [Problem 4.5](../agendas/A2/MAIS-A2.tex#L290) · Status: open.*
 
