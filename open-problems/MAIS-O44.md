@@ -1,4 +1,4 @@
-# Does penalizing average interference lower worst-case coherence?
+# Does penalizing average interference lower coherence?
 
 *Open problem MAIS-O44 · posed in [MAIS-A4](../agendas/A4/) as [Problem 5.4](../agendas/A4/MAIS-A4.tex#L374) · Status: open.*
 
@@ -19,7 +19,7 @@ $$\sup\bigl\lbrace \mu(W) : (W,b)\in\mathrm{argmin}(L+\lambda R)\bigr\rbrace  \ 
    or prove that no such quadruple exists.
 2. For $(m,n)=(5,2)$ and one explicit $S$ (say $S=0.999$), determine the map $\lambda \mapsto \lbrace \mu(W) : (W,b)\in\mathrm{argmin}(L+\lambda R)\rbrace $ on $\lambda\in(0,\infty)$.
 
-In words: is there any regime where penalizing the average strictly lowers the worst case for *every* minimizer, while still storing features usefully? The task-loss clause excludes the cheap large-$\lambda$ answer of lowering coherence by shrinking columns to zero, and the strict inequality is between the worst regularized minimizer and the best unregularized one. Scalarization — the two-line fact of the opening paragraph — cannot answer it: it controls the average $R$, not the max $\mu$. At $(5,2)$ and high sparsity the unregularized optimum is observed by Elhage et al. [[EHOS+22]](../references/EHOS+22.md) (empirically, not proved) to be the regular pentagon, with $\mu=\cos 36^\circ\approx0.809$; the question is whether the minimizer passes through low-$\mu$ geometries as $\lambda$ grows or jumps straight to feature-dropping. See [MAIS-A4](../agendas/A4/) for the scalarization proposition, the frame-potential warning, and the surrounding agenda.
+In words: is there any regime where penalizing the average strictly lowers the coherence for *every* minimizer, while still storing features usefully? The task-loss clause excludes the cheap large-$\lambda$ answer of lowering coherence by shrinking columns to zero, and the strict inequality is between the worst regularized minimizer and the best unregularized one. Scalarization — the two-line fact of the opening paragraph — cannot answer it: it controls the average $R$, not the max $\mu$. At $(5,2)$ and high sparsity the unregularized optimum is observed by Elhage et al. [[EHOS+22]](../references/EHOS+22.md) (empirically, not proved) to be the regular pentagon, with $\mu=\cos 36^\circ\approx0.809$; the question is whether the minimizer passes through low-$\mu$ geometries as $\lambda$ grows or jumps straight to feature-dropping. See [MAIS-A4](../agendas/A4/) for the scalarization proposition, the frame-potential warning, and the surrounding agenda.
 
 ## References
 

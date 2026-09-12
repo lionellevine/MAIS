@@ -53,7 +53,7 @@ Stars indicate estimated difficulty. Problems whose deliverable is a computation
 | <a id="mais-o41"></a>MAIS-O41 | [Two-feature phase diagram for ℓ¹ dictionary learning](MAIS-O41.md) | interpretability | optimization, convex geometry | ★ |
 | <a id="mais-o42"></a>MAIS-O42 | [Pentagon optimality for a pure ReLU packing energy](MAIS-O42.md) | interpretability | optimization, harmonic analysis | ★★ |
 | <a id="mais-o43"></a>MAIS-O43 | [Measure the sparse-autoencoder recovery–merging phase diagram](MAIS-O43.md) | interpretability | computational, statistics | ★ *empirical* |
-| <a id="mais-o44"></a>MAIS-O44 | [Does penalizing average interference lower worst-case coherence?](MAIS-O44.md) | interpretability | optimization, harmonic analysis, probability | ★★ |
+| <a id="mais-o44"></a>MAIS-O44 | [Does penalizing average interference lower coherence?](MAIS-O44.md) | interpretability | optimization, harmonic analysis, probability | ★★ |
 | <a id="mais-o45"></a>MAIS-O45 | [Does penalizing interference make features recoverable by dictionary learning?](MAIS-O45.md) | interpretability | statistics, optimization, probability | ★★ |
 | <a id="mais-o46"></a>MAIS-O46 | [Does lower coherence imply better dictionary recovery?](MAIS-O46.md) | interpretability | statistics, harmonic analysis | ★★ |
 | <a id="mais-o47"></a>MAIS-O47 | [Uniqueness of ReLU toy-model minimizers up to symmetry](MAIS-O47.md) | interpretability | optimization, convex geometry | ★★★ |
