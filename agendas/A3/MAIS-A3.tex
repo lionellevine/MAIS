@@ -47,7 +47,7 @@ July 12, 2026 \(\cdot\) Status: draft}
 
 \begin{quote}
 \textbf{Open Problem \texttt{MAIS-O3} (The geometry and identifiability of superposition).}
-Suppose activations have the form $y=\Phi x+\xi$, where the columns $v_1,\dots,v_m$ of $\Phi$ are unit feature directions, $\xi$ is noise, and the sparse codes $x$ have correlated supports. Estimate the dictionary the way a sparse autoencoder does: minimize reconstruction error plus an $\ell^1$ penalty. Determine, in terms of the coherence $\mu=\max_{i\neq j}\lvert\langle v_i,v_j\rangle\rvert$, the sparsity, the sample size, and the support correlations, when every minimizer recovers the true directions up to permutation and scaling, and when it instead \emph{merges} co-occurring directions into one.
+Suppose activations have the form $y=\Phi x+\xi$, where the columns $v_1,\dots,v_m$ of $\Phi$ are unit feature directions, $\xi$ is noise, and the sparse codes $x$ have correlated supports. Estimate the dictionary the way a sparse autoencoder does: minimize reconstruction error plus an $\ell^1$ penalty on the codes, over dictionaries whose columns have unit norm. Determine, in terms of the coherence $\mu=\max_{i\neq j}\lvert\langle v_i,v_j\rangle\rvert$, the sparsity, the sample size, and the support correlations, when every minimizer recovers the true directions up to permutation and scaling, and when it instead \emph{merges} co-occurring directions into one.
 \end{quote}
 
 \noindent Landing page, with provenance and audit record: \url{https://github.com/lionellevine/MAIS/tree/main/agendas/A3}.
